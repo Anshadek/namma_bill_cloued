@@ -269,6 +269,14 @@ class Pos_model extends CI_Model {
 				}
 		}
 		else{
+
+			$temp_payment_due = 0;
+			if ($add_due_amt == 1){
+				
+				$temp_payment_due =  $payment_due_amount;
+			}
+			
+			
 			$this->db->query("ALTER TABLE db_sales AUTO_INCREMENT = 1");
 
 			$sales_entry = array(
@@ -286,7 +294,7 @@ class Pos_model extends CI_Model {
 		    				/*Subtotal & Total */
 		    				'subtotal' 					=> $tot_amt,
 		    				'round_off' 				=> $round_off,
-		    				'grand_total' 				=> $tot_grand,
+		    				'grand_total' 				=> $tot_grand - $temp_payment_due,
 		    				/*System Info*/
 		    				'created_date' 				=> $CUR_DATE,
 		    				'created_time' 				=> $CUR_TIME,
@@ -300,6 +308,7 @@ class Pos_model extends CI_Model {
 			$sales_entry['warehouse_id']=(warehouse_module() && warehouse_count()>1) ? $warehouse_id : get_store_warehouse_id();
 			$q3 = $this->db->insert('db_sales', array_merge($sales_entry,$sales_entry_init));
 			$sales_id = $this->db->insert_id();
+			
 		}
 		//Import post data from form
 		for($i=0;$i<$rowcount;$i++){
@@ -386,6 +395,7 @@ class Pos_model extends CI_Model {
 
 		$tot_received_amt = 0;
 		//UPDATE CUSTMER MULTPLE PAYMENTS
+		
 		for($i=1;$i<=$payment_row_count;$i++){
 		
 			if((isset($_REQUEST['amount_'.$i]) && trim($_REQUEST['amount_'.$i])!='') || ($by_cash==true)){
@@ -452,8 +462,8 @@ class Pos_model extends CI_Model {
 				//end 
 				$salespayments_entry['advance_adjusted'] = $advance_adjusted;
 
-
-			  
+				//===========================insert sales payment==================================
+				
 			  $q7 = $this->db->insert('db_salespayments', $salespayments_entry);
 			  $last_insert_id = $this->db->insert_id();
 
@@ -486,6 +496,7 @@ class Pos_model extends CI_Model {
 						return "failed";
 					}
 				}
+				
 				//end
 
 
@@ -505,7 +516,7 @@ class Pos_model extends CI_Model {
 		*/
 		
 		$tot_payment = $this->db->select('coalesce(sum(payment),0) as payment')->where('sales_id',$sales_id)->get('db_salespayments')->row()->payment;
-
+		
 		if($tot_payment>$tot_grand){
 			echo "Payble amount should not be exceeds Invoice Amount!!\nPlease check previous payments as well.";exit;
 		}
@@ -514,7 +525,9 @@ class Pos_model extends CI_Model {
 	
 		//UPDATE itemS QUANTITY IN itemS TABLE
 		$this->load->model('sales_model');				
+		
 		$q6=$this->sales_model->update_sales_payment_status($sales_id,$customer_id);
+	
 		if(!$q6){
 			return "failed";
 		}
@@ -524,8 +537,9 @@ class Pos_model extends CI_Model {
 		if(!$q7){
 			return "failed";
 		}*/
-
+		
 		if(isset($hidden_invoice_id) && !empty($hidden_invoice_id)){
+			
 			$q13=$this->hold_invoice_delete($hidden_invoice_id);
 			if(!$q13){
 				return "failed";
@@ -535,7 +549,10 @@ class Pos_model extends CI_Model {
 		
 		$sms_info='';
 		if(isset($send_sms) && $customer_id!=1){
+			
+		
 			if(send_sms_using_template($sales_id,1)==true){
+				
 				$sms_info = 'SMS Has been Sent!';
 			}else{
 				$sms_info = 'Failed to Send SMS';
@@ -544,11 +561,24 @@ class Pos_model extends CI_Model {
 
 		##############################################START
 		//FIND THE PREVIOUSE ITEM LIST ID'S
-		$curr_item_ids = $this->db->select("item_id")->from("db_salesitems")->where("sales_id",$sales_id)->get()->result_array();
+		$sql="Select item_id from db_salesitems where sales_id = $sales_id";  
+		$query = $this->db->query($sql);
+		$curr_item_ids = $query->result_array();
+			// print_r($res);
+			// die();
+		//  $this->db->select("db_salesitems.item_id")
+		// ->from("db_salesitems")
+		// ->where("sales_id",$sales_id);
+		
+		// $curr_item_ids = $this->db->get();
+		// print_r($curr_item_ids->result());
+		// die();
 		$two_array = array_merge($prev_item_ids,$curr_item_ids);
-
+		
 		/*Update items in all warehouses of the item*/
+		
 		$q7=update_warehouse_items($two_array);
+		
 		if(!$q7){
 			return "failed";
 		}

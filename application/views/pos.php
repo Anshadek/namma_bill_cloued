@@ -288,6 +288,8 @@
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
               <input type="hidden" value='0' id="hidden_rowcount" name="hidden_rowcount">
               <input type="hidden" value='' id="hidden_invoice_id" name="hidden_invoice_id">
+							<input type="hidden" value='' id="payment_due_amount" name="payment_due_amount">
+								<input type="hidden" value='' id="add_due_amt" name="add_due_amt">
               <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
               <input type="hidden" class="scroll_or_not" value="true">
 
@@ -388,7 +390,8 @@
                     <span class="input-group-addon pointer" data-toggle="modal" data-target="#customer-modal" title="New Customer?"><i class="fa fa-user-plus text-primary fa-lg"></i></span>
                   </div>
                     <span class="customer_points text-success" style="display: none;"></span>
-                    <lable><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;"><?=store_number_format(0)?></label></lable>
+										<input type="checkbox" id="check_bx_previous_due"> 
+										<lable><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable>
                   
                   
                 </div>
@@ -980,6 +983,15 @@ function final_total(){
   set_total(item_qty,total,discount_amt,subtotal);
 }
 function set_total(tot_qty=0, tot_amt=0, tot_disc=0, tot_grand=0){
+  isChecked = $('#check_bx_previous_due').is(':checked');
+	var due_amt = $('.customer_previous_due').text();
+     due_amt = parseFloat(due_amt);
+     var temp_due = 0;
+     if (!isChecked && due_amt > 0){
+        temp_due = tot_grand - due_amt;
+        due_amt = 0;
+     }
+	tot_grand =  parseFloat(tot_grand) + due_amt;
   $(".tot_qty   ").html(tot_qty);
   $(".tot_amt   ").html(to_Fixed(tot_amt));
   $(".tot_disc  ").html(to_Fixed(tot_disc));
@@ -988,6 +1000,19 @@ function set_total(tot_qty=0, tot_amt=0, tot_disc=0, tot_grand=0){
 
 //LEFT SIDE: FINAL TOTAL
 function adjust_payments(){
+	//======================due amount section ==========================
+	isChecked = $('#check_bx_previous_due').is(':checked');
+			 var due_amt = $('.customer_previous_due').text();
+			 due_amt = parseFloat(due_amt);
+			 $('#payment_due_amount').val(due_amt);
+			 $('#add_due_amt').val(1);
+			 if (!isChecked && due_amt > 0){
+				due_amt = 0;
+				$('#add_due_amt').val(0);
+			 }
+			 
+			
+	//========================================
   var total=0;
   var item_qty=parseFloat(0);
   var rowcount=$("#hidden_rowcount").val();
@@ -1032,7 +1057,7 @@ function adjust_payments(){
   
   //RIGHT SIDE DIV
   var discount_amt=calulate_discount(discount_input,discount_type,total);//return value
-
+	total = parseFloat(total) + parseFloat(due_amt);
 
   var change_return = 0;
   var subtotal = total-discount_amt;
@@ -1413,6 +1438,19 @@ function get_details(last_id='',show_only_searched=false){
       alert('server not responding...');
   });
 }
+function add_previous_due(){
+      
+      isChecked = $('#check_bx_previous_due').is(':checked');
+			 var due_amt = $('.customer_previous_due').text();
+			 due_amt = parseFloat(due_amt);
+			 if (!isChecked && due_amt < 0){
+				due_amt = 0;
+			 }
+      var tot_grand =  $(".tot_grand ").text();
+      tot_grand = parseFloat(tot_grand) + parseFloat(due_amt);
+      alert(tot_grand);
+       $(".tot_grand ").html(to_Fixed(round_off(tot_grand)));
+    }
 </script> 
 </body>
 </html>

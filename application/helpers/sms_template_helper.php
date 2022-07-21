@@ -15,10 +15,12 @@ if ( ! function_exists('send_sms_using_template'))
 		if($template_id==2){
 			$template_name = 'GREETING TO CUSTOMER ON SALES RETURN';
 		}
-
+		
     	$CI =& get_instance();
 		$q1=$CI->db->query("select * from db_smstemplates where template_name='$template_name' and status=1");
+		
 		if($q1->num_rows()>0){
+			
 			$content	=	$q1->row()->content;
 			if(!empty($content)){
 				switch ($template_id) {
@@ -28,6 +30,7 @@ if ( ! function_exists('send_sms_using_template'))
 												   a.sales_date,a.grand_total,a.paid_amount
 											FROM db_sales a,db_customers b where b.id=a.customer_id and a.id='$data_id'");
 						if($q2->num_rows()>0 && $q2->row()->customer_id!=1 && !empty($q2->row()->mobile)){
+							
 							//Replace Content
 							$content = str_replace("{{customer_name}}", $q2->row()->customer_name, $content);
 							$content = str_replace("{{sales_id}}", $q2->row()->sales_code, $content);
@@ -35,10 +38,28 @@ if ( ! function_exists('send_sms_using_template'))
 							$content = str_replace("{{sales_amount}}", $CI->currency_code(number_format($q2->row()->grand_total,2,'.','')), $content);
 							$content = str_replace("{{paid_amt}}", $CI->currency_code(number_format($q2->row()->paid_amount,2,'.','')), $content);
 							$content = str_replace("{{due_amt}}",$CI->currency_code(number_format($q2->row()->grand_total-$q2->row()->paid_amount,2,'.','')), $content);
-
+							
 							/*Find Company Details*/
-							$q3=$CI->db->select('*')->from('db_store')->where('id',$q2->row()->store_id)->get()->row();
+							
+							// $CI->db->select('*');
+							// $CI->db->from('db_store');
+							// $CI->db->where('id', $q2->row()->store_id );
+							// $query = $CI->db->get();
+							$store_id = $q2->row()->store_id;
+							$sql="Select * from db_store where id = $store_id";  
+							$query = $CI->db->query($sql);
+							$query = $query->result_array();
+							
+							if ( count($query) > 0 )
+							{
+								
+								$row = $query;
+								return $row;
+							}
 
+
+							$q3=$CI->db->select('*')->from('db_store')->where('id',$q2->row()->store_id)->get()->row();
+							
 							/*Insert/Replace into Content*/
 							$content = str_replace("{{store_name}}", $q3->store_name, $content);
 							$content = str_replace("{{store_mobile}}", $q3->mobile, $content);
@@ -48,6 +69,7 @@ if ( ! function_exists('send_sms_using_template'))
 
 							//echo $content;exit();
 							$CI->load->model('sms_model');
+							
 							return $CI->sms_model->send_sms($q2->row()->mobile,$content);
 						}
 						else{

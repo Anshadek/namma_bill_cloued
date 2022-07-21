@@ -159,6 +159,7 @@ class Sales_model extends CI_Model {
 
 	//Save Sales
 	public function verify_save_and_update(){
+		
 		//Filtering XSS and html escape from user inputs 
 		extract($this->xss_html_filter(array_merge($this->data,$_POST,$_GET)));
 		//echo "<pre>";print_r($this->xss_html_filter(array_merge($this->data,$_POST,$_GET)));exit();
@@ -570,11 +571,44 @@ class Sales_model extends CI_Model {
 			$payment_status="Unpaid";
 		}
 
-
 		$q7=$this->db->query("update db_sales set 
 							payment_status='$payment_status',
 							paid_amount=$sum_of_payments 
 							where id='$sales_id'");
+
+
+
+		//=================================chnage all partial amount status to paid===========
+		
+		$sql_qry = "select COALESCE(SUM(grand_total),0)-COALESCE(SUM(paid_amount),0) as summed_total from db_sales where customer_id='$customer_id' and sales_status='Final'";
+		$query = $this->db->query($sql_qry);
+		$res = $query->result_array();
+		if ($res[0]['summed_total'] == 0){
+			
+			$sales_datas = $this->db->select("customer_id ,id,grand_total,paid_amount")
+			->from("db_sales")
+			->where("customer_id",$customer_id)
+			->where("payment_status","Partial")
+			->get()
+			->result_array();
+			$this->db->select('*');
+			//db_sales
+			
+			if (count($sales_datas) > 0){
+				foreach($sales_datas as $data) {
+					$amount = $data['grand_total'] - $data['paid_amount'];
+					
+					$this->update_partial_payment($data['customer_id'],$data['id'],'cash',$amount);
+					
+				}
+				
+			}
+			
+		
+		}
+
+
+
 		//$customer_id =$this->db->query("select customer_id from db_sales where id=$sales_id")->row()->customer_id;
 		$q12 = $this->db->query("update db_customers set sales_due=(select COALESCE(SUM(grand_total),0)-COALESCE(SUM(paid_amount),0) from db_sales where customer_id='$customer_id' and sales_status='Final') where id=$customer_id");
 		if(!$q7)
@@ -1521,4 +1555,114 @@ class Sales_model extends CI_Model {
 		</div>
 		<?php
 	}
+
+	public function update_partial_payment($customer_id = null,$sales_id= null,$payment_type= null,$amount= null){
+
+		$data = array( 
+			'payment_status'      => "Paid" 
+			
+		);
+		
+		$this->db->where('customer_id', $customer_id);
+		$res = $this->db->update('db_sales', $data);
+		return $res;
+		
+		//extract($this->xss_html_filter(array_merge($this->data,$_POST,$_GET)));
+			
+		//print_r($this->xss_html_filter(array_merge($this->data,$_POST,$_GET)));exit();
+    	// if($amount=='' || $amount==0){$amount=null;}
+		// if($amount>0 && !empty($payment_type)){
+		
+		// 	//$this->db->query("ALTER TABLE db_salespayments AUTO_INCREMENT = 1");
+
+		// 	$this->db->trans_begin();
+		
+		// 	$payment_code=get_init_code('sales_payment');
+		// 	$cheque_number = isset($cheque_number) ? $cheque_number : "";
+		// 	$cheque_period = isset($cheque_period) ? $cheque_period : "";
+		
+		// 	$salespayments_entry = array(
+		// 			'payment_code' 		=> $payment_code,
+		//     		'count_id'	  		=> get_count_id('db_salespayments'),
+		// 			'sales_id' 			=> $sales_id, 
+		// 			'payment_date'		=> date("Y/m/d"),//Current Payment with sales entry
+		// 			'payment_type' 		=> $payment_type,
+		// 			'payment' 			=> $amount,
+		// 			'payment_note' 		=> "",
+		// 			'created_date' 		=> $CUR_DATE,
+    	// 			'created_time' 		=> $CUR_TIME,
+    	// 			'created_by' 		=> $CUR_USERNAME,
+    	// 			'system_ip' 		=> $SYSTEM_IP,
+    	// 			'system_name' 		=> $SYSTEM_NAME,
+    	// 			'status' 			=> 1,
+    	// 			'account_id' 		=> (empty($account_id)) ? null : $account_id,
+    	// 			'customer_id' 		=> $customer_id,
+    	// 			'cheque_number' 	=> $cheque_number,
+    	// 			'cheque_period' 	=> $cheque_period,
+    	// 			'cheque_status' 	=> "Pending",
+		// 		);
+		// 	$salespayments_entry['store_id']=$this->db->select("store_id")->where('id',$sales_id)->get('db_sales')->row()->store_id;
+
+		// 	//is total advance payment enabled ?
+		// 	$advance_adjusted=0;
+		// 	$allow_tot_advance = isset($allow_tot_advance) ? $allow_tot_advance : 0;
+		// 	if($allow_tot_advance=='checked'){
+		// 		$tot_advance = get_customer_details($customer_id)->tot_advance;
+		// 		if($tot_advance>0){
+		// 			if($amount==$tot_advance){
+		// 				$advance_adjusted = $amount;
+		// 			}
+		// 			else if($amount>$tot_advance){
+		// 				$advance_adjusted = $tot_advance;	
+		// 			}
+		// 			else{
+		// 				$advance_adjusted =  $amount;
+		// 			}
+		// 		}
+		// 	}
+			//end 
+			//$salespayments_entry['advance_adjusted'] = $advance_adjusted;
+			//$q3 = $this->db->insert('db_salespayments', $salespayments_entry);
+
+			//Set the payment to specified account
+			// if(!empty($account_id)){
+			// 	//ACCOUNT INSERT
+			// 	$insert_bit = insert_account_transaction(array(
+			// 												'transaction_type'  	=> 'SALES PAYMENT',
+			// 												'reference_table_id'  	=> $this->db->insert_id(),
+			// 												'debit_account_id'  	=> null,
+			// 												'credit_account_id'  	=> $account_id,
+			// 												'debit_amt'  			=> 0,
+			// 												'credit_amt'  			=> $amount,
+			// 												'process'  				=> 'SAVE',
+			// 												'note'  				=> $payment_note,
+			// 												'transaction_date'  	=> $CUR_DATE,
+			// 												'payment_code'  		=> $payment_code,
+			// 												'customer_id'  			=> $customer_id,
+			// 												'supplier_id'  			=> null,
+			// 										));
+			// 	if(!$insert_bit){
+			// 		return "failed";
+			// 	}
+			// }
+			//end
+
+		// 	if(!set_customer_tot_advance($customer_id)){
+	    //     	return 'failed';
+	    //     }
+			
+		// }
+	// 	else{
+	// 		return "Please Enter Valid Amount!";
+	// 	}
+		
+	// 	$q10=$this->update_sales_payment_status($sales_id,$customer_id);
+	// 	if($q10!=1){
+	// 		return "failed";
+	// 	}
+
+	// 	$this->db->trans_commit();
+	// 	return "success";
+
+ }
 }

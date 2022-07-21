@@ -664,13 +664,18 @@
     $CI =& get_instance();
     $store_id = (!empty($store_id)) ? $store_id : get_current_store_id();
       $q3=$CI->db->select("id")->where("store_id",$store_id)->get("db_warehouse");
+		
       foreach($q3->result() as $res3) {
         $warehouse_id = $res3->id;
+				
         if(!empty($item_ids)){
           $CI->db->where("id in ($item_ids)");
         }
+				
         $CI->db->where("service_bit!=1");
-        $q1=$CI->db->select("id")->where('store_id',$store_id)->get("db_items");  
+				
+        $q1=$CI->db->select("id")->where('store_id',$store_id)->get("db_items"); 
+				 
         foreach($q1->result() as $res1) {
             $q1 = update_warehousewise_items_qty($res1->id,$warehouse_id,$store_id);
             if(!$q1){
@@ -678,6 +683,7 @@
             }
         }//items foreach
       }//Warehouse foreach
+			
     return true;
   }
 
@@ -698,9 +704,10 @@
    function update_warehouse_items($two_array){
   
     $item_ids = get_in_comma_delimited($two_array);
-
+		
     /*Update items in all warehouses of the item*/
     $q7=update_warehousewise_items_qty_by_store(null,$item_ids);
+		
     if(!$q7){
       return false;
     }
