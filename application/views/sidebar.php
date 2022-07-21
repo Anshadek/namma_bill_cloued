@@ -336,7 +336,7 @@
         <?php if($CI->permissions('cust_adv_payments_view')) { ?>
         <li class="list-active-li"><a href="<?php echo $base_url; ?>customers_advance"><i class="fa fa-list "></i> <span><?= $this->lang->line('advance_list'); ?></span></a></li>
         <?php } ?>
-
+				<li class="list-active-li"><a href="<?php echo $base_url; ?>reports/customer_advance_report"><i class="fa fa-list "></i> <span>Advance Report </span></a></li>
 
           </ul>
         </li>

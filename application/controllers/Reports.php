@@ -256,6 +256,14 @@ class Reports extends MY_Controller {
 	public function show_purchase_gst_report(){
 		echo $this->reports->show_purchase_gst_report();
 	}
+	//customer advance report
+	public function customer_advance_report(){
+		
+		//$this->permission_check('customer_orders_report');
+		$data=$this->data;
+		$data['page_title']='Customer Advance Report';
+		$this->load->view('report-customer-advance', $data);
+	}
 	
 	//Sales Report 
 	public function customer_orders(){
@@ -282,6 +290,10 @@ class Reports extends MY_Controller {
 
 	public function show_customer_orders(){
 		echo $this->reports->show_customer_orders();
+	}
+	public function show_customer_advance(){
+		
+		echo $this->reports->show_customer_advance();
 	}
 
 	//Delivery sheet report

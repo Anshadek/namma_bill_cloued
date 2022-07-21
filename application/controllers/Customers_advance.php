@@ -103,7 +103,7 @@ class Customers_advance extends MY_Controller {
 			$row[] = $str2;
 			$data[] = $row;
 		}
-
+		
 		$output = array(
 			"draw" => $_POST['draw'],
 			"recordsTotal" => $this->advance->count_all(),

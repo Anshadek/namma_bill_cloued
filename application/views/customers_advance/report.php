@@ -60,31 +60,16 @@
                     <input type="checkbox" class="group_check checkbox" >
                   </th>
                   <th><?= $this->lang->line('id'); ?></th>
+									<th><?= $this->lang->line('customer_name'); ?></th>
                   <th><?= $this->lang->line('date'); ?></th>
-                  <th><?= $this->lang->line('customer_name'); ?></th>
                   <th><?= $this->lang->line('amount'); ?></th>
-                  <th><?= $this->lang->line('payment_type'); ?></th>
-                  <th><?= $this->lang->line('created_by'); ?></th>
                   <th><?= $this->lang->line('action'); ?></th> 
                 </tr>
                 </thead>
                 <tbody>
         
                 </tbody>
-								<tfoot>
-                                <tr class="bg-gray">
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-																		<th style="text-align:right">Total</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    
-                                    
-                                </tr>
-                            </tfoot>
+                
                
               </table>
             </div>
@@ -159,7 +144,7 @@ function load_datatable(show_account_receivable='unchecked'){
         },
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('customers_advance/ajax_list')?>",
+            "url": "<?php echo site_url('customers_advance/report_ajax_list')?>",
             "type": "POST",
             "data": {
                       
@@ -189,36 +174,6 @@ function load_datatable(show_account_receivable='unchecked'){
         },
         
         ],
-				/*Start Footer Total*/
-				"footerCallback": function ( row, data, start, end, display ) {
-                      var api = this.api(), data;
-                      // Remove the formatting to get integer data for summation
-                      var intVal = function ( i ) {
-                          return typeof i === 'string' ?
-                              i.replace(/[\$,]/g, '')*1 :
-                              typeof i === 'number' ?
-                                  i : 0;
-                      };
-                      var total = api
-                          .column( 4, { page: 'none'} )
-                          .data()
-                          .reduce( function (a, b) {
-                              return intVal(a) + intVal(b);
-                          }, 0 );
-                      ;
-                      /*var due = api
-                          .column( 8, { page: 'none'} )
-                          .data()
-                          .reduce( function (a, b) {
-                              return intVal(a) + intVal(b);
-                          }, 0 );*/
-                     
-                      //$( api.column( 0 ).footer() ).html('Total');
-                      $( api.column( 4 ).footer() ).html(to_Fixed(total));
-                      
-                     // $( api.column( 8 ).footer() ).html((due));
-                     
-                  },
         
     });
     new $.fn.dataTable.FixedHeader( table );
