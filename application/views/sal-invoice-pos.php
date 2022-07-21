@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Default Invoice Format</title>
 <!-- TABLES CSS CODE -->
 <?php include"comman/code_css.php"; ?>
 <style type="text/css">
@@ -22,7 +21,7 @@
 	$CI =& get_instance();
 	
     
-  	$q3=$this->db->query("SELECT b.coupon_id,b.coupon_amt, b.created_by, b.customer_previous_due,b.customer_total_due,b.store_id,a.customer_name,a.mobile,a.phone,a.gstin,a.tax_number,a.email,
+  	$q3=$this->db->query("SELECT b.created_by, b.customer_previous_due,b.customer_total_due,b.store_id,a.customer_name,a.mobile,a.phone,a.gstin,a.tax_number,a.email,
                            a.opening_balance,a.country_id,a.state_id,
                            a.postcode,a.address,b.sales_date,b.created_time,b.reference_no,
                            b.sales_code,b.sales_note,a.sales_due,
@@ -68,19 +67,6 @@
     $previous_due = ($previous_due>0) ? $previous_due : 0;
     $total_due=$res3->sales_due;//$res3->customer_total_due;
 
-    $coupon_id=$res3->coupon_id;
-    $coupon_amt=$res3->coupon_amt;
-
-    $coupon_code = '';
-    $coupon_type = '';
-    $coupon_value=0;
-    if(!empty($coupon_id)){
-    	$coupon_details =get_customer_coupon_details($coupon_id);
-    	$coupon_code =$coupon_details->code;
-    	$coupon_value =$coupon_details->value;
-    	$coupon_type =$coupon_details->type;
-    } 
-
     
     $subtotal=$res3->subtotal;
     $grand_total=$res3->grand_total;
@@ -101,7 +87,12 @@
     	$str="(Fixed)";
     }
 
-
+    if(!empty($customer_country)){
+      $customer_country = $this->db->query("select country from db_country where id='$customer_country'")->row()->country;  
+    }
+    if(!empty($customer_state)){
+      $customer_state = $this->db->query("select state from db_states where id='$customer_state'")->row()->state;  
+    }
 
     $q1=$this->db->query("select * from db_store where id=".$res3->store_id." ");
     $res1=$q1->row();
@@ -119,7 +110,6 @@
     $store_logo=(!empty($res1->store_logo)) ? $res1->store_logo : store_demo_logo();
     $store_website		=$res1->store_website;
     $mrp_column		=$res1->mrp_column;
-    $previous_balance_bit	=$res1->previous_balance_bit;
 
 
     ?>
@@ -192,7 +182,6 @@
 						<th style="font-size: 11px; text-align: right;padding-left: 2px; padding-right: 2px;"><?= $this->lang->line('mrp'); ?></th>
 						<?php  } ?>
 						<th style="font-size: 11px; text-align: right;padding-left: 2px; padding-right: 2px;"><?= $this->lang->line('rate'); ?></th>
-						<th style="font-size: 11px; text-align: right;padding-left: 2px; padding-right: 2px;"><?= $this->lang->line('discount'); ?></th>
 						<th style="font-size: 11px; text-align: right;padding-left: 2px; padding-right: 2px;"><?= $this->lang->line('total'); ?></th>
 					</tr>
 					</thead>
@@ -202,7 +191,7 @@
 			              $tot_qty=0;
 			              $subtotal=0;
 			              $tax_amt=0;
-			              $q2=$this->db->query("select b.mrp, b.item_name,a.sales_qty,a.discount_amt,a.unit_total_cost,a.price_per_unit,a.tax_amt,c.tax,a.total_cost from db_salesitems a,db_items b,db_tax c where c.id=a.tax_id and b.id=a.item_id and a.sales_id='$sales_id'");
+			              $q2=$this->db->query("select b.mrp, b.item_name,a.sales_qty,a.unit_total_cost,a.price_per_unit,a.tax_amt,c.tax,a.total_cost from db_salesitems a,db_items b,db_tax c where c.id=a.tax_id and b.id=a.item_id and a.sales_id='$sales_id'");
 			              foreach ($q2->result() as $res2) {
 			                  echo "<tr>";  
 			                  echo "<td style='padding-left: 2px; padding-right: 2px;' valign='top'>".++$i."</td>";
@@ -213,8 +202,7 @@
 			                  	echo "<td style='text-align: right;padding-left: 2px; padding-right: 2px;'>".store_number_format($res2->mrp)."</td>";
 			                  }
 			                  echo "<td style='text-align: right;padding-left: 2px; padding-right: 2px;'>".store_number_format($res2->unit_total_cost)."</td>";
-							  echo "<td style='text-align: right;padding-left: 2px; padding-right: 2px;' >".store_number_format($res2->discount_amt)."</td>";
-							  echo "<td style='text-align: right;padding-left: 2px; padding-right: 2px;' >".store_number_format($res2->total_cost)."</td>";
+			                  echo "<td style='text-align: right;padding-left: 2px; padding-right: 2px;' >".store_number_format($res2->total_cost)."</td>";
 			                  echo "</tr>";  
 			                  //$tot_qty+=$res2->sales_qty;
 			                  $subtotal+=($res2->total_cost);
@@ -230,31 +218,24 @@
 					<tfoot>
 					 <!-- <tr><td colspan="5"><hr></td></tr>    -->
 					 <tr >
-						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('before_tax'); ?></td>
+						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+4?>" align="right"><?= $this->lang->line('before_tax'); ?></td>
 						<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($before_tax);?></td>
 					</tr>
 					<tr >
-						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('tax_amount'); ?></td>
+						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+4?>" align="right"><?= $this->lang->line('tax_amount'); ?></td>
 						<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($tax_amt);?></td>
 					</tr>
 					<!-- <tr >
-						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('subtotal'); ?></td>
+						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+4?>" align="right"><?= $this->lang->line('subtotal'); ?></td>
 						<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($subtotal);?></td>
 					</tr> -->
 					<!-- <tr>
-	                     <td style=' padding-left: 2px; padding-right: 2px;' colspan='<?=$mrp_column+5?>' align='right'>Tax Amt</td>
+	                     <td style=' padding-left: 2px; padding-right: 2px;' colspan='<?=$mrp_column+4?>' align='right'>Tax Amt</td>
 	                      <td style=' padding-left: 2px; padding-right: 2px;' align='right'><?= store_number_format($tax_amt);?></td>
 	                </tr> -->
-	        <?php if(!empty($coupon_code)) {?>
+	                <?php if(!empty($tot_discount_to_all_amt) && $tot_discount_to_all_amt!=0) {?>
 					<tr>
-						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('couponDiscount'); ?> <?= ($coupon_type=='Percentage') ? $coupon_value .'%' : '[Fixed]' ;?></td>
-						<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($coupon_amt); ?></td>
-					</tr>
-					<?php } ?>
-
-	        <?php if(!empty($tot_discount_to_all_amt) && $tot_discount_to_all_amt!=0) {?>
-					<tr>
-						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('discount'); ?> <?= ($discount_to_all_type=='in_percentage') ? $discount_to_all_input .'%' : '[Fixed]' ;?></td>
+						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+4?>" align="right"><?= $this->lang->line('discount'); ?> <?= ($discount_to_all_type=='in_percentage') ? $discount_to_all_input .'%' : $discount_to_all_input.'[Fixed]' ;?></td>
 						<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($tot_discount_to_all_amt); ?></td>
 					</tr>
 					<?php } ?>
@@ -265,7 +246,7 @@
 					
 
 					<tr>
-						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('total'); ?></td>
+						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+4?>" align="right"><?= $this->lang->line('total'); ?></td>
 						<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($grand_total); ?></td>
 					</tr>
 					
@@ -273,57 +254,47 @@
 					<?php if(change_return_status()) {
 						$change_return_amount = get_change_return_amount($sales_id); ?>
 						<tr>
-							<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('paid_amount'); ?></td>
+							<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+4?>" align="right"><?= $this->lang->line('paid_amount'); ?></td>
 							<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($paid_amount+$change_return_amount); ?></td>
 						</tr>
 						<tr>
-							<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('refund'); ?></td>
+							<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+4?>" align="right"><?= $this->lang->line('refund'); ?></td>
 							<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($change_return_amount); ?></td>
 						</tr>
 					<?php }
 					else{ ?>
 						<tr>
-						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('paid_amount'); ?></td>
+						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+4?>" align="right"><?= $this->lang->line('paid_amount'); ?></td>
 						<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($paid_amount); ?></td>
 					</tr>
 					
 					<?php } ?>
-
-					<?php if($previous_balance_bit==1) {?>
 					<tr>
-						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('previous_due'); ?></td>
+						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+4?>" align="right"><?= $this->lang->line('previous_due'); ?></td>
 						<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($previous_due); ?></td>
 					</tr>
 					<tr>
-						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+5?>" align="right"><?= $this->lang->line('total_due_amount'); ?></td>
+						<td style=" padding-left: 2px; padding-right: 2px;" colspan="<?=$mrp_column+4?>" align="right"><?= $this->lang->line('total_due_amount'); ?></td>
 						<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= store_number_format($total_due); ?></td>
 					</tr>
-					<?php } ?>
-					<?php if(!empty($coupon_code)) {?>
+					
 					<tr>
-						<td colspan="<?=$mrp_column+6?>" align="left">
-							<b><?= $this->lang->line('couponCode'); ?>:</b> <i><?=getTruncatedCCNumber($coupon_code);?></i>
-						</td>
-					</tr>
-					<?php }?>
-
-					<tr>
-						<td colspan="<?=$mrp_column+6?>" align="left">
+						<td colspan="<?=$mrp_column+5?>" align="left">
 							<b>Note:</b> <i><?=$sales_note;?></i>
 						</td>
 					</tr>
 					
 					<tr>
-						<td colspan="<?=$mrp_column+6?>" align="center">----------<?= $this->lang->line('thanks_you_visit_again'); ?>----------</td>
+						<td colspan="<?=$mrp_column+5?>" align="center">----------<?= $this->lang->line('thanks_you_visit_again'); ?>----------</td>
 					</tr>
 
 					<tr>
-						<td colspan="<?=$mrp_column+6?>" align="center">
+						<td colspan="<?=$mrp_column+5?>" align="center">
 						<?php 
-								//$sales_code= urlencode($sales_code);
+								$sales_code= urlencode($sales_code);
 						?>
 							<div style="display:inline-block;vertical-align:middle;line-height:16px !important;">	
-								<img class="center-block" style=" width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/index/<?=($sales_code)?>">
+								<img class="center-block" style=" width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/get_barcode/?code=<?=stripslashes($sales_code)?>">
 							</div>
 						
 						</td>

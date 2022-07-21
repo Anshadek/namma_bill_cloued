@@ -54,8 +54,8 @@
     $customer_mobile=$res3->mobile;
     $customer_phone=$res3->phone;
     $customer_email=$res3->email;
-    $customer_country=get_country($res3->country_id);
-    $customer_state=get_state($res3->state_id);
+    $customer_country=$res3->country_id;
+    $customer_state=$res3->state_id;
     $customer_address=$res3->address;
     $customer_postcode=$res3->postcode;
     $customer_gst_no=$res3->gstin;
@@ -87,15 +87,21 @@
     	$str="(Fixed)";
     }
 
-    
+    if(!empty($customer_country)){
+      $customer_country = $this->db->query("select country from db_country where id='$customer_country'")->row()->country;  
+    }
+    if(!empty($customer_state)){
+      $customer_state = $this->db->query("select state from db_states where id='$customer_state'")->row()->state;  
+    }
+
     $q1=$this->db->query("select * from db_store where id=".$res3->store_id." ");
     $res1=$q1->row();
     $store_name		=$res1->store_name;
     $company_mobile		=$res1->mobile;
     $company_phone		=$res1->phone;
     $company_email		=$res1->email;
-    //$company_country	=$res1->country;
-    //$company_state		=$res1->state;
+    $company_country	=$res1->country;
+    $company_state		=$res1->state;
     $company_city		=$res1->city;
     $company_address	=$res1->address;
     $company_postcode	=$res1->postcode;
@@ -152,7 +158,7 @@
 						</td>
 						<td align="center" style="padding:5px;">
 							<div style="display:inline-block;vertical-align:middle;line-height:16px !important;">	
-								<img class="center-block" style=" width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/index/<?=$sales_code;?>">
+								<img class="center-block" style=" width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/<?php echo $sales_code;?>">
 							</div>
 						</td>
 					</tr>

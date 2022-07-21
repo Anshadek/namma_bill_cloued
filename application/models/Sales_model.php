@@ -555,7 +555,7 @@ class Sales_model extends CI_Model {
 		$sum_of_payments=$q8->row()->payment;
 		
 
-		$payble_total=$this->db->query("select coalesce(sum(grand_total),0) as total from db_sales where id='$sales_id'")->row()->total;
+		$payble_total=$this->db->query("select coalesce(sum(grand_total),0) - coalesce(sum(paid_amount),0) as total from db_sales where customer_id='$customer_id'")->row()->total;
 		//$payble_total=$q9->row()->total;
 		
 		//$pending_amt=$payble_total-$sum_of_payments;
@@ -589,6 +589,7 @@ class Sales_model extends CI_Model {
 			->from("db_sales")
 			->where("customer_id",$customer_id)
 			->where("payment_status","Partial")
+			->or_where("payment_status","Unpaid")
 			->get()
 			->result_array();
 			$this->db->select('*');

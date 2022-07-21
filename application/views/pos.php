@@ -391,8 +391,8 @@
                   </div>
                     <span class="customer_points text-success" style="display: none;"></span>
 										<input type="checkbox" id="check_bx_previous_due"> 
-										<lable><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable>
-                  
+										<lable><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable><br>
+										<lable style="padding: 34px;"><?= $this->lang->line('advance'); ?> :<label class="text-red customer_tot_advance_label" style="font-size: 18px;">0.00</label></lable>
                   
                 </div>
                 <div class="col-md-6">
@@ -658,7 +658,7 @@
     store_module=true;
   <?php } ?>
 </script>
-<script src="<?php echo $theme_link; ?>js/pos.js"></script>
+<script src="<?php echo $theme_link; ?>js/pos.js?v=1"></script>
 <script>
     var base_url=$("#base_url").val();
     /*$("#store_id").on("change",function(){
