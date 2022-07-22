@@ -555,22 +555,48 @@ class Sales_model extends CI_Model {
 		$sum_of_payments=$q8->row()->payment;
 		
 
-		$payble_total=$this->db->query("select coalesce(sum(grand_total),0) - coalesce(sum(paid_amount),0) as total from db_sales where customer_id='$customer_id'")->row()->total;
-		//$payble_total=$q9->row()->total;
 		
+		//$payble_total=$q9->row()->total;
 		//$pending_amt=$payble_total-$sum_of_payments;
-
 		$payment_status='';
-		if($payble_total==$sum_of_payments){
-			$payment_status="Paid";
-		}
-		else if($sum_of_payments!=0 && ($sum_of_payments<$payble_total)){
-			$payment_status="Partial";
-		}
-		else if($sum_of_payments==0){
-			$payment_status="Unpaid";
+
+		//==================this section recive payment in saleslist section =========================
+		$temp_amt = $this->input->post('amount');
+		$amount = (isset($temp_amt) ) ? $temp_amt : 0 ;
+		if ($amount > 0){
+			//using sales id becouse we are clear one invoice due amount
+			$payble_total=$this->db->query("select coalesce(sum(grand_total),0) - coalesce(sum(paid_amount),0) as total from db_sales where id='$sales_id'")->row()->total;
+			//print_r(round($amount,0).'====='.round($payble_total,0).'======'.$sum_of_payments);die();
+			if(round($amount,0) == round($payble_total,0)){
+				$payment_status="Paid";
+			}
+			else if(round($payble_total,0) !=0 && (round($payble_total,0)>round($amount,0))){
+				$payment_status="Partial";
+			}
+			else if(round($payble_total,0) == 0){
+				$payment_status="Unpaid";
+			}
+			//   $sum_of_payments = $amount
+			//print_r($payment_status);die();
+		//===============================this for pos due amount automatic satus change while complte all payment=====================================================
+		}else{
+			//using customer id becosue we are clear all invoice due amount
+			$payble_total=$this->db->query("select coalesce(sum(grand_total),0) - coalesce(sum(paid_amount),0) as total from db_sales where customer_id='$customer_id'")->row()->total;
+			if($payble_total==$sum_of_payments){
+				$payment_status="Paid";
+			}
+			else if($sum_of_payments!=0 && ($sum_of_payments<$payble_total)){
+				$payment_status="Partial";
+			}
+			else if($sum_of_payments==0){
+				$payment_status="Unpaid";
+			}
+	
 		}
 
+		
+		
+		
 		$q7=$this->db->query("update db_sales set 
 							payment_status='$payment_status',
 							paid_amount=$sum_of_payments 
@@ -623,8 +649,10 @@ class Sales_model extends CI_Model {
 
 
 	function update_sales_payment_status($sales_id=null,$customer_id=null){
+		
 	//UPDATE PRODUCTS QUANTITY IN PRODUCTS TABLE
 		if(empty($sales_id)){ //If sales ID not exist you need setup all the customers sales due
+			
 			$q11=$this->db->query("select id from db_customers");
 			if($q11->num_rows()>0){
 				foreach ($q11->result() as $res) {
@@ -649,6 +677,7 @@ class Sales_model extends CI_Model {
 			return true;
 		}
 		else{
+			
 					if(!$this->update_sales_payment_status_by_sales_id($sales_id,$customer_id)){
 						return false;
 					}
