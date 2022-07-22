@@ -132,12 +132,12 @@
                                        </div>
                                     <!-- </div>
                                     <div class="form-group"> -->
-                                       <label for="opening_balance" class="col-sm-2 control-label"><?= $this->lang->line('previous_due'); ?></label>
+                                       <!-- <label for="opening_balance" class="col-sm-2 control-label"><?= $this->lang->line('previous_due'); ?></label>
                                        <div class="col-sm-4">
                                           <input type="text" class="form-control only_currency" id="opening_balance" name="opening_balance" placeholder="" value="<?php print store_number_format($opening_balance,0); ?>" >
                                           <span id="opening_balance_msg" style="display:none" class="text-danger"></span>
                                        </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                        <label for="attachment_1" class="col-sm-2 control-label"><?= $this->lang->line('attachment_1'); ?></label>
                                        <div class="col-sm-4">
