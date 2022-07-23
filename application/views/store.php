@@ -16,16 +16,16 @@
           <?php
               if(!isset($q_id)){
                 
-                $store_name=$logo=$currency_id=$currency_placement=$timezone=
+                $warehouse_name=$logo=$currency_id=$currency_placement=$timezone=
                 $date_format=$time_format=
                 $round_off='';
                 $mobile=$phone=$email=$country=$state=$city=
                 $postcode=$address=$gst_no=$vat_no=
-                $store_website=$pan_no=$bank_details=$store_logo='';
+                $warehouse_website=$pan_no=$bank_details=$store_logo='';
 
                 $decimals=2;
                 $invoice_terms = '';
-                
+                $q_id = $id;
                
                 
               }
@@ -74,18 +74,18 @@
                                        <div class="box-body">
                                           <div class="row">
                                              <div class="col-md-5">
-                                                <div class="form-group">
+                                                <!-- <div class="form-group">
                                                    <label for="store_code" class="col-sm-4 control-label"><?= $this->lang->line('store_code'); ?><label class="text-danger">*</label></label>
                                                    <div class="col-sm-8">
                                                       <input type="text" class="form-control" id="store_code" name="store_code" readonly=""  placeholder="" onkeyup="shift_cursor(event,'mobile')" value="<?php print $store_code; ?>" >
                                                       <span id="store_code_msg" style="display:none" class="text-danger"></span>
                                                    </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="form-group">
-                                                   <label for="store_name" class="col-sm-4 control-label"><?= $this->lang->line('store_name'); ?><label class="text-danger">*</label></label>
+                                                   <label for="warehouse_name" class="col-sm-4 control-label"><?= $this->lang->line('warehouse_name'); ?><label class="text-danger">*</label></label>
                                                    <div class="col-sm-8">
-                                                      <input type="text" class="form-control" id="store_name" name="store_name" placeholder="" onkeyup="shift_cursor(event,'mobile')" value="<?php print $store_name; ?>" >
-                                                      <span id="store_name_msg" style="display:none" class="text-danger"></span>
+                                                      <input type="text" class="form-control" id="warehouse_name" name="warehouse_name" placeholder="" onkeyup="shift_cursor(event,'mobile')" value="<?php print $warehouse_name; ?>" >
+                                                      <span id="warehouse_name_msg" style="display:none" class="text-danger"></span>
                                                    </div>
                                                 </div>
                                                 <div class="form-group">
@@ -124,7 +124,7 @@
                                                 <div class="form-group">
                                                    <label for="vat_no" class="col-sm-4 control-label"><?= $this->lang->line('vat_number'); ?></label>
                                                    <div class="col-sm-8">
-                                                      <input type="text" class="form-control" id="vat_no" name="vat_no" placeholder="" value="<?php print $vat_no; ?>" onkeyup="shift_cursor(event,'store_website')">
+                                                      <input type="text" class="form-control" id="vat_no" name="vat_no" placeholder="" value="<?php print $vat_no; ?>" onkeyup="shift_cursor(event,'warehouse_website')">
                                                       <span id="vat_msg" style="display:none" class="text-danger"></span>
                                                    </div>
                                                 </div>
@@ -133,15 +133,15 @@
                                                 <div class="form-group">
                                                    <label for="pan_no" class="col-sm-4 control-label"><?= $this->lang->line('pan_number'); ?></label>
                                                    <div class="col-sm-8">
-                                                      <input type="text" class="form-control" id="pan_no" name="pan_no" placeholder="" value="<?php print $pan_no; ?>" onkeyup="shift_cursor(event,'store_website')">
+                                                      <input type="text" class="form-control" id="pan_no" name="pan_no" placeholder="" value="<?php print $pan_no; ?>" onkeyup="shift_cursor(event,'warehouse_website')">
                                                       <span id="pan_msg" style="display:none" class="text-danger"></span>
                                                    </div>
                                                 </div>
                                                 <?php } ?>
                                                 <div class="form-group">
-                                                   <label for="store_website" class="col-sm-4 control-label"><?= $this->lang->line('store_website'); ?></label>
+                                                   <label for="warehouse_website" class="col-sm-4 control-label">Warehouse Website</label>
                                                    <div class="col-sm-8">
-                                                      <input type="text" class="form-control" id="store_website" name="store_website" placeholder="" value="<?php print $store_website; ?>" onkeyup="shift_cursor(event,'country')">
+                                                      <input type="text" class="form-control" id="warehouse_website" name="warehouse_website" placeholder="" value="<?php print $warehouse_website; ?>" onkeyup="shift_cursor(event,'country')">
                                                       <span id="website_msg" style="display:none" class="text-danger"></span>
                                                    </div>
                                                 </div>
@@ -794,8 +794,8 @@
            }
          });
       </script>
-      <script src="<?php echo $theme_link; ?>js/store_profile.js"></script>
-      <script src="<?php echo $theme_link; ?>js/store/store.js"></script>
+      <script src="<?php echo $theme_link; ?>js/store_profile.js?v=1"></script>
+      <script src="<?php echo $theme_link; ?>js/store/store.js?v=1"></script>
      
 
 

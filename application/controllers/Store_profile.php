@@ -9,6 +9,7 @@ class Store_profile extends MY_Controller {
 	}
 
 	public function update($id){
+		
 		//if not admin
 		if(!is_admin()){
 			if($id!=get_current_store_id()){
@@ -18,6 +19,7 @@ class Store_profile extends MY_Controller {
 
 		$this->permission_check('store_edit');
 		$data=$this->store->get_details($id);
+		
 		$data['page_title']=$this->lang->line('store');
 		$this->load->view('store', $data);
 	}

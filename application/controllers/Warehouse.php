@@ -8,6 +8,8 @@
 			parent::__construct();
 			$this->load_global();
 			$this->load->model('warehouse_model','warehouse');
+			$this->load->model('store_model','store');
+			
 		}
 		public function index(){
 			$this->permission_check('warehouse_view');
@@ -15,32 +17,40 @@
 			$data['page_title']='Warehouse List';
 			$this->load->view('warehouse/warehouse-list',$data);
 		}
-		public function save_or_update(){
+		// public function save_or_update(){
 			
-			$data=$this->data;//My_Controller constructor data accessed here
-			$this->form_validation->set_rules('warehouse_name', 'Warehouse Name', 'required|trim');
+		// 	$data=$this->data;//My_Controller constructor data accessed here
+		// 	$this->form_validation->set_rules('warehouse_name', 'Warehouse Name', 'required|trim');
 			
-			if ($this->form_validation->run() == TRUE) {
-				if($this->input->post('command')=='save'){
-					$result=$this->warehouse->verify_and_save($data);
-				}
-				else{
-					$result=$this->warehouse->verify_and_update($data);
-				}
+		// 	if ($this->form_validation->run() == TRUE) {
+		// 		if($this->input->post('command')=='save'){
+		// 			$result=$this->warehouse->verify_and_save($data);
+		// 		}
+		// 		else{
+		// 			$result=$this->warehouse->verify_and_update($data);
+		// 		}
 				
-				echo $result;
-			} 
-			else {
-				//echo validation_errors();
-				echo "Please Fill Compulsory(* marked) Fields.";
-			}
+		// 		echo $result;
+		// 	} 
+		// 	else {
+		// 		//echo validation_errors();
+		// 		echo "Please Fill Compulsory(* marked) Fields.";
+		// 	}
 		
+		// }
+		public function new_warehouse(){
+			//$result=$this->store->verify_and_save();
+			$result=$this->warehouse->verify_and_save();
+			
+			echo $result;	
 		}
 		public function add(){
 			$this->permission_check('warehouse_add');
 			$data=$this->data;//My_Controller constructor data accessed here
-			$data['page_title']='Create/Update Warehouse';
-			$data['page_title']='Warehouse';
+			//$data['page_title']='Create/Update Warehouse';
+			//$data['page_title']='Warehouse';
+			$data=array_merge($this->data,$this->store->store_making_codes());
+			$data['page_title']=$this->lang->line('Warehouse');
 			$this->load->view('warehouse/warehouse',$data);
 		}
 		public function status_update(){

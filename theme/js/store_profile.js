@@ -20,8 +20,8 @@ $('#update').on("click",function (e) {
     }
 
     //STORE
-	check_field("store_code");if(flag==false){$("#tab_4_btn").trigger('click');}
-	check_field("store_name");if(flag==false){$("#tab_4_btn").trigger('click');}
+	//check_field("store_code");if(flag==false){$("#tab_4_btn").trigger('click');}
+	check_field("warehouse_name");if(flag==false){$("#tab_4_btn").trigger('click');}
 	check_field("mobile");	if(flag==false){$("#tab_4_btn").trigger('click');}
 	check_field("email");	if(flag==false){$("#tab_4_btn").trigger('click');}
 	check_field("city");	if(flag==false){$("#tab_4_btn").trigger('click');}
@@ -89,8 +89,6 @@ $('#update').on("click",function (e) {
 				//e.preventDefault
 
 });
-
-
 //On Enter Move the cursor to desigtation Id
 function shift_cursor(kevent,target){
 

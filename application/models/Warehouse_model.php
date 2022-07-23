@@ -10,37 +10,165 @@ class Warehouse_model extends CI_Model {
 	public function xss_html_filter($input){
 		return $this->security->xss_clean(html_escape($input));
 	}
-	public function verify_and_save($data){
-		extract($this->xss_html_filter(array_merge($this->data,$_POST,$_GET)));
-		$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();
+	
 
-		//varify max sales usage of the package subscription
-		validate_package_offers('max_warehouses','db_warehouse');
-		//END
 
-		$query=$this->db->query("select * from db_warehouse where warehouse_name='$warehouse_name' and store_id=$store_id")->num_rows();
-		if($query>0){ return "This Warehouse Name Already Exist.";}
-		if(!empty($mobile)){
-			$query=$this->db->query("select * from db_warehouse where mobile='$mobile' and store_id=$store_id")->num_rows();
-			if($query>0){ return "This Moble Number already exist.";}
+	public function verify_and_save(){
+
+		//Filtering XSS and html escape from user inputs 
+		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET))));
+		
+		$this->db->trans_begin();
+
+		
+		$ware_house_logo='';
+		if(!empty($_FILES['ware_house_logo']['name'])){
+			$config['upload_path']          = './uploads/store/';
+	        $config['allowed_types']        = 'gif|jpg|jpeg|png';
+	        $config['max_size']             = 1000;
+	        $config['max_width']            = 1000;
+	        $config['max_height']           = 1000;
+
+	        $this->load->library('upload', $config);
+
+	        if ( ! $this->upload->do_upload('ware_house_logo'))
+	        {
+	                $error = array('error' => $this->upload->display_errors());
+	                return $error['error'];
+	                exit();
+	        }
+	        else
+	        {
+	        	   $ware_house_logo='uploads/store/'.$this->upload->data('file_name');
+	        }
 		}
 
-		if(!empty($email)){
-			$query=$this->db->query("select * from db_warehouse where email='$email' and store_id=$store_id")->num_rows();
-			if($query>0){ return "This Email ID already exist.";}
+		$change_return = (isset($change_return)) ? 1 : 0;
+		$mrp_column = (isset($mrp_column)) ? 1 : 0;
+		$previous_balance_bit = (isset($previous_balance_bit)) ? 1 : 0;
+		$round_off = (isset($round_off)) ? 1 : 0;
+
+
+		$data = array(
+		    				//'store_code'				=> $store_code,
+							'store_id'					=>get_current_store_id(),
+							'warehouse_type'           	=>   'Custom',
+		    				'warehouse_name'			=> $warehouse_name,
+		    				'warehouse_website'			=> $warehouse_website,
+		    				'mobile'					=> $mobile,
+		    				'phone'						=> $phone,
+		    				'email'						=> $email,
+		    				'country'					=> $country,
+		    				'state'						=> $state,
+		    				'city'						=> $city,
+		    				'address'					=> $address,
+		    				'postcode'					=> $postcode,
+		    				'bank_details'				=> $bank_details,
+		    				'category_init'				=> $category_init,
+		    				'item_init'					=> $item_init,
+		    				'supplier_init'				=> $supplier_init,
+		    				'purchase_init'				=> $purchase_init,
+		    				'purchase_return_init'		=> $purchase_return_init,
+		    				'customer_init'				=> $customer_init,
+		    				'sales_init'				=> $sales_init,
+		    				'sales_return_init'			=> $sales_return_init,
+		    				'expense_init'				=> $expense_init,
+		    				'quotation_init'			=> $quotation_init,
+		    				'money_transfer_init'		=> $money_transfer_init,
+		    				'accounts_init'				=> $accounts_init,
+		    				'currency_id'				=> $currency,
+		    				'currency_placement'		=> $currency_placement,
+		    				'timezone'					=> $timezone,
+		    				'date_format'				=> $date_format,
+		    				'date_format'				=> $date_format,
+		    				'time_format'				=> $time_format,
+		    				'sales_discount'			=> $sales_discount,
+		    				'sales_discount'			=> $sales_discount,
+		    				'change_return'				=> $change_return,
+		    				'mrp_column'				=> $mrp_column,
+		    				'previous_balance_bit'				=> $previous_balance_bit,
+		    				'sales_invoice_format_id'	=> $sales_invoice_format_id,
+		    				'pos_invoice_format_id'		=> $pos_invoice_format_id,
+		    				'sales_invoice_footer_text'	=> $sales_invoice_footer_text,
+		    				'invoice_terms'				=> $invoice_terms,
+		    				'round_off'					=> $round_off,
+		    				'decimals'					=> $decimals,
+		    				'sales_payment_init'		=> $sales_payment_init,
+		    				'sales_return_payment_init'	=> $sales_return_payment_init,
+		    				'purchase_payment_init'		=> $purchase_payment_init,
+		    				'purchase_return_payment_init'	=> $purchase_return_payment_init,
+		    				'expense_payment_init'	=> $expense_payment_init,
+		    				'cust_advance_init'	=> $cust_advance_init,
+		    			);
+
+		if(!empty($store_logo)){
+			$data['store_logo']=$store_logo;
+		}
+
+		/*custom helper*/
+		if(gst_number()){
+			$data['gst_no']=$gst_no;
+		}
+		if(vat_number()){
+			$data['vat_no']=$vat_no;
+		}
+		if(pan_number()){
+			$data['pan_no']=$pan_no;
+		}
+		/*end*/
+
+		
+
+
+		if($command=='save'){
+			// $store_code_count=$this->db->query("select count(*) as store_code_count from db_store where upper(store_code)=upper('$store_code')")->row()->store_code_count;
+			// if($store_code_count>0){
+			// 	echo "Sorry! Store Code Already Exist!\nPlease Change Store Code";exit();
+			// }
+			$extra_info = array(
+							'invoice_view'				=> 1,
+		    				'sms_status'				=> 0,
+		    				'language_id'				=> $language_id,
+		    				/*System Info*/
+		    				'created_date' 				=> $CUR_DATE,
+		    				'created_time' 				=> $CUR_TIME,
+		    				'created_by' 				=> $CUR_USERNAME,
+		    				'system_ip' 				=> $SYSTEM_IP,
+		    				'system_name' 				=> $SYSTEM_NAME,
+		    				'status' 					=> 1,
+		    			);
+			$data=array_merge($data,$extra_info);
+			$q1 = $this->db->insert('db_warehouse', $data);
+			//$store_id = $this->db->insert_id();
+			//$this->load->model('customers_model');
+			//$q2=$this->customers_model->create_walk_in_customer($store_id);
+
+			// if(!$this->create_url_sms_api($store_id)){
+			// 	return "failed";
+			// }
+			// if(!$this->create_url_sms_templates($store_id)){
+			// 	return "failed";
+			// }
+			//$q3 = $this->create_default_warehouse($store_id,null,null);
+			// if(!$q3){
+			// 	echo "failed";exit();
+			// }
+			if($q1){
+				$this->db->trans_commit();
+				$this->session->set_flashdata('success', 'Success!! Record Saved Successfully! ');
+				echo "success";
+			}
+
 		}
 		
-		$query1="insert into db_warehouse(store_id,warehouse_type,warehouse_name,mobile,email,status) 
-									values($store_id,'Custom','$warehouse_name','$mobile','$email',1)";
-		
-		if ($this->db->simple_query($query1)){
-				$this->session->set_flashdata('success', 'Success!! New Warehouse Created Succssfully!!');
-		        return "success";
-		}
-		else{
-		        return "failed";
-		}
+		exit();
 	}
+
+
+
+
+
+
 	public function verify_and_update($data){
 		
 		extract($this->xss_html_filter(array_merge($this->data,$_POST,$_GET)));
@@ -84,18 +212,18 @@ class Warehouse_model extends CI_Model {
 	//Get users deatils
 	public function get_details($id){
 		$data=$this->data;
-
-		//Validate This suppliers already exist or not
-		$query=$this->db->query("select * from db_warehouse where id=$id and store_id=".get_current_store_id());
-		if($query->num_rows()==0){
+		$query1=$this->db->query("select * from db_warehouse
+		 where 
+		 upper(id )
+		 =upper('$id')
+		 ");
+		if($query1->num_rows()==0){
 			show_404();exit;
 		}
 		else{
-			$query=$query->row();
-			$data['q_id']=$query->id;
-			$data['warehouse_name']=$query->warehouse_name;
-			$data['mobile']=$query->mobile;
-			$data['email']=$query->email;
+			/* QUERY 1*/
+			$data['q_id']=$query1->row()->id;
+			return array_merge($data,$query1->row_array());
 			return $data;
 		}
 	}
@@ -221,5 +349,99 @@ class Warehouse_model extends CI_Model {
 		  <!-- /.modal-dialog -->
 		</div>
 		<?php
+	}
+
+	public function create_url_sms_api($store_id){
+		$q1=$this->db->select("*")->where("store_id",$store_id)->get("db_smsapi");
+		if($q1->num_rows()==0){
+			$insertArray = [
+			   [
+			      'store_id' => $store_id,
+			      'info' => 'url',
+			      'key' => 'weblink',
+			      'key_value' => 'http://example.com/sendmessage',
+			   ],
+			   [
+			      'store_id' => $store_id,
+			      'info' => 'mobile',
+			      'key' => 'mobiles',
+			      'key_value' => '',
+			   ],
+			   [
+			      'store_id' => $store_id,
+			      'info' => 'message',
+			      'key' => 'message',
+			      'key_value' => '',
+			   ],
+			   
+			];
+			if(!$this->db->insert_batch('db_smsapi', $insertArray)){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public function create_url_sms_templates($store_id){
+		$q1=$this->db->select("*")->where("store_id",$store_id)->get("db_smstemplates");
+		if($q1->num_rows()==0){
+			$insertArray = [
+			   [
+			      'store_id' => $store_id,
+			      'template_name' => 'GREETING TO CUSTOMER ON SALES',
+			      'content' => "Hi {{customer_name}},
+Your sales Id is {{sales_id}},
+Sales Date {{sales_date}},
+Total amount  {{sales_amount}},
+You have paid  {{paid_amt}},
+and due amount is  {{due_amt}}
+Thank you Visit Again",
+			      'variables' => "{{customer_name}}                          
+{{sales_id}}
+{{sales_date}}
+{{sales_amount}}
+{{paid_amt}}
+{{due_amt}}
+{{store_name}}
+{{store_mobile}}
+{{store_address}}
+{{store_website}}
+{{store_email}}
+",
+				'status'	=> 1,
+				'undelete_bit'	=> 1,
+			   ],
+			   [
+			      'store_id' => $store_id,
+			      'template_name' => 'GREETING TO CUSTOMER ON SALES RETURN',
+			      'content' => "Hi {{customer_name}},
+Your sales return Id is {{return_id}},
+Return Date {{return_date}},
+Total amount  {{return_amount}},
+We paid  {{paid_amt}},
+and due amount is  {{due_amt}}
+Thank you Visit Again",
+			      'variables' => "{{customer_name}}                          
+{{return_id}}
+{{return_date}}
+{{return_amount}}
+{{paid_amt}}
+{{due_amt}}
+{{company_name}}
+{{company_mobile}}
+{{company_address}}
+{{company_website}}
+{{company_email}}
+",
+				'status'	=> 1,
+				'undelete_bit'	=> 1,
+			   ],
+			   
+			];
+			if(!$this->db->insert_batch('db_smstemplates', $insertArray)){
+				return false;
+			}
+		}
+		return true;
 	}
 }

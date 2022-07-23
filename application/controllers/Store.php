@@ -18,9 +18,6 @@ class Store extends MY_Controller {
 		$result=$this->store->verify_and_save();
 		echo $result;	
 	}
-	
-	
-	
 	public function view(){
 		$this->permission_check('store_view');
 		$data=array_merge($this->data);
