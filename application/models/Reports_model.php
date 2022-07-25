@@ -920,6 +920,9 @@ class Reports_model extends CI_Model
 		if ($customer_id != '') {
 			$this->db->where("c.customer_id=$customer_id");
 		}
+		if (isset($warehouse_id) && $warehouse_id != ""){
+			$this->db->where('c.warehouse_id',$warehouse_id);
+		}
 		$this->db->where("b.id=c.`customer_id`");
 		$this->db->where("(a.payment_date>='$from_date' and a.payment_date<='$to_date')");
 

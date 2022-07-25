@@ -51,7 +51,19 @@
                                     </select>
                                     <span id="customer_id_msg" style="display:none" class="text-danger"></span>
                                  </div>
+											<label for="warehouse" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?></label>
+											<div class="col-sm-3">
+                                    <div class="">
+												<select class="form-control select2" id="warehouse_id" name="warehouse_id"  style="width: 100%;"  value="<?php print $warehouse_id; ?>">
+            								<option value="0">-Select-</option>
+                                  <?= get_warehouse_select_list($warehouse_id,get_current_store_id());  ?>
+                                 </select>
+                                 <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                                    </div>
+                                    
+                                 </div>
                               </div>
+
                               <div class="form-group">
                                  <label for="from_date" class="col-sm-2 control-label"><?= $this->lang->line('from_date'); ?></label>
                                  <div class="col-sm-3">
@@ -170,6 +182,7 @@
            var customer_id=document.getElementById("customer_id").value;
            var payment_type=document.getElementById("payment_type").value;
            var store_id=document.getElementById("store_id").value;
+			  var warehouse_id = document.getElementById("warehouse_id").value;
          
          if(from_date == "")
              {
