@@ -359,7 +359,7 @@
                 <div class="col-md-6">
                   <div class="input-group" data-toggle="tooltip" title="Warehouse">
                     <span class="input-group-addon" ><i class="fa fa-building text-red"></i></span>
-                     <select class="form-control select2" id="warehouse_id" name="warehouse_id"  style="width: 100%;"  >
+                     <select class="form-control select2" id="warehouse_id" onchange="get_warehouse_details(this)" name="warehouse_id"  style="width: 100%;"  >
                           <?= get_warehouse_select_list($warehouse_id,get_current_store_id()); ?>
                       </select>
                    
@@ -385,10 +385,11 @@
                     <span class="input-group-addon" ><i class="fa fa-user"></i></span>
                      <select class="form-control select2" id="customer_id" name="customer_id"  style="width: 100%;"  >
                           <?php $customer_id = (isset($customer_id)) ? $customer_id : ''; ?>
-                          <?= get_customers_select_list($customer_id,get_current_store_id()); ?>
+                          <?= get_customers_select_list_pos($customer_id,get_current_store_id()); ?>
                       </select>
                     <span class="input-group-addon pointer" data-toggle="modal" data-target="#customer-modal" title="New Customer?"><i class="fa fa-user-plus text-primary fa-lg"></i></span>
                   </div>
+									<input id="old_warehouse_selected_id" type="hidden">
                     <span class="customer_points text-success" style="display: none;"></span>
 										<input type="checkbox" id="check_bx_previous_due"> 
 										<lable><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable><br>
@@ -680,12 +681,16 @@
 
 
   /*Warehouse*/
-    $("#warehouse_id").on("change",function(){
-      var warehouse_id=$(this).val();
+   // $("#warehouse_id").on("change",function(){
+			function get_warehouse_details(warehouse_id){
+				warehouse_id=$('#warehouse_id').val(warehouse_id.value);
+				//alert(warehouse_id.value);
       $(".items_table > tbody").empty();
       get_details(null,true);
       final_total();
-    });
+			}
+     
+   // });
     /*Warehouse end*/
 
   //RIGHT SIT DIV:-> FILTER ITEM INTO THE ITEMS LIST
@@ -1107,6 +1112,8 @@ function check_same_item(item_id){
 }
 
 $(document).ready(function(){
+	var warehouse_id = $("#warehouse_id").val();
+	$('#old_warehouse_selected_id').val(warehouse_id);
   set_previous_due();
   $("#store_id").trigger('change');
   //FIRST TIME: LOAD
@@ -1397,11 +1404,10 @@ function load_next_details(){
 
 
 function get_details(last_id='',show_only_searched=false){
-
+	
   warehouse_id = $("#warehouse_id").val();
-
+	enable_disable_customer();
   console.log("warehouse_id="+warehouse_id);
-
   $.ajax({
       url: '<?php echo $base_url; ?>pos/get_details',
       type: "post",
@@ -1451,6 +1457,18 @@ function add_previous_due(){
       alert(tot_grand);
        $(".tot_grand ").html(to_Fixed(round_off(tot_grand)));
     }
+
+		function enable_disable_customer(warehouse_id){
+
+			var warehouse_id = $("#warehouse_id").val();
+				$("#customer_id").select2();
+				if ($('#old_warehouse_selected_id').val() > 0){
+					old_warehouse = $('#old_warehouse_selected_id').val();
+					$("#customer_id option[data-selected-warehouse_id='"+old_warehouse+"']").prop("disabled", true);
+				}
+			$("#customer_id option[data-selected-warehouse_id='"+warehouse_id+"']").prop("disabled", false);
+			$('#old_warehouse_selected_id').val(warehouse_id);
+			}
 </script> 
 </body>
 </html>
