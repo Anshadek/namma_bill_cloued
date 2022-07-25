@@ -146,6 +146,18 @@
                        <span id="cheque_status_search_msg" style="display:none" class="text-danger"></span>
                     </div>
                   </div>
+									<div class="col-md-3">
+                    <div class="form-group">
+                       <label for="warehouse_search"><?=$this->lang->line('warehouse');?> </label></label>
+                       <select class="form-control select2" id="warehouse_search" name="warehouse_search"  style="width: 100%;">
+                       <option value="">-select-</option>
+											 <?=get_warehouse_select_list()?>
+                     </select>
+                       <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                    </div>
+                  </div>
+
+									
                   
 
 
@@ -254,6 +266,7 @@
                       
                       cheque_status_search: $("#cheque_status_search").val(),
                       payment_type_search: $("#payment_type_search").val(),
+											warehouse_search : $('#warehouse_search').val(),
                     },
                   complete: function (data) {
                    $('.column_checkbox').iCheck({
@@ -290,7 +303,7 @@
          load_datatable();
       });
      
-      $("#cheque_status_search,#payment_type_search").on("change",function(){
+      $("#cheque_status_search,#payment_type_search,#warehouse_search").on("change",function(){
         $('#example2').DataTable().destroy();
         load_datatable();
       });

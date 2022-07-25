@@ -303,6 +303,7 @@ class Items extends MY_Controller {
 			}
 			
 			$this->db->where("a.status",1);
+			$this->db->where("a.warehouse_id=$warehouse_id");
 			$this->db->where("a.store_id",$store_id);
 			$this->db->where("(LOWER(a.custom_barcode) LIKE '%$name%' or LOWER(a.item_name) LIKE '%$name%' or LOWER(a.item_code) LIKE '%$name%')");
 

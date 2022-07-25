@@ -48,7 +48,7 @@ class Sales_payments_model extends CI_Model {
 		
 		$this->db->select($this->column_order);
 		$this->db->from($this->table);
-		
+		$this->db->join('db_sales as b', 'a.sales_id  = b.id', 'left'); 
 		//if(!is_admin()){
 	      $this->db->where("a.store_id",get_current_store_id());
 	    //}
@@ -62,6 +62,8 @@ class Sales_payments_model extends CI_Model {
 
 	     $payment_type_search = $this->input->post('payment_type_search');
 	     $cheque_status_search = $this->input->post('cheque_status_search');
+		 $warehouse_search = $this->input->post('warehouse_search');
+		 print_r($cheque_status_search);
 	     
 	     if(!empty($payment_type_search)){
 	     	$this->db->where("upper(payment_type)",strtoupper($payment_type_search));
@@ -69,6 +71,9 @@ class Sales_payments_model extends CI_Model {
 	     if(!empty($cheque_status_search)){
 	     	$this->db->where("upper(cheque_status)",strtoupper($cheque_status_search));
 	     }
+		 if(!empty($warehouse_search)){
+			$this->db->where("b.warehouse_id ",$warehouse_search);
+		}
 	     
 	   // echo $this->db->get_compiled_select();exit();
 		$i = 0;
