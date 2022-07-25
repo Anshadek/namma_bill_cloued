@@ -119,10 +119,7 @@
                     <div class="">
                       <label for="account_id_<?= $i;?>"><?= $this->lang->line('account'); ?></label>
                       <select class="form-control" id='account_id_<?= $i;?>' name="account_id_<?= $i;?>">
-                        <option value="">-Select-</option>}
-                        <?php
-                          echo get_accounts_select_list($res22->account_id);
-                          ?>
+											
                       </select>
                       <span id="account_id_<?= $i;?>_msg" style="display:none" class="text-danger"></span>
                     </div>
@@ -201,7 +198,7 @@
                     <div class="">
                       <label for="account_id_1"><?= $this->lang->line('account'); ?></label>
                       <select class="form-control" id='account_id_1' name="account_id_1">
-                        <option value="">-Select-</option>}
+                        <option value="">-Select-</option>
                         option
                         <?php
                           echo get_accounts_select_list();
@@ -346,3 +343,56 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+<script>
+
+
+
+function get_account(){
+	var warehouse_id = $('#warehouse_id').val();
+	var div_no = $("#payment_row_count").val();
+	var count_no = '#account_id_'+div_no;
+
+	$.ajax({
+				url: '<?php echo $base_url; ?>pos/get_warehouse_accounts_select_list',
+				type: "post",
+				data: {
+					store_id: $("#store_id").val(),
+					warehouse_id: $("#warehouse_id").val(),
+				},
+				beforeSend: function() {
+					$('.ajax-load').show();
+				}
+			}).done(function(data) {
+				$(count_no).empty();
+				$(count_no).append(data);
+			}).fail(function(jqXHR, ajaxOptions, thrownError) {
+				alert('server not responding...');
+			});
+
+	
+}
+
+function get_add_raw_account(){
+	var warehouse_id = $('#warehouse_id').val();
+	var div_no = $("#payment_row_count").val();
+	div_no = parseInt(div_no) + 1;
+	var count_no = '#account_id_'+div_no;
+	$.ajax({
+				url: '<?php echo $base_url; ?>pos/get_warehouse_accounts_select_list',
+				type: "post",
+				data: {
+					store_id: $("#store_id").val(),
+					warehouse_id: $("#warehouse_id").val(),
+				},
+				beforeSend: function() {
+					$('.ajax-load').show();
+				}
+			}).done(function(data) {
+				$(count_no).empty();
+				$(count_no).append(data);
+			}).fail(function(jqXHR, ajaxOptions, thrownError) {
+				alert('server not responding...');
+			});
+
+}
+</script>

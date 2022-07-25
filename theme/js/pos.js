@@ -433,6 +433,7 @@ failed.play();
     		adjust_payments();
     	});
     }
+		get_add_raw_account();
 }); //hold_invoice end
 function remove_row(id){
 	$(".payments_div_"+id).html('');
