@@ -126,6 +126,7 @@
                     <input type="checkbox" class="group_check checkbox" >
                   </th>
                   <th><?= $this->lang->line('quotation_date'); ?></th>
+									<th><?= $this->lang->line('warehouse'); ?></th>
                   <th><?= $this->lang->line('expire_date'); ?></th>
                   <th><?= $this->lang->line('quotation_code'); ?></th>
                   <th><?= $this->lang->line('reference_no'); ?></th>
@@ -149,6 +150,7 @@
                       <th></th>
                       <th></th>
                       <th></th>
+											<th></th>
                   </tr>
               </tfoot>
                

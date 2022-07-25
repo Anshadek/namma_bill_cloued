@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html>
 
 <head>
@@ -118,21 +118,32 @@ padding-right: 2px;
                               /*}*/
                               ?>
                               <!-- Store Code end -->
-                              <!-- Warehouse Code -->
-                              <?php 
-                               if(warehouse_module() && warehouse_count()>1) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'warehouse_id'=>$warehouse_id,'div_length'=>'col-sm-3','show_select_option'=>false)); }else{
+										<div class="form-group ">
+                                <label for="expire_date" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?></label>
+                                 <div class="col-sm-3">
+											<?php 
+                               if(warehouse_module() && warehouse_count()>1) { ?>
+										 <select class="form-control select2 " id="warehouse_id" name="warehouse_id"  onchange="get_warehouse_details(this)">
+											<?= get_warehouse_select_list($warehouse_id, get_current_store_id()); ?>
+										</select>
+												
+											
+										<?php }else{
                                 echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
                                }
                               ?>
-                              <!-- Warehouse Code end -->
+                              
+                                 </div>
+										</div>
                               
                               <div class="form-group">
                                  <label for="customer_id" class="col-sm-2 control-label"><?= $this->lang->line('customer_name'); ?><label class="text-danger">*</label></label>
                                  <div class="col-sm-3">
                                     <div class="input-group">
                                        <select class="form-control select2" id="customer_id" name="customer_id"  style="width: 100%;">
-                                          <?= get_customers_select_list($customer_id,get_current_store_id()); ?>
+                                          <?= get_customers_select_list_pos($customer_id,get_current_store_id()); ?>
                                        </select>
+													<input id="old_warehouse_selected_id" type="hidden">
                                        <span class="input-group-addon pointer" data-toggle="modal" data-target="#customer-modal" title="New Customer?"><i class="fa fa-user-plus text-primary fa-lg"></i></span>
                                     </div>
                                     <span id="customer_id_msg" style="display:none" class="text-danger"></span>
@@ -179,9 +190,7 @@ padding-right: 2px;
                                     <input type="text" value="<?php echo  $reference_no; ?>" class="form-control " id="reference_no" name="reference_no" placeholder="" >
                   <span id="reference_no_msg" style="display:none" class="text-danger"></span>
                                  </div>
-                                
-                              </div>
-                              
+                              </div>    
                            </div>
                            <!-- /.box-body -->
                            
@@ -675,6 +684,8 @@ padding-right: 2px;
     }
 
     $(document).ready(function() {
+		var warehouse_id = $("#warehouse_id").val();
+			$('#old_warehouse_selected_id').val(warehouse_id);
         set_previous_due()
     });
 
@@ -778,6 +789,26 @@ padding-right: 2px;
               }); 
              });
          <?php }?>
+
+			function get_warehouse_details(res) {
+			warehouse_id = $('#warehouse_id').val(res.value);
+			enable_disable_customer();
+			$("#sales_table > tbody").empty();
+			final_total();
+		}
+
+		function enable_disable_customer() {
+var warehouse_id = $("#warehouse_id").val();
+$("#customer_id").select2();
+if ($('#old_warehouse_selected_id').val() > 0) {
+	old_warehouse = $('#old_warehouse_selected_id').val();
+	$("#customer_id option[data-selected-warehouse_id='" + old_warehouse + "']").prop("disabled", true);
+}
+$("#customer_id option[data-selected-warehouse_id='" + warehouse_id + "']").prop("disabled", false);
+$('#old_warehouse_selected_id').val(warehouse_id);
+}
+
+
       </script>
       <!-- UPDATE OPERATIONS end-->
 

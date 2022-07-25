@@ -88,6 +88,16 @@
                                     <span id="amount_msg" style="display:none" class="text-danger"></span>
                                  </div>
                               </div>
+										<div class="form-group">
+                                 <label for="amount" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?><label class="text-danger">*</label></label>
+                                 <div class="col-sm-4">
+											<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                                 </div>
+                              </div>
+										
                               <div class="form-group">
                                 <label for="payment_type" class="col-sm-2 control-label"><?= $this->lang->line('payment_type'); ?><label class="text-danger">*</label></label>
                                 <div class="col-sm-4">

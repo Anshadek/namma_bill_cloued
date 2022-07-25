@@ -9,7 +9,9 @@ class Customers_advance_model extends CI_Model {
 								'a.payment_code',
 								'a.payment_date',
 								'b.customer_name',
+								'b.warehouse_id',
 								'a.amount',
+								'c.warehouse_name',
 								'a.payment_type',
 								'a.created_by',
 								); //set column field database for datatable orderable
@@ -18,7 +20,9 @@ class Customers_advance_model extends CI_Model {
 								'a.payment_code',
 								'a.payment_date',
 								'b.customer_name',
+								'b.warehouse_id',
 								'a.amount',
+								'c.warehouse_name',
 								'a.payment_type',
 								'a.created_by',
 								); //set column field database for datatable searchable 
@@ -34,8 +38,13 @@ class Customers_advance_model extends CI_Model {
 		$this->db->select($this->column_order);
 		$this->db->from($this->table);
 		$this->db->join('db_customers as b','b.id=a.customer_id','left');
+		$this->db->join('db_warehouse as c','b.warehouse_id=c.id','left');
 		//if(!is_admin()){
 	      $this->db->where("a.store_id",get_current_store_id());
+		  if ($_POST['warehouse_id'] != ""){
+			$this->db->where("b.warehouse_id",$_POST['warehouse_id']);
+		  }
+		  
 	    //}
 	    //echo $this->db->get_compiled_select();exit();
 
@@ -118,6 +127,7 @@ class Customers_advance_model extends CI_Model {
 			$this->db->query("ALTER TABLE db_custadvance AUTO_INCREMENT = 1");
 			$save_operation = array(
 				                'store_id'         		=> $store_id, 
+								'warehouse_id'         		=> $warehouse_id, 
 				                'count_id' 				=> get_count_id('db_custadvance'), 
 				                'payment_code'         => get_init_code('custadvance'), 
 				                /*System Info*/
@@ -165,6 +175,7 @@ class Customers_advance_model extends CI_Model {
 			$query=$query->row();
 			$data['q_id']=$query->id;
 			$data['store_id']=$query->store_id;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['customer_id']=$query->customer_id;
 			$data['payment_date']=show_date($query->payment_date);
 			$data['amount']=store_number_format($query->amount,0);

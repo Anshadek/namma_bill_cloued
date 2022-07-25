@@ -20,6 +20,7 @@ class Import extends MY_Controller {
     }
 
 	public function import_customers_csv() {
+		
                 extract($this->xss_html_filter(array_merge($this->data)));
 
                 $store_id=(store_module() && is_admin() && isset($store_id) && !empty($store_id)) ? $store_id : get_current_store_id();   
@@ -90,6 +91,7 @@ class Import extends MY_Controller {
                         
                         $row = array(
                             'store_id'    	=>  $store_id,
+							'warehouse_id' => $warehouse_id,
                             'count_id'              => get_count_id('db_customers'), 
                             'customer_code'     =>  get_init_code('customer'), 
                             'customer_name'     =>  $customer_name,

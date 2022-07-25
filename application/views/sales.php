@@ -767,9 +767,7 @@
 		}
 
 		function enable_disable_customer() {
-
 			var warehouse_id = $("#warehouse_id").val();
-			alert(warehouse_id);
 			$("#customer_id").select2();
 			if ($('#old_warehouse_selected_id').val() > 0) {
 				old_warehouse = $('#old_warehouse_selected_id').val();

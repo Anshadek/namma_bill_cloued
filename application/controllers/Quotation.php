@@ -70,10 +70,13 @@ class Quotation extends MY_Controller {
 			$str='';
 			        if($quotation->sales_status!='')
 			          $str="<span title='Converted to Sales Invoice' class='label label-success' style='cursor:pointer'> Converted </span>";
+					 
 			$row[] = show_date($quotation->quotation_date)."<br>".$str;
+			$row[] = $quotation->warehouse_name;
 			$row[] = (!empty($quotation->expire_date)) ? show_date($quotation->expire_date) : '';
 
 			$row[] = $quotation->quotation_code;
+			$row[] = $quotation->warehouse_name;
 			
 			$row[] = $quotation->reference_no;
 			$row[] = $quotation->customer_name;

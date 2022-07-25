@@ -10,6 +10,7 @@ class Quotation_model extends CI_Model {
 								'a.quotation_date',
 								'a.expire_date',
 								'a.quotation_code',
+								'w.warehouse_name',
 								'a.reference_no',
 								'b.customer_name',
 								'a.grand_total',
@@ -20,6 +21,7 @@ class Quotation_model extends CI_Model {
 	var $column_search = array( 
 								'a.id',
 								'a.quotation_date',
+								'w.warehouse_name',
 								'a.expire_date',
 								'a.quotation_code',
 								'a.reference_no',
@@ -47,9 +49,10 @@ class Quotation_model extends CI_Model {
 		/*If warehouse selected*/
 		$warehouse_id = $this->input->post('warehouse_id');
 		if(!empty($warehouse_id)){
-			$this->db->join('db_warehouse as w','w.id='.$warehouse_id,'left');
+			
 			$this->db->where('a.warehouse_id',$warehouse_id);
 		}
+		$this->db->join('db_warehouse as w','w.id = b.id','left');
 		
 		//if(!is_admin()){
 	      $this->db->where("a.store_id",get_current_store_id());

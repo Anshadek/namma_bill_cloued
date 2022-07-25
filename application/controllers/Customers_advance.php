@@ -73,6 +73,7 @@ class Customers_advance extends MY_Controller {
 			$row[] = $rec->payment_code;
 			$row[] = show_date($rec->payment_date);
 			$row[] = $rec->customer_name;
+			$row[] = $rec->warehouse_name;
 			$row[] = store_number_format($rec->amount);
 			$row[] = $rec->payment_type;
 			$row[] = ucfirst($rec->created_by);

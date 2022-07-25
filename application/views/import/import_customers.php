@@ -49,6 +49,13 @@
                                      ?>
                                 <!-- Store Code end -->
                               <div class="form-group">
+																  <!-- Warehouse Code -->
+																	<?php 
+                               if(warehouse_module() && warehouse_count()>1) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'col-sm-3','show_select_option'=>false)); }else{
+                                echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+                               }
+                              ?>
+                              <!-- Warehouse Code end -->
                                  <label for="brand" class="col-sm-2 control-label"><?= $this->lang->line('import_customers'); ?><label class="text-danger">*</label></label>
                                  <div class="col-sm-4">
                                     <input type="file" id="import_file" name="import_file">

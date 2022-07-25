@@ -6,6 +6,7 @@ class Customers_model extends CI_Model {
 	var $table = 'db_customers as a';
 	var $column_order = array(
 								'a.id',
+								'a.warehouse_id',
 								'a.customer_code',
 								'a.customer_name',
 								'a.mobile',
@@ -18,13 +19,16 @@ class Customers_model extends CI_Model {
 								'a.tot_advance',
 								'a.status',
 								'a.store_id',
+								'b.warehouse_name',
 								'a.delete_bit'
 								); //set column field database for datatable orderable
 	var $column_search = array(
 								'a.id',
+								'a.warehouse_id',
 								'a.customer_code',
 								'a.customer_name',
 								'a.mobile',
+								'b.warehouse_name',
 								'a.email',
 								'a.location_link',
 								'a.credit_limit',
@@ -45,11 +49,16 @@ class Customers_model extends CI_Model {
 
 	private function _get_datatables_query()
 	{
+		
 		/*If account receivable checked*/
 		if($_POST['show_account_receivable']=='checked'){
 			$this->db->where("(a.sales_due>0 or a.opening_balance>0)");
 		}
-
+		if($_POST['warehouse_id']!=''){
+			$this->db->where("a.warehouse_id",$_POST['warehouse_id']);
+		}
+		
+		$this->db->join('db_warehouse as b', 'a.warehouse_id = b.id', 'left');
 		$this->db->select($this->column_order);
 		$this->db->from($this->table);
 		//if not admin
@@ -152,7 +161,7 @@ class Customers_model extends CI_Model {
 
 		$store_id=get_current_store_id();  
 
-		$query2=$this->db->query("select * from db_customers where mobile='$mobile' and store_id=$store_id");
+		$query2=$this->db->query("select * from db_customers where mobile='$mobile' and warehouse_id=$warehouse_id");
 		if($query2->num_rows()>0 && !empty($mobile)){
 			return "Sorry!This Mobile Number already Exist.";;
 		}

@@ -57,6 +57,7 @@ class Customers extends MY_Controller {
 
 	public function ajax_list()
 	{
+		
 		$list = $this->customers->get_datatables();
 		
 		$data = array();
@@ -78,6 +79,7 @@ class Customers extends MY_Controller {
 			
 			$row[] = $customers->customer_code;
 			$row[] = $customers->customer_name;
+			$row[] = $customers->warehouse_name;
 			$row[] = $customers->mobile;
 			$row[] = $customers->email;
 			$row[] = (!empty($customers->location_link)) ? '<a target="_blank" title="Click to View Location!" href="'.$customers->location_link.'"><i class="fa fa-fw fa-map-marker"></i> Link</a>' : '';
