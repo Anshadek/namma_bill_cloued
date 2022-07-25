@@ -258,7 +258,7 @@ class Items_model extends CI_Model {
 			    				'tax_type' 					=> $tax_type,
 			    				'profit_margin' 			=> $profit_margin,
 			    				'sales_price' 				=> $sales_price,
-			    				
+			    				'warehouse_id'				=>$warehouse_id,
 			    				'seller_points'				=> $seller_points,
 			    				'custom_barcode'			=> $custom_barcode,
 			    				'description'				=> $description,
@@ -456,8 +456,10 @@ class Items_model extends CI_Model {
 			$data['item_code']=$query->item_code;
 			$data['item_name']=$query->item_name;
 			$data['brand_id']=$query->brand_id;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['category_id']=$query->category_id;
 			$data['sku']=$query->sku;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['hsn']=$query->hsn;
 			$data['expire_date']=$query->expire_date;
 			$data['unit_id']=$query->unit_id;

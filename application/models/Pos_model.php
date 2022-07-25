@@ -64,6 +64,7 @@ class Pos_model extends CI_Model {
 		  
 		  $this->db->from("db_items as a");
 		  $this->db->where("a.store_id",$store_id);
+		  $this->db->where("a.warehouse_id",$warehouse_id);
 		  $this->db->where("a.status",1);
 		  if(!empty($search_it)){
 		  	$this->db->where("upper(a.item_name) like upper('%".$search_it."%')");

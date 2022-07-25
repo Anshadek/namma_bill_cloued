@@ -166,6 +166,7 @@ class Customers_model extends CI_Model {
 	                'customer_name'         => $customer_name,
 	                'mobile'        	    => $mobile,
 	                'phone'         		=> $phone,
+					'warehouse_id'         	=> $warehouse_id,
 	                'email'             	=> $email,
 	                'country_id'        	=> (!empty($country)) ? $country : NULL,
 	                'state_id'        	 	=> (!empty($state)) ? $state : NULL,
@@ -269,6 +270,7 @@ class Customers_model extends CI_Model {
 			$data['store_id']=$query->store_id;
 			$data['customer_name']=$query->customer_name;
 			$data['mobile']=$query->mobile;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['phone']=$query->phone;
 			$data['email']=$query->email;
 			
@@ -319,6 +321,7 @@ class Customers_model extends CI_Model {
 			                'mobile'        	    => $mobile,
 			                'phone'         		=> $phone,
 			                'email'             	=> $email,
+							'warehouse_id'			=>$warehouse_id,
 			                'country_id'        	=> $country,
 			                'state_id'        	 	=> $state,
 			                'city'        			=> $city,

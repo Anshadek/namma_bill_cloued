@@ -147,7 +147,7 @@
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-addon" title="Warehouse"><i class="fa fa-building text-red"></i></span>
-                    <select class="form-control select2" id="warehouse_id" name="warehouse_id"  style="width: 100%;" >
+                    <select class="form-control select2" id="warehouse_id_1" name="warehouse_id"  style="width: 100%;" >
 		            <?php
 				            //Only Allowed Warehouse show to loged in user
 				         	if(!is_admin() && !is_store_admin()){

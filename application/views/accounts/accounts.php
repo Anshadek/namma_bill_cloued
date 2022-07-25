@@ -55,6 +55,16 @@
                                        echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
                                      ?>
                                     <!-- Store Code end -->
+												<div class="form-group">
+													
+                                       <label for="credit_limit" class="col-sm-4 control-label"><?= $this->lang->line('warehouse'); ?></label>
+                                       <div class="col-sm-8">
+													<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                                       </div>
+										</div>
                                     <div class="form-group">
                                        <label for="parent_id" class="col-sm-4 control-label"><?= $this->lang->line('parent_account'); ?> <label class="text-danger">*</label></label>
                                        <div class="col-sm-8">
@@ -67,6 +77,7 @@
                                           <span id="parent_id_msg" style="display:none" class="text-danger"></span>
                                        </div>
                                     </div>
+												
                                     <div class="form-group">
                                        <label for="account_code" class="col-sm-4 control-label"><?= $this->lang->line('account_code'); ?> <label class="text-danger">*</label></label>
                                        <div class="col-sm-8">

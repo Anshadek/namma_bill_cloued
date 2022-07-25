@@ -91,6 +91,13 @@
                                  <input type="text" class="form-control only_currency" id="seller_points" name="seller_points" placeholder=""  value="<?php print $seller_points; ?>" >
                                  <span id="seller_points_msg" style="display:none" class="text-danger"></span>
                               </div>
+										<div class="form-group col-md-4">
+                              <label for="warehouse_id"><?= $this->lang->line('warehouse'); ?></label>
+                              <select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                           </div>
                               <div class="form-group col-md-4">
                                  <label for="custom_barcode" ><?= $this->lang->line('description'); ?></label>
                                  <textarea type="text" class="form-control" id="description" name="description" placeholder=""><?php print $description; ?></textarea>

@@ -121,23 +121,33 @@
                                     </div>
                                     
                                     <!-- ########### -->
+												
                                  <!-- </div>
+											
                                  <div class="col-md-5"> -->
                                     <div class="form-group">
-                                       <label for="credit_limit" class="col-sm-2 control-label"><?= $this->lang->line('credit_limit'); ?></label>
+													
+                                       <label for="credit_limit" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?></label>
+                                       <div class="col-sm-4">
+													<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                                       </div>
+													<label for="credit_limit" class="col-sm-2 control-label"><?= $this->lang->line('credit_limit'); ?></label>
                                        <div class="col-sm-4">
                                           <input type="text" class="form-control only_currency" id="credit_limit" name="credit_limit" placeholder="" value="<?php print store_number_format($credit_limit,0); ?>" >
                                           <span id="" style="" class="text-success">-1 for No Limit</span>
                                           <span id="credit_limit_msg" style="display:none" class="text-danger"></span>
                                        </div>
-                                    <!-- </div>
-                                    <div class="form-group"> -->
-                                       <!-- <label for="opening_balance" class="col-sm-2 control-label"><?= $this->lang->line('previous_due'); ?></label>
+                                    </div>
+                                    <div class="form-group"> 
+                                       <label for="opening_balance" class="col-sm-2 control-label"><?= $this->lang->line('previous_due'); ?></label>
                                        <div class="col-sm-4">
                                           <input type="text" class="form-control only_currency" id="opening_balance" name="opening_balance" placeholder="" value="<?php print store_number_format($opening_balance,0); ?>" >
                                           <span id="opening_balance_msg" style="display:none" class="text-danger"></span>
                                        </div>
-                                    </div> -->
+                                    </div> 
                                     <div class="form-group">
                                        <label for="attachment_1" class="col-sm-2 control-label"><?= $this->lang->line('attachment_1'); ?></label>
                                        <div class="col-sm-4">

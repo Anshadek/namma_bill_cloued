@@ -91,6 +91,7 @@ class Category_model extends CI_Model {
 							'count_id' 				=> get_count_id('db_category'), 
 		    				'category_code' 		=> get_init_code('category'), 
 		    				'category_name' 		=> $category,
+							'warehouse_id'			=>$warehouse_id,
 		    				'description' 			=> $description,
 		    				'status' 				=> 1,
 		    			);
@@ -119,6 +120,7 @@ class Category_model extends CI_Model {
 			$query=$query->row();
 			$data['q_id']=$query->id;
 			$data['category_name']=$query->category_name;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['description']=$query->description;
 			$data['store_id']=$query->store_id;
 			return $data;
@@ -138,6 +140,7 @@ class Category_model extends CI_Model {
 		else{
 			$info = array(
 		    				'category_name' 		=> $category,
+							'warehouse_id' 		=> $warehouse_id,
 		    				'description' 			=> $description,
 		    			);
 			$info['store_id']=(store_module() && is_admin()) ? $store_id : get_current_store_id();

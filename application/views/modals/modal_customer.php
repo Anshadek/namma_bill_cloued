@@ -28,6 +28,19 @@
                             </div>
                           </div>
 
+													<div class="col-md-4">
+                            <div class="box-body">
+                              <div class="form-group">
+                                <label for="mobile"><?= $this->lang->line('warehouse'); ?>*</label>
+                                <label id="mobile_msg" class="text-danger text-right pull-right"></label>
+                                <select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                              </div>
+                            </div>
+                          </div>
+
                           <div class="col-md-4">
                             <div class="box-body">
                               <div class="form-group">

@@ -90,6 +90,7 @@ class Brand_model extends CI_Model {
 			$info = array(
 		    				'brand_name' 				=> $brand, 
 		    				'description' 				=> $description,
+							'warehouse_id' 				=> $warehouse_id,
 		    				'status' 				=> 1,
 		    			);
 			
@@ -117,6 +118,7 @@ class Brand_model extends CI_Model {
 			$query=$query->row();
 			$data['q_id']=$query->id;
 			$data['brand_name']=$query->brand_name;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['description']=$query->description;
 			$data['store_id']=$query->store_id;
 			return $data;
@@ -137,6 +139,8 @@ class Brand_model extends CI_Model {
 			$info = array(
 		    				'brand_name' 				=> $brand, 
 		    				'description' 				=> $description,
+							'warehouse_id' 				=> $warehouse_id,
+							
 		    			);
 			
 			$info['store_id']=(store_module() && is_admin()) ? $store_id : get_current_store_id();

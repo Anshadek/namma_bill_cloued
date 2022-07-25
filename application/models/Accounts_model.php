@@ -121,6 +121,7 @@ class Accounts_model extends CI_Model {
 	    				'sort_code' 				=> $sort_code,
 	    				'account_code' 				=> $account_code,
 	    				'parent_id' 				=> $parent_id,
+						'warehouse_id'				=> $warehouse_id,
 	    				'account_name' 				=> $account_name,
 	    				'note' 						=> $note,
 	    				/*System Info*/
@@ -176,6 +177,7 @@ class Accounts_model extends CI_Model {
 			$data['q_id']=$query->id;
 			$data['account_code']=$query->account_code;			
 			$data['parent_id']=$query->parent_id;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['account_name']=$query->account_name;
 			$data['note']=$query->note;
 			$data['opening_balance']=$query->balance;
@@ -225,6 +227,7 @@ class Accounts_model extends CI_Model {
 		$info = array(
 	    				'sort_code' 		=> $sort_code,
 	    				'store_id' 			=> $store_id,
+						'warehouse_id'		=> $warehouse_id,
 	    				'parent_id' 			=> $parent_id,
 	    				'account_name' 				=> $account_name,
 	    				'account_code' 				=> $account_code,
