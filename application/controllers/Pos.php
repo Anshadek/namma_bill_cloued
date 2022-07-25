@@ -33,6 +33,7 @@ class Pos extends MY_Controller {
 		$this->load->view('pos',$data);
 	}
 
+	
 	//adding new item from Modal
 	public function newcustomer(){
 	
@@ -145,4 +146,57 @@ class Pos extends MY_Controller {
 		echo $this->pos_model->get_item_details($this->input->post('item_id'));
 	}
 
+	function get_categories_select_list_pos(){
+		extract($_POST);
+		
+		//$CI =& get_instance();
+	
+	   $store_id = (!empty($store_id)) ? $store_id : get_current_store_id();
+	
+	   $this->db->where("store_id",$store_id);
+	   $this->db->where('warehouse_id',$warehouse_id);
+	   $q1=$this->db->select("*")->where("status=1")->from("db_category")->get();
+	   $str='';
+	  
+		if($q1->num_rows($q1)>0)
+		 {  
+	
+			 $str.='<option value="">- Select category -</option>'; 
+	
+			 foreach($q1->result() as $res1)
+		   { 
+			 
+			 $str.="<option  value='".$res1->id."'>".$res1->category_name."</option>";
+		   }
+		 }
+		 else
+		 {
+			 $str.='<option value="">No Records Found</option>'; 
+		 }
+		
+		 echo $str;
+	}
+
+	function get_brand_select_list_pos(){
+		extract($_POST);
+	   $store_id = (!empty($store_id)) ? $store_id : get_current_store_id();
+	   $this->db->where("store_id",$store_id);
+	   $this->db->where("warehouse_id",$warehouse_id);
+	  $q1=$this->db->select("*")->where("status=1")->from("db_brands")->get();
+	  $str='';
+	   if($q1->num_rows($q1)>0)
+	    {  
+			$str.='<option value="">-Select brand -</option>'; 
+	        foreach($q1->result() as $res1)
+	      { 
+	        $selected = ($select_id==$res1->id)? 'selected' : '';
+	        $str.="<option $selected value='".$res1->id."'>".$res1->brand_name."</option>";
+	      }
+	    }
+	    else
+	    {
+	    	$str.='<option value="">No Records Found</option>'; 
+	    }
+	    echo $str;
+	}
 }

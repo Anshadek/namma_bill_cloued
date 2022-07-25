@@ -74,6 +74,34 @@
 	    return $str;
  }
 
+
+ function get_categories_select_list_pos($select_id='',$store_id=''){
+	$CI =& get_instance();
+
+   $store_id = (!empty($store_id)) ? $store_id : get_current_store_id();
+
+   $CI->db->where("store_id",$store_id);
+   
+   $q1=$CI->db->select("*")->where("status=1")->from("db_category")->get();
+   $str='';
+	if($q1->num_rows($q1)>0)
+	 {  
+
+		 //$str.='<option value="">-Select-</option>'; 
+
+		 foreach($q1->result() as $res1)
+	   { 
+		 $selected = ($select_id==$res1->id)? 'selected' : '';
+		 $str.="<option $selected value='".$res1->id."'>".$res1->category_name."</option>";
+	   }
+	 }
+	 else
+	 {
+		 $str.='<option value="">No Records Found</option>'; 
+	 }
+	 return $str;
+}
+
  function get_payment_types_select_list($select_id='',$store_id=''){
  	  $CI =& get_instance();
 

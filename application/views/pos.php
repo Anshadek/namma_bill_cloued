@@ -546,7 +546,9 @@
                   <div class="input-group input-group-md">
                       <select class="form-control select2" id="category_id" name="category_id"  style="width: 100%;"  >
                         <option value="">-All Categories-</option>
-                        <?= get_categories_select_list();  ?>
+												
+                        
+											</div>
                       </select>
                           <span class="input-group-btn">
                             <button type="button" class="btn text-blue btn-flat reset_categories" title="Reset Categories" data-toggle="tooltip" data-placement="top">
@@ -686,6 +688,9 @@
 				warehouse_id=$('#warehouse_id').val(warehouse_id.value);
 				//alert(warehouse_id.value);
       $(".items_table > tbody").empty();
+			enable_disable_customer();
+	get_categories_select_list();
+	get_brand_select_list();
       get_details(null,true);
       final_total();
 			}
@@ -1406,7 +1411,6 @@ function load_next_details(){
 function get_details(last_id='',show_only_searched=false){
 	
   warehouse_id = $("#warehouse_id").val();
-	enable_disable_customer();
   console.log("warehouse_id="+warehouse_id);
   $.ajax({
       url: '<?php echo $base_url; ?>pos/get_details',
@@ -1444,6 +1448,50 @@ function get_details(last_id='',show_only_searched=false){
       alert('server not responding...');
   });
 }
+
+
+function get_categories_select_list(last_id='',show_only_searched=false){
+  warehouse_id = $("#warehouse_id").val();
+  console.log("warehouse_id="+warehouse_id);
+  $.ajax({
+      url: '<?php echo $base_url; ?>pos/get_categories_select_list_pos',
+      type: "post",
+      data:{
+        store_id      : $("#store_id").val(),
+        warehouse_id  : $("#warehouse_id").val(),
+      },
+      beforeSend: function(){
+          $('.ajax-load').show();
+      }
+  }).done(function(data){
+			$('#category_id').html(data);
+      
+  }).fail(function(jqXHR, ajaxOptions, thrownError){
+      alert('server not responding...');
+  });
+}
+
+function get_brand_select_list(){
+  warehouse_id = $("#warehouse_id").val();
+  $.ajax({
+      url: '<?php echo $base_url; ?>pos/get_brand_select_list_pos',
+      type: "post",
+      data:{
+        store_id      : $("#store_id").val(),
+        warehouse_id  : $("#warehouse_id").val(),
+      },
+      beforeSend: function(){
+          $('.ajax-load').show();
+      }
+  }).done(function(data){
+			$('#brand_id').html(data);
+      
+  }).fail(function(jqXHR, ajaxOptions, thrownError){
+      alert('server not responding...');
+  });
+}
+
+
 function add_previous_due(){
       
       isChecked = $('#check_bx_previous_due').is(':checked');
