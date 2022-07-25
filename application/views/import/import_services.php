@@ -44,13 +44,19 @@
                            <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
                            <div class="box-body">
                                <!-- Store Code -->
-                                    <?php 
-                                       echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
-                                     ?>
+                                  
                                 <!-- Store Code end -->
 
                               
                               <!-- Warehouse Code end -->
+															  <!-- Warehouse Code -->
+																<?php 
+                               if(warehouse_module() && warehouse_count()>1) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'col-sm-3','show_select_option'=>false)); }else{
+                                echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+                               }
+                              ?>
+                              <!-- Warehouse Code end -->
+
                               <div class="form-group">
                                  <label for="brand" class="col-sm-2 control-label"><?= $this->lang->line('import_services'); ?><label class="text-danger">*</label></label>
                                  <div class="col-sm-4">

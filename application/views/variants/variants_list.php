@@ -49,6 +49,20 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+						<div class="box-header with-border">
+								<!-- Warehouse Code -->
+								<?php if (warehouse_module() && warehouse_count() > 1) {
+									echo '<div class="col-md-4">';
+									$this->load->view('warehouse/warehouse_code', array(
+										'show_warehouse_select_box' => true, 'div_length' => '',
+										'label_length' => '', 'show_all' => 'true', 'show_all_option' => true, 'remove_star' => true
+									));
+									echo '</div>';
+								} else {
+									echo "<input type='hidden' name='' id='warehouse_id' value='" . get_store_warehouse_id() . "'>";
+								} ?>
+								<!-- Warehouse Code end -->
+							</div>
               <table id="example2" class="table table-bordered custom_hover" width="100%">
                 <thead class="bg-gray ">
                 <tr>
@@ -57,6 +71,7 @@
                   </th>
                   <!-- <th><?= $this->lang->line('store_name'); ?></th> -->
                   <th><?= $this->lang->line('variant_name'); ?></th>
+									<th><?= $this->lang->line('warehouse_name'); ?></th>
                   <th><?= $this->lang->line('description'); ?></th>
                   <th><?= $this->lang->line('status'); ?></th>
                   <th><?= $this->lang->line('action'); ?></th>
@@ -95,6 +110,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
     //datatables
+		load_datatable();
+		
+});
+function load_datatable(show_account_receivable = 'unchecked') {
    var table = $('#example2').DataTable({ 
 
       /* FOR EXPORT BUTTONS START*/
@@ -131,6 +150,9 @@ $(document).ready(function() {
         "ajax": {
             "url": "<?php echo site_url('variants/ajax_list')?>",
             "type": "POST",
+						"data": {
+						warehouse_id: $('#warehouse_id').val(),
+					},
             
             complete: function (data) {
              $('.column_checkbox').iCheck({
@@ -159,7 +181,13 @@ $(document).ready(function() {
         ],
     });
     new $.fn.dataTable.FixedHeader( table );
-});
+	}
+
+$("#warehouse_id").on("change", function() {
+			$('#example2').DataTable().destroy();
+			load_datatable();
+			//new $.fn.dataTable.FixedHeader( table );
+		});
 </script>
 <script src="<?php echo $theme_link; ?>js/variants/variants.js"></script>
 <!-- Make sidebar menu hughlighter/selector -->

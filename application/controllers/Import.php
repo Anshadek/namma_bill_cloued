@@ -597,6 +597,7 @@ public function services(){
                       
                         $row = array(
                             'store_id'          =>  $store_id,
+							'warehouse_id' => $warehouse_id,
                             'count_id'          =>  get_count_id('db_items'), 
                             'item_code'         =>  get_init_code('item'), 
                             'item_name'         =>  $item_name,//0

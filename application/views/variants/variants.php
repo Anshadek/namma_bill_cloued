@@ -49,9 +49,20 @@
                                 echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
                               /*}*/ ?>
                               <!-- Store Code end -->
+										<div class="form-group">
+													
+                                       <label for="credit_limit" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?></label>
+                                       <div class="col-sm-4">
+													<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                                       </div>
+										</div>
                               <div class="form-group">
                                  <label for="variant" class="col-sm-2 control-label"><?= $this->lang->line('variant_name'); ?><label class="text-danger">*</label></label>
-                                 <div class="col-sm-4">
+                               
+											<div class="col-sm-4">
                                     <input type="text" class="form-control input-sm" id="variant" name="variant" placeholder="" onkeyup="shift_cursor(event,'description')" value="<?php print $variant_name; ?>" autofocus >
                                     <span id="variant_msg" style="display:none" class="text-danger"></span>
                                  </div>

@@ -5,18 +5,22 @@ class Variants_model extends CI_Model {
 
 	var $table = 'db_variants';
 	var $column_order = array(null, 'variant_code','variant_name','description','status'); //set column field database for datatable orderable
-	var $column_search = array('variant_code','variant_name','description','status'); //set column field database for datatable searchable 
+	var $column_search = array('variant_code','variant_name','description','db_variants.status'); //set column field database for datatable searchable 
 	var $order = array('id' => 'desc'); // default order 
 
 	private function _get_datatables_query()
 	{
 		
 		$this->db->from($this->table);
+		$this->db->select('db_variants.*,w.warehouse_name');
+		$this->db->join("db_warehouse as w",'w.id = db_variants.warehouse_id','left');
 		//if not admin
 		//if(!is_admin()){
-			$this->db->where("store_id",get_current_store_id());
+			$this->db->where("db_variants.store_id",get_current_store_id());
 		//}
-		
+		if ($_POST['warehouse_id'] != ""){
+			$this->db->where("db_variants.warehouse_id",$_POST['warehouse_id']);
+		}
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -89,6 +93,7 @@ class Variants_model extends CI_Model {
 		else{
 			$info = array(
 		    				'variant_name' 				=> $variant, 
+							'warehouse_id' 				=> $warehouse_id, 
 		    				'description' 				=> $description,
 		    				'status' 				=> 1,
 		    			);
@@ -116,6 +121,7 @@ class Variants_model extends CI_Model {
 		else{
 			$query=$query->row();
 			$data['q_id']=$query->id;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['variant_name']=$query->variant_name;
 			$data['description']=$query->description;
 			$data['store_id']=$query->store_id;
@@ -137,6 +143,7 @@ class Variants_model extends CI_Model {
 			$info = array(
 		    				'variant_name' 				=> $variant, 
 		    				'description' 				=> $description,
+							'warehouse_id' 				=> $warehouse_id,
 		    			);
 			
 			$info['store_id']=(store_module() && is_admin()) ? $store_id : get_current_store_id();

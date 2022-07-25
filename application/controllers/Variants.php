@@ -69,6 +69,7 @@ class Variants extends MY_Controller {
 			$row[] = '<input type="checkbox" name="checkbox[]" value='.$variant->id.' class="checkbox column_checkbox" >';
 			
 			$row[] = $variant->variant_name;
+			$row[] = $variant->warehouse_name;
 			$row[] = $variant->description;
 
 			 		if($variant->status==1){ 
