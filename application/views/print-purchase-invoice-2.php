@@ -59,9 +59,38 @@ body { margin: 5px; }
 </head>
 <body onload="window.print();"><!-- window.print() -->
 <?php
-    $q1=$this->db->query("select * from db_store where status=1 and id=".get_current_store_id());
+ $q3=$this->db->query("SELECT a.supplier_name,a.mobile,a.phone,a.gstin,a.tax_number,a.email,
+ a.opening_balance,a.country_id,a.state_id,a.created_by,
+ a.postcode,a.address,b.purchase_date,b.created_time,b.reference_no,
+ b.purchase_code,b.purchase_note,b.purchase_status,
+ coalesce(b.grand_total,0) as grand_total,
+ coalesce(b.subtotal,0) as subtotal,
+ coalesce(b.paid_amount,0) as paid_amount,
+ coalesce(b.other_charges_input,0) as other_charges_input,
+ other_charges_tax_id,
+ coalesce(b.other_charges_amt,0) as other_charges_amt,
+ discount_to_all_input,
+ b.discount_to_all_type,
+ coalesce(b.tot_discount_to_all_amt,0) as tot_discount_to_all_amt,
+ coalesce(b.round_off,0) as round_off,
+ b.payment_status,b.warehouse_id
+
+ FROM db_suppliers a,
+ db_purchase b 
+ WHERE 
+ a.`id`=b.`supplier_id` AND 
+ b.`id`='$purchase_id' 
+ ");
+
+
+$res3=$q3->row();
+
+
+    $q1=$this->db->query("select * from db_warehouse where status=1 and id=".$res3->warehouse_id);
+		
     $res1=$q1->row();
-    $store_name=$res1->store_name;
+		
+    $store_name=$res1->warehouse_name;
     $company_mobile=$res1->mobile;
     $company_phone=$res1->phone;
     $company_email=$res1->email;
@@ -72,37 +101,13 @@ body { margin: 5px; }
     $company_gst_no=$res1->gst_no;
     $company_vat_no=$res1->vat_no;
     $store_logo=(!empty($res1->store_logo)) ? $res1->store_logo : store_demo_logo();
-    $store_website=$res1->store_website;
+    $store_website=$res1->warehouse_website;
     $bank_details=$res1->bank_details;
     $terms_and_conditions="";//$res1->purchase_terms_and_conditions;
 
   
     
-    $q3=$this->db->query("SELECT a.supplier_name,a.mobile,a.phone,a.gstin,a.tax_number,a.email,
-                           a.opening_balance,a.country_id,a.state_id,a.created_by,
-                           a.postcode,a.address,b.purchase_date,b.created_time,b.reference_no,
-                           b.purchase_code,b.purchase_note,b.purchase_status,
-                           coalesce(b.grand_total,0) as grand_total,
-                           coalesce(b.subtotal,0) as subtotal,
-                           coalesce(b.paid_amount,0) as paid_amount,
-                           coalesce(b.other_charges_input,0) as other_charges_input,
-                           other_charges_tax_id,
-                           coalesce(b.other_charges_amt,0) as other_charges_amt,
-                           discount_to_all_input,
-                           b.discount_to_all_type,
-                           coalesce(b.tot_discount_to_all_amt,0) as tot_discount_to_all_amt,
-                           coalesce(b.round_off,0) as round_off,
-                           b.payment_status
-
-                           FROM db_suppliers a,
-                           db_purchase b 
-                           WHERE 
-                           a.`id`=b.`supplier_id` AND 
-                           b.`id`='$purchase_id' 
-                           ");
-                         
-    
-    $res3=$q3->row();
+   
     $supplier_name=$res3->supplier_name;
     $supplier_mobile=$res3->mobile;
     $supplier_phone=$res3->phone;

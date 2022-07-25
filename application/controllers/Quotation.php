@@ -76,7 +76,7 @@ class Quotation extends MY_Controller {
 			$row[] = (!empty($quotation->expire_date)) ? show_date($quotation->expire_date) : '';
 
 			$row[] = $quotation->quotation_code;
-			$row[] = $quotation->warehouse_name;
+			
 			
 			$row[] = $quotation->reference_no;
 			$row[] = $quotation->customer_name;

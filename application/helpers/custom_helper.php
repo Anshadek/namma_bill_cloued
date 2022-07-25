@@ -1087,7 +1087,7 @@
   function get_store_details($store_id=''){
     $CI =& get_instance();
     $store_id = (!empty($store_id)) ? $store_id : get_current_store_id();
-    return $CI->db->select('*')->where('id',$store_id)->get('db_store')->row();
+    return $CI->db->select('*')->where('id',$store_id)->get('db_warehouse')->row();
   }
 
   function get_super_admin_bank_details($store_id=''){

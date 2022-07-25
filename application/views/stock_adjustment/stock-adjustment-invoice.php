@@ -37,7 +37,7 @@
 
     
     $q3=$this->db->query("SELECT b.store_id,b.adjustment_date,b.created_time,b.reference_no,
-                           b.adjustment_note
+                           b.adjustment_note,b.warehouse_id
                            FROM 
                            db_stockadjustment b 
                            WHERE 
@@ -54,9 +54,9 @@
     $reference_no=$res3->reference_no;
     $adjustment_note=$res3->adjustment_note;
 
-    $q1=$this->db->query("select * from db_store where id=".$res3->store_id." ");
+    $q1=$this->db->query("select * from db_warehouse where id=".$res3->warehouse_id." ");
     $res1=$q1->row();
-    $store_name=$res1->store_name;
+    $store_name=$res1->warehouse_name;
     $company_mobile=$res1->mobile;
     $company_phone=$res1->phone;
     $company_email=$res1->email;

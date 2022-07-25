@@ -44,7 +44,7 @@
                            b.discount_to_all_type,
                            coalesce(b.tot_discount_to_all_amt,0) as tot_discount_to_all_amt,
                            coalesce(b.round_off,0) as round_off,
-                           b.payment_status,b.pos
+                           b.payment_status,b.pos,b.warehouse_id
 
                            FROM db_customers a,
                            db_salesreturn b 
@@ -108,9 +108,9 @@
     
     $sales_code = (!empty($sales_id))?$this->db->query("select sales_code from db_sales where id=".$sales_id)->row()->sales_code:'';
 
-    $q1=$this->db->query("select * from db_store where id=".$res3->store_id."");
+    $q1=$this->db->query("select * from db_warehouse where id=".$res3->warehouse_id."");
     $res1=$q1->row();
-    $store_name=$res1->store_name;
+    $store_name=$res1->warehouse_name;
     $company_mobile=$res1->mobile;
     $company_phone=$res1->phone;
     $company_email=$res1->email;

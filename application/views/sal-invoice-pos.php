@@ -35,7 +35,7 @@
                            b.discount_to_all_type,
                            coalesce(b.tot_discount_to_all_amt,0) as tot_discount_to_all_amt,
                            coalesce(b.round_off,0) as round_off,
-                           b.payment_status
+                           b.payment_status,b.warehouse_id
 
                            FROM db_customers a,
                            db_sales b 
@@ -94,9 +94,9 @@
       $customer_state = $this->db->query("select state from db_states where id='$customer_state'")->row()->state;  
     }
 
-    $q1=$this->db->query("select * from db_store where id=".$res3->store_id." ");
+    $q1=$this->db->query("select * from db_warehouse where id=".$res3->warehouse_id." ");
     $res1=$q1->row();
-    $store_name		=$res1->store_name;
+    $store_name		=$res1->warehouse_name;
     $company_mobile		=$res1->mobile;
     $company_phone		=$res1->phone;
     $company_email		=$res1->email;
@@ -108,7 +108,7 @@
     $company_gst_no		=$res1->gst_no;//Goods and Service Tax Number (issued by govt.)
     $company_vat_number		=$res1->vat_no;//Goods and Service Tax Number (issued by govt.)
     $store_logo=(!empty($res1->store_logo)) ? $res1->store_logo : store_demo_logo();
-    $store_website		=$res1->store_website;
+    $store_website		=$res1->warehouse_website;
     $mrp_column		=$res1->mrp_column;
 
 

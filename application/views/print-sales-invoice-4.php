@@ -57,9 +57,10 @@ body { margin: 5px; }
 </head>
 <body onload=""><!-- window.print(); -->
 <?php
-    
-    $store_rec = get_store_details();
     $sales_rec = get_sales_details($sales_id);
+		$warehouse_id = $sales_rec->warehouse_id;
+    $store_rec = get_store_details($warehouse_id);
+    
     $customer_rec = get_customer_details($sales_rec->customer_id);
     
     $state_rec = (!empty($customer_rec->state_id)) ? get_state_details($customer_rec->state_id) : '';
@@ -138,7 +139,7 @@ body { margin: 5px; }
 
                 <td colspan=5>
                 <span style="font-size: 12px;">
-                  <b><?php echo $store_rec->store_name; ?></b><br/>
+                  <b><?php echo $store_rec->warehouse_name; ?></b><br/>
                     <?php echo $this->lang->line('address')." : ".$store_rec->address; ?><br/>
                     <?php echo $this->lang->line('mobile')." : ".$store_rec->mobile; ?><br/>
                    <!--  <?php echo $store_rec->country; ?><br/> -->
