@@ -21,8 +21,9 @@
                   <li class="active"><?=$page_title;?></li>
                </ol>
             </section>
-            <section class="content">
+            
                <div class="row">
+					<section >
                   <div class="col-md-12">
                      <div class="col-md-3">
                         <!-- Store Code -->
@@ -32,7 +33,20 @@
                         <!-- Store Code end -->
                      </div>
                   </div>
-               </div>
+						<div class="form-group">
+                               <!-- Warehouse Code -->
+										 <?php 
+                                 
+											if(true) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true','show_all_option'=>true)); }else{
+												echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+											}
+										  ?>
+										  <!-- Warehouse Code end -->
+										  </div>  
+										</section>
+               		</div>
+					
+					<section class="content">
                <div class="row">
                   <div class="col-md-6">
                      <div class="box">
@@ -272,11 +286,16 @@
                         <div class="box-header">
                            <?= form_open('#', array('class' => 'form', 'id' => 'profit-loss-report', 'enctype'=>'multipart/form-data', 'method'=>'POST'));?>
                            <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">     
-                            <!-- Warehouse Code -->
-                                  <?php if(warehouse_module() && warehouse_count()>1) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box_1'=>true,'div_length'=>'col-md-3','label_length'=>'col-md-3','show_all'=>'true','show_all_option'=>true)); }else{
-                                     echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
-                                     }?>
-                                  <!-- Warehouse Code end -->   
+									<div class="form-group">
+                               <!-- Warehouse Code -->
+										 <?php 
+                                 
+											if(true) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true','show_all_option'=>true)); }else{
+												echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+											}
+										  ?>
+										  <!-- Warehouse Code end -->
+										  </div>  
 
                                  <div class="form-group">
                                     <div class="form-group col-md-4">
@@ -423,7 +442,8 @@
           load_warehouse_list();
         });
         $("#warehouse_id").on("change",function(){
-          get_all_reports();
+			
+			get_pl_values();
         });
 
         function load_warehouse_list(){
@@ -445,8 +465,8 @@
            });
          }
          function get_all_reports(){
-           // get_reports('get_profit_by_item','profit_by_item_table');
-           // get_reports('get_profit_by_invoice','profit_by_invoice_table');
+            get_reports('get_profit_by_item','profit_by_item_table');
+            get_reports('get_profit_by_invoice','profit_by_invoice_table');
          }
          jQuery(document).ready(function($) {
             get_pl_values();

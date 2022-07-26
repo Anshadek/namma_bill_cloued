@@ -1069,8 +1069,9 @@ class Reports_model extends CI_Model
 
 	public function get_profit_loss_report()
 	{
-
+		
 		$store_id = $this->input->post('store_id');
+		$warehouse_id = $this->input->post('warehouse_id');
 		$CI = &get_instance();
 		$info = array();
 
@@ -1083,11 +1084,16 @@ class Reports_model extends CI_Model
 			$this->db->where("a.store_id", get_current_store_id());
 		}
 
-
+		
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("a.warehouse_id", $warehouse_id);
+		}
 
 		$this->db->select("SUM(b.adjustment_qty * a.purchase_price) AS  opening_stock_price");
 		$this->db->from("db_items AS a , db_stockadjustmentitems AS b");
 		$this->db->where("a.id=b.item_id");
+		
 		$opening_stock_price = $this->db->get()->row()->opening_stock_price;
 		$info['opening_stock_price'] = (store_number_format($opening_stock_price));
 
@@ -1101,7 +1107,10 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("b.store_id", get_current_store_id());
 		}
-
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("b.warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(a.tax_amt),0) AS tax_amt");
 		$this->db->from("db_purchaseitems as a,db_purchase as b");
 		$this->db->where("a.purchase_id=b.id and b.purchase_status='Received'");
@@ -1120,6 +1129,10 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(grand_total),0) AS pur_total");
 		$this->db->from("db_purchase");
 		$this->db->where("purchase_status='Received'");
@@ -1137,13 +1150,17 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(other_charges_amt),0) AS other_charges_amt");
 		$this->db->from("db_purchase");
 		$this->db->where("purchase_status='Received'");
 		$pur_other_charges_amt = $this->db->get()->row()->other_charges_amt;
 		$info['pur_other_charges_amt'] = (store_number_format($pur_other_charges_amt));
 
-
+		
 
 		//Disount purchase entry
 		if (store_module() && is_admin()) {
@@ -1152,6 +1169,10 @@ class Reports_model extends CI_Model
 			}
 		} else {
 			$this->db->where("b.store_id", get_current_store_id());
+		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("b.warehouse_id", $warehouse_id);
 		}
 		$this->db->select("COALESCE(SUM(a.discount_amt),0) AS discount_amt");
 		$this->db->from("db_purchaseitems as a,db_purchase as b");
@@ -1173,7 +1194,7 @@ class Reports_model extends CI_Model
 			$purchase_discount_amt = $this->db->get()->row()->tot_discount_to_all_amt;
 		}
 		$info['purchase_discount_amt'] = (store_number_format($purchase_discount_amt));
-
+		
 		//purchase Paid Amount
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
@@ -1182,11 +1203,15 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(paid_amount),0) AS paid_amount");
 		$this->db->from("db_purchase");
 		$purchase_paid_amount = $this->db->get()->row()->paid_amount;
 		$info['purchase_paid_amount'] = (store_number_format($purchase_paid_amount));
-
+		
 		//total purchase return tax amt
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
@@ -1199,7 +1224,7 @@ class Reports_model extends CI_Model
 		$this->db->from("db_purchaseitemsreturn");
 		$purchase_return_tax_amt = $this->db->get()->row()->tax_amt;
 		$info['purchase_return_tax_amt'] = (store_number_format($purchase_return_tax_amt));
-
+		
 		//total purchase return amt
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
@@ -1207,6 +1232,10 @@ class Reports_model extends CI_Model
 			}
 		} else {
 			$this->db->where("store_id", get_current_store_id());
+		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
 		}
 		$this->db->select("COALESCE(SUM(grand_total),0) AS pur_total");
 		$this->db->from("db_purchasereturn");
@@ -1226,11 +1255,15 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(other_charges_amt),0) AS other_charges_amt");
 		$this->db->from("db_purchasereturn");
 		$pur_return_other_charges_amt = $this->db->get()->row()->other_charges_amt;
 		$info['pur_return_other_charges_amt'] = (store_number_format($pur_return_other_charges_amt));
-
+		
 		//Disount purchase return entry
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
@@ -1239,6 +1272,10 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		// if (!empty($warehouse_id)) {
+			
+		// 	$this->db->where("warehouse_id", $warehouse_id);
+		// }
 		$this->db->select("COALESCE(SUM(discount_amt),0) AS discount_amt");
 		$this->db->from("db_purchaseitemsreturn");
 		$purchase_return_discount_amt = $this->db->get()->row()->discount_amt;
@@ -1257,8 +1294,7 @@ class Reports_model extends CI_Model
 		}
 		$info['purchase_return_discount_amt'] = (store_number_format($purchase_return_discount_amt));
 
-
-
+		
 
 		//Purchase Return Paid Amount
 		if (store_module() && is_admin()) {
@@ -1268,11 +1304,17 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(paid_amount),0) AS paid_amount");
 		$this->db->from("db_purchasereturn");
 		$purchase_return_paid_amount = $this->db->get()->row()->paid_amount;
 		$info['purchase_return_paid_amount'] = (store_number_format($purchase_return_paid_amount));
 
+		
+		
 
 		//total sales amt
 		if (store_module() && is_admin()) {
@@ -1282,6 +1324,10 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("b.store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("b.warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(a.tax_amt),0) AS tax_amt");
 		$this->db->from("db_salesitems as a,db_sales as b");
 		$this->db->where("a.sales_id=b.id and b.sales_status='Final'");
@@ -1289,8 +1335,7 @@ class Reports_model extends CI_Model
 		$info['sales_tax_amt'] = (store_number_format($sales_tax_amt));
 
 
-
-
+		
 		//Other Charge of Sales entry
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
@@ -1305,7 +1350,7 @@ class Reports_model extends CI_Model
 		$sal_other_charges_amt = $this->db->get()->row()->other_charges_amt;
 		$info['sal_other_charges_amt'] = (store_number_format($sal_other_charges_amt));
 
-
+		
 
 
 		//Disount sales entry
@@ -1315,6 +1360,10 @@ class Reports_model extends CI_Model
 			}
 		} else {
 			$this->db->where("b.store_id", get_current_store_id());
+		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("b.warehouse_id", $warehouse_id);
 		}
 		$this->db->select("COALESCE(SUM(a.discount_amt),0) AS discount_amt");
 		$this->db->from("db_salesitems as a,db_sales as b");
@@ -1335,7 +1384,7 @@ class Reports_model extends CI_Model
 			$sales_discount_amt = $this->db->get()->row()->tot_discount_to_all_amt;
 		}
 		$info['sales_discount_amt'] = (store_number_format($sales_discount_amt));
-
+		
 
 		//Coupon Disount sales entry
 		if (store_module() && is_admin()) {
@@ -1352,7 +1401,7 @@ class Reports_model extends CI_Model
 		$info['coupon_discount_amt'] = (store_number_format($coupon_discount_amt));
 
 
-
+	
 
 
 		//Total SAles amount
@@ -1363,15 +1412,18 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(sum(grand_total),0) AS tot_sal_grand_total");
 		$this->db->from("db_sales");
 		$this->db->where("sales_status='Final'");
 		$sal_total = $this->db->get()->row()->tot_sal_grand_total;
 		$sal_total -= ($sales_tax_amt + $coupon_discount_amt);
 		$info['sal_total'] = (store_number_format($sal_total));
-
-
-
+		
+		
 
 		//sales Paid Amount
 		if (store_module() && is_admin()) {
@@ -1380,6 +1432,10 @@ class Reports_model extends CI_Model
 			}
 		} else {
 			$this->db->where("store_id", get_current_store_id());
+		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
 		}
 		$this->db->select("COALESCE(SUM(paid_amount),0) AS paid_amount");
 		$this->db->from("db_sales");
@@ -1396,6 +1452,10 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		// if (!empty($warehouse_id)) {
+			
+		// 	$this->db->where("warehouse_id", $warehouse_id);
+		// }
 		$this->db->select("COALESCE(SUM(tax_amt),0) AS tax_amt");
 		$this->db->from("db_salesitemsreturn");
 		$sales_return_tax_amt = $this->db->get()->row()->tax_amt;
@@ -1403,6 +1463,7 @@ class Reports_model extends CI_Model
 
 
 
+		
 
 		//total sales return amt
 		if (store_module() && is_admin()) {
@@ -1411,6 +1472,10 @@ class Reports_model extends CI_Model
 			}
 		} else {
 			$this->db->where("store_id", get_current_store_id());
+		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
 		}
 		$this->db->select("COALESCE(SUM(grand_total),0) AS sal_total");
 		$this->db->from("db_salesreturn");
@@ -1427,6 +1492,10 @@ class Reports_model extends CI_Model
 			}
 		} else {
 			$this->db->where("store_id", get_current_store_id());
+		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
 		}
 		$this->db->select("COALESCE(SUM(other_charges_amt),0) AS other_charges_amt");
 		$this->db->from("db_salesreturn");
@@ -1445,7 +1514,7 @@ class Reports_model extends CI_Model
 		$this->db->from("db_salesreturn as b");
 		$coupon_discount_amt = $this->db->get()->row()->coupon_amt;
 		$info['return_coupon_discount_amt'] = (store_number_format($coupon_discount_amt));
-
+	
 		//Disount sales return entry
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
@@ -1454,10 +1523,14 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		// if (!empty($warehouse_id)) {
+			
+		// 	$this->db->where("warehouse_id", $warehouse_id);
+		// }
 		$this->db->select("COALESCE(SUM(discount_amt),0) AS discount_amt");
 		$this->db->from("db_salesitemsreturn");
 		$sales_return_discount_amt = $this->db->get()->row()->discount_amt;
-
+		
 		if ($sales_return_discount_amt == 0) {
 			if (store_module() && is_admin()) {
 				if (!empty($store_id)) {
@@ -1471,7 +1544,7 @@ class Reports_model extends CI_Model
 			$sales_return_discount_amt = $this->db->get()->row()->tot_discount_to_all_amt;
 		}
 		$info['sales_return_discount_amt'] = (store_number_format($sales_return_discount_amt));
-
+		
 
 		//sales Return Paid Amount
 		if (store_module() && is_admin()) {
@@ -1481,12 +1554,16 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(paid_amount),0) AS paid_amount");
 		$this->db->from("db_salesreturn");
 		$sales_return_paid_amount = $this->db->get()->row()->paid_amount;
 		$info['sales_return_paid_amount'] = (store_number_format($sales_return_paid_amount));
 
-
+		
 		//total expense amt
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
@@ -1495,11 +1572,15 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(expense_amt),0) AS exp_total");
 		$this->db->from("db_expense");
 		$exp_total = $this->db->get()->row()->exp_total;
 		$info['exp_total'] = (store_number_format($exp_total));;
-
+		
 		//total purchase due
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
@@ -1508,11 +1589,15 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		// if (!empty($warehouse_id)) {
+			
+		// 	$this->db->where("warehouse_id", $warehouse_id);
+		// }
 		$this->db->select("COALESCE(SUM(purchase_due),0) AS purchase_due");
 		$this->db->from("db_suppliers");
 		$purchase_due_total = $this->db->get()->row()->purchase_due;
 		$info['purchase_due_total'] = (store_number_format($purchase_due_total));
-
+		
 		//total purchase due
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
@@ -1521,11 +1606,15 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		// if (!empty($warehouse_id)) {
+			
+		// 	$this->db->where("warehouse_id", $warehouse_id);
+		// }
 		$this->db->select("COALESCE(SUM(purchase_return_due),0) AS purchase_due");
 		$this->db->from("db_suppliers");
 		$purchase_return_due_total = $this->db->get()->row()->purchase_due;
 		$info['purchase_return_due_total'] = (store_number_format($purchase_return_due_total));
-
+		
 		//total sales due
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
@@ -1534,11 +1623,15 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(sales_due),0) AS sales_due");
 		$this->db->from("db_customers");
 		$sales_due_total = $this->db->get()->row()->sales_due;
 		$info['sales_due_total'] = (store_number_format($sales_due_total));
-
+		
 		//total sales return due
 		if (store_module() && is_admin()) {
 
@@ -1548,11 +1641,14 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
 		$this->db->select("COALESCE(SUM(sales_return_due),0) AS return_due");
 		$this->db->from("db_customers");
 		$sales_return_due_total = $this->db->get()->row()->return_due;
 		$info['sales_return_due_total'] = (store_number_format($sales_return_due_total));
-
 
 
 
@@ -1563,8 +1659,12 @@ class Reports_model extends CI_Model
 		} else {
 			$this->db->where("c.store_id", get_current_store_id());
 		}
+		if (!empty($warehouse_id)) {
+			
+			$this->db->where("c.warehouse_id", $warehouse_id);
+		}
 
-
+		
 		//select
 		$this->db->select("a.coupon_amt");
 		$this->db->select("b.item_id, b.tax_amt, b.sales_qty, b.total_cost");
@@ -1578,7 +1678,7 @@ class Reports_model extends CI_Model
 		//echo $this->db->get_compiled_select();exit;
 		$q1 = $this->db->get();
 
-
+		
 
 		//GROSS PROFIT & NET PROFIT
 		$sales_details = $this->get_sales_item_sum();
