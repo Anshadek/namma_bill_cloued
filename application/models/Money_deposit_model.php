@@ -12,11 +12,13 @@ class Money_deposit_model extends CI_Model {
 							'a.debit_account_id',
 							'a.credit_account_id',
 							'a.amount',
+							'w.warehouse_name',
 							'a.created_by',
 							); //set column field database for datatable orderable
 	var $column_search = array( 
 							'a.id',
 							'a.deposit_date',
+							'w.warehouse_name',
 							'a.reference_no',
 							'a.debit_account_id',
 							'a.credit_account_id',
@@ -37,6 +39,7 @@ class Money_deposit_model extends CI_Model {
 		$this->db->from($this->table);
 		//if(!is_admin()){
 			$this->db->where("a.store_id",get_current_store_id());
+			$this->db->join('db_warehouse as w','w.id=a.warehouse_id','left');
 		//}
 
 		$deposit_date = $this->input->post('deposit_date');
@@ -131,6 +134,7 @@ class Money_deposit_model extends CI_Model {
 	    				'debit_account_id' 			=> (!empty($debit_account_id)) ? $debit_account_id : null,
 	    				'credit_account_id' 			=> $credit_account_id,
 	    				'amount' 					=> $amount,
+						'warehouse_id' 					=> $warehouse_id,
 	    				'note' 						=> $note,
 	    				'reference_no' 				=> $reference_no,
 	    				/*System Info*/
@@ -183,7 +187,8 @@ class Money_deposit_model extends CI_Model {
 		else{
 			$query=$query->row();
 			$data['q_id']=$query->id;
-			$data['deposit_date']=$query->deposit_date;			
+			$data['deposit_date']=$query->deposit_date;		
+			$data['warehouse_id']=$query->warehouse_id;	
 			$data['reference_no']=$query->reference_no;			
 			$data['debit_account_id']=$query->debit_account_id;
 			$data['credit_account_id']=$query->credit_account_id;
@@ -202,6 +207,7 @@ class Money_deposit_model extends CI_Model {
 	    				'debit_account_id' 			=> (!empty($debit_account_id)) ? $debit_account_id : null,
 	    				'credit_account_id' 			=> $credit_account_id,
 	    				'amount' 					=> $amount,
+						'warehouse_id' 					=> $warehouse_id,	
 	    				'note' 						=> $note,
 	    				'reference_no' 				=> $reference_no,
 	    			);

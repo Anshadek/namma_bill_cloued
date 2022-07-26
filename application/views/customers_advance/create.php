@@ -67,6 +67,17 @@
                                     <span id="payment_date_msg" style="display:none" class="text-danger"></span>
                                  </div>
                               </div>
+										<div class="form-group">
+                                 <label for="amount" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?><label class="text-danger">*</label></label>
+                                 <div class="col-sm-4">
+											<select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_customers(this)" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+										<?php $selected = (isset($warehouse_id)) ?$warehouse_id : '' ?>
+										<input type="hidden" id="selected_warehouse" value="<?= $selected ?>">
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                                 </div>
+                              </div>
                               <div class="form-group">
                                  <label for="customer_id" class="col-sm-2 control-label"><?= $this->lang->line('customer_name'); ?><label class="text-danger">*</label></label>
                                  <div class="col-sm-4">
@@ -88,15 +99,7 @@
                                     <span id="amount_msg" style="display:none" class="text-danger"></span>
                                  </div>
                               </div>
-										<div class="form-group">
-                                 <label for="amount" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?><label class="text-danger">*</label></label>
-                                 <div class="col-sm-4">
-											<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
-                                 <?= get_warehouse_select_list($warehouse_id); ?>
-                              </select>
-                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
-                                 </div>
-                              </div>
+										
 										
                               <div class="form-group">
                                 <label for="payment_type" class="col-sm-2 control-label"><?= $this->lang->line('payment_type'); ?><label class="text-danger">*</label></label>
@@ -180,6 +183,8 @@
       
       <script src="<?php echo $theme_link; ?>js/customers_advance/advance.js"></script>
       <script src="<?php echo $theme_link; ?>js/modals.js"></script>
+		<script src="<?php echo $theme_link; ?>js/warehouse_filter.js"></script>
+		
       <script type="text/javascript">
         <?php if(isset($q_id)){ ?>
           $("#store_id").attr('readonly',true);
@@ -189,3 +194,14 @@
       <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>
    </body>
 </html>
+<script>
+	$( document ).ready(function() {
+	warehouse_id = $('#warehouse_id').val();
+	var selected = $('#selected_warehouse').val();
+	if (selected > 0){
+		warehouse_id = selected;
+	}
+    get_warehouse_customers(warehouse_id)
+});
+</script>
+

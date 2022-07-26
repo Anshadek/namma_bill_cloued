@@ -65,6 +65,18 @@
                                 echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
                               /*}*/ ?>
                     <!-- Store Code end -->
+										
+
+															<div class="form-group">
+                      <label for="warehouse" class="col-sm-4 control-label"><?= $this->lang->line('warehouse'); ?> <label class="text-danger">*</label></label>
+
+                  <div class="col-sm-8">
+									<select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_accounts_expense(this)" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                  </div>
+                  </div>
+
 
                   <div class="form-group">
                       <label for="expense_date" class="col-sm-4 control-label"><?= $this->lang->line('expense_date'); ?> <label class="text-danger">*</label></label>
@@ -248,7 +260,16 @@
 <?php include"comman/code_js.php"; ?>
 
 <script src="<?php echo $theme_link; ?>js/expense.js"></script>
+<script src="<?php echo $theme_link; ?>js/warehouse_filter.js"></script>
 <script type="text/javascript">
+		$(document).ready(function() {
+			warehouse_id = $('#warehouse_id').val();
+			var selected = $('#selected_warehouse').val();
+			if (selected > 0) {
+				warehouse_id = selected;
+			}
+			get_warehouse_accounts_expense(warehouse_id)
+		});
         <?php if(isset($q_id)){ ?>
           $("#store_id").attr('readonly',true);
         <?php }?>

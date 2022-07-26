@@ -167,12 +167,17 @@ class Customers_advance_model extends CI_Model {
 	//Get customers_details
 	public function get_details($id,$data){
 		//Validate This customers already exist or not
-		$query=$this->db->query("select * from db_custadvance where id='$id'");
+		//$query=$this->db->query("select * from db_custadvance where id='$id'");
+		$query = $this->db->select("db_custadvance.*,b.warehouse_id")
+		->join("db_customers as b",'db_custadvance.customer_id = b.id','left')
+		->get("db_custadvance");
+
 		if($query->num_rows()==0){
 			show_404();exit;
 		}
 		else{
 			$query=$query->row();
+			
 			$data['q_id']=$query->id;
 			$data['store_id']=$query->store_id;
 			$data['warehouse_id']=$query->warehouse_id;

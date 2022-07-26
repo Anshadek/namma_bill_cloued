@@ -69,6 +69,7 @@ class Money_deposit extends MY_Controller {
 			$row = array();
 			$row[] = '<input type="checkbox" name="checkbox[]" value='.$money_deposit->id.' class="checkbox column_checkbox" >';
 			$row[] = show_date($money_deposit->deposit_date);
+			$row[] = show_date($money_deposit->warehouse_name);
 			$row[] = $money_deposit->reference_no;
 
 			$row[] = (!empty($money_deposit->debit_account_id)) ? get_account_name($money_deposit->debit_account_id) : '';

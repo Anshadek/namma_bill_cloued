@@ -68,6 +68,16 @@
                        <span id="deposit_date_msg" style="display:none" class="text-danger"></span>
                     </div>
                   </div>
+									<div class="col-md-3">
+                    <div class="form-group">
+                       <label for="debit_account_id"><?= $this->lang->line('warehouse'); ?> </label></label>
+											 <select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_accounts(this)" style="width: 100%;">
+                       <option value="">-- select  --</option>         
+											 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                       <span id="debit_account_id_msg" style="display:none" class="text-danger"></span>
+                    </div>
+                  </div>
 
                   <div class="col-md-3">
                     <div class="form-group">
@@ -125,6 +135,7 @@
                   </th>
                   <!-- <th><?= $this->lang->line('store_name'); ?></th> -->
                   <th><?= $this->lang->line('deposit_date'); ?></th>
+									<th><?= $this->lang->line('warehouse'); ?></th>
                   <th><?= $this->lang->line('reference_no'); ?></th>
                   <th><?= $this->lang->line('debit_account'); ?></th>
                   <th><?= $this->lang->line('credit_account'); ?></th>
@@ -162,6 +173,7 @@
       <?php $this->load->view('comman/code_js_sound.php');?>
       <!-- TABLES CODE -->
       <?php $this->load->view('comman/code_js.php');?>
+			<script src="<?php echo $theme_link; ?>js/warehouse_filter.js"></script>
 
 <script type="text/javascript">
   function load_datatable(){

@@ -229,4 +229,39 @@ class Customers extends MY_Controller {
 	public function restore_customer_list(){
 		echo get_customers_select_list($this->input->post('customer_id'),get_current_store_id());
 	}
+
+	function get_warehouse_customers_select_list(){
+	   //if not admin
+	   $select_id = $_POST['selected'];
+	   $q1=$this->db->select("*")
+	   ->where("status=1")
+	   ->where('warehouse_id',$_POST['warehouse_id'])
+	   ->from("db_customers")->get();
+
+	   $str='';
+		if($q1->num_rows($q1)>0)
+		 {  
+			 $str='';
+			 foreach($q1->result() as $res1)
+		   { 
+			   //$customer_previous_due = $res1->sales_due +$res1->opening_balance;
+			   //$customer_previous_due = store_number_format($customer_previous_due,0);
+ 
+			   $customer_previous_due = $res1->sales_due +$res1->opening_balance;
+			   
+			   $customer_previous_due -=get_paid_cob($res1->id);
+ 
+			   $tot_advance = store_number_format($res1->tot_advance,0);
+			 $selected = ($select_id==$res1->id)? 'selected' : '';
+			 $str.="<option $selected data-delete_bit='".$res1->delete_bit."' data-tot_advance='".$tot_advance."' data-previous_due='".store_number_format($customer_previous_due,false)."' value='".$res1->id."'>".$res1->customer_code."-".$res1->customer_name."-".$res1->mobile."</option>";
+		   }
+		 }
+		 else
+		 {
+			 $str.='<option value="">No Records Found</option>'; 
+		 }
+		 echo $str;
+  }
+
+
 }

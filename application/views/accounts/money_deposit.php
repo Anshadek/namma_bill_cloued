@@ -62,6 +62,17 @@ $deposit_date=show_date(date("d-m-Y"));
                   <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
                   <input type="hidden" id="store_id" name="store_id" value="<?php echo get_current_store_id(); ?>">
                   <div class="box-body">
+									<div class="form-group">
+                                 <label for="amount" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?><label class="text-danger">*</label></label>
+                                 <div class="col-sm-4">
+											<select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_accounts(this)" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+										<?php $selected = (isset($warehouse_id)) ?$warehouse_id : '' ?>
+										<input type="hidden" id="selected_warehouse" value="<?= $selected ?>">
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                                 </div>
+                              </div>
                     <div class="form-group">
                       <label for="deposit_date" class="col-sm-2 control-label">
                         <?= $this->lang->line('deposit_date'); ?> 
@@ -193,13 +204,25 @@ immediately after the control sidebar -->
     <!-- TABLES CODE -->
     <?php $this->load->view('comman/code_js.php');?>
     <script src="<?php echo $theme_link; ?>js/accounts/money_deposit.js">
+		
     </script>
+		<script src="<?php echo $theme_link; ?>js/warehouse_filter.js"></script>
     <script type="text/javascript">
       <?php if(isset($q_id)){
         ?>
           $("#store_id").attr('readonly',true);
         <?php }
       ?>
+		
+			$(document).ready(function() {
+			warehouse_id = $('#warehouse_id').val();
+			var selected = $('#selected_warehouse').val();
+			if (selected > 0) {
+				warehouse_id = selected;
+			}
+			get_warehouse_accounts(warehouse_id)
+		});
+		
     </script>
     <!-- Make sidebar menu hughlighter/selector -->
     <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");
