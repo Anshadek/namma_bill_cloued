@@ -37,7 +37,7 @@
                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                            <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
                            <div class="box-body">
-                              <?php /* ?>
+                             
                               <div class="form-group">
                                  <!-- Store Code -->
                                  <?php if(store_module() && is_admin()) {$this->load->view('store/store_code',array('show_store_select_box'=>true,'store_id'=>get_current_store_id(),'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true')); }else{
@@ -63,7 +63,7 @@
                                     <span id="item_id_msg" style="display:none" class="text-danger"></span>
                                  </div>
                               </div>
-                              <?php */ ?>
+                              
                               <div class="form-group">
                                  <label for="from_date" class="col-sm-2 control-label"><?= $this->lang->line('from_date'); ?></label>
                                  <div class="col-sm-3">
@@ -183,7 +183,7 @@
           });
          });
       </script>
-      <script src="<?php echo $theme_link; ?>js/report-sales-expired-item.js"></script>
+      <script src="<?php echo $theme_link; ?>js/report-sales-expired-item.js?v=1"></script>
       <!-- Make sidebar menu hughlighter/selector -->
       <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>
    </body>

@@ -11,6 +11,8 @@ class Reports_model extends CI_Model
 		if (!empty($store_id)) {
 			$this->db->where("store_id", $store_id);
 		}
+		
+
 		if ($item_id != '') {
 			$this->db->where("id=$item_id");
 		}
@@ -37,6 +39,9 @@ class Reports_model extends CI_Model
 				}
 				if (!empty($store_id)) {
 					$this->db->where("b.store_id", $store_id);
+				}
+				if (!empty($warehouse_id)) {
+					$this->db->where("b.warehouse_id", $warehouse_id);
 				}
 				$this->db->order_by("a.id", "desc");
 				//$this->db->limit(1);
@@ -498,6 +503,10 @@ class Reports_model extends CI_Model
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
+		if (!empty($warehouse_id)) {
+			$this->db->where("a.warehouse_id", $warehouse_id);
+		}
+
 		//echo $this->db->get_compiled_select();
 
 		$q1 = $this->db->get();
@@ -855,6 +864,11 @@ class Reports_model extends CI_Model
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
+		if (!empty($warehouse_id)) {
+			$this->db->where("c.warehouse_id", $warehouse_id);
+		}
+
+
 		//$this->db->group_by("c.purchase_code");
 
 		//echo $this->db->get_compiled_select();
@@ -920,8 +934,8 @@ class Reports_model extends CI_Model
 		if ($customer_id != '') {
 			$this->db->where("c.customer_id=$customer_id");
 		}
-		if (isset($warehouse_id) && $warehouse_id != ""){
-			$this->db->where('c.warehouse_id',$warehouse_id);
+		if (isset($warehouse_id) && $warehouse_id != "") {
+			$this->db->where('c.warehouse_id', $warehouse_id);
 		}
 		$this->db->where("b.id=c.`customer_id`");
 		$this->db->where("(a.payment_date>='$from_date' and a.payment_date<='$to_date')");
@@ -2272,6 +2286,9 @@ class Reports_model extends CI_Model
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
+		if (!empty($warehouse_id)) {
+			$this->db->where("a.warehouse_id", $warehouse_id);
+		}
 
 		$this->db->join("db_customers as b", "b.`id`= a.`customer_id`", "left");
 
@@ -2418,6 +2435,9 @@ class Reports_model extends CI_Model
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
+		if (!empty($warehouse_id)) {
+			$this->db->where("a.warehouse_id", $warehouse_id);
+		}
 
 		$this->db->from("db_suppliers as b");
 		$this->db->where("b.`id`= a.`supplier_id`");
@@ -2553,6 +2573,9 @@ class Reports_model extends CI_Model
 		if ($customer_id != '') {
 			$this->db->where("id=$customer_id");
 		}
+		if ($warehouse_id != '') {
+			$this->db->where("warehouse_id=$warehouse_id");
+		}
 		//echo $this->db->get_compiled_select();exit();
 
 		$q1 = $this->db->get();
@@ -2621,14 +2644,14 @@ class Reports_model extends CI_Model
 
 	public function show_customer_advance()
 	{
-		
+
 		extract($_POST);
-		
+
 		$within_date = (!empty($within_date)) ? system_fromatted_date($within_date) : '';
-		
+
 		$this->db->select("a.id,a.customer_name,b.advance_adjusted,b.created_date,b.sales_id");
 		$this->db->from("db_customers as a");
-		$this->db->join('db_salespayments as b', 'a.id = b.customer_id', 'left'); 
+		$this->db->join('db_salespayments as b', 'a.id = b.customer_id', 'left');
 		$this->db->where("advance_adjusted !=", 0.0000);
 		// if (!empty($store_id)) {
 		// 	$this->db->where("store_id", $store_id);
@@ -2647,28 +2670,28 @@ class Reports_model extends CI_Model
 		if ($q1->num_rows() > 0) {
 
 			$i = 0;
-			
+
 			foreach ($q1->result() as $res1) {
 				echo "<tr>";
 				echo "<td>" . ++$i . "</td>";
 				echo "<td>" . $res1->customer_name . "</td>";
 				echo "<td>" . $res1->advance_adjusted . "</td>";
 				echo "<td>" . show_date($res1->created_date) . "</td>";
-				echo "<td> <a href=".base_url('sales/invoice/'.$res1->sales_id)."><button class='btn success'> View More</button></a></td>";
+				echo "<td> <a href=" . base_url('sales/invoice/' . $res1->sales_id) . "><button class='btn success'> View More</button></a></td>";
 				echo "</tr>";
 			}
 			//if ($customer_id != '') {
-				$advance_data = $this->get_advance_amount_details($customer_id);
-				$balance = $advance_data['sum_of_advance_amount'] - $advance_data['sum_of_advance_adjusted_amount'];
-				
+			$advance_data = $this->get_advance_amount_details($customer_id);
+			$balance = $advance_data['sum_of_advance_amount'] - $advance_data['sum_of_advance_adjusted_amount'];
+
 			echo "<tr class='bg-gray'>";
-			echo "<td class='text-center text-black' colspan='2'><b>Total Advance : ". number_format($advance_data['sum_of_advance_amount'], 2, '.', ',')."</b></td>";
-			echo "<td class='text-center text-black' colspan='2'><b>Paid Amount : ".number_format($advance_data['sum_of_advance_adjusted_amount'], 2, '.', ',') ."</b></td>";
-			echo "<td class='text-center text-black' colspan='1'><b>Balance Amount : ".number_format($balance, 2, '.', ',')."</b></td>";
+			echo "<td class='text-center text-black' colspan='2'><b>Total Advance : " . number_format($advance_data['sum_of_advance_amount'], 2, '.', ',') . "</b></td>";
+			echo "<td class='text-center text-black' colspan='2'><b>Paid Amount : " . number_format($advance_data['sum_of_advance_adjusted_amount'], 2, '.', ',') . "</b></td>";
+			echo "<td class='text-center text-black' colspan='1'><b>Balance Amount : " . number_format($balance, 2, '.', ',') . "</b></td>";
 			echo "</tr>";
 			//}
 		} else {
-			
+
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -2683,30 +2706,31 @@ class Reports_model extends CI_Model
 		exit;
 	}
 
-	public function get_advance_amount_details($id){
-	
+	public function get_advance_amount_details($id)
+	{
+
 
 		//  $this->db->select_sum('amount');
 		$this->db->select('SUM(amount) as sum_amount');
 		$this->db->from('db_custadvance');
 		if ($id != '') {
-		$this->db->where('customer_id=',$id);
+			$this->db->where('customer_id=', $id);
 		}
 
 		$this->db->order_by('amount desc');
 		$advance  = $this->db->get();
 		$res = $advance->result();
-		$advance_data['sum_of_advance_amount'] =  isset($res[0]->sum_amount) ? $res[0]->sum_amount : 0 ;
+		$advance_data['sum_of_advance_amount'] =  isset($res[0]->sum_amount) ? $res[0]->sum_amount : 0;
 
 		$this->db->select('SUM(advance_adjusted) as sum_of_advance_adjusted_amount');
 		$this->db->from('db_salespayments');
 		if ($id != '') {
-		$this->db->where('customer_id=',$id);
+			$this->db->where('customer_id=', $id);
 		}
 		$this->db->order_by('advance_adjusted desc');
 		$advance  = $this->db->get();
 		$res = $advance->result();
-		$advance_data['sum_of_advance_adjusted_amount'] =  isset($res[0]->sum_of_advance_adjusted_amount) ? $res[0]->sum_of_advance_adjusted_amount  : 0 ;
+		$advance_data['sum_of_advance_adjusted_amount'] =  isset($res[0]->sum_of_advance_adjusted_amount) ? $res[0]->sum_of_advance_adjusted_amount  : 0;
 		return $advance_data;
 	}
 
@@ -2736,6 +2760,11 @@ class Reports_model extends CI_Model
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
+		if (!empty($warehouse_id)) {
+			$this->db->where("a.warehouse_id", $warehouse_id);
+		}
+
+
 
 		$this->db->from("db_customers as b");
 
@@ -2867,6 +2896,10 @@ class Reports_model extends CI_Model
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
+		if (!empty($warehouse_id)) {
+			$this->db->where("a.warehouse_id", $warehouse_id);
+		}
+
 
 
 		//echo $this->db->get_compiled_select();exit();
@@ -2936,7 +2969,10 @@ class Reports_model extends CI_Model
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
-
+		
+		if (!empty($warehouse_id)) {
+			$this->db->where("a.warehouse_id", $warehouse_id);
+		}
 		$this->db->select("
 							a.store_id,
 							a.id,
@@ -3124,6 +3160,9 @@ class Reports_model extends CI_Model
 		}
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
+		}
+		if (!empty($warehouse_id)) {
+			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
 
 		$this->db->select("
@@ -3423,6 +3462,9 @@ class Reports_model extends CI_Model
               						db_sales a";
 		$str1 .= " WHERE 
 						a.customer_id =" . $customer_id;
+		if (!empty($warehouse_id)) {
+			$str1 .= " and a.warehouse_id =" . $warehouse_id;
+		}
 		if (!empty($from_date) && !empty($to_date)) {
 			$str1 .= "  and
 									(sales_date>='" . $from_date . "' and sales_date<='" . $to_date . "') ";
@@ -3439,6 +3481,7 @@ class Reports_model extends CI_Model
 									`db_salespayments` b";
 		$str1 .= " WHERE 
 						b.customer_id =" . $customer_id;
+
 		if (!empty($from_date) && !empty($to_date)) {
 			$str1 .= "  and
 									(b.payment_date>='" . $from_date . "' and b.payment_date<='" . $to_date . "') ";
@@ -3597,6 +3640,7 @@ class Reports_model extends CI_Model
 		extract($_POST);
 		$from_date = system_fromatted_date($from_date);
 		$to_date = system_fromatted_date($to_date);
+		
 		//$this->db->where("(expire_date >='$from_date' and expire_date <='$to_date')");
 		//$this->db->from("db_items");
 		// if($item_id!=''){
@@ -3608,8 +3652,13 @@ class Reports_model extends CI_Model
 		//echo $this->db->get_compiled_select();exit();
 		//$q1=$this->db->get();
 		$i = 1;
-		$qs5 = "SELECT id,item_code,item_name,sales_price ,expire_date FROM db_items where status=1  and expire_date >='$from_date' and expire_date <='$to_date'" . " ORDER BY id desc limit 10";
-		$q5 = $this->db->query($qs5);
+		$str = "SELECT id,item_code,item_name,sales_price ,expire_date FROM db_items where status=1  and expire_date >='$from_date' and expire_date <='$to_date'";
+		if (!empty($warehouse_id)) {
+			$str .="and warehouse_id=".$warehouse_id." ORDER BY id desc limit 10";
+			//$q5->db->where("warehouse_id", $warehouse_id);
+		}
+		$q5 = $this->db->query($str);
+		
 		if ($q5->num_rows() > 0) {
 
 			foreach ($q5->result() as $res1) {

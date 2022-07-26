@@ -43,6 +43,16 @@
                                     echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
                                     }?>
                                  <!-- Store Code end -->
+											<div class="form-group">
+                               <!-- Warehouse Code -->
+										 <?php 
+                                 
+											if(true) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true','show_all_option'=>true)); }else{
+												echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+											}
+										  ?>
+										  <!-- Warehouse Code end -->
+										  </div>
                                  <label for="supplier_id" class="col-sm-2 control-label"><?= $this->lang->line('supplier_name'); ?></label>
                                  <div class="col-sm-3">
                                     <select class="form-control select2 " id="supplier_id" name="supplier_id" ">
@@ -158,7 +168,7 @@
            var from_date=document.getElementById("from_date").value;
            var to_date=document.getElementById("to_date").value;
            var supplier_id=document.getElementById("supplier_id").value;
-         
+			  var warehouse_id=document.getElementById("warehouse_id").value;
          if(from_date == "")
              {
                  toastr["warning"]("Select From Date!");
@@ -175,7 +185,7 @@
          
            
                $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-               $.post("show_purchase_payments_report",{supplier_id:supplier_id,from_date:from_date,to_date:to_date,store_id:$("#store_id").val()},function(result){
+               $.post("show_purchase_payments_report",{warehouse_id:warehouse_id,supplier_id:supplier_id,from_date:from_date,to_date:to_date,store_id:$("#store_id").val()},function(result){
                  //alert(result);
                    setTimeout(function() {
                     $("#tbodyid").empty().append(result);     

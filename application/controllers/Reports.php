@@ -320,6 +320,7 @@ class Reports extends MY_Controller {
 	
 	//Sales & payments records 
 	public function sales_and_payments(){
+		
 		$this->permission_check('sales_report');
 		$data=$this->data;
 		$data['page_title']=$this->lang->line('sales_and_payments_report');

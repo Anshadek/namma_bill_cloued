@@ -45,6 +45,17 @@
                                   <!-- Store Code end -->
                                 </div>
 
+										 <div class="form-group">
+                               <!-- Warehouse Code -->
+										 <?php 
+                                 
+											if(true) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true','show_all_option'=>true)); }else{
+												echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+											}
+										  ?>
+										  <!-- Warehouse Code end -->
+										  </div>
+
 
                               <div class="form-group">
                                  <label for="from_date" class="col-sm-2 control-label"><?= $this->lang->line('from_date'); ?></label>
@@ -207,6 +218,7 @@
             var from_date=document.getElementById("from_date").value;
             var to_date=document.getElementById("to_date").value;
             var supplier_id=document.getElementById("supplier_id").value;
+				var warehouse_id=document.getElementById("warehouse_id").value;
 
 
             if(from_date == "")
@@ -224,7 +236,7 @@
             }
 
             $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-            $.post($("#base_url").val()+"reports/show_purchase_gst_report",{from_date:from_date,to_date:to_date,store_id:$("#store_id").val(),warehouse_id:$("#warehouse_id").val(),supplier_id:supplier_id},function(result){
+            $.post($("#base_url").val()+"reports/show_purchase_gst_report",{warehouse_id:warehouse_id,from_date:from_date,to_date:to_date,store_id:$("#store_id").val(),warehouse_id:$("#warehouse_id").val(),supplier_id:supplier_id},function(result){
                 //alert(result);
                 setTimeout(function() {
                 $("#tbodyid").empty().append(result);     

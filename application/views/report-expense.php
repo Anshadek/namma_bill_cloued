@@ -43,6 +43,16 @@
                                     echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
                                     }?>
                                  <!-- Store Code end -->
+											<div class="form-group">
+                               <!-- Warehouse Code -->
+										 <?php 
+                                 
+											if(true) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true','show_all_option'=>true)); }else{
+												echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+											}
+										  ?>
+										  <!-- Warehouse Code end -->
+										  </div>
                                  <label for="category_id" class="col-sm-2 control-label"><?= $this->lang->line('category_name'); ?></label>
                                  <div class="col-sm-3">
                                     <select class="form-control select2 " id="category_id" name="category_id" ">
@@ -163,7 +173,7 @@
         });
       </script>
       
-      <script src="<?php echo $theme_link; ?>js/report-expense.js"></script>
+      <script src="<?php echo $theme_link; ?>js/report-expense.js?v=1"></script>
       <!-- Make sidebar menu hughlighter/selector -->
       <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>
    </body>

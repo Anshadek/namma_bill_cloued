@@ -12,7 +12,7 @@
 			<div class="form-group">
 		<?php } ?>
 			<?php if(!isset($no_label)){ ?>
-		   <label for="<?=$custom_id;?>" class="<?= $label_length;?> control-label"><?= $label_name; ?><span class="text-danger">*</span> </label>
+		   <label for="<?=$custom_id;?>" class="<?= $label_length;?> control-label"><?= $label_name; ?><span class="text-danger"></span> </label>
 			<?php }?>
 		   <div class="<?= $div_length;?>">
 		      <select class="form-control select2" id="<?=$custom_id;?>" title="Select Store" name="<?=$custom_id;?>"  style="width: 100%;">

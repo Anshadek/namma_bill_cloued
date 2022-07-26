@@ -45,6 +45,16 @@
                                     }?>
                                  <!-- Store Code end -->
                               </div>
+										<div class="form-group">
+                               <!-- Warehouse Code -->
+										 <?php 
+                                 
+											if(true) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true','show_all_option'=>true)); }else{
+												echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+											}
+										  ?>
+										  <!-- Warehouse Code end -->
+										  </div>
                               <div class="form-group">
                                  <!-- Warehouse Code -->
                                   <?php /*if(warehouse_module() && warehouse_count()>1) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true','show_all_option'=>true)); }else{
@@ -155,7 +165,7 @@
       <?php include"comman/code_js_export.php"; ?>
       <script src="<?php echo $theme_link; ?>js/sheetjs.js" type="text/javascript"></script>
       
-      <script src="<?php echo $theme_link; ?>js/report-supplier_items.js"></script>
+      <script src="<?php echo $theme_link; ?>js/report-supplier_items.js?v=1"></script>
       <script type="text/javascript">
          var base_url=$("#base_url").val();
          $("#store_id").on("change",function(){
