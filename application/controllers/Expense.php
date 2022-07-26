@@ -74,6 +74,7 @@ class Expense extends MY_Controller {
 			$no++;
 			$row = array();
 			$row[] = '<input type="checkbox" name="checkbox[]" value='.$expense->id.' class="checkbox column_checkbox" >';
+			$row[] = $expense->warehouse_name;
 			$row[] = show_date($expense->expense_date);
 			$row[] = $expense->category_name;
 			$row[] = $expense->reference_no;

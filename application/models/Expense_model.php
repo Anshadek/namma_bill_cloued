@@ -6,7 +6,7 @@ class Expense_model extends CI_Model {
 	//Datatable start
 	var $table = 'db_expense as a';
 	var $column_order = array('a.id','a.expense_date','b.category_name','a.reference_no','a.expense_for','a.expense_amt','a.account_id','a.note','a.created_by','a.store_id'); //set column field database for datatable orderable
-	var $column_search = array('a.id','a.expense_date','b.category_name','a.reference_no','a.expense_for','a.expense_amt','a.account_id','a.note','a.created_by','a.store_id'); //set column field database for datatable searchable 
+	var $column_search = array('w.warehouse_name','a.id','a.expense_date','b.category_name','a.reference_no','a.expense_for','a.expense_amt','a.account_id','a.note','a.created_by','a.store_id'); //set column field database for datatable searchable 
 	var $order = array('a.id' => 'desc'); // default order 
 
 	public function __construct()
@@ -20,11 +20,15 @@ class Expense_model extends CI_Model {
 		$this->db->select($this->column_search);
 		$this->db->from($this->table);
 		$this->db->join('db_expense_category as b','b.id=a.category_id','left');
+		$this->db->join('db_warehouse as w','w.id=a.warehouse_id','left');
 		
 		//if not admin
 		//if(!is_admin()){
 			$this->db->where("a.store_id",get_current_store_id());
 		//}
+		if ($_POST['warehouse_id'] != ""){
+			$this->db->where("a.warehouse_id",$_POST['warehouse_id']);
+		}
 	     if(!is_admin()){
 	      	if($this->session->userdata('role_id')!='2'){
 	      		if(!permissions('show_all_users_expenses')){
@@ -99,6 +103,7 @@ class Expense_model extends CI_Model {
 						'count_id' 					=> get_count_id('db_expense'), 
 	    				'expense_code' 				=> $expense_code,
 	    				'category_id' 				=> $category_id,
+						'warehouse_id' 				=> $warehouse_id,
 	    				'expense_for' 				=> $expense_for,
 	    				'expense_amt' 				=> $expense_amt,
 	    				'reference_no' 				=> $reference_no,
@@ -163,7 +168,9 @@ class Expense_model extends CI_Model {
 		else{
 			$query=$query->row();
 			$data['q_id']=$query->id;
-			$data['expense_code']=$query->expense_code;			
+			$data['expense_code']=$query->expense_code;		
+			$data['warehouse_id']=$query->warehouse_id;		
+			
 			$data['expense_date']=show_date($query->expense_date);
 			$data['category_id']=$query->category_id;
 			$data['reference_no']=$query->reference_no;

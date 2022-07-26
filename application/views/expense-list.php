@@ -37,6 +37,24 @@
             <!-- ********** ALERT MESSAGE END******* -->
         <div class="col-xs-12">
           <div class="box box-primary">
+					<div class="box-header with-border">
+								
+
+								<!-- Warehouse Code -->
+								<?php if (warehouse_module() && warehouse_count() > 1) {
+									echo '<div class="col-md-4">';
+									$this->load->view('warehouse/warehouse_code', array(
+										'show_warehouse_select_box' => true, 'div_length' => '',
+										'label_length' => '', 'show_all' => 'true', 'show_all_option' => true, 'remove_star' => true
+									));
+									echo '</div>';
+								} else {
+									echo "<input type='hidden' name='' id='warehouse_id' value='" . get_store_warehouse_id() . "'>";
+								} ?>
+								<!-- Warehouse Code end -->
+
+								
+							</div>
             <div class="box-header ">
               <h3 class="box-title">&nbsp;</h3>
               <?php if($CI->permissions('expense_add')) { ?>
@@ -54,7 +72,7 @@
                   <th class="text-center">
                     <input type="checkbox" class="group_check checkbox" >
                   </th>
-                  <!-- <th><?= $this->lang->line('store_name'); ?></th> -->
+                   <th><?= $this->lang->line('warehouse'); ?></th>
                   <th><?= $this->lang->line('date'); ?></th>
                   <th><?= $this->lang->line('category'); ?></th>
                   <th><?= $this->lang->line('reference_no'); ?></th>
@@ -81,6 +99,7 @@
                       <th></th>
                       <th></th><!-- 7 -->
                       <th></th><!-- 7 -->
+											<th></th><!-- 7 -->
                   </tr>
               </tfoot>
                
@@ -113,6 +132,9 @@
 <script type="text/javascript">
 $(document).ready(function() {
     //datatables
+		load_datatable();
+		
+		function load_datatable(show_account_receivable = 'unchecked') {
    var table = $('#example2').DataTable({ 
 
       /* FOR EXPORT BUTTONS START*/
@@ -149,7 +171,9 @@ $(document).ready(function() {
         "ajax": {
             "url": "<?php echo site_url('expense/ajax_list')?>",
             "type": "POST",
-            
+            "data": {
+						warehouse_id: $('#warehouse_id').val(),
+					},
             complete: function (data) {
              $('.column_checkbox').iCheck({
                 checkboxClass: 'icheckbox_square-orange',
@@ -199,7 +223,13 @@ $(document).ready(function() {
         
     });
     new $.fn.dataTable.FixedHeader( table );
+	}
+	$("#warehouse_id").on("change", function() {
+			$('#example2').DataTable().destroy();
+			load_datatable();
+		});
 });
+
 </script>
 
 <script src="<?php echo $theme_link; ?>js/expense.js"></script>
