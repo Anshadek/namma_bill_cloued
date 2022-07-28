@@ -175,7 +175,7 @@
                            <div class="form-group col-md-4">
                               <div id="expiry_date_div">
                                  <label for="expiry_date"> Expiry Date </label>
-                                 <input type="date" class="form-control only_currency" id="expiry_date" name="expiry_date" value="<?php print $expire_date; ?>">
+                                 <input type="date" class="form-control only_currency" id="expiry_date" name="expiry_date" value="<?php print isset($expire_date)?$expire_date : '' ?>">
                                  <span style="display:none" class="text-danger"></span>
                               </div>
                            </div>
@@ -257,7 +257,7 @@
 
                         </div>
 								<?php
-								if ($q_id == 0 || isset($q_id) == false) {
+								if ( isset($q_id) == false || $q_id == 0 ) {
 								?>
                         <div class="row variant_div">
                            <div class="col-md-12">
@@ -347,7 +347,8 @@
          </section>
          <!-- /.content -->
          <?php
-         if ($q_id > 0) {
+            
+         if (isset($q_id) && $q_id > 0) {
             $i = 1;
             $qs5 = "SELECT adjustment_qty,id,updated_at,adjustment_id  FROM db_stockadjustmentitems where  item_id=" .$q_id. " ORDER BY id desc";
             $q5 = $this->db->query($qs5);
