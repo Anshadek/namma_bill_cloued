@@ -3,11 +3,18 @@
 function get_warehouse_customers(datas){
 			var warehouse_id = 0;
 			var selected = $('#selected_warehouse').val();
+			if (selected > 0){
+
+			}else{
+				selected = 0;
+			}
+			
 			if (datas > 0){
 				warehouse_id = datas;
 			}else{
 				warehouse_id = datas.value;
 			}
+			
 			
 			var base_url = $('#base_url').val();
 			$.ajax({
@@ -15,8 +22,9 @@ function get_warehouse_customers(datas){
 				type: "post",
 				data: {
 					//store_id: $("#store_id").val(),
+					warehouse_id : warehouse_id,
 					selected : selected,
-					warehouse_id: warehouse_id,
+					
 				},
 				beforeSend: function() {
 					$('.ajax-load').show();

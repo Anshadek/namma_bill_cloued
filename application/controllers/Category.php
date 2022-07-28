@@ -66,6 +66,7 @@ class Category extends MY_Controller {
 			$row = array();
 			$row[] = '<input type="checkbox" name="checkbox[]" value='.$category->id.' class="checkbox column_checkbox" >';
 			
+			$row[] = $category->warehouse_name;
 			$row[] = $category->category_name;
 			$row[] = $category->description;
 

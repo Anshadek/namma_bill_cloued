@@ -44,6 +44,20 @@
                                      }?>
                                   <!-- Store Code end -->
                                 </div>
+										  
+										<div class="form-group">
+                                  
+											 <label for="customer_id" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?></label>
+											 <div class="col-sm-3">
+												<!-- Warehouse Code -->
+												<select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_customers(this)" style="width: 100%;">
+											 <?= get_warehouse_select_list($warehouse_id); ?>
+										 </select>
+								 <!-- Warehouse Code end -->
+											 </div>
+ 
+										 </div>
+										 
                                 <div class="form-group">
                                   
                                  <label for="customer_id" class="col-sm-2 control-label"><?= $this->lang->line('customer_name'); ?></label>
@@ -146,7 +160,7 @@
       <?php include"comman/code_js_export.php"; ?>
 
       <script src="<?php echo $theme_link; ?>js/sheetjs.js" type="text/javascript"></script>
-      
+      <script src="<?php echo $theme_link; ?>js/warehouse_filter.js"></script>
       <script type="text/javascript">
         var base_url=$("#base_url").val();
         $("#store_id").on("change",function(){
@@ -166,7 +180,7 @@
          $("#view,#view_all").on("click",function(){
          var within_date=document.getElementById("within_date").value;
          var customer_id=document.getElementById("customer_id").value;
-   
+			var warehouse_id = document.getElementById("warehouse_id").value;
          if(this.id=="view_all"){
              var view_all='yes';
            }
@@ -175,7 +189,7 @@
         }
       
         $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-        $.post($("#base_url").val()+"reports/show_customer_advance",{customer_id:customer_id,view_all:view_all,within_date:within_date,store_id:$("#store_id").val()},function(result){
+        $.post($("#base_url").val()+"reports/show_customer_advance",{warehouse_id:warehouse_id,customer_id:customer_id,view_all:view_all,within_date:within_date,store_id:$("#store_id").val()},function(result){
           //alert(result);
             setTimeout(function() {
              $("#tbodyid").empty().append(result);     
@@ -184,6 +198,16 @@
            });
      });
       </script>
+		<script>
+	$( document ).ready(function() {
+	warehouse_id = $('#warehouse_id').val();
+	var selected = $('#selected_warehouse').val();
+	if (selected > 0){
+		warehouse_id = selected;
+	}
+    get_warehouse_customers(warehouse_id)
+});
+</script>
       
       <!-- Make sidebar menu hughlighter/selector -->
       <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li , .reports-menu").addClass("active");</script>

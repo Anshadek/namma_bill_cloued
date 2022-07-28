@@ -49,7 +49,20 @@
                       <input type="checkbox" name="show_account_payble" id='show_account_payble'> <?= $this->lang->line('view_account_payble_suppliers'); ?>
                       </label>
                     </div>
+										
                 </div>
+								<!-- Warehouse Code -->
+								<?php if (warehouse_module() && warehouse_count() > 1) {
+									echo '<div class="col-md-4">';
+									$this->load->view('warehouse/warehouse_code', array(
+										'show_warehouse_select_box' => true, 'div_length' => '',
+										'label_length' => '', 'show_all' => 'true', 'show_all_option' => true, 'remove_star' => true
+									));
+									echo '</div>';
+								} else {
+									echo "<input type='hidden' name='' id='warehouse_id' value='" . get_store_warehouse_id() . "'>";
+								} ?>
+								<!-- Warehouse Code end -->
               <?php if($CI->permissions('suppliers_add')) { ?>
               <div class="box-tools">
                 <a class="btn btn-block btn-info" href="<?php echo $base_url; ?>suppliers/add">
@@ -172,7 +185,8 @@ function load_datatable(show_account_payble='unchecked'){
             "url": "<?php echo site_url('suppliers/ajax_list')?>",
             "type": "POST",
             "data": {
-                      show_account_payble: show_account_payble
+                      show_account_payble: show_account_payble,
+											warehouse_id: $('#warehouse_id').val()
                     },
             complete: function (data) {
              $('.column_checkbox').iCheck({

@@ -1,7 +1,10 @@
 $("#item_search").autocomplete({
+	
     source: function(data, cb){
+			
         $.ajax({
         	autoFocus:true,
+					
             url: $("#base_url").val()+'items/get_json_items_details',
             method: 'GET',
             dataType: 'json',
@@ -13,6 +16,7 @@ $("#item_search").autocomplete({
             data: {
                 name: data.term,
                 store_id:$("#store_id").val(),
+								"warehouse_id" : $('#warehouse_id').val(),
                 search_for:'labels',
                 //warehouse_id:$("#warehouse_id").val(),
             },

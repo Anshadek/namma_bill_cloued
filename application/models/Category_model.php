@@ -4,19 +4,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Category_model extends CI_Model {
 
 	var $table = 'db_category';
-	var $column_order = array('category_code','category_name','description','status','store_id'); //set column field database for datatable orderable
-	var $column_search = array('category_code','category_name','description','status','store_id'); //set column field database for datatable searchable 
-	var $order = array('id' => 'desc'); // default order 
+	var $column_order = array('category_code','category_name','description','status','store_id','w.warehouse_name'); //set column field database for datatable orderable
+	var $column_search = array('category_code','category_name','description','status','store_id','w.warehouse_name'); //set column field database for datatable searchable 
+	var $order = array('db_category.id' => 'desc'); // default order 
 
 	private function _get_datatables_query()
 	{
 		
 		$this->db->from($this->table);
+		$this->db->from('db_warehouse as w','w.id = db_category.warehouse_id','left');
+		
 		//if not admin
 		//if(!is_admin()){
-			$this->db->where("store_id",get_current_store_id());
+			$this->db->where("db_category.store_id",get_current_store_id());
+			
 		//}
-
+		
+			if($_POST['warehouse_id'] != ""){
+				$this->db->where('db_category.warehouse_id',$_POST['warehouse_id']);
+			}
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 

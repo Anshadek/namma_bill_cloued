@@ -19,7 +19,7 @@
 		?>
 		<?php if(!isset($form_group_remove)){ ?>
 			<div class="form-group warehouse_parent">
-		<?php } ?>
+		<?php }  ?>
 			<?php if(!isset($no_label)){ ?>
 		   <label for="<?=$selection_box_id;?>" class="<?= $label_length;?> control-label">
 		   		<?php if(isset($label)){ 
@@ -29,8 +29,8 @@
 		   			  	echo $this->lang->line('warehouse');
 		   			  }
 		   			?>
-		   	<span class="text-danger">*</span> </label>
-			<?php }?>
+		   	<span class="text-danger"></span> </label>
+			<?php } ?>
 		   <div class="<?= $div_length;?>">
 		      <select class="form-control select2" id="<?=$selection_box_id;?>" <?=$multiple;?> <?=$data_placeholder;?> title="Select Warehouse" name="<?=$selection_box_name;?>"  style="width: 100%;">
 		         <?php

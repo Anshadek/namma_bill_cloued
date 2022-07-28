@@ -4,19 +4,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Brand_model extends CI_Model {
 
 	var $table = 'db_brands';
-	var $column_order = array(null, 'brand_code','brand_name','description','status'); //set column field database for datatable orderable
-	var $column_search = array('brand_code','brand_name','description','status'); //set column field database for datatable searchable 
-	var $order = array('id' => 'desc'); // default order 
+	var $column_order = array(null, 'brand_code','brand_name','description','status','w.warehouse_name'); //set column field database for datatable orderable
+	var $column_search = array('brand_code','brand_name','description','status','w.warehouse_name'); //set column field database for datatable searchable 
+	var $order = array('db_brands.id' => 'desc'); // default order 
 
 	private function _get_datatables_query()
 	{
 		
 		$this->db->from($this->table);
+		
+		$this->db->join('db_warehouse as w','w.id=db_brands.warehouse_id','left');
 		//if not admin
 		//if(!is_admin()){
-			$this->db->where("store_id",get_current_store_id());
+			$this->db->where("db_brands.store_id",get_current_store_id());
 		//}
-		
+		if ($_POST['warehouse_id'] != ""){
+			$this->db->where('db_brands.warehouse_id',$_POST['warehouse_id']);
+		}
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 

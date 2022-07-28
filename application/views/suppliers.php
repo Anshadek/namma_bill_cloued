@@ -63,6 +63,16 @@
                                        <span id="supplier_name_msg" style="display:none" class="text-danger"></span>
                                     </div>
                                  </div>
+											<div class="form-group">
+                                    <label for="warehouse_name" class="col-sm-4 control-label"><?= $this->lang->line('warehouse_name'); ?><label class="text-danger">*</label></label>
+                                    <div class="col-sm-8">
+												<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                                       <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                                    </div>
+                                 </div>
+											
                                  <div class="form-group">
                                     <label for="mobile" class="col-sm-4 control-label"><?= $this->lang->line('mobile'); ?><label class="text-danger">*</label></label>
                                     <div class="col-sm-8">

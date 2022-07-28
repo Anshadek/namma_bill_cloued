@@ -93,7 +93,7 @@ class Pos_model extends CI_Model {
 
 	        	$item_sales_price = get_price_level_price($customer_id,$res2->sales_price);
 				$item_sales_price = number_format($item_sales_price,2,'.','');
-
+					
 	        	$item_cost = $res2->purchase_price;
 	        	$item_tax = $res2->tax;
 	        	$item_tax_name = $res2->tax_name;

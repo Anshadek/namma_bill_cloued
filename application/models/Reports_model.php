@@ -2759,6 +2759,9 @@ class Reports_model extends CI_Model
 		if ($customer_id != '') {
 			$this->db->where("b.customer_id=$customer_id");
 		}
+		// if ($warehouse_id != '') {
+		// 	$this->db->where("a.warehouse_id=$warehouse_id");
+		// }
 		// if ($within_date != ''){
 		// 	$this->db->where("b.created_date=$within_date");
 		// }

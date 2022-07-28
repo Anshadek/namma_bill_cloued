@@ -102,6 +102,13 @@
                                           
                                           
                                             <div class="col-md-8 col-md-offset-2 d-flex justify-content" >
+														  <!-- <label for="credit_limit" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?></label> -->
+                                       <div class="col-sm-4">
+													<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                                       </div>
                                               <div class="input-group">
                                                 <span class="input-group-addon" title="Select Items"><i class="fa fa-barcode"></i></span>
                                                  <input type="text" class="form-control " placeholder="Item name/Barcode/Itemcode" id="item_search">
@@ -217,7 +224,7 @@
 </div>
 <!-- ./wrapper -->
 
-      <script src="<?php echo $theme_link; ?>js/labels.js"></script>  
+      <script src="<?php echo $theme_link; ?>js/labels.js?v=1"></script>  
       <script>
        
         var base_url=$("#base_url").val();

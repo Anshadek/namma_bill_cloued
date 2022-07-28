@@ -667,6 +667,7 @@
 	<script src="<?php echo $theme_link; ?>js/fullscreen.js"></script>
 	<script src="<?php echo $theme_link; ?>js/modals.js?ver=2"></script>
 	<script src="<?php echo $theme_link; ?>js/modals/modal_item.js"></script>
+	<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=2"></script>
 
 	<!-- DROP DOWN -->
 	<script src="<?php echo $theme_link; ?>dist/js/bootstrap3-typeahead.min.js"></script>
@@ -706,16 +707,17 @@
 
 		/*Warehouse*/
 		// $("#warehouse_id").on("change",function(){
-		function get_warehouse_details(warehouse_id) {
-			warehouse_id = $('#warehouse_id').val(warehouse_id.value);
+		function get_warehouse_details(res) {
+			warehouse_id = $('#warehouse_id').val(res.value);
 			//alert(warehouse_id.value);
 			$(".items_table > tbody").empty();
-			enable_disable_customer();
+			get_warehouse_customers(res);
 			get_categories_select_list();
 			get_brand_select_list();
 			get_account();
 			get_details(null, true);
 			final_total();
+			
 		}
 
 		// });
@@ -1153,6 +1155,7 @@
 			$("#store_id").trigger('change');
 			//FIRST TIME: LOAD
 			get_details();
+			get_warehouse_customers(warehouse_id)
 
 			var first_div = parseFloat($(".content-wrapper").height());
 			var second_div = parseFloat($("section").height());

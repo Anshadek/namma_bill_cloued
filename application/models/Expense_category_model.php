@@ -4,19 +4,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Expense_category_model extends CI_Model {
 
 	var $table = 'db_expense_category';
-	var $column_order = array( 'category_name','description','status','store_id'); //set column field database for datatable orderable
-	var $column_search = array('category_name','description','status'); //set column field database for datatable searchable 
-	var $order = array('id' => 'desc'); // default order 
+	var $column_order = array( 'category_name','description','status','store_id','w.warehouse_name'); //set column field database for datatable orderable
+	var $column_search = array('category_name','description','status','w.warehouse_name'); //set column field database for datatable searchable 
+	var $order = array('db_expense_category.id' => 'desc'); // default order 
 
 	private function _get_datatables_query()
 	{
 		
 		$this->db->from($this->table);
+		$this->db->select('db_expense_category.*,w.warehouse_name');
 		//if not admin
 		//if(!is_admin()){
-			$this->db->where("store_id",get_current_store_id());
+		$this->db->where("db_expense_category.store_id",get_current_store_id());
+			$this->db->join("db_warehouse as w",'w.id = db_expense_category.warehouse_id','left');
 		//}
+			if($_POST['warehouse_id']!= ""){
+				$this->db->where("warehouse_id",$_POST['warehouse_id']);
 
+			}
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -95,6 +100,7 @@ class Expense_category_model extends CI_Model {
 			
 			$info = array(
 		    				'category_code' 		=> $cat_code,
+							'warehouse_id' 		=> $warehouse_id,
 		    				'category_name' 			=> $category,
 		    				'description' 				=> $description,
 		    				/*System Info*/
@@ -125,6 +131,7 @@ class Expense_category_model extends CI_Model {
 		else{
 			$query=$query->row();
 			$data['q_id']=$query->id;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['category_code']=$query->category_code;
 			$data['category_name']=$query->category_name;
 			$data['description']=$query->description;
@@ -146,7 +153,9 @@ class Expense_category_model extends CI_Model {
 		else{
 			$info = array(
 		    				'category_name' 			=> $category,
+							'warehouse_id' 			=> $warehouse_id,
 		    				'description' 				=> $description,
+							
 		    			);
 			
 			$info['store_id']=(store_module() && is_admin()) ? $store_id : get_current_store_id();	

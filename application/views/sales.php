@@ -703,6 +703,7 @@
 
 		<script src="<?php echo $theme_link; ?>js/modals.js"></script>
 		<script src="<?php echo $theme_link; ?>js/modals/modal_item.js"></script>
+		<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=2"></script>
 		<!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
 		<div class="control-sidebar-bg"></div>
@@ -761,21 +762,21 @@
 		/*Warehouse*/
 		function get_warehouse_details(res) {
 			warehouse_id = $('#warehouse_id').val(res.value);
-			enable_disable_customer();
+			get_warehouse_customers(res.value);
 			$("#sales_table > tbody").empty();
 			final_total();
 		}
 
-		function enable_disable_customer() {
-			var warehouse_id = $("#warehouse_id").val();
-			$("#customer_id").select2();
-			if ($('#old_warehouse_selected_id').val() > 0) {
-				old_warehouse = $('#old_warehouse_selected_id').val();
-				$("#customer_id option[data-selected-warehouse_id='" + old_warehouse + "']").prop("disabled", true);
-			}
-			$("#customer_id option[data-selected-warehouse_id='" + warehouse_id + "']").prop("disabled", false);
-			$('#old_warehouse_selected_id').val(warehouse_id);
-		}
+		// function enable_disable_customer() {
+		// 	var warehouse_id = $("#warehouse_id").val();
+		// 	$("#customer_id").select2();
+		// 	if ($('#old_warehouse_selected_id').val() > 0) {
+		// 		old_warehouse = $('#old_warehouse_selected_id').val();
+		// 		$("#customer_id option[data-selected-warehouse_id='" + old_warehouse + "']").prop("disabled", true);
+		// 	}
+		// 	$("#customer_id option[data-selected-warehouse_id='" + warehouse_id + "']").prop("disabled", false);
+		// 	$('#old_warehouse_selected_id').val(warehouse_id);
+		// }
 
 		/*Warehouse end*/
 
@@ -1009,6 +1010,7 @@
 		$(document).ready(function() {
 			var warehouse_id = $("#warehouse_id").val();
 			$('#old_warehouse_selected_id').val(warehouse_id);
+			get_warehouse_customers(warehouse_id)
 			set_previous_due();
 		});
 

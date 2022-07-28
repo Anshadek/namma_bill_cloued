@@ -223,12 +223,12 @@ $sales_due_total = $this->db->select("COALESCE(SUM(sales_due),0) AS sales_due")-
               <div class="row">
 
                 <div class="col-md-12">
-
+							
                 <!-- Warehouse Code -->
                 <?php if (warehouse_module() && warehouse_count() > 1) {
 	echo '<div class="col-md-4">';
 	$this->load->view('warehouse/warehouse_code', array('show_warehouse_select_box' => true, 'div_length' => '',
-		'label_length' => '', 'show_all' => 'true', 'show_all_option' => true, 'remove_star' => true));
+		'label_length' => '', 'show_all' => 'true','show_all_option' => true, 'remove_star' => true));
 	echo '</div>';
 } else {
 	echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='" . get_store_warehouse_id() . "'>";

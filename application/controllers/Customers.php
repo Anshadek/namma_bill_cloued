@@ -231,11 +231,11 @@ class Customers extends MY_Controller {
 	}
 
 	function get_warehouse_customers_select_list(){
-	   //if not admin
-	   $select_id = $_POST['selected'];
+	   $select_id = isset($_POST['selected']) ? $_POST['selected'] : 0;
 	   $q1=$this->db->select("*")
 	   ->where("status=1")
 	   ->where('warehouse_id',$_POST['warehouse_id'])
+	   ->or_where('delete_bit',1)
 	   ->from("db_customers")->get();
 
 	   $str='';

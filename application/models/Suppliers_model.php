@@ -21,6 +21,9 @@ class Suppliers_model extends CI_Model {
       $this->db->where("(a.purchase_due>0 or a.opening_balance>0)");
     }
 
+		if($_POST['warehouse_id']!= ""){
+      $this->db->where("a.warehouse_id",$_POST['warehouse_id']);
+    }
 		$this->db->select($this->column_order);
 		$this->db->from($this->table);
 		//if not admin
@@ -120,6 +123,7 @@ class Suppliers_model extends CI_Model {
                 'supplier_code'         => get_init_code('supplier'), 
                 'supplier_name'         => $supplier_name,
                 'mobile'          => $mobile,
+								'warehouse_id'          => $warehouse_id,
                 'phone'         => $phone,
                 'email'             => $email,
                 'country_id'           => $country,
@@ -166,6 +170,7 @@ class Suppliers_model extends CI_Model {
       $data['store_id']=$query->store_id;
 			$data['supplier_name']=$query->supplier_name;
 			$data['mobile']=$query->mobile;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['phone']=$query->phone;
 			$data['email']=$query->email;
 			$data['country_id']=$query->country_id;
@@ -198,6 +203,7 @@ class Suppliers_model extends CI_Model {
         $info = array(
                     'supplier_name'         => $supplier_name,
                     'mobile'          => $mobile,
+										'warehouse_id'          => $warehouse_id,
                     'phone'         => $phone,
                     'email'             => $email,
                     'country_id'           => $country,
@@ -307,6 +313,7 @@ class Suppliers_model extends CI_Model {
 
     $supplier_name=$res2->supplier_name;
       $supplier_mobile=$res2->mobile;
+			
       $supplier_phone=$res2->phone;
       $supplier_email=$res2->email;
       $supplier_country=$res2->country_id;

@@ -175,10 +175,11 @@ class Expense extends MY_Controller {
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $category) {
+			
 			$no++;
 			$row = array();
 			$row[] = '<input type="checkbox" name="checkbox[]" value='.$category->id.' class="checkbox column_checkbox" >';
-			
+			$row[] = $category->warehouse_name;
 			$row[] = $category->category_name;
 			$row[] = $category->description;
 

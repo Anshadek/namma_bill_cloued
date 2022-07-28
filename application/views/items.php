@@ -419,7 +419,7 @@
    <?php include "comman/code_js.php"; ?>
 	
 	
-   <script src="<?php echo $theme_link; ?>js/items.js?ver=2"></script>
+   <script src="<?php echo $theme_link; ?>js/items.js?ver=3"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js"></script>
    <script type="text/javascript">
       $("#discount_type").val('<?= $discount_type; ?>');
