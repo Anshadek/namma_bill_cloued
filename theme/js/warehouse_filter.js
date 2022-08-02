@@ -94,4 +94,67 @@ function get_warehouse_accounts_expense(datas){
 	}).fail(function(jqXHR, ajaxOptions, thrownError) {
 		alert('server not responding...');
 	});
+
+
+	
+}
+function get_warehouse_accounts_select_list(datas){
+	var warehouse_id = 0;
+	var selected = $('#selected_warehouse').val();
+	if (datas > 0){
+		warehouse_id = datas;
+	}else{
+		warehouse_id = datas.value;
+	}
+	
+	var base_url = $('#base_url').val();
+	$.ajax({
+		url: base_url+'Money_transfer/get_warehouse_accounts_select_list_for_create_account',
+		type: "post",
+		data: {
+			//store_id: $("#store_id").val(),
+			selected : selected,
+			warehouse_id: warehouse_id,
+		},
+		beforeSend: function() {
+			$('.ajax-load').show();
+		}
+	}).done(function(data) {
+		$('#parent_id').html(data);
+		//$('#credit_account_id').html(data);
+		
+
+	}).fail(function(jqXHR, ajaxOptions, thrownError) {
+		alert('server not responding...');
+	});
+}
+function get_warehouse_expense_category(datas){
+	var warehouse_id = 0;
+	var selected = $('#selected_warehouse').val();
+	if (datas > 0){
+		warehouse_id = datas;
+	}else{
+		warehouse_id = datas.value;
+	}
+	
+	var base_url = $('#base_url').val();
+	$.ajax({
+		url: base_url+'expense/get_warehouse_expense_category',
+		type: "post",
+		data: {
+			//store_id: $("#store_id").val(),
+			selected : selected,
+			warehouse_id: warehouse_id,
+		},
+		beforeSend: function() {
+			$('.ajax-load').show();
+		}
+	}).done(function(data) {
+		$('#category_id').html(data);
+		//$('#credit_account_id').html(data);
+		
+
+	}).fail(function(jqXHR, ajaxOptions, thrownError) {
+		alert('server not responding...');
+	});
 }

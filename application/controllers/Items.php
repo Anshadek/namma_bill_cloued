@@ -364,11 +364,13 @@ class Items extends MY_Controller {
 		$data = array();
 		$display_json = array();
 			$name = strtolower(trim($_GET['name']));
+			$warehouse_id = strtolower(trim($_GET['warehouse_id']));
 
 				$this->db->select("id,variant_name,description");
 				$this->db->from("db_variants");
 				$this->db->where("(UPPER(variant_name) LIKE UPPER('%$name%') OR (UPPER(description) LIKE UPPER('%$name%')))");
 				$this->db->where("status=1");
+				$this->db->where("warehouse_id",$warehouse_id);
 				$this->db->where("store_id",get_current_store_id());
 			$this->db->limit("10");
 			//$this->db->get_compiled_select();exit;

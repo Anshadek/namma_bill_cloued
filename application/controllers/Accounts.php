@@ -147,6 +147,39 @@ class Accounts extends MY_Controller {
 		$ids=implode (",",$_POST['checkbox']);
 		echo $this->accounts->delete_accounts_from_table($ids);
 	}
+
+
+	function get_warehouse_accounts_select_list(){
+		$this->db->where("store_id",get_current_store_id());
+		//$this->db->where("warehouse_id",$_POST['warehouse_id']);
+	   $this->db->select("*")->where("status=1")->from("ac_accounts");
+	   $this->db->order_by("sort_code");
+	   $q1=$this->db->get();
+	   $select_id = '';
+	   $str='';
+		if($q1->num_rows($q1)>0)
+		 {  
+			 $str.='<option value="">-CREATE ACCOUNT HEAD-</option>'; 
+			 foreach($q1->result() as $res1)
+		   { 
+			 $selected = ($select_id==$res1->id)? 'selected' : '';
+			 
+				 $str.= ($res1->parent_id==0) ? '<optgroup class="bg-yellow" label="'.$res1->account_name.'">' : '';
+			 $str.="<option $selected data-account-name='".$res1->account_name."' value='".$res1->id."'>";
+					 $str.=add_dash($res1->account_name,$res1->parent_id,$res1->sort_code);
+				 
+			 $str.="</option>";	
+				 $str.= ($res1->parent_id==0) ? '</optgroup>' : '';
+			 
+		   //  echo get_accounts_select_list_sub(null,$res1->id);
+		   }
+		 }
+		 else
+		 {
+			 //$str.='<option value="">No Records Found</option>'; 
+		 }
+		 return $str;
+  }
 	
 
 

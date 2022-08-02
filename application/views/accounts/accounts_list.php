@@ -45,6 +45,16 @@
                 <i class="fa fa-plus"></i> <?= $this->lang->line('add_account'); ?></a>
               </div>
               <?php } ?>
+              <div class="col-md-3">
+                    <div class="form-group">
+                       <label for="debit_account_id"><?= $this->lang->line('warehouse'); ?> </label></label>
+											 <select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_accounts(this)" style="width: 100%;">
+                       <option value="">-- select  --</option>         
+											 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                       <span id="debit_account_id_msg" style="display:none" class="text-danger"></span>
+                    </div>
+                  </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -66,6 +76,17 @@
                 <tbody>
 				
                 </tbody>
+                <tfoot>
+                                <tr class="bg-gray">
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+																		<th style="text-align:right">Total</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
                
               </table>
             </div>
@@ -95,7 +116,15 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+
+  load_datatable();
+});
+$("#warehouse_id").on("change",function(){
+      $('#example2').DataTable().destroy();
+      load_datatable();
+  });
     //datatables
+    function load_datatable(){
    var table = $('#example2').DataTable({ 
 
       /* FOR EXPORT BUTTONS START*/
@@ -131,6 +160,10 @@ $(document).ready(function() {
         "ajax": {
             "url": "<?php echo site_url('accounts/ajax_list')?>",
             "type": "POST",
+            "data": {
+                      
+                      warehouse_id: $("#warehouse_id").val(),
+                    },
             
             complete: function (data) {
              $('.column_checkbox').iCheck({
@@ -157,9 +190,40 @@ $(document).ready(function() {
         },
         
         ],
+        /*Start Footer Total*/
+				"footerCallback": function ( row, data, start, end, display ) {
+                      var api = this.api(), data;
+                      // Remove the formatting to get integer data for summation
+                      var intVal = function ( i ) {
+                          return typeof i === 'string' ?
+                              i.replace(/[\$,]/g, '')*1 :
+                              typeof i === 'number' ?
+                                  i : 0;
+                      };
+                      var total = api
+                          .column( 4, { page: 'none'} )
+                          .data()
+                          .reduce( function (a, b) {
+                              return intVal(a) + intVal(b);
+                          }, 0 );
+                      ;
+                      /*var due = api
+                          .column( 8, { page: 'none'} )
+                          .data()
+                          .reduce( function (a, b) {
+                              return intVal(a) + intVal(b);
+                          }, 0 );*/
+                     
+                      //$( api.column( 0 ).footer() ).html('Total');
+                      $( api.column( 4 ).footer() ).html(to_Fixed(total));
+                      
+                     // $( api.column( 8 ).footer() ).html((due));
+                     
+                  },
     });
     new $.fn.dataTable.FixedHeader( table );
-});
+  }
+
 </script>
 
 <script src="<?php echo $theme_link; ?>js/accounts/accounts.js"></script>

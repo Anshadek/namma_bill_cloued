@@ -266,6 +266,35 @@ class Expense extends MY_Controller {
 	public function get_expense_category_select_list(){
 		echo get_expense_category_select_list(null,$_POST['store_id']);
 	}
+	public function get_warehouse_expense_category(){
+		$query1="select * from db_expense_category where 
+		status=1
+		 and 
+		 store_id=".get_current_store_id()."
+		 and
+		 warehouse_id=".$_POST['warehouse_id'];
+
+		 $q1=$this->db->query($query1);
+		 $category_id = "";
+		 $str = "";
+		 if($q1->num_rows($q1)>0)
+		  {  echo '<option value="">-Select-</option>'; 
+			  foreach($q1->result() as $res1)
+			{ 
+			  $selected = ($category_id==$res1->id)? 'selected' : '';
+			  $str .= "<option $selected value='".$res1->id."'>".$res1->category_name."</option>";
+			}
+		  }
+		  else
+		  {
+			
+			 $str .= '<option value="">No Records Found</option>';
+			
+		  }
+		  echo $str;
+		
+	}
 	/* ######################################## EXPENSE CATEGORY END############################# */
+
 
 }

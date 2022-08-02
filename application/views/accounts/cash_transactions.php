@@ -72,8 +72,8 @@
                        <span id="transfer_date_msg" style="display:none" class="text-danger"></span>
                     </div>
                   </div>
+                    
 
-                  
 
                   <div class="col-md-3">
                     <div class="form-group">
@@ -84,6 +84,22 @@
                        <span id="users_msg" style="display:none" class="text-danger"></span>
                     </div>
                   </div>
+                
+                
+                    
+                       
+                       <!-- Warehouse Code -->
+                <?php if(warehouse_module() && warehouse_count()>1) {
+                  echo '<div class="col-md-3">';
+                  $this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'',
+                  'label_length'=>'','show_all'=>'true','show_all_option'=>true,'remove_star'=>true)); 
+                  echo '</div>';
+                }else{
+                   echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+                   }?>
+                <!-- Warehouse Code end -->
+                       <span id="users_msg" style="display:none" class="text-danger"></span>
+                 
 
 
                   
@@ -180,6 +196,7 @@ function load_datatable(){
                        from_date: $("#from_date").val(),
                        to_date: $("#to_date").val(),
                        users: $("#users").val(),
+                       warehouse_id: $("#warehouse_id").val(),
                     },
             complete: function (data) {
              $('.column_checkbox').iCheck({
@@ -218,7 +235,7 @@ function load_datatable(){
 $(document).ready(function() {
     load_datatable();
 });
-$("#from_date,#to_date,#users").on("change",function(){
+$("#from_date,#to_date,#users,#warehouse_id").on("change",function(){
       $('#example2').DataTable().destroy();
       load_datatable();
   });

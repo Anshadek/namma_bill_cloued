@@ -21,6 +21,9 @@ class Accounts_model extends CI_Model {
 		//if(!is_admin()){
 			$this->db->where("a.store_id",get_current_store_id());
 		//}
+		if ($_POST['warehouse_id'] > 0){
+			$this->db->where("a.warehouse_id",$_POST['warehouse_id']);
+		}
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 

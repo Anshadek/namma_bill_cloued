@@ -44,16 +44,13 @@
                      <div class="box box-primary">
                         <div class="box-header with-border">
                            <!-- <h3 class="box-title"><?=$page_title;?></h3> -->
-                          <div class="col-xs-8 input-group">
-                              <!-- Warehouse Code -->
-                              <?php 
-                               if(warehouse_module() && warehouse_count()>1) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box_2'=>true,'show_all_option'=>true)); }else{
-                                echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
-                                echo '<h3 class="box-title">'.$page_title.'</h3>';
-                               }
-                              ?>
-                              <!-- Warehouse Code end -->
-                            </div>
+                           <?php if(warehouse_module()){ ?>
+                        <div class="col-md-3">
+                    <?php $this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'',
+                      'label_length'=>'','show_all'=>'true','show_all_option'=>true,'remove_star'=>true)); ?>
+                    <!-- Warehouse Code end -->
+                    </div>
+                    <?php } ?>
                            <?php if($CI->permissions('stock_adjustment_add')) { ?>
                            <div class="box-tools">
                               <a class="btn btn-block btn-info" href="<?php echo $base_url; ?>stock_adjustment/add">

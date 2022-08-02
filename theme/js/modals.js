@@ -206,6 +206,8 @@ $(".add_supplier").on("click",function(e){
 
 /* customers modal start*/
 $(".add_variant").on("click",function(e){
+	
+	
 	var base_url=$("#base_url").val();
     //Initially flag set true
     var flag=true;
@@ -237,7 +239,10 @@ $(".add_variant").on("click",function(e){
     var this_id=this.id;
 					//if(confirm("Do You Wants to Save Record ?")){
 						e.preventDefault();
+						
 						data = new FormData($('#variant-form')[0]);//form name
+						data.append('warehouse_id', $('#warehouse_id').val());
+						//data['warehouse_id'] = $('#warehouse_id').val();
 						/*Check XSS Code*/
 						if(!xss_validation(data)){ return false; }
 						

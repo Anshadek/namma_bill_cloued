@@ -2746,25 +2746,25 @@ class Reports_model extends CI_Model
 	{
 
 		extract($_POST);
-
+		
 		$within_date = (!empty($within_date)) ? system_fromatted_date($within_date) : '';
 
-		$this->db->select("a.id,a.customer_name,b.advance_adjusted,b.created_date,b.sales_id");
+		$this->db->select("a.id,a.customer_name,b.created_date");
 		$this->db->from("db_customers as a");
-		$this->db->join('db_salespayments as b', 'a.id = b.customer_id', 'left');
-		$this->db->where("advance_adjusted !=", 0.0000);
+		$this->db->join('db_custadvance as b', 'a.id = b.customer_id', 'left');
+		//$this->db->where("a.advance_adjusted !=", 0.0000);
 		// if (!empty($store_id)) {
 		// 	$this->db->where("store_id", $store_id);
 		// }
 		if ($customer_id != '') {
 			$this->db->where("b.customer_id=$customer_id");
 		}
-		// if ($warehouse_id != '') {
-		// 	$this->db->where("a.warehouse_id=$warehouse_id");
-		// }
-		// if ($within_date != ''){
-		// 	$this->db->where("b.created_date=$within_date");
-		// }
+		if ($warehouse_id != '') {
+			$this->db->where("a.warehouse_id=$warehouse_id");
+		}
+		if ($within_date != ''){
+			$this->db->where("b.created_date=$within_date");
+		}
 		if (!empty($within_date)) {
 			$this->db->where("b.created_date='$within_date'");
 		}

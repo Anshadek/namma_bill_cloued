@@ -145,7 +145,7 @@ class Money_transfer extends MY_Controller {
 	   $select_id = ( isset($_POST['selected']) ? $_POST['selected'] : "");
 		if($q1->num_rows($q1)>0)
 		 {  
-			 //$str.='<option value="">-Select-</option>'; 
+			//$str.='<option value="">-CREATE ACCOUNT HEAD-</option>'; 
 			 foreach($q1->result() as $res1)
 		   { 
 			 $selected = ($select_id==$res1->id)? 'selected' : '';
@@ -166,6 +166,43 @@ class Money_transfer extends MY_Controller {
 		 }
 		 echo $str;
   }
+
+
+  function get_warehouse_accounts_select_list_for_create_account(){
+	$this->db->where("store_id",get_current_store_id());
+	if ($_POST['warehouse_id'] > 0){
+		$this->db->where("warehouse_id",$_POST['warehouse_id']);
+	}
+	
+   $this->db->select("*")->where("status=1")->from("ac_accounts");
+   $this->db->order_by("sort_code");
+   $q1=$this->db->get();
+
+   $str='';
+   $select_id = ( isset($_POST['selected']) ? $_POST['selected'] : "");
+	if($q1->num_rows($q1)>0)
+	 {  
+		$str.='<option value="">-CREATE ACCOUNT HEAD-</option>'; 
+		 foreach($q1->result() as $res1)
+	   { 
+		 $selected = ($select_id==$res1->id)? 'selected' : '';
+		 
+			 $str.= ($res1->parent_id==0) ? '<optgroup class="bg-yellow" label="'.$res1->account_name.'">' : '';
+		 $str.="<option $selected data-account-name='".$res1->account_name."' value='".$res1->id."'>";
+				 $str.=add_dash($res1->account_name,$res1->parent_id,$res1->sort_code);
+			 
+		 $str.="</option>";	
+			 $str.= ($res1->parent_id==0) ? '</optgroup>' : '';
+		 
+	   //  echo get_accounts_select_list_sub(null,$res1->id);
+	   }
+	 }
+	 else
+	 {
+		 //$str.='<option value="">No Records Found</option>'; 
+	 }
+	 echo $str;
+}
 	
 
 

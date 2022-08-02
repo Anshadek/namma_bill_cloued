@@ -71,7 +71,7 @@
                       <label for="warehouse" class="col-sm-4 control-label"><?= $this->lang->line('warehouse'); ?> <label class="text-danger">*</label></label>
 
                   <div class="col-sm-8">
-									<select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_accounts_expense(this)" style="width: 100%;">
+									<select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_data(this)" style="width: 100%;">
                                  <?= get_warehouse_select_list($warehouse_id); ?>
                               </select>
                   </div>
@@ -269,10 +269,15 @@
 				warehouse_id = selected;
 			}
 			get_warehouse_accounts_expense(warehouse_id)
+      get_warehouse_expense_category(warehouse_id);
 		});
         <?php if(isset($q_id)){ ?>
           $("#store_id").attr('readonly',true);
         <?php }?>
+        function get_warehouse_data(data){
+          get_warehouse_accounts_expense(data);
+          get_warehouse_expense_category(data);
+        }
       </script>
 <!-- Make sidebar menu hughlighter/selector -->
 <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>

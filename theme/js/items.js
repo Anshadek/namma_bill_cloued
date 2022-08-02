@@ -432,6 +432,7 @@ $("#variant_search").autocomplete({
 			
             data: {
                 name: data.term,
+				warehouse_id:$('#warehouse_id').val(),
             },
             beforeSend: function() {
                 if($("#tax_id").val()==''){
@@ -605,10 +606,10 @@ $("#item_group").on("change",function(event) {
 	var item_group = $("#item_group").val();
 	if(item_group=='Variants'){
 		//$('#expiry_date_div').hide();
-		$("#sales_price,#purchase_price,#mrp,#hsn,#sku,#custom_barcode").parent().addClass('hide');	
+		$("#price,#profit_margin,#adjustment_qt,#sales_price,#purchase_price,#mrp,#hsn,#sku,#custom_barcode,#expiry_date").parent().addClass('hide');	
 		$(".variant_div").show();
 		if($('#update').val() != 'undefined'){
-			$("#sales_price").parent().removeClass('hide');	
+			//$("#sales_price").parent().removeClass('hide');	
 		}
 	}
 	else{

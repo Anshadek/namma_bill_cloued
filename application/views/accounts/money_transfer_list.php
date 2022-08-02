@@ -104,7 +104,16 @@
                        <span id="users_msg" style="display:none" class="text-danger"></span>
                     </div>
                   </div>
-
+                  <div class="col-md-3">
+                    <div class="form-group">
+                       <label for="debit_account_id"><?= $this->lang->line('warehouse'); ?> </label></label>
+											 <select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_accounts(this)" style="width: 100%;">
+                       <option value="">-- select  --</option>         
+											 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                       <span id="debit_account_id_msg" style="display:none" class="text-danger"></span>
+                    </div>
+                  </div>
 
                   
                   
@@ -208,6 +217,7 @@
                       debit_account_id: $("#debit_account_id").val(),
                       credit_account_id: $("#credit_account_id").val(),
                       users: $("#users").val(),
+                      warehouse_id: $("#warehouse_id").val(),
                     },
             
             complete: function (data) {
@@ -241,7 +251,7 @@
 $(document).ready(function() {
     load_datatable();
 });
- $("#transfer_date,#credit_account_id,#debit_account_id,#users").on("change",function(){
+ $("#transfer_date,#credit_account_id,#debit_account_id,#users,#warehouse_id").on("change",function(){
       $('#example2').DataTable().destroy();
       load_datatable();
   });

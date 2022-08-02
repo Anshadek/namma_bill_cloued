@@ -108,7 +108,7 @@ class Suppliers_model extends CI_Model {
 			return "Sorry! This Suppliers Name already Exist.";
 		}*/
 		if(!empty($mobile)){
-			$query2=$this->db->query("select * from db_suppliers where mobile='$mobile' and store_id=$store_id");
+			$query2=$this->db->query("select * from db_suppliers where mobile='$mobile' and store_id='$store_id' and warehouse_id=$warehouse_id");
 			if($query2->num_rows()>0){
 				return "Sorry!This Mobile Number already Exist.";;
 			}

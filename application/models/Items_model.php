@@ -589,7 +589,7 @@ class Items_model extends CI_Model {
 		
 
 	}
-	public function inclusive($price='',$tax_per){
+	public function inclusive($price='',$tax_per=''){
 		return $price/(($tax_per/100)+1)/10;
 	}
 

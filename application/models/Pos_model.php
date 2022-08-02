@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pos_model extends CI_Model {
 
-	public function inclusive($price='',$tax_per){
+	public function inclusive($price='',$tax_per=''){
 		return ($tax_per!=0) ? $price/(($tax_per/100)+1)/10 : $tax_per;
 	}
 

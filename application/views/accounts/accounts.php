@@ -59,7 +59,7 @@
 													
                                        <label for="credit_limit" class="col-sm-4 control-label"><?= $this->lang->line('warehouse'); ?></label>
                                        <div class="col-sm-8">
-													<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+													<select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_accounts_select_list(this)" style="width: 100%;">
                                  <?= get_warehouse_select_list($warehouse_id); ?>
                               </select>
                               <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
@@ -165,11 +165,19 @@
       <!-- TABLES CODE -->
       <?php $this->load->view('comman/code_js.php');?>
       <script src="<?php echo $theme_link; ?>js/accounts/accounts.js"></script>
+      <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=1"></script>
       <script type="text/javascript">
          <?php if(isset($q_id)){ ?>
            $("#store_id").attr('readonly',true);
          <?php }?>
-         
+         $(document).ready(function() {
+			warehouse_id = $('#warehouse_id').val();
+			var selected = $('#selected_warehouse').val();
+			if (selected > 0) {
+				warehouse_id = selected;
+			}
+			get_warehouse_accounts_select_list(warehouse_id)
+		});
       </script>
       <!-- Make sidebar menu hughlighter/selector -->
       <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>

@@ -420,7 +420,7 @@
 	
 	
    <script src="<?php echo $theme_link; ?>js/items.js?ver=3"></script>
-   <script src="<?php echo $theme_link; ?>js/modals.js"></script>
+   <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
    <script type="text/javascript">
       $("#discount_type").val('<?= $discount_type; ?>');
       <?php if (isset($q_id)) { ?>

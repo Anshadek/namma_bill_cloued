@@ -7,6 +7,7 @@ class Money_transfer_model extends CI_Model {
 	var $table = 'ac_moneytransfer as a';
 	var $column_order = array( 
 							'a.id',
+							'a.warehouse_id',
 							'a.transfer_code',
 							'a.transfer_date',
 							'a.reference_no',
@@ -19,6 +20,7 @@ class Money_transfer_model extends CI_Model {
 							); //set column field database for datatable orderable
 	var $column_search = array( 
 							'a.id',
+							'a.warehouse_id',
 							'a.transfer_code',
 							'a.transfer_date',
 							'a.reference_no',
@@ -40,13 +42,19 @@ class Money_transfer_model extends CI_Model {
 	private function _get_datatables_query()
 	{
 		
+		
 		$this->db->from($this->table);
 		//if(!is_admin()){
 			$this->db->where("a.store_id",get_current_store_id());
 		//}
-
+			
 		$transfer_date = $this->input->post('transfer_date');
+		$warehouse_id = $this->input->post('warehouse_id');
      	$transfer_date = system_fromatted_date($transfer_date);
+		 if($warehouse_id > 0){
+			$this->db->where("a.warehouse_id",$warehouse_id);
+		}
+
      	if($transfer_date!='1970-01-01'){
      		$this->db->where("a.transfer_date=",$transfer_date);
      	}
@@ -134,6 +142,7 @@ class Money_transfer_model extends CI_Model {
 		$info = array(  
 						'count_id' 					=> get_count_id('ac_moneytransfer'), 
 	    				'store_id' 					=> $store_id,
+						'warehouse_id' 				=> $warehouse_id,
 	    				'transfer_code' 			=> $transfer_code,
 	    				'transfer_date' 			=> system_fromatted_date($transfer_date),
 	    				'debit_account_id' 			=> $debit_account_id,
@@ -193,6 +202,7 @@ class Money_transfer_model extends CI_Model {
 		else{
 			$query=$query->row();
 			$data['q_id']=$query->id;
+			$data['warehouse_id']=$query->warehouse_id;
 			$data['transfer_code']=$query->transfer_code;			
 			$data['transfer_date']=$query->transfer_date;			
 			$data['reference_no']=$query->reference_no;			

@@ -216,7 +216,7 @@ function load_datatable(show_account_receivable='unchecked'){
                                   i : 0;
                       };
                       var total = api
-                          .column( 4, { page: 'none'} )
+                          .column( 5, { page: 'none'} )
                           .data()
                           .reduce( function (a, b) {
                               return intVal(a) + intVal(b);

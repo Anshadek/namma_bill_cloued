@@ -24,9 +24,10 @@ class Cash_transactions_model extends CI_Model {
 		
 
 		
-		$from_date_query = $from_date_query_expense = $to_date_query = $to_date_query_expense = $users_query  ='';
+		$warehouse_id_query = $from_date_query = $from_date_query_expense = $to_date_query = $to_date_query_expense = $users_query  ='';
 
 		$from_date = $this->input->post('from_date');
+		$warehouse_id = $this->input->post('warehouse_id');
      	$from_date = system_fromatted_date($from_date);
      	if($from_date!='1970-01-01'){
      		$from_date_query = " and payment_date >= '$from_date'";
@@ -41,7 +42,12 @@ class Cash_transactions_model extends CI_Model {
      		$to_date_query = " and payment_date <= '$from_date'";
      		$to_date_query_expense = " and expense_date <= '$from_date'";
      	}
-
+		if($warehouse_id > 0){
+			$warehouse_id_query =" and warehouse_id = '$warehouse_id'";
+		}else{
+			$warehouse_id_query ="";
+		}
+		
      	$users = $this->input->post('users');
 
      	if(!empty($users)){
@@ -104,7 +110,7 @@ class Cash_transactions_model extends CI_Model {
 							$from_date_query
 							$to_date_query 
 							$users_query 
-
+							
 							UNION ALL
 
 							SELECT 
