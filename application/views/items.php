@@ -86,6 +86,13 @@
                               <span id="item_name_msg" style="display:none" class="text-danger"></span>
                            </div>
                            <div class="form-group col-md-4">
+                              <label for="warehouse_id"><?= $this->lang->line('warehouse'); ?></label>
+                              <select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_data(this)" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                           </div>
+                           <div class="form-group col-md-4">
                               <label for="brand_id"><?= $this->lang->line('brand'); ?></label>
                               <select class="form-control select2" id="brand_id" name="brand_id" style="width: 100%;">
                                  <option value="">-Select-</option>
@@ -175,7 +182,7 @@
                            <div class="form-group col-md-4">
                               <div id="expiry_date_div">
                                  <label for="expiry_date"> Expiry Date </label>
-                                 <input type="date" class="form-control only_currency" id="expiry_date" name="expiry_date" value="<?php print isset($expire_date)?$expire_date : '' ?>">
+                                 <input type="date" class="form-control only_currency" id="expiry_date" name="expiry_date" value="<?php print isset($expire_date) ? $expire_date : '' ?>">
                                  <span style="display:none" class="text-danger"></span>
                               </div>
                            </div>
@@ -242,13 +249,7 @@
                         </div>
                         <hr>
                         <div class="row">
-                           <div class="form-group col-md-4">
-                              <label for="warehouse_id"><?= $this->lang->line('warehouse'); ?></label>
-                              <select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
-                                 <?= get_warehouse_select_list($warehouse_id); ?>
-                              </select>
-                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
-                           </div>
+                           
                            <div class="form-group col-md-4">
                               <label for="adjustment_qty"><?= $this->lang->line('opening_stock'); ?></label>
                               <input type="text" class="form-control only_currency" id="adjustment_qt" name="adjustment_qty" value="<?php print $opening_stock; ?>">
@@ -256,56 +257,56 @@
                            </div>
 
                         </div>
-								<?php
-								if ( isset($q_id) == false || $q_id == 0 ) {
-								?>
-                        <div class="row variant_div">
-                           <div class="col-md-12">
-                              <div class="box box-info ">
-                                 <div class="">
-                                    <div class="box-header">
-                                       <div class="col-md-6 col-md-offset-3 d-flex justify-content">
-                                          <div class="input-group">
-                                             <span class="input-group-addon" title="Select Items"><i class="fa fa-search"></i></span>
-                                             <input type="text" class="form-control " placeholder="Search Variant" id="variant_search">
-                                             <span class="input-group-addon pointer text-green" data-toggle="modal" data-target="#variant-modal" title="Click to Add New Variant"><i class="fa fa-plus"></i></span>
+                        <?php
+                        if (isset($q_id) == false || $q_id == 0) {
+                        ?>
+                           <div class="row variant_div">
+                              <div class="col-md-12">
+                                 <div class="box box-info ">
+                                    <div class="">
+                                       <div class="box-header">
+                                          <div class="col-md-6 col-md-offset-3 d-flex justify-content">
+                                             <div class="input-group">
+                                                <span class="input-group-addon" title="Select Items"><i class="fa fa-search"></i></span>
+                                                <input type="text" class="form-control " placeholder="Search Variant" id="variant_search">
+                                                <span class="input-group-addon pointer text-green" data-toggle="modal" data-target="#variant-modal" title="Click to Add New Variant"><i class="fa fa-plus"></i></span>
+                                             </div>
                                           </div>
                                        </div>
-                                    </div>
-                                    <div class="box-body">
-                                       <div class="table-responsive" style="width: 100%">
-                                          <input type="hidden" value='1' id="hidden_rowcount" name="hidden_rowcount">
-                                          <table class="table table-hover table-bordered" style="width:100%" id="variant_table">
-                                             <thead class="custom_thead">
-                                                <tr class="bg-primary">
-                                                   <th rowspan='2' style="width:15%"><?= $this->lang->line('variant_name'); ?></th>
-                                                   <th rowspan='2' style="width:10%"><?= $this->lang->line('sku'); ?></th>
-                                                   <th rowspan='2' style="width:10%"><?= $this->lang->line('hsn'); ?></th>
-                                                   <th rowspan='2' style="width:10%"><?= $this->lang->line('barcode'); ?></th>
-                                                   <th rowspan='2' style="width:10%"><?= $this->lang->line('price'); ?>(<?= $CI->currency() ?>)</th>
-                                                   <th rowspan='2' style="width:10%"><?= $this->lang->line('purchase_price'); ?>(<?= $CI->currency() ?>)</th>
-                                                   <th rowspan='2' style="width:10%"><?= $this->lang->line('profit_margin'); ?></th>
-                                                   <th rowspan='2' style="width:10%"><?= $this->lang->line('sales_price'); ?>(<?= $CI->currency() ?>)</th>
-                                                   <th rowspan='2' style="width:10%"><?= $this->lang->line('mrp'); ?>(<?= $CI->currency() ?>)</th>
-                                                   <th rowspan='2' style="width:10%"><?= $this->lang->line('opening_stock'); ?></th>
-                                                   <th rowspan='2' style="width:10%">Expiry Date</th>
-                                                   <th rowspan='2' style="width:5%"><?= $this->lang->line('action'); ?></th>
-                                                </tr>
-                                             </thead>
-                                             <tbody>
-                                                <?php if ($item_group != 'Single') {
-                                                   echo $this->items_model->get_variants_list_in_row($q_id);
-                                                } ?>
-                                             </tbody>
-                                          </table>
+                                       <div class="box-body">
+                                          <div class="table-responsive" style="width: 100%">
+                                             <input type="hidden" value='1' id="hidden_rowcount" name="hidden_rowcount">
+                                             <table class="table table-hover table-bordered" style="width:100%" id="variant_table">
+                                                <thead class="custom_thead">
+                                                   <tr class="bg-primary">
+                                                      <th rowspan='2' style="width:15%"><?= $this->lang->line('variant_name'); ?></th>
+                                                      <th rowspan='2' style="width:10%"><?= $this->lang->line('sku'); ?></th>
+                                                      <th rowspan='2' style="width:10%"><?= $this->lang->line('hsn'); ?></th>
+                                                      <th rowspan='2' style="width:10%"><?= $this->lang->line('barcode'); ?></th>
+                                                      <th rowspan='2' style="width:10%"><?= $this->lang->line('price'); ?>(<?= $CI->currency() ?>)</th>
+                                                      <th rowspan='2' style="width:10%"><?= $this->lang->line('purchase_price'); ?>(<?= $CI->currency() ?>)</th>
+                                                      <th rowspan='2' style="width:10%"><?= $this->lang->line('profit_margin'); ?></th>
+                                                      <th rowspan='2' style="width:10%"><?= $this->lang->line('sales_price'); ?>(<?= $CI->currency() ?>)</th>
+                                                      <th rowspan='2' style="width:10%"><?= $this->lang->line('mrp'); ?>(<?= $CI->currency() ?>)</th>
+                                                      <th rowspan='2' style="width:10%"><?= $this->lang->line('opening_stock'); ?></th>
+                                                      <th rowspan='2' style="width:10%">Expiry Date</th>
+                                                      <th rowspan='2' style="width:5%"><?= $this->lang->line('action'); ?></th>
+                                                   </tr>
+                                                </thead>
+                                                <tbody>
+                                                   <?php if ($item_group != 'Single') {
+                                                      echo $this->items_model->get_variants_list_in_row($q_id);
+                                                   } ?>
+                                                </tbody>
+                                             </table>
+                                          </div>
                                        </div>
                                     </div>
                                  </div>
                               </div>
-                           </div>
 
-                        </div>
-								<?php } ?>
+                           </div>
+                        <?php } ?>
 
                         <!-- /row -->
                         <!-- /.box-body -->
@@ -347,62 +348,62 @@
          </section>
          <!-- /.content -->
          <?php
-            
+
          if (isset($q_id) && $q_id > 0) {
             $i = 1;
-            $qs5 = "SELECT adjustment_qty,id,updated_at,adjustment_id  FROM db_stockadjustmentitems where  item_id=" .$q_id. " ORDER BY id desc";
+            $qs5 = "SELECT adjustment_qty,id,updated_at,adjustment_id  FROM db_stockadjustmentitems where  item_id=" . $q_id . " ORDER BY id desc";
             $q5 = $this->db->query($qs5);
-          
-         ?>
-         <div class="row">
-            <div class="col-md-12">
-               <div class="box box-info ">
-                  <div class="">
 
-                     <div class="box-body">
-                        <div class="table-responsive" style="width: 100%">
-                           <input type="hidden" value='1' id="hidden_rowcount" name="hidden_rowcount">
-                           <table class="table table-hover table-bordered" style="width:100%" id="variant_table">
-                              <thead class="custom_thead">
-                                 <tr class="bg-primary">
-                                 <th rowspan='2' style="width:15%">#</th>
-                                 <th rowspan='2' style="width:10%"><?= $this->lang->line('date'); ?></th>
-                                    <th rowspan='2' style="width:10%"><?= $this->lang->line('stock'); ?></th>
-                                    <th rowspan='2' style="width:5%"><?= $this->lang->line('action'); ?></th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <?php
-                                
+         ?>
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="box box-info ">
+                     <div class="">
+
+                        <div class="box-body">
+                           <div class="table-responsive" style="width: 100%">
+                              <input type="hidden" value='1' id="hidden_rowcount" name="hidden_rowcount">
+                              <table class="table table-hover table-bordered" style="width:100%" id="variant_table">
+                                 <thead class="custom_thead">
+                                    <tr class="bg-primary">
+                                       <th rowspan='2' style="width:15%">#</th>
+                                       <th rowspan='2' style="width:10%"><?= $this->lang->line('date'); ?></th>
+                                       <th rowspan='2' style="width:10%"><?= $this->lang->line('stock'); ?></th>
+                                       <th rowspan='2' style="width:5%"><?= $this->lang->line('action'); ?></th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <?php
+
 
                                     foreach ($q5->result() as $res5) {
 
-                                       $date = isset($res5->updated_at) ? date("d/m/Y", strtotime($res5->updated_at)): "--";
-                                 ?>
+                                       $date = isset($res5->updated_at) ? date("d/m/Y", strtotime($res5->updated_at)) : "--";
+                                    ?>
                                        <tr>
                                           <td><?php echo $i++; ?></td>
                                           <td><?= $date ?></td>
                                           <td><?php echo $res5->adjustment_qty ?></td>
-                                          <td> 
-														<a style="cursor:pointer" title="Delete Record ?" onclick="delete_stock_adjustment(<?= $res5->adjustment_id ?>)">
-													<i class="fa fa-fw fa-trash text-red"></i>Delete
-												</a>	
-														
-                                       </td>
+                                          <td>
+                                             <a style="cursor:pointer" title="Delete Record ?" onclick="delete_stock_adjustment(<?= $res5->adjustment_id ?>)">
+                                                <i class="fa fa-fw fa-trash text-red"></i>Delete
+                                             </a>
+
+                                          </td>
                                        </tr>
 
-                                 <?php
+                                    <?php
                                     }
-                                 ?>
-                              </tbody>
-                           </table>
+                                    ?>
+                                 </tbody>
+                              </table>
+                           </div>
                         </div>
                      </div>
                   </div>
                </div>
-            </div>
 
-         </div>
+            </div>
          <?php  } ?>
 
       </div>
@@ -417,11 +418,21 @@
    <?php include "comman/code_js_sound.php"; ?>
    <!-- TABLES CODE -->
    <?php include "comman/code_js.php"; ?>
-	
-	
+
+
    <script src="<?php echo $theme_link; ?>js/items.js?ver=3"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
+   <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=3"></script>
    <script type="text/javascript">
+      $(document).ready(function() {
+         warehouse_id = $('#warehouse_id').val();
+         var selected = $('#selected_warehouse').val();
+         if (selected > 0) {
+            warehouse_id = selected;
+         }
+         get_warehouse_brand(warehouse_id);
+         get_warehouse_category(warehouse_id)
+      });
       $("#discount_type").val('<?= $discount_type; ?>');
       <?php if (isset($q_id)) { ?>
          $("#store_id").attr('readonly', true);
@@ -438,31 +449,34 @@
          $("#item_group").parent().addClass('hide');
       <?php } ?>
 
-		function delete_stock_adjustment(q_id)
-{
+      function delete_stock_adjustment(q_id) {
 
-    var base_url=$("#base_url").val();
-   if(confirm("Do You Wants to Delete Record ?")){
-    $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-    $.post(base_url+"stock_adjustment/delete_stock_adjustment",{q_id:q_id},function(result){
-   //alert(result);return;
-     if(result=="success")
-        {
-          toastr["success"]("Record Deleted Successfully!");
-          $('#example2').DataTable().ajax.reload();
-			 location.reload();
-        }
-        else if(result=="failed"){
-          toastr["error"]("Failed to Delete .Try again!");
-        }
-        else{
-           toastr["error"](result);
-        }
-        $(".overlay").remove();
-        return false;
-   });
-   }//end confirmation
-}
+         var base_url = $("#base_url").val();
+         if (confirm("Do You Wants to Delete Record ?")) {
+            $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+            $.post(base_url + "stock_adjustment/delete_stock_adjustment", {
+               q_id: q_id
+            }, function(result) {
+               //alert(result);return;
+               if (result == "success") {
+                  toastr["success"]("Record Deleted Successfully!");
+                  $('#example2').DataTable().ajax.reload();
+                  location.reload();
+               } else if (result == "failed") {
+                  toastr["error"]("Failed to Delete .Try again!");
+               } else {
+                  toastr["error"](result);
+               }
+               $(".overlay").remove();
+               return false;
+            });
+         } //end confirmation
+      }
+
+      function get_warehouse_data(data) {
+         get_warehouse_brand(data);
+         get_warehouse_category(data)
+      }
    </script>
    <!-- Make sidebar menu hughlighter/selector -->
    <script>

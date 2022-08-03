@@ -134,5 +134,33 @@ class Category extends MY_Controller {
 		return $this->category->delete_categories_from_table($ids);
 	}
 
+	function get_categories_select_list(){
+ 
+	   $store_id = (!empty($store_id)) ? $store_id : get_current_store_id();
+ 
+	   $this->db->where("store_id",$store_id);
+	   $this->db->where("warehouse_id",$_POST['warehouse_id']);
+	   
+	   $q1=$this->db->select("*")->where("status=1")->from("db_category")->get();
+	   $str='';
+	   $select_id = "";
+		if($q1->num_rows($q1)>0)
+		 {  
+ 
+			 //$str.='<option value="">-Select-</option>'; 
+ 
+			 foreach($q1->result() as $res1)
+		   { 
+			 $selected = ($select_id==$res1->id)? 'selected' : '';
+			 $str.="<option $selected value='".$res1->id."'>".$res1->category_name."</option>";
+		   }
+		 }
+		 else
+		 {
+			 $str.='<option value="">No Records Found</option>'; 
+		 }
+		 echo $str;
+  }
+
 }
 

@@ -83,11 +83,15 @@
                                        </div>
                                     <!-- </div>
                                     <div class="form-group"> -->
-                                       <label for="mobile" class="col-sm-2 control-label"><?= $this->lang->line('mobile'); ?><label class="text-danger">*</label></label>
+                                       
+                                    <label for="credit_limit" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?><label class="text-danger">*</label></label>
                                        <div class="col-sm-4">
-                                          <input onkeyup="check_mob_length()" type="text" class="form-control no_special_char_no_space" id="mobile" name="mobile" placeholder="+1234567890" value="<?php print $mobile; ?>"  >
-                                          <span id="mobile_msg" style="display:none" class="text-danger"></span>
+													<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
                                        </div>
+                                      
                                     </div>
                                     <div class="form-group">
                                        <label for="email" class="col-sm-2 control-label"><?= $this->lang->line('email'); ?></label>
@@ -126,13 +130,10 @@
 											
                                  <div class="col-md-5"> -->
                                     <div class="form-group">
-													
-                                       <label for="credit_limit" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?></label>
+                                    <label for="mobile" class="col-sm-2 control-label"><?= $this->lang->line('mobile'); ?><label class="text-danger">*</label></label>
                                        <div class="col-sm-4">
-													<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
-                                 <?= get_warehouse_select_list($warehouse_id); ?>
-                              </select>
-                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                                          <input onkeyup="check_mob_length()" type="text" class="form-control no_special_char_no_space" id="mobile" name="mobile" placeholder="+1234567890" value="<?php print $mobile; ?>"  >
+                                          <span id="mobile_msg" style="display:none" class="text-danger"></span>
                                        </div>
 													<label for="credit_limit" class="col-sm-2 control-label"><?= $this->lang->line('credit_limit'); ?></label>
                                        <div class="col-sm-4">

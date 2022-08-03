@@ -50,7 +50,7 @@
                 <thead class="bg-gray ">
                 <tr>
                   <th>#</th>
-                  <th><?= $this->lang->line('store_name'); ?></th>
+                  <!-- <th><?= $this->lang->line('store_name'); ?></th> -->
                   <th><?= $this->lang->line('user_name'); ?></th>
                   <th><?= $this->lang->line('mobile'); ?></th>
                   <th><?= $this->lang->line('email'); ?></th>
@@ -80,13 +80,13 @@
 
 					if($q1->num_rows()>0){
             foreach ($q1->result() as $res1){
-              $store_rec = get_store_details($res1->store_id);
-              $str=($store_rec->user_id==$res1->id) ? "<span class='label label-success' style='cursor:pointer' title='Store Creator!'>Creator</span>" : '';
+             // $store_rec = get_store_details($res1->warehouse_id);
+              // $str=($store_rec->user_id==$res1->id) ? "<span class='label label-success' style='cursor:pointer' title='Store Creator!'>Creator</span>" : '';
 							?>
 							<tr>
 							<td> <?php echo $i++;?> </td>
-              <td> <?php echo $store_rec->store_name;?> </td>
-              <td> <?php echo $res1->username." ".$res1->last_name."<br>".$str;?> </td>
+              <!-- <td> <?php echo $store_rec->store_name;?> </td> -->
+              <td> <?php echo $res1->username." ".$res1->last_name?> </td>
               <td> <?php echo $res1->mobile;?> </td>
               <td> <?php echo $res1->email;?> </td>
               <td> <?php echo $res1->role_name;?> </td>

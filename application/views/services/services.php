@@ -67,7 +67,13 @@
                                  <input type="text" class="form-control" id="item_name" name="item_name" placeholder="" value="<?php print $item_name; ?>" >
                                  <span id="item_name_msg" style="display:none" class="text-danger"></span>
                               </div>
-                              
+                              <div class="form-group col-md-4">
+                              <label for="warehouse_id"><?= $this->lang->line('warehouse'); ?></label>
+                              <select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_category(this)" style="width: 100%;">
+                                 <?= get_warehouse_select_list($warehouse_id); ?>
+                              </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+                           </div>
                               <div class="form-group col-md-4">
                                  <label for="category_id">Category <span class="text-danger">*</span></label>
                                  <select class="form-control select2" id="category_id" name="category_id"  style="width: 100%;"  value="<?php print $category_id; ?>">
@@ -91,13 +97,7 @@
                                  <input type="text" class="form-control only_currency" id="seller_points" name="seller_points" placeholder=""  value="<?php print $seller_points; ?>" >
                                  <span id="seller_points_msg" style="display:none" class="text-danger"></span>
                               </div>
-										<div class="form-group col-md-4">
-                              <label for="warehouse_id"><?= $this->lang->line('warehouse'); ?></label>
-                              <select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
-                                 <?= get_warehouse_select_list($warehouse_id); ?>
-                              </select>
-                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
-                           </div>
+										
                               <div class="form-group col-md-4">
                                  <label for="custom_barcode" ><?= $this->lang->line('description'); ?></label>
                                  <textarea type="text" class="form-control" id="description" name="description" placeholder=""><?php print $description; ?></textarea>
@@ -232,9 +232,18 @@
         <?php if(isset($q_id)){ ?>
           $("#store_id").attr('readonly',true);
         <?php }?>
+        $( document ).ready(function() {
+	warehouse_id = $('#warehouse_id').val();
+	var selected = $('#selected_warehouse').val();
+	if (selected > 0){
+		warehouse_id = selected;
+	}
+   get_warehouse_category(warehouse_id)
+});
       </script>
       <!-- Make sidebar menu hughlighter/selector -->
       <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>
+      <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=3"></script>
      
    </body>
 </html>

@@ -12,7 +12,7 @@ class Category_model extends CI_Model {
 	{
 		
 		$this->db->from($this->table);
-		$this->db->from('db_warehouse as w','w.id = db_category.warehouse_id','left');
+		$this->db->join('db_warehouse as w','w.id = db_category.warehouse_id','left');
 		
 		//if not admin
 		//if(!is_admin()){

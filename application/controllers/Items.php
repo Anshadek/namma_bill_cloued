@@ -178,6 +178,7 @@ class Items extends MY_Controller {
 						<image style='border:1px #72afd2 solid;' src='".base_url()."theme/images/no_image.png' title='No Image!' width='75%' height='50%' >";
 			
 			$row[] = $items->item_code;
+			$row[] = $items->warehouse_name;
 			$row[] = "<label class='text-blue'>".$items->item_name."</label><br><b>HSN</b>:".$items->hsn."<br><b>SKU</b>:".$items->sku."<br><b>Expiry Date</b>:".$items->expire_date;
 			$row[] = $items->brand_name;
 			$service_or_item_name = ($items->service_bit) ? 'SERVICE' : "ITEM";

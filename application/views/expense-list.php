@@ -92,9 +92,10 @@
                       <th></th>
                       <th></th>
                       <th></th><!-- 7 -->
-                      <th></th><!-- 7 -->
-                      <th style="text-align:right">Total</th>
+                      <th></th><!-- 7 -->+
                       <th></th>
+                      <th style="text-align:right">Total</th>
+                      
                       <th></th>
                       <th></th>
                       <th></th><!-- 7 -->
@@ -211,13 +212,13 @@ $(document).ready(function() {
             };
           
             var total = api
-                .column( 5, { page: 'none'} )
+                .column( 6, { page: 'none'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
             //$( api.column( 0 ).footer() ).html('Total');
-            $( api.column( 5 ).footer() ).html(to_Fixed(total));
+            $( api.column( 6 ).footer() ).html(to_Fixed(total));
         },
         /*End Footer Total*/
         

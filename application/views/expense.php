@@ -152,7 +152,7 @@
                               </div>
 
                    <div class="form-group">
-                  <label for="account_id" class="col-sm-4 control-label"><?= $this->lang->line('account'); ?></label>
+                  <label for="account_id" class="col-sm-4 control-label"><?= $this->lang->line('account'); ?> <label class="text-danger">*</label></label>
 
                   <div class="col-sm-8">
                       <select class="form-control select2" id='account_id' name="account_id">

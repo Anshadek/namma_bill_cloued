@@ -44,16 +44,23 @@
                                      }?>
                                   <!-- Store Code end -->
                                 </div>
-										  <div class="form-group">
-                               <!-- Warehouse Code -->
-										 <?php 
-                                 
-											if(true) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true','show_all_option'=>true)); }else{
-												echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
-											}
-										  ?>
-										  <!-- Warehouse Code end -->
-										  </div>
+                                <div class="form-group ">
+                                <label for="expire_date" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?></label>
+                                 <div class="col-sm-3">
+											<?php 
+                               if(warehouse_module() && warehouse_count()>1) { ?>
+										 <select class="form-control select2 " id="warehouse_id" name="warehouse_id"  onchange="get_warehouse_customers(this)">
+											<?= get_warehouse_select_list($warehouse_id, get_current_store_id()); ?>
+										</select>
+												
+											
+										<?php }else{
+                                echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+                               }
+                              ?>
+                              
+                                 </div>
+										</div>
                               <div class="form-group">
 											
                                  <label for="from_date" class="col-sm-2 control-label"><?= $this->lang->line('from_date'); ?></label>
@@ -196,6 +203,12 @@
       <?php include"comman/code_js_export.php"; ?>
       <script src="<?php echo $theme_link; ?>js/sheetjs.js" type="text/javascript"></script>
       <script>
+            $(document).ready(function() {
+		var warehouse_id = $("#warehouse_id").val();
+			$('#old_warehouse_selected_id').val(warehouse_id);
+			get_warehouse_customers(warehouse_id)
+       
+    });
          function convert_excel(type, fn, dl) {
              var elt = document.getElementById('report-data');
              var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet JS"});
@@ -265,7 +278,8 @@
             $("#customer_id").on("change",function(){
                var customer_name =$("#customer_id option:selected").text();
                var cn = customer_name.split("-");
-               var customer_mobile = $('option:selected', "#customer_id").attr('data-mobile')
+               var customer_mobile = $(this).find("option:selected").attr('data-mobile')
+              // alert(customer_mobile);
                var customer_address = $('option:selected', "#customer_id").attr('data-address')
                var previous_due = $('option:selected', "#customer_id").attr('data-previous_due')
 
@@ -278,5 +292,6 @@
 
       <!-- Make sidebar menu hughlighter/selector -->
       <script>$(".report-sales-and-payments-active-li , .reports-menu").addClass("active");</script>
+      <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=2"></script>
    </body>
 </html>

@@ -12,6 +12,7 @@ class Items_model extends CI_Model {
 								'a.item_name',
 								'e.brand_name',
 								'b.category_name',
+								'w.warehouse_name',
 								'c.unit_name',
 								'a.stock',
 								'a.alert_qty',
@@ -33,6 +34,7 @@ class Items_model extends CI_Model {
 								'a.item_name',
 								'e.brand_name',
 								'b.category_name',
+								'w.warehouse_name',
 								'c.unit_name',
 								'a.stock',
 								'a.alert_qty',
@@ -63,6 +65,7 @@ class Items_model extends CI_Model {
 		$this->db->join('db_category as b',"b.id=a.category_id","left");
 		$this->db->join('db_units as c',"c.id=a.unit_id","left");
 		$this->db->join('db_tax as d',"d.id=a.tax_id","left");
+		$this->db->join('db_warehouse as w',"w.id=a.warehouse_id","left");
 		$this->db->select("CASE WHEN e.brand_name IS NULL THEN '' ELSE e.brand_name END AS brand_name");
 		$this->db->join('db_brands as e','e.id=a.brand_id','left');
 		
@@ -85,9 +88,12 @@ class Items_model extends CI_Model {
 
 		//if not admin
 		//if(!is_admin()){
-			$this->db->where("a.store_id",get_current_store_id());
+			
 		//}
-		
+		if(!empty($warehouse_id)){
+			$this->db->where("a.warehouse_id",$warehouse_id);
+		}
+		$this->db->where("a.store_id",get_current_store_id());
 		//$this->db->where("a.child_bit=0");
 		//$this->db->where("a.item_group!='Variants'");
 			$this->db->where("(a.item_group is NULL || a.item_group = 'Single'|| a.item_group = 'Variants')");	

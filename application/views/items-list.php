@@ -116,6 +116,8 @@
                   <th><?= $this->lang->line('image'); ?></th>
                   <!-- <th><?= $this->lang->line('store_name'); ?></th> -->
                   <th><?= $this->lang->line('item_code'); ?></th>
+                  <th><?= $this->lang->line('warehouse_name'); ?></th>
+                  
                   <th><?= $this->lang->line('item_name'); ?></th>
                   <th><?= $this->lang->line('brand'); ?></th>
                   <th><?= $this->lang->line('category'); ?>/<br><?= $this->lang->line('item_type'); ?></th>

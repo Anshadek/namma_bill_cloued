@@ -87,13 +87,14 @@ class Accounts_model extends CI_Model {
 		$this->db->trans_begin();
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST))));
 		$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();	
-
-		$query=$this->db->query("select * from ac_accounts where upper(account_code)=upper('$account_code') and store_id=$store_id");
+		
+		$query=$this->db->query("select * from ac_accounts where upper(account_code)=upper('$account_code') and store_id=$store_id and warehouse_id=$warehouse_id");
 		if($query->num_rows()>0){
 			return "Sorry! This Account Code Name already Exist.";
 		}
 		$this->db->where("upper(account_name)",strtoupper($account_name));
 		$this->db->where("store_id",$store_id);
+		$this->db->where("warehouse_id",$warehouse_id);
 		if(!empty($parent_id)){
 			$this->db->where("parent_id",$parent_id);
 		}
