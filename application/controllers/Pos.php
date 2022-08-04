@@ -212,7 +212,7 @@ class Pos extends MY_Controller {
 	   $str='';
 		if($q1->num_rows($q1)>0)
 		 {  
-			 $str.='<option value="">-Select-</option>'; 
+			// $str.='<option value="">-Select-</option>'; 
 			 foreach($q1->result() as $res1)
 		   { 
 			

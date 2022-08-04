@@ -139,6 +139,53 @@ class Warehouse_model extends CI_Model {
 		    			);
 			$data=array_merge($data,$extra_info);
 			$q1 = $this->db->insert('db_warehouse', $data);
+			$warehouse_id  = $this->db->insert_id();
+		//============================================automatic account number genertaing==============================================
+		$query = $this->db->query("SELECT accounts_init FROM db_store where id = ".get_current_store_id()." ORDER BY id DESC LIMIT 1");
+		$accounts_init =  $query->result_array();
+	
+		$query = $this->db->query("SELECT account_code FROM ac_accounts ORDER BY id DESC LIMIT 1");
+		$result = $query->result_array();
+		$newstring = substr($result[0]['account_code'], -4);
+		$next_int = $newstring + 1;
+		$account_code = $accounts_init[0]['accounts_init'].'000'.$next_int;
+		//Filtering XSS and html escape from user inputs 
+		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET))));
+
+		$this->db->query("ALTER TABLE ac_accounts AUTO_INCREMENT = 1");
+		if(empty($parent_id)) { 
+			$parent_id=0;
+			$maxid=$this->db->select("coalesce(max(id),0)+1 as maxid")->get("ac_accounts")->row()->maxid;
+			$subtree_count='';
+			$sort_code = $maxid;
+		}
+		else{
+			//Find the sub tree count
+			$this->db->select("sort_code")->where("id",$parent_id)->from("ac_accounts");
+			$sort_code=$this->db->get()->row()->sort_code;
+			$maxid=$this->db->select("count(*)+1 as maxid")->where("parent_id",$parent_id)->get("ac_accounts")->row()->maxid;
+			$sort_code = $sort_code.".".$maxid;
+		}
+		
+		$info = array(  
+						'count_id' 					=> get_count_id('ac_accounts'), 
+	    				'store_id' 					=> get_current_store_id(),
+	    				'sort_code' 				=> $sort_code,
+	    				'account_code' 				=> $account_code,
+	    				'parent_id' 				=> $parent_id,
+						'warehouse_id'				=> $warehouse_id,
+	    				'account_name' 				=> 'cash',
+	    				'note' 						=> "system created account",
+	    				/*System Info*/
+	    				'created_date' 				=> $CUR_DATE,
+	    				'created_time' 				=> $CUR_TIME,
+	    				'created_by' 				=> $CUR_USERNAME,
+	    				'system_ip' 				=> $SYSTEM_IP,
+	    				'system_name' 				=> $SYSTEM_NAME,
+	    				'status' 					=> 1,
+	    			);
+		$q1 = $this->db->insert('ac_accounts', $info);
+		//==============================================================================================================================
 			//$store_id = $this->db->insert_id();
 			//$this->load->model('customers_model');
 			//$q2=$this->customers_model->create_walk_in_customer($store_id);

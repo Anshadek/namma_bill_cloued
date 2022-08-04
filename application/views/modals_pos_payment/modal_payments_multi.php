@@ -198,8 +198,8 @@
                     <div class="">
                       <label for="account_id_1"><?= $this->lang->line('account'); ?></label>
                       <select class="form-control" id='account_id_1' name="account_id_1">
-                        <option value="">-Select-</option>
-                        option
+                       
+                        
                         <?php
                           echo get_accounts_select_list();
                           ?>
