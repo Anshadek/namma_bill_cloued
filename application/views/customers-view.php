@@ -120,9 +120,9 @@
 											<th></th>
 											<th></th>
 											<th></th>
+											<th></th>
+											<th></th>
 											<th style="text-align:right">Total</th>
-											<th></th>
-											<th></th>
 											<th></th>
 											<th></th>
 											<th></th>
@@ -285,7 +285,7 @@
 							i : 0;
 					};
 					var invoice_total = api
-						.column(7, {
+						.column(10, {
 							page: 'none'
 						})
 						.data()
@@ -307,7 +307,7 @@
 					        return intVal(a) + intVal(b);
 					    }, 0 );*/
 					//$( api.column( 0 ).footer() ).html('Total');
-					$(api.column(6).footer()).html(to_Fixed(invoice_total));
+					$(api.column(10).footer()).html(to_Fixed(invoice_total));
 					$(api.column(8).footer()).html(to_Fixed(sales_due));
 					//$( api.column( 8 ).footer() ).html((sales_return_due));
 				},

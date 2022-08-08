@@ -631,7 +631,7 @@ class Purchase_returns_model extends CI_Model {
 	}
 	
 
-	public function inclusive($price='',$tax_per){
+	public function inclusive($price='',$tax_per=''){
 		return $price/(($tax_per/100)+1)/10;
 	}
 
@@ -652,8 +652,6 @@ class Purchase_returns_model extends CI_Model {
 	    $q3=$this->db->query("select * from db_tax where id=".$res1->tax_id)->row();
 
 	    $item_tax_amt = ($res1->tax_type=='Inclusive') ? calculate_inclusive($res1->purchase_price,$q3->tax) :calculate_exclusive($res1->purchase_price,$q3->tax);
-
-	      
 	      $info = array(
 	              'item_tax'          		=> $q3->tax, 
 	              'item_tax_name'       	=> $q3->tax_name, 

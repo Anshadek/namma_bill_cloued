@@ -136,5 +136,30 @@ class State extends MY_Controller {
 		$result=$this->state->delete_state($id);
 		return $result;
 	}
+
+	function get_state_select_list(){
+		
+		$select_id = isset($_POST['selected']) ? $_POST['selected'] : 0;
+		$q1=$this->db->select("*")
+		->where('country',$_POST['country'])
+		->from("db_states")->get();
+		$str='';
+		 if($q1->num_rows($q1)>0)
+		  {  
+			  $str='';
+			  $str.='<option value="">-- Select --</option>'; 
+			  foreach($q1->result() as $res1)
+			{ 
+				
+			  $selected = ($select_id==$res1->id)? 'selected' : '';
+			  $str.="<option $selected value='".$res1->id."'>".$res1->state."</option>";
+			}
+		  }
+		  else
+		  {
+			  $str.='<option value="">No Records Found</option>'; 
+		  }
+		  echo $str;
+   }
 }
 

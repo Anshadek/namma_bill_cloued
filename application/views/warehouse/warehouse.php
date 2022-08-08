@@ -56,11 +56,11 @@
                      <!-- Custom Tabs -->
                      <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
-                           <li class="active"><a href="#tab_4" id='tab_4_btn' data-toggle="tab"><?= $this->lang->line('store'); ?></a></li>
-                           <li><a href="#tab_1" id='tab_1_btn' data-toggle="tab"><?= $this->lang->line('system'); ?></a></li>
+                           <li class="active"><a href="#tab_4" id='tab_4_btn' data-toggle="tab"><?= $this->lang->line('warehouse'); ?></a></li>
+                           <!-- <li><a href="#tab_1" id='tab_1_btn' data-toggle="tab"><?= $this->lang->line('system'); ?></a></li> -->
                            <?php if(!is_user()){?>
                            <li><a href="#tab_2" id='tab_2_btn' data-toggle="tab"><?= $this->lang->line('sales'); ?></a></li>
-                           <li><a href="#tab_3" id='tab_3_btn' data-toggle="tab"><?= $this->lang->line('prefixes'); ?></a></li>
+                           <!-- <li><a href="#tab_3" id='tab_3_btn' data-toggle="tab"><?= $this->lang->line('prefixes'); ?></a></li> -->
                          <?php }?>
                            
                         </ul>
@@ -158,7 +158,7 @@
                                                 <div class="form-group">
                                                    <label for="country" class="col-sm-4 control-label"><?= $this->lang->line('country'); ?></label>
                                                    <div class="col-sm-8">
-                                                      <select class="form-control select2" id="country" name="country"  style="width: 100%;" onkeyup="shift_cursor(event,'state')" value="<?php print $country; ?>">
+                                                      <select class="form-control select2" id="country" name="country" onchange="get_states(this)" style="width: 100%;" onkeyup="shift_cursor(event,'state')" value="<?php print $country; ?>">
                                                          <?php
                                                             $query1="select * from db_country where status=1";
                                                             $q1=$this->db->query($query1);
@@ -796,6 +796,7 @@
       </script>
       <script src="<?php echo $theme_link; ?>js/store_profile.js?v=1"></script>
       <script src="<?php echo $theme_link; ?>js/store/store.js?v=1"></script>
+      <script src="<?php echo $theme_link; ?>js/state_filter.js?v=3"></script>
      
 
 

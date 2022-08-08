@@ -75,12 +75,49 @@
                                  </div>
                               </div>
                               <div class="form-group">
-                                 <label for="mobile" class="col-sm-4 control-label"><?= $this->lang->line('mobile'); ?></label>
+                                 <label for="mobile" class="col-sm-4 control-label"><?= $this->lang->line('mobile'); ?><label class="text-danger">*</label></label>
                                  <div class="col-sm-8">
                                     <input type="text" class="form-control input-sm no_special_char_no_space"  id="mobile" name="mobile" autocomplete='off' placeholder="" value="<?php print $mobile; ?>">
                                     <span id="mobile_msg" style="display:none" class="text-danger"></span>
                                  </div>
                               </div>
+                              <!-- Warehouse Code -->
+                              <?php 
+
+                              //For Selection Box while updating
+                              if($q_id!=1){
+                                $ids = array();
+                                if(!empty($username) && warehouse_module()){
+                                    $q1 = $this->db->select("warehouse_id")->where("user_id",$q_id)->get("db_userswarehouses");
+                                    if($q1->num_rows()>0){
+                                      foreach ($q1->result() as $res1) { 
+                                        $ids[] = $res1->warehouse_id; 
+                                      }
+                                    } 
+                                  }
+
+                                  $store_id = (isset($store_id) && !empty($store_id)) ? $store_id : get_current_store_id();
+                                 if(warehouse_module()) {$this->load->view('warehouse/warehouse_code',
+                                    array(
+                                          'show_warehouse_select_box'=>true,
+                                          'store_id'=>$store_id,
+                                          'custom_id'=>'warehouses',
+                                          'custom_name'=>'warehouses[]',
+                                          'label'=>$this->lang->line('warehouses'),
+                                          'div_length'=>'col-sm-8',
+                                          'label_length'=>'col-sm-4',
+                                          'show_select_option'=>true,
+                                       
+                                          'show_select_option'=>false,
+                                         
+                                          'ids' => $ids
+                                        )); 
+                               }else{
+                                  echo "<input type='hidden' name='warehouses' id='warehouses' value='".get_store_warehouse_id()."'>";
+                                 }
+                             }
+                              ?>
+                              <!-- Warehouse Code end -->
                               <div class="form-group">
                                  <label for="email" class="col-sm-4 control-label"><?= $this->lang->line('email'); ?><label class="text-danger">*</label></label>
                                  <div class="col-sm-8">
@@ -165,43 +202,7 @@
                                  </div>
                               </div>
 
-                              <!-- Warehouse Code -->
-                              <?php 
-
-                              //For Selection Box while updating
-                              if($q_id!=1){
-                                $ids = array();
-                                if(!empty($username) && warehouse_module()){
-                                    $q1 = $this->db->select("warehouse_id")->where("user_id",$q_id)->get("db_userswarehouses");
-                                    if($q1->num_rows()>0){
-                                      foreach ($q1->result() as $res1) { 
-                                        $ids[] = $res1->warehouse_id; 
-                                      }
-                                    } 
-                                  }
-
-                                  $store_id = (isset($store_id) && !empty($store_id)) ? $store_id : get_current_store_id();
-                                 if(warehouse_module()) {$this->load->view('warehouse/warehouse_code',
-                                    array(
-                                          'show_warehouse_select_box'=>true,
-                                          'store_id'=>$store_id,
-                                          'custom_id'=>'warehouses',
-                                          'custom_name'=>'warehouses[]',
-                                          'label'=>$this->lang->line('warehouses'),
-                                          'div_length'=>'col-sm-8',
-                                          'label_length'=>'col-sm-4',
-                                          'show_select_option'=>true,
-                                          'multiple'=>'multiple',
-                                          'show_select_option'=>false,
-                                          'data_placeholder'=>'Multiple',
-                                          'ids' => $ids
-                                        )); 
-                               }else{
-                                  echo "<input type='hidden' name='warehouses' id='warehouses' value='".get_store_warehouse_id()."'>";
-                                 }
-                             }
-                              ?>
-                              <!-- Warehouse Code end -->
+                              
                               </div>
                               <div class="col-md-6">
                                   <div class="form-group">

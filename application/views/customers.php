@@ -52,7 +52,7 @@
                      <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
                            <li class="active"><a href="#tab_1" data-toggle="tab"><i class="fa  fa-pencil-square text-red"></i> <?= $this->lang->line('add/edit'); ?></a></li>
-                           <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-gears text-red"></i> <?= $this->lang->line('advanced'); ?></a></li>
+                           <!-- <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-gears text-red"></i> <?= $this->lang->line('advanced'); ?></a></li> -->
                            
                         </ul>
                         <div class="tab-content">
@@ -168,7 +168,7 @@
                                     <div class="form-group">
                                        <label for="country" class="col-sm-2 control-label"><?= $this->lang->line('country'); ?></label>
                                        <div class="col-sm-4">
-                                          <select class="form-control select2" id="country" name="country"  style="width: 100%;"  >
+                                          <select class="form-control select2" id="country"  onchange="get_states(this)" name="country"  style="width: 100%;"  >
                                              <?= get_country_select_list($country_id,true); ?>
                                           </select>
                                           <span id="country_msg" style="display:none" class="text-danger"></span>
@@ -229,7 +229,7 @@
                                     <div class="form-group">
                                        <label for="shipping_country" class="col-sm-2 control-label"><?= $this->lang->line('country'); ?></label>
                                        <div class="col-sm-4">
-                                          <select class="form-control select2" id="shipping_country" name="shipping_country"  style="width: 100%;"  >
+                                          <select class="form-control select2" id="shipping_country" onchange="get_shipping_states(this)" name="shipping_country"  onchange="get_states(this)"  style="width: 100%;"  >
                                              <?= get_country_select_list($shipping_country,true); ?>
                                           </select>
                                           <span id="shipping_country_msg" style="display:none" class="text-danger"></span>
@@ -350,7 +350,7 @@
                   <!--/.col (right) -->
                 </div>
 
-                <div class='row' style='padding-top:1%;'>
+                <!-- <div class='row' style='padding-top:1%;'>
                   <div class="col-md-12">
                      <div class="box box-primary">
                         <div class="box-header">
@@ -405,7 +405,7 @@
                         </div>
                      </div>
                   </div>
-               </div> 
+               </div>  -->
             </section>
             <!-- /.content -->
          </div>
@@ -421,6 +421,7 @@
       <!-- TABLES CODE -->
       <?php include"comman/code_js.php"; ?>
       <script src="<?php echo $theme_link; ?>js/customers.js"></script>
+      <script src="<?php echo $theme_link; ?>js/state_filter.js?v=3"></script>
       <!-- Make sidebar menu hughlighter/selector -->
       <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>
       <script type="text/javascript">
