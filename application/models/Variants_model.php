@@ -85,7 +85,7 @@ class Variants_model extends CI_Model {
 		
 		//Validate This variant already exist or not
 		$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();	
-		$query=$this->db->query("select * from db_variants where upper(variant_name)=upper('$variant') and store_id=$store_id");
+		$query=$this->db->query("select * from db_variants where upper(variant_name)=upper('$variant') and store_id=$store_id and warehouse_id=$warehouse_id");
 		if($query->num_rows()>0){
 			return "This Variant Name already Exist.";
 			

@@ -420,7 +420,7 @@
    <?php include "comman/code_js.php"; ?>
 
 
-   <script src="<?php echo $theme_link; ?>js/items.js?ver=3"></script>
+   <script src="<?php echo $theme_link; ?>js/items.js?ver=4"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
    <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=3"></script>
    <script type="text/javascript">

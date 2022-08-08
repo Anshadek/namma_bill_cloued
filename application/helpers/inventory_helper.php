@@ -274,15 +274,16 @@
 		 $str='';
 		 foreach($q1->result() as $res1)
 	   { 
-		   $customer_previous_due = $res1->sales_due +$res1->opening_balance;
-		   $customer_previous_due = store_number_format($customer_previous_due,0);
+		   $customer_purchase_due = store_number_format($res1->sales_due,0);
+		   $customer_previous_due =  store_number_format($res1->opening_balance,0);
+		  // $customer_previous_due = store_number_format($customer_previous_due,0);
 		   
 		   $customer_previous_due -=get_paid_cob($res1->id);
 
 		   $tot_advance = store_number_format($res1->tot_advance,0);
 		 $selected = ($select_id==$res1->id)? 'selected' : '';
 		 $disabled = ($res1->count_id != 1)? 'disabled' : '';
-		 $str.="<option $selected data-selected-warehouse_id='".$res1->warehouse_id."' data-delete_bit='".$res1->delete_bit."' data-tot_advance='".$tot_advance."' data-previous_due='".$customer_previous_due."' value='".$res1->id."'$disabled>".$res1->customer_code."-".$res1->customer_name."-".$res1->mobile."</option>";
+		 $str.="<option $selected data-selected-warehouse_id='".$res1->warehouse_id."' data-customer-purchase-due='".$customer_purchase_due."' data-delete_bit='".$res1->delete_bit."' data-tot_advance='".$tot_advance."' data-previous_due='".$customer_previous_due."' value='".$res1->id."'$disabled>".$res1->customer_code."-".$res1->customer_name."-".$res1->mobile."</option>";
 	   }
 	 }
 	 else

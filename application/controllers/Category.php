@@ -27,9 +27,10 @@ class Category extends MY_Controller {
 	}
 	public function update($id){
 		$this->belong_to('db_category',$id);
-		$this->permission_check('items_category_edit');
+		
+		 $this->permission_check('items_category_edit');
 		$data=$this->data;
-
+		
 		$this->load->model('category_model');
 		$result=$this->category_model->get_details($id,$data);
 		$data=array_merge($data,$result);

@@ -599,12 +599,108 @@ $("#customer_id").on("change",function(){
           set_previous_due();
 });
 function set_previous_due(){
+  
   $(".customer_previous_due").html($('option:selected', "#customer_id").attr('data-previous_due'));
+  $(".customer_purchase_due").html($('option:selected', "#customer_id").attr('data-customer-purchase-due'));
   $(".customer_tot_advance").html($('option:selected', "#customer_id").attr('data-tot_advance'));
 	$(".customer_tot_advance_label").html($('option:selected', "#customer_id").attr('data-tot_advance'));
 }
+function pay_previews_due_amount(){
+  pay_now_due($('#customer_id').val());
+}
+function save_payment(customer_id){
+  var base_url=$("#base_url").val();
 
 
+
+
+    //Initially flag set true
+    var flag=true;
+
+    function check_field(id)
+    {
+
+      if(!$("#"+id).val() ) //Also check Others????
+        {
+
+            $('#'+id+'_msg').fadeIn(200).show().html('Required Field').addClass('required');
+           // $('#'+id).css({'background-color' : '#E8E2E9'});
+            flag=false;
+        }
+        else
+        {
+             $('#'+id+'_msg').fadeOut(200).hide();
+             //$('#'+id).css({'background-color' : '#FFFFFF'});    //White color
+        }
+    }
+
+
+   //Validate Input box or selection box should not be blank or empty
+    check_field("amount");
+    check_field("payment_date");
+
+
+    var payment_date=$("#payment_date").val();
+    var amount=$("#amount").val();
+    var payment_type=$("#payment_type").val();
+    var payment_note=$("#payment_note").val();
+    var account_id=$("#account_id").val();
+
+    if(amount == 0){
+      toastr["error"]("Please Enter Valid Amount!");
+      return false; 
+    }
+
+    if(amount > parseFloat($("#amount").attr('data-due-amt'))){
+      toastr["error"]("Entered Amount Should not be Greater than Due Amount!");
+      return false;
+    }
+
+    $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+    $(".payment_save").attr('disabled',true);  //Enable Save or Update button
+    $.post(base_url+'customers/save_payment', {account_id:account_id,customer_id: customer_id,payment_type:payment_type,amount:amount,payment_date:payment_date,payment_note:payment_note}, function(result) {
+      result=result;
+  //alert(result);return;
+        if(result=="success")
+        {
+          $('#pay_now').modal('toggle');
+          toastr["success"]("Payment Recorded Successfully!");
+          success.currentTime = 0; 
+          success.play();
+          $('#example2').DataTable().ajax.reload();
+        }
+        else if(result=="failed")
+        {
+           toastr["error"]("Sorry! Failed to save Record.Try again!");
+           failed.currentTime = 0; 
+           failed.play();
+        }
+        else
+        {
+          toastr["error"](result);
+          failed.currentTime = 0; 
+          failed.play();
+        }
+        $(".payment_save").attr('disabled',false);  //Enable Save or Update button
+        $(".overlay").remove();
+    });
+}
+
+
+function pay_now_due(customer_id){
+
+  $.post($("#base_url").val()+'customers/show_pay_now_modal', {customer_id: customer_id}, function(result) {
+    $(".pay_now_modal").html('').html(result);
+    //Date picker
+    $('.datepicker').datepicker({
+      autoclose: true,
+    format: 'dd-mm-yyyy',
+     todayHighlight: true
+    });
+    $('#pay_now').modal('toggle');
+
+  });
+}
 
 function get_coupon_details(){
   var input_box = $("#coupon_code");

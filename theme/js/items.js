@@ -614,7 +614,7 @@ $("#item_group").on("change",function(event) {
 	}
 	else{
 		$('#expiry_date_div').show();
-		$("#price,#purchase_price,#sales_price,#mrp,#hsn,#sku,#custom_barcode,#adjustment_qty").parent().removeClass('hide');
+		$("#adjustment_qt,#price,#purchase_price,#sales_price,#mrp,#hsn,#sku,#custom_barcode,#adjustment_qty").parent().removeClass('hide');
 		$(".variant_div").hide();
 	}
 });

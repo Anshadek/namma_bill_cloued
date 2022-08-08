@@ -410,9 +410,10 @@
 											<input id="old_warehouse_selected_id" type="hidden">
 											<span class="customer_points text-success" style="display: none;"></span>
 											<input type="checkbox" id="check_bx_previous_due">
-											<lable><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable><br>
+											
+											<lable><?= $this->lang->line('purchase_due'); ?> :<label class="customer_purchase_due text-red" style="font-size: 18px;">0.00</label></lable>
+											<lable  style="margin-left: 50px;"><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable><label style="margin-top:10px;margin-left:10px;" class="btn-sm btn-success" onclick="pay_previews_due_amount()">Pay Now</label><br>
 											<lable style="padding: 34px;"><?= $this->lang->line('advance'); ?> :<label class="text-red customer_tot_advance_label" style="font-size: 18px;">0.00</label></lable>
-
 										</div>
 										<div class="col-md-6">
 											<div class="input-group" data-toggle="tooltip" title="Select Items">
@@ -647,6 +648,8 @@
 				<!--/.col (right) -->
 		</div>
 		<!-- /.row -->
+		<div class="pay_now_modal">
+			</div>
 		</section>
 		<!-- /.content -->
 	</div>
@@ -684,7 +687,7 @@
 			store_module = true;
 		<?php } ?>
 	</script>
-	<script src="<?php echo $theme_link; ?>js/pos.js?v=3"></script>
+	<script src="<?php echo $theme_link; ?>js/pos.js?v=4"></script>
 	<script>
 		var base_url = $("#base_url").val();
 		/*$("#store_id").on("change",function(){
@@ -1023,7 +1026,7 @@
 
 		function set_total(tot_qty = 0, tot_amt = 0, tot_disc = 0, tot_grand = 0) {
 			isChecked = $('#check_bx_previous_due').is(':checked');
-			var due_amt = $('.customer_previous_due').text();
+			var due_amt = $('.customer_purchase_due').text();
 			due_amt = parseFloat(due_amt);
 			var temp_due = 0;
 			if (!isChecked && due_amt > 0) {
@@ -1041,7 +1044,7 @@
 		function adjust_payments() {
 			//======================due amount section ==========================
 			isChecked = $('#check_bx_previous_due').is(':checked');
-			var due_amt = $('.customer_previous_due').text();
+			var due_amt = $('.customer_purchase_due').text();
 			due_amt = parseFloat(due_amt);
 			$('#payment_due_amount').val(due_amt);
 			$('#add_due_amt').val(1);
@@ -1525,7 +1528,7 @@
 		function add_previous_due() {
 
 			isChecked = $('#check_bx_previous_due').is(':checked');
-			var due_amt = $('.customer_previous_due').text();
+			var due_amt = $('.customer_purchase_due').text();
 			due_amt = parseFloat(due_amt);
 			if (!isChecked && due_amt < 0) {
 				due_amt = 0;

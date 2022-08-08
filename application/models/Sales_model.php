@@ -578,26 +578,10 @@ class Sales_model extends CI_Model {
 			}
 			//   $sum_of_payments = $amount
 			//print_r($payment_status);die();
-
 		//===============================this for pos due amount automatic satus change while complte all payment=====================================================
-
 		}else{
 			//using customer id becosue we are clear all invoice due amount
 			$payble_total=$this->db->query("select coalesce(sum(grand_total),0) - coalesce(sum(paid_amount),0) as total from db_sales where customer_id='$customer_id'")->row()->total;
-			// print_r($payble_total);
-			// print_r($sum_of_payments);
-			// die();
-			if($payble_total<$sum_of_payments){
-				$sales_datas = $this->db->select("opening_balance")
-				->from("db_customers")
-				->where("id",$customer_id)
-				->get()
-				->result_array();
-				$total = $sum_of_payments - $sales_datas[0]['opening_balance'];
-				if($payble_total == $total){
-				$payment_status="Paid";
-				}
-			}
 			if($payble_total==$sum_of_payments){
 				$payment_status="Paid";
 			}
@@ -662,6 +646,7 @@ class Sales_model extends CI_Model {
 			return true;
 		}
 	}
+
 
 
 	function update_sales_payment_status($sales_id=null,$customer_id=null){
