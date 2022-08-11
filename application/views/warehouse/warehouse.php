@@ -239,11 +239,11 @@
                                                    </div>
                                                 </div>
                                                 <?php 
-                                                if(empty($store_logo)){
+                                                if(empty($ware_house_logo)){
                                                   $logo = base_url('uploads/no_logo/nologo.png');
                                                 }
                                                 else{
-                                                  $logo = base_url($store_logo);
+                                                  $logo = base_url($ware_house_logo);
                                                 }
                                                 ?>
                                                 <div class="form-group">

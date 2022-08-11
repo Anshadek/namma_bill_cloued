@@ -21,7 +21,7 @@
                 $round_off='';
                 $mobile=$phone=$email=$country=$state=$city=
                 $postcode=$address=$gst_no=$vat_no=
-                $warehouse_website=$pan_no=$bank_details=$store_logo='';
+                $warehouse_website=$pan_no=$bank_details=$ware_house_logo='';
 
                 $decimals=2;
                 $invoice_terms = '';
@@ -74,13 +74,13 @@
                                        <div class="box-body">
                                           <div class="row">
                                              <div class="col-md-5">
-                                                <!-- <div class="form-group">
+                                                <div class="form-group">
                                                    <label for="store_code" class="col-sm-4 control-label"><?= $this->lang->line('store_code'); ?><label class="text-danger">*</label></label>
                                                    <div class="col-sm-8">
                                                       <input type="text" class="form-control" id="store_code" name="store_code" readonly=""  placeholder="" onkeyup="shift_cursor(event,'mobile')" value="<?php print $store_code; ?>" >
                                                       <span id="store_code_msg" style="display:none" class="text-danger"></span>
                                                    </div>
-                                                </div> -->
+                                                </div> 
                                                 <div class="form-group">
                                                    <label for="warehouse_name" class="col-sm-4 control-label"><?= $this->lang->line('warehouse_name'); ?><label class="text-danger">*</label></label>
                                                    <div class="col-sm-8">
@@ -232,18 +232,18 @@
                                                    </div>
                                                 </div>
                                                 <div class="form-group">
-                                                   <label for="store_logo" class="col-sm-4 control-label"><?= $this->lang->line('store_logo'); ?></label>
+                                                   <label for="ware_house_logo" class="col-sm-4 control-label"><?= $this->lang->line('ware_house_logo'); ?></label>
                                                    <div class="col-sm-8">
                                                       <input type="file" id="store_logo" name="store_logo">
                                                       <span id="store_logo_msg" style="display:block;" class="text-danger">Max Width/Height: 1000px * 1000px & Size: 1024kb </span>
                                                    </div>
                                                 </div>
                                                 <?php 
-                                                if(empty($store_logo)){
+                                                if(empty($ware_house_logo)){
                                                   $logo = base_url('uploads/no_logo/nologo.png');
                                                 }
                                                 else{
-                                                  $logo = base_url($store_logo);
+                                                  $logo = base_url($ware_house_logo);
                                                 }
                                                 ?>
                                                 <div class="form-group">

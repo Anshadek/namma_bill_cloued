@@ -66,7 +66,7 @@ body { margin: 5px; }
     $state_rec = (!empty($customer_rec->state_id)) ? get_state_details($customer_rec->state_id) : '';
     
 
-    $store_logo=(!empty($store_rec->store_logo)) ? $store_rec->store_logo : store_demo_logo();
+    $store_logo=(!empty($store_rec->ware_house_logo)) ? $store_rec->ware_house_logo : store_demo_logo();
 
     //Customer state name
     $customer_state_name = (!empty($state_rec)) ? $state_rec->state : $store_rec->state;

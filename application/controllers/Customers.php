@@ -242,7 +242,10 @@ class Customers extends MY_Controller {
 		if($q1->num_rows($q1)>0)
 		 {  
 			 $str='';
-			 $str.='<option value="">-- All --</option>'; 
+			 if (!isset($_POST['is_pos'])){
+				$str.='<option value="">-- All --</option>'; 
+			 }
+		
 			 foreach($q1->result() as $res1)
 		   { 
 			   //$customer_previous_due = $res1->sales_due +$res1->opening_balance;

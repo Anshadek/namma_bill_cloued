@@ -23,6 +23,7 @@ function get_warehouse_customers(datas){
 				data: {
 					//store_id: $("#store_id").val(),
 					warehouse_id : warehouse_id,
+					 
 					selected : selected,
 					
 				},
@@ -35,6 +36,44 @@ function get_warehouse_customers(datas){
 			}).fail(function(jqXHR, ajaxOptions, thrownError) {
 				alert('server not responding...');
 			});
+}
+
+function get_warehouse_customers_pos(datas){
+	var warehouse_id = 0;
+	var selected = $('#selected_warehouse').val();
+	if (selected > 0){
+
+	}else{
+		selected = 0;
+	}
+	
+	if (datas > 0){
+		warehouse_id = datas;
+	}else{
+		warehouse_id = datas.value;
+	}
+	
+	
+	var base_url = $('#base_url').val();
+	$.ajax({
+		url: base_url+'customers/get_warehouse_customers_select_list',
+		type: "post",
+		data: {
+			//store_id: $("#store_id").val(),
+			warehouse_id : warehouse_id,
+			 is_pos : 1,
+			selected : selected,
+			
+		},
+		beforeSend: function() {
+			$('.ajax-load').show();
+		}
+	}).done(function(data) {
+		$('#customer_id').html(data);
+
+	}).fail(function(jqXHR, ajaxOptions, thrownError) {
+		alert('server not responding...');
+	});
 }
 
 function get_warehouse_accounts(datas){

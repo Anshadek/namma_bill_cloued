@@ -58,6 +58,7 @@ class Login_model extends CI_Model
 				        	 'role_name' => trim($query->row()->role_name),
 				        	 'store_id' => trim($query->row()->store_id),
 				        	 'email' => trim($query->row()->email),
+							 'warehouse_id' => trim($query->row()->warehouse_id),
 				        	);
 			$this->session->set_userdata($logdata);
 			$this->session->set_flashdata('success', 'Welcome '.ucfirst($query->row()->username)." !");

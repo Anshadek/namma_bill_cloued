@@ -22,7 +22,7 @@ class Warehouse_model extends CI_Model {
 
 		
 		$ware_house_logo='';
-		if(!empty($_FILES['ware_house_logo']['name'])){
+		if(!empty($_FILES['store_logo']['name'])){
 			$config['upload_path']          = './uploads/store/';
 	        $config['allowed_types']        = 'gif|jpg|jpeg|png';
 	        $config['max_size']             = 1000;
@@ -31,7 +31,7 @@ class Warehouse_model extends CI_Model {
 
 	        $this->load->library('upload', $config);
 
-	        if ( ! $this->upload->do_upload('ware_house_logo'))
+	        if ( ! $this->upload->do_upload('store_logo'))
 	        {
 	                $error = array('error' => $this->upload->display_errors());
 	                return $error['error'];
@@ -57,6 +57,7 @@ class Warehouse_model extends CI_Model {
 		    				'warehouse_website'			=> $warehouse_website,
 		    				'mobile'					=> $mobile,
 		    				'phone'						=> $phone,
+							'ware_house_logo'			=>$ware_house_logo,
 		    				'email'						=> $email,
 		    				'country'					=> $country,
 		    				'state'						=> $state,
@@ -277,7 +278,20 @@ class Warehouse_model extends CI_Model {
 
 	public function delete_warehouse($id){
       	$this->db->trans_begin();
-      	
+		 
+      	 $this->db->select("*");
+		  //$this->db->table("db_items");
+		  $this->db->where("warehouse_id",$id);
+
+		  $query = $this->db->get('db_items');
+		  $result = $query->result();
+		
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "item_exists";
+			
+		}
+
         $q2=$this->db->query("delete from db_warehouse where id='$id' and warehouse_type='Custom' and store_id=".get_current_store_id());
       
 		if($q2!=1)

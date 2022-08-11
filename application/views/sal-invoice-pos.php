@@ -107,7 +107,7 @@
     $company_postcode	=$res1->postcode;
     $company_gst_no		=$res1->gst_no;//Goods and Service Tax Number (issued by govt.)
     $company_vat_number		=$res1->vat_no;//Goods and Service Tax Number (issued by govt.)
-    $store_logo=(!empty($res1->store_logo)) ? $res1->store_logo : store_demo_logo();
+    $store_logo=(!empty($res1->ware_house_logo)) ? $res1->ware_house_logo : store_demo_logo();
     $store_website		=$res1->warehouse_website;
     $mrp_column		=$res1->mrp_column;
 

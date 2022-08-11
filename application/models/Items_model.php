@@ -311,6 +311,7 @@ class Items_model extends CI_Model {
 
 		//Insert Variants in db_items table
 		if( $item_group =='Variants'){
+			
 			if($existing_row_count>0){
 				for($i=1;$i<=$existing_row_count;$i++){
 					if(isset($_REQUEST['tr_variant_id_'.$i]) && !empty($_REQUEST['tr_variant_id_'.$i])){
@@ -359,7 +360,7 @@ class Items_model extends CI_Model {
 			    				'hsn' 						=> $hsn,
 			    				'unit_id' 					=> $unit_id,
 			    				'alert_qty' 				=> $alert_qty,
-			    				
+			    				'warehouse_id' 				=>$warehouse_id,
 			    				'price' 					=> $price,
 			    				'tax_id' 					=> $tax_id,
 			    				'purchase_price' 			=> $purchase_price,

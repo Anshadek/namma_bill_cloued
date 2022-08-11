@@ -670,7 +670,7 @@
 	<script src="<?php echo $theme_link; ?>js/fullscreen.js"></script>
 	<script src="<?php echo $theme_link; ?>js/modals.js?ver=2"></script>
 	<script src="<?php echo $theme_link; ?>js/modals/modal_item.js"></script>
-	<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=2"></script>
+	<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=4"></script>
 
 	<!-- DROP DOWN -->
 	<script src="<?php echo $theme_link; ?>dist/js/bootstrap3-typeahead.min.js"></script>
@@ -714,7 +714,7 @@
 			warehouse_id = $('#warehouse_id').val(res.value);
 			//alert(warehouse_id.value);
 			$(".items_table > tbody").empty();
-			get_warehouse_customers(res);
+			get_warehouse_customers_pos(res);
 			get_categories_select_list();
 			get_brand_select_list();
 			get_account();
@@ -1158,7 +1158,7 @@
 			$("#store_id").trigger('change');
 			//FIRST TIME: LOAD
 			get_details();
-			get_warehouse_customers(warehouse_id)
+			get_warehouse_customers_pos(warehouse_id)
 
 			var first_div = parseFloat($(".content-wrapper").height());
 			var second_div = parseFloat($("section").height());

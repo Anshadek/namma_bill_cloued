@@ -170,7 +170,7 @@ class Store_profile_model extends CI_Model {
 	        }
 	        else
 	        {
-	        	   $store_logo='uploads/store/'.$this->upload->data('file_name');
+	        	   $warehouse_logo='uploads/store/'.$this->upload->data('file_name');
 	        }
 		}
 
@@ -183,8 +183,9 @@ class Store_profile_model extends CI_Model {
 
 		$data = array(
 		    				//'store_code'				=> $store_code,
-		    				'warehouse_name'				=> $warehouse_name,
-		    				'warehouse_website'				=> $warehouse_website,
+		    				'warehouse_name'			=> $warehouse_name,
+		    				'warehouse_website'			=> $warehouse_website,
+							'ware_house_logo'			=>$warehouse_logo,
 		    				'mobile'					=> $mobile,
 		    				'phone'						=> $phone,
 		    				'email'						=> $email,
@@ -279,14 +280,15 @@ class Store_profile_model extends CI_Model {
 	public function get_details($id){
 		$data=$this->data;
 
-		$query1=$this->db->query("select * from db_warehouse
+		$query1=$this->db->query("select db_warehouse.*,db_store.store_code from db_warehouse
+		LEFT JOIN db_store ON db_warehouse.store_id=db_store.id
 		 where 
 		 warehouse_type
 		 ='System'
 		 and 
 		 upper(store_id )
 		 =upper('$id')
-		 
+		
 		 ");
 		if($query1->num_rows()==0){
 			show_404();exit;
