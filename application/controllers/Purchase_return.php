@@ -269,21 +269,34 @@ class Purchase_return extends MY_Controller {
 
 		// Get output html
         $html = $this->output->get_output();
-        $options = new Options();
-		$options->set('isRemoteEnabled', true);
-        $dompdf = new Dompdf($options);
+		        // Load HTML content
+				$this->load->library('pdf');
+				$this->dompdf->loadHtml($html);
+        
+				// (Optional) Setup the paper size and orientation
+				$this->dompdf->setPaper('A4', 'portrait');/*landscape or portrait*/
+				
+				// Render the HTML as PDF
+				$this->dompdf->render();
+				
+				// Output the generated PDF (1 = download and 0 = preview)
+				$this->dompdf->stream("Purchase-return-$return_id-".date('M')."_".date('d')."_".date('Y'), array("Attachment"=>0));
 
-        // Load HTML content
-        $dompdf->loadHtml($html,'UTF-8');
+        // $options = new Options();
+		// $options->set('isRemoteEnabled', true);
+        // $dompdf = new Dompdf($options);
+
+        // // Load HTML content
+        // $dompdf->loadHtml($html,'UTF-8');
         
-        // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'portrait');/*landscape or portrait*/
+        // // (Optional) Setup the paper size and orientation
+        // $dompdf->setPaper('A4', 'portrait');/*landscape or portrait*/
         
-        // Render the HTML as PDF
-        $dompdf->render();
+        // // Render the HTML as PDF
+        // $dompdf->render();
         
-        // Output the generated PDF (1 = download and 0 = preview)
-        $dompdf->stream("Purchase-return-$return_id-".date('M')."_".date('d')."_".date('Y'), array("Attachment"=>0));
+        // // Output the generated PDF (1 = download and 0 = preview)
+        // $dompdf->stream("Purchase-return-$return_id-".date('M')."_".date('d')."_".date('Y'), array("Attachment"=>0));
 	}
 
 

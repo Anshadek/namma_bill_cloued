@@ -133,7 +133,7 @@ $("#item_search").autocomplete({
             data: {
                 name: data.term,
                 store_id:$("#store_id").val(),
-                //warehouse_id:$("#warehouse_id").val(),
+                warehouse_id:$("#warehouse_id").val(),
                 search_for:"sales",
             },
             beforeSend: function() {

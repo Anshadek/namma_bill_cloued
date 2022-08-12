@@ -444,7 +444,7 @@ padding-right: 2px;
 <script type="text/javascript">
   var walk_in_customer_name ='<?= get_walk_in_customer_name();?>'
 </script>
-<script src="<?php echo $theme_link; ?>js/quotation/quotation.js"></script>  
+<script src="<?php echo $theme_link; ?>js/quotation/quotation.js?v=1"></script>  
       <script>
         $("#customer_id").on("change",function(){
           set_previous_due();

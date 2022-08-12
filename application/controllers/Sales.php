@@ -310,23 +310,36 @@ class Sales extends MY_Controller {
 
 
         $html = $this->get_html_invoice($data);
-       
-        $options = new Options();
 		
-		$options->set('isRemoteEnabled', true);
-        $dompdf = new Dompdf($options);
-
+        $this->load->library('pdf');
+        
         // Load HTML content
-        $dompdf->loadHtml($html,'UTF-8');
+        $this->dompdf->loadHtml($html);
         
         // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'portrait');/*landscape or portrait*/
+        $this->dompdf->setPaper('A4', 'portrait');/*landscape or portrait*/
         
         // Render the HTML as PDF
-        $dompdf->render();
+        $this->dompdf->render();
         
         // Output the generated PDF (1 = download and 0 = preview)
-        $dompdf->stream("Sales-invoice-$sales_id-".date('M')."_".date('d')."_".date('Y'), array("Attachment"=>0));
+        $this->dompdf->stream("Sales-invoice-$sales_id-".date('M')."_".date('d')."_".date('Y'), array("Attachment"=>0));
+        // $options = new Options();
+		
+		// $options->set('isRemoteEnabled', true);
+        // $dompdf = new Dompdf($options);
+
+        // // Load HTML content
+        // $dompdf->loadHtml($html,'UTF-8');
+        
+        // // (Optional) Setup the paper size and orientation
+        // $dompdf->setPaper('A4', 'portrait');/*landscape or portrait*/
+        
+        // // Render the HTML as PDF
+        // $dompdf->render();
+        
+        // // Output the generated PDF (1 = download and 0 = preview)
+        // $dompdf->stream("Sales-invoice-$sales_id-".date('M')."_".date('d')."_".date('Y'), array("Attachment"=>0));
 	}
 	
 	
