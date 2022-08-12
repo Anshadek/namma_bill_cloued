@@ -692,9 +692,9 @@ class Items_model extends CI_Model {
 
 							for($j=1;$j<=$item_count;$j++){
 								?>
-								
+							
 								<div class="col-md-6">
-								<div style="height:1in !important; line-height: 1in; width:2.5in !important; display: inline-block; <?=$page_break;?>  " class="label_border text-center">
+								<div style="height:1.2in !important; line-height: 1in; width:2.5in !important; display: inline-block; <?=$page_break;?>  " class="label_border text-center">
 								<div style="display:inline-block;vertical-align:middle;line-height:16px !important;">
 									<b style="display: block !important" class="text-uppercase"><?=$store_name;?></b>
 										<span style="display: block !important">
@@ -702,7 +702,9 @@ class Items_model extends CI_Model {
 										</span>
 									<b>Price:</b>
 									<span><?= $CI->currency($item_price);?></span>
-									<img class="center-block" style="max-height: 0.35in !important; width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/index/<?php echo urldecode($item_code);?>">
+									<div id="barcodeTarget" class="barcodeTarget"></div>
+    	
+									
 	
 								</div>
 								</div>
@@ -715,7 +717,7 @@ class Items_model extends CI_Model {
 					
 					}//for end
 					?>
-					
+				<input type="hidden" id="item_code" value="<?= $item_code ?>">
 					
 				</div>
 			</div>

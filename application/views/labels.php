@@ -207,11 +207,13 @@
                  
                </div>
                <!-- /.box -->
+               
              </section>
             <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   
+ <?php include"barcode_html_value.php"; ?>
  <?php include"footer.php"; ?>
 <!-- SOUND CODE -->
 <?php include"comman/code_js_sound.php"; ?>
@@ -223,8 +225,10 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
-      <script src="<?php echo $theme_link; ?>js/labels.js?v=1"></script>  
+<script type="text/javascript" src="<?php echo $theme_link; ?>js/jquery-barcode.js"></script>
+      <script src="<?php echo $theme_link; ?>js/labels.js?v=2"></script>  
+      <script src="<?php echo $theme_link; ?>js/barcode_generator.js?v=2"></script>  
+      
       <script>
        
         var base_url=$("#base_url").val();
@@ -258,11 +262,14 @@
          /* ---------- Final Description of amount end ------------*/
           
          function removerow(id){//id=Rowid
-           
+            var rowcount=$("#hidden_rowcount").val();
          $("#row_"+id).remove();
          final_total();
          failed.currentTime = 0;
         failed.play();
+        if (rowcount > 1){
+         $("#hidden_rowcount").val(rowcount - 1);
+        }
          }
 
          /*Print Div*/
@@ -290,8 +297,13 @@
                docprint.document.write(content_vlue);
                docprint.document.write('</center></body></html>');
                docprint.document.close();
+               
                docprint.focus();
+              
+
+              
             }
+           
       </script>
       <!-- Purchase List Barcode -->
       <script type="text/javascript">

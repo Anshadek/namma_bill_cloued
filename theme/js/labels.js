@@ -77,14 +77,20 @@ $("#item_search").autocomplete({
 function return_row_with_data(item_id){
 	var base_url=$("#base_url").val();
 	var rowcount=$("#hidden_rowcount").val();
-	$.post(base_url+"items/return_row_with_data/"+rowcount+"/"+item_id,{},function(result){
-        //alert(result);
-        $('#sales_table tbody').append(result);
-       	$("#hidden_rowcount").val(parseInt(rowcount)+1);
-        success.currentTime = 0;
-        success.play();
-        final_total();
-    }); 
+  
+  if (rowcount == 2){
+    alert('select only one');
+  }else{
+    $.post(base_url+"items/return_row_with_data/"+rowcount+"/"+item_id,{},function(result){
+      //alert(result);
+      $('#sales_table tbody').append(result);
+       $("#hidden_rowcount").val(parseInt(rowcount)+1);
+      success.currentTime = 0;
+      success.play();
+      final_total();
+  }); 
+  }
+
 }
 //INCREMENT ITEM
 function increment_qty(rowcount){
@@ -188,6 +194,16 @@ $('#preview').on("click",function (e) {
 
          }
          });
+
+         appendimg();
   
   
 });
+
+function appendimg(){
+
+ setTimeout(function() {
+  generateBarcode($('#item_code').val());
+ }, 100);
+   
+}
