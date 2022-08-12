@@ -203,6 +203,7 @@ $('#preview').on("click",function (e) {
 function appendimg(){
 
  setTimeout(function() {
+  alert('sss');
   generateBarcode($('#item_code').val());
  }, 100);
    
