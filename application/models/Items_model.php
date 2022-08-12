@@ -664,7 +664,27 @@ class Items_model extends CI_Model {
 		//print_r($_POST);exit();
 		$CI =& get_instance();
 		//Filtering XSS and html escape from user inputs 
-		$store_name=$this->db->query("select store_name from db_store where id=".get_current_store_id())->row()->store_name;
+
+
+		if($this->session->userdata('inv_userid') > 0) {
+			$warehouse_query =$this->db->select('warehouse_id')->where('user_id ',$this->session->userdata('inv_userid'))->get('db_userswarehouses');
+			if (isset($warehouse_query->row()->warehouse_id) && $warehouse_query->row()->warehouse_id > 0){
+				$warehouse_query =$this->db->select('warehouse_name')
+				->where('id ',$warehouse_query->row()->warehouse_id)
+				->get('db_warehouse');
+				$store_name = $warehouse_query->row()->warehouse_name;
+			}else{
+				$warehouse_query =$this->db->select('warehouse_name')
+				->where('warehouse_type','System')	
+				->where('store_id ',$this->session->userdata('store_id'))	
+				->get('db_warehouse');
+				
+				$store_name = $warehouse_query->row()->warehouse_name;
+			}
+		}
+
+
+		//$store_name=$this->db->query("select store_name from db_store where id=".get_current_store_id())->row()->store_name;
 		$rowcount = $this->input->post('hidden_rowcount');
 
 		$is_roll_paper=true;
