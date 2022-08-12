@@ -28,6 +28,25 @@ class MY_Controller extends CI_Controller{
         $this->lang->load($default_lang, $default_lang);
       }
       public function load_info(){
+				$app_name = "";
+				if($this->session->userdata('inv_userid') > 0) {
+				$warehouse_query =$this->db->select('warehouse_id')->where('user_id ',$this->session->userdata('inv_userid'))->get('db_userswarehouses');
+				if (isset($warehouse_query->row()->warehouse_id) && $warehouse_query->row()->warehouse_id > 0){
+					$warehouse_query =$this->db->select('warehouse_name')
+					->where('id ',$warehouse_query->row()->warehouse_id)
+					->get('db_warehouse');
+					$app_name = $warehouse_query->row()->warehouse_name;
+				}else{
+					$warehouse_query =$this->db->select('warehouse_name')
+					->where('warehouse_type','System')	
+					->where('store_id ',$this->session->userdata('store_id'))	
+					->get('db_warehouse');
+					
+					$app_name = $warehouse_query->row()->warehouse_name;
+				}
+			}
+		
+				//die();
         /*if(strtotime(date("d-m-Y")) >= strtotime(date("05-04-2019"))){
             echo "License Expired! Contact Admin";exit();
           }*/
@@ -72,7 +91,7 @@ class MY_Controller extends CI_Controller{
 
             $this->data = array('theme_link'    => base_url().'theme/',
                                 'base_url'      => base_url(),
-                                'SITE_TITLE'    => $query->row()->site_name,
+                                'SITE_TITLE'    => $app_name,
                                 'VERSION'       => $query->row()->version,
                                 'CURRENCY'      => $this->session->userdata('currency'),
                                 'CURRENCY_PLACE'=> $this->session->userdata('currency_placement'),
