@@ -16,7 +16,7 @@
     }
 </style>
 </head>
-<body onload="window.print();"><!--  -->
+<body><!--  -->
 	<?php
 	$CI =& get_instance();
 	
@@ -292,14 +292,9 @@
 
 					<tr>
 						<td colspan="<?=$mrp_column+5?>" align="center">
-						<?php 
-								$sales_code= urlencode($sales_code);
-						?>
+						
 						<div id="barcodeTarget" class="barcodeTarget"></div>
-							<div style="display:inline-block;vertical-align:middle;line-height:16px !important;">	
 							
-								<!-- <img class="center-block" style=" width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/get_barcode/?code=<?=stripslashes($sales_code)?>"> -->
-							</div>
 						
 						</td>
 					</tr>
@@ -322,13 +317,16 @@
    </div>
 
 </center>
+<?php include"barcode_html_value.php"; ?>
 </body>
-<script type="text/javascript" src="<?php echo $theme_link; ?>js/jquery-barcode.js"></script>
-<script src="<?php echo $theme_link; ?>js/barcode_generator.js?v=2"></script>  
+<script type="text/javascript" src="<?php echo $theme_link; ?>js/jquery-barcode.js?v=4"></script>
+<script src="<?php echo $theme_link; ?>js/barcode_generator.js?v=3"></script>  
 <script>
 	$( document ).ready(function() {
-		alert($('#item_code').val());
-		generateBarcode($('#item_code').val());
+		//setTimeout(function() {
+generateBarcode($('#item_code').val());
+window.print();
+//}, 100);
 });
 
 </script>

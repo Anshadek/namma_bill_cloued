@@ -25,6 +25,7 @@ function generateBarcode(barcode_val) {
 		$(".barcodeTarget").hide();
 		$("#canvasTarget").show().barcode(value, btype, settings);
 	} else {
+		
 		$("#canvasTarget").hide();
 		$(".barcodeTarget").html("").show().barcode(value, btype, settings);
 	}
@@ -60,5 +61,5 @@ $(function() {
 		if ($(this).attr('id') == 'canvas') $('#miscCanvas').show();
 		else $('#miscCanvas').hide();
 	});
-	generateBarcode();
+	//generateBarcode();
 });
