@@ -278,19 +278,123 @@ class Warehouse_model extends CI_Model {
 
 	public function delete_warehouse($id){
       	$this->db->trans_begin();
-		 
-      	 $this->db->select("*");
-		  //$this->db->table("db_items");
+		//=============================checking warehouse effecting tables===================================================
+      	// check items 
+		$this->db->select("*");
 		  $this->db->where("warehouse_id",$id);
-
 		  $query = $this->db->get('db_items');
 		  $result = $query->result();
-		
 		if(count($result)>0){
 			$this->db->trans_rollback();
-			return "item_exists";
-			
+			return "Can't Delete! These warehouse List Have the item Records!";
 		}
+		// check category 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_category');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the category Records!";
+		}
+		// check varient 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_variants');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the variants Records!";
+		}
+		// check varient 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_variants');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the variants Records!";
+		}
+		// check purchase 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_purchase');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the purchase Records!";
+		}
+
+		// check  purchase retuern 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_purchasereturn');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the purchase return Records!";
+		}
+
+		// check  users 
+		$this->db->select("*");
+		  $this->db->where("b.warehouse_id",$id);
+		  $this->db->join("db_userswarehouses as b","db_users.id = b.user_id");
+		  $query = $this->db->get('db_users');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the users Records!";
+		}
+		// check  suppliers 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_suppliers');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the suppliers Records!";
+		}
+		// check  quotation 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_quotation');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the quotation Records!";
+		}
+		// check  expense 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_expense');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the expense Records!";
+		}
+
+		// check   custadvance 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_custadvance');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the  custamer advance Records!";
+		}
+		// check   account 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('ac_accounts');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the  account Records!";
+		}
+
+		//==========================================================================================
+
+
 
         $q2=$this->db->query("delete from db_warehouse where id='$id' and warehouse_type='Custom' and store_id=".get_current_store_id());
       

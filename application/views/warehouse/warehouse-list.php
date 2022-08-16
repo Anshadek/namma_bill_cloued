@@ -188,15 +188,12 @@
                    toastr["error"]("Failed to Delete .Try again!");
                   
                  }
-                 else if(result=="item_exists"){
-                   toastr["error"]("Can't Delete! These warehouse List Have the item Records!");
+                 else{
+                   toastr["error"](result);
                   
                  }
                  
-                 else{
-                   toastr["error"]("Error! Something Went Wrong!");
-                  
-                 }
+                 
                  $(".overlay").remove();
             });
             }//end confirmation
