@@ -851,6 +851,7 @@
       <script>
         $(function () {
           //bootstrap WYSIHTML5 - text editor
+          get_states($('#country').val());
           $("#invoice_terms").wysihtml5()
         })
       </script>

@@ -172,6 +172,8 @@ class Store_profile_model extends CI_Model {
 	        {
 	        	   $warehouse_logo='uploads/store/'.$this->upload->data('file_name');
 	        }
+		}else{
+			$warehouse_logo = $_FILES['store_logo']['name'];
 		}
 
 		$change_return = (isset($change_return)) ? 1 : 0;
@@ -185,7 +187,6 @@ class Store_profile_model extends CI_Model {
 		    				//'store_code'				=> $store_code,
 		    				'warehouse_name'			=> $warehouse_name,
 		    				'warehouse_website'			=> $warehouse_website,
-							'ware_house_logo'			=>$warehouse_logo,
 		    				'mobile'					=> $mobile,
 		    				'phone'						=> $phone,
 		    				'email'						=> $email,
@@ -232,8 +233,8 @@ class Store_profile_model extends CI_Model {
 		    				'previous_balance_bit'	=> $previous_balance_bit,
 		    			);
 
-		if(!empty($ware_house_logo)){
-			$data['ware_house_logo']=$ware_house_logo;
+		if(!empty($warehouse_logo)){
+			$data['ware_house_logo']=$warehouse_logo;
 		}
 		/*custom helper*/
 		if(gst_number()){

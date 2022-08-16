@@ -47,9 +47,9 @@
     $created_time=$res3->created_time;
     
 
-    $q1=$this->db->query("select * from db_store where id=".get_current_store_id());
+    $q1=$this->db->query("select * from db_warehouse where id=".$warehouse_from);
     $res1=$q1->row();
-    $store_name=$res1->store_name;
+    $store_name=$res1->warehouse_name;
     $company_mobile=$res1->mobile;
     $company_phone=$res1->phone;
     $company_email=$res1->email;

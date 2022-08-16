@@ -412,8 +412,7 @@
 											<input type="checkbox" id="check_bx_previous_due">
 											
 											<lable><?= $this->lang->line('purchase_due'); ?> :<label class="customer_purchase_due text-red" style="font-size: 18px;">0.00</label></lable>
-											<lable  style="margin-left: 50px;"><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable><label style="margin-top:10px;margin-left:10px;" class="btn-sm btn-success" onclick="pay_previews_due_amount()">Pay Now</label><br>
-											<lable style="padding: 34px;"><?= $this->lang->line('advance'); ?> :<label class="text-red customer_tot_advance_label" style="font-size: 18px;">0.00</label></lable>
+											
 										</div>
 										<div class="col-md-6">
 											<div class="input-group" data-toggle="tooltip" title="Select Items">
@@ -423,6 +422,16 @@
 											</div>
 										</div>
 									</div><!-- row end -->
+									<div class="row">
+									
+									<div class="col-md-6">
+									<lable style=""><?= $this->lang->line('advance'); ?> :<label class="text-red customer_tot_advance_label" style="font-size: 18px;">0.00</label></lable>
+									</div>
+									<div class="col-md-6">
+									<lable  style=""><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable><label style="margin-left:10px;" class="btn-sm btn-success" onclick="pay_previews_due_amount()">Pay Now</label><br>
+											
+									</div>
+									</div>
 
 									<div class="row">
 										<div class="col-md-12">
