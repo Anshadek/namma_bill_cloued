@@ -151,7 +151,9 @@
 					<tr>
 						<td width="40%"><?= $this->lang->line('invoice'); ?></td>
 						<td><b>#<?= $sales_code; ?></b></td>
+						
 					</tr>
+					<input type="hidden" id="item_code" value="<?= $sales_code ?>">
 					<tr>
 						<td><?= $this->lang->line('name'); ?></td>
 						<td><?= $customer_name; ?></td>
@@ -293,8 +295,10 @@
 						<?php 
 								$sales_code= urlencode($sales_code);
 						?>
+						<div id="barcodeTarget" class="barcodeTarget"></div>
 							<div style="display:inline-block;vertical-align:middle;line-height:16px !important;">	
-								<img class="center-block" style=" width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/get_barcode/?code=<?=stripslashes($sales_code)?>">
+							
+								<!-- <img class="center-block" style=" width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/get_barcode/?code=<?=stripslashes($sales_code)?>"> -->
 							</div>
 						
 						</td>
@@ -319,4 +323,13 @@
 
 </center>
 </body>
+<script type="text/javascript" src="<?php echo $theme_link; ?>js/jquery-barcode.js"></script>
+<script src="<?php echo $theme_link; ?>js/barcode_generator.js?v=2"></script>  
+<script>
+	$( document ).ready(function() {
+		alert($('#item_code').val());
+		generateBarcode($('#item_code').val());
+});
+
+</script>
 </html>

@@ -19,7 +19,7 @@
     }
 </style>
 </head>
-<body onload="window.print();">
+<body >
 	<?php
 	$CI =& get_instance();
 	
@@ -129,6 +129,7 @@
 			</td>
 		</tr>
 		<tr><td align="center"><strong><?= $this->lang->line('invoice_number'); ?> : <?= $sales_code; ?></strong></td></tr>
+		<input type="hidden" id="item_code" value="<?= $sales_code ?>"
 		<tr><td><h4><?= $this->lang->line('ship_from'); ?></h4></td></tr>
 		<tr>
 			<td>
@@ -158,7 +159,8 @@
 						</td>
 						<td align="center" style="padding:5px;">
 							<div style="display:inline-block;vertical-align:middle;line-height:16px !important;">	
-								<img class="center-block" style=" width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/<?php echo $sales_code;?>">
+							<div id="barcodeTarget" class="barcodeTarget"></div>
+								<!-- <img class="center-block" style=" width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/<?php echo $sales_code;?>"> -->
 							</div>
 						</td>
 					</tr>
@@ -290,5 +292,15 @@
    </div>
 
 </center>
+<script type="text/javascript" src="<?php echo $theme_link; ?>js/jquery-barcode.js"></script>
+<script src="<?php echo $theme_link; ?>js/barcode_generator.js?v=2"></script>  
+<script>
+	$( document ).ready(function() {
+		alert('ssss');
+		generateBarcode($('#item_code').val());
+});
+
+</script>
+      
 </body>
 </html>

@@ -723,9 +723,6 @@ class Items_model extends CI_Model {
 									<b>Price:</b>
 									<span><?= $CI->currency($item_price);?></span>
 									<div id="barcodeTarget" class="barcodeTarget"></div>
-    	
-									
-	
 								</div>
 								</div>
 								</div>
