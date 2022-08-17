@@ -4,15 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Brand_model extends CI_Model {
 
 	var $table = 'db_brands';
-	var $column_order = array(null, 'brand_code','brand_name','description','status','w.warehouse_name'); //set column field database for datatable orderable
-	var $column_search = array('brand_code','brand_name','description','status','w.warehouse_name'); //set column field database for datatable searchable 
+	var $column_order = array(null, 'brand_code','brand_name','description','db_brands.status','w.warehouse_name'); //set column field database for datatable orderable
+	var $column_search = array('brand_code','brand_name','description','db_brands.status','w.warehouse_name'); //set column field database for datatable searchable 
 	var $order = array('db_brands.id' => 'desc'); // default order 
 
 	private function _get_datatables_query()
 	{
 		
 		$this->db->from($this->table);
-		
+		$this->db->select('db_brands.*,w.warehouse_name');
 		$this->db->join('db_warehouse as w','w.id=db_brands.warehouse_id','left');
 		//if not admin
 		//if(!is_admin()){
@@ -169,6 +169,7 @@ class Brand_model extends CI_Model {
         }
 	}
 	public function delete_brands_from_table($ids){
+
 			$this->db->trans_begin();
 
 			//find the this BRAND has the items ? 
@@ -185,6 +186,7 @@ class Brand_model extends CI_Model {
 			}
 
 			$query1=$this->db->delete("db_brands");
+			
 			#---------------------------------
 			$this->db->set("brand_id",'null');
 			$this->db->where("brand_id in ($ids)");
