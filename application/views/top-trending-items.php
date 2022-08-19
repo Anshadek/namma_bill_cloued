@@ -24,7 +24,74 @@
             </ol>
          </section>
          <!-- Main content -->
+         <section class="content">
+               <div class="row">
+                  <!-- right column -->
+                  <div class="col-md-12">
+                     <!-- Horizontal Form -->
+                     <div class="box box-primary ">
+                        <div class="box-header with-border">
+                           <h3 class="box-title">Please Enter Valid Information</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form target='_blank' class="form-horizontal" id="report-form" onkeypress="return event.keyCode != 13;" action='<?=base_url('reports/top_trending_items')?>'>
+                           <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                           <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
+                           <div class="box-body">
+                              <div class="form-group">
+                                 <!-- Store Code -->
+                                  <?php if(store_module() && is_admin()) {$this->load->view('store/store_code',array('show_store_select_box'=>true,'store_id'=>get_current_store_id(),'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true')); }else{
+                                     echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
+                                     }?>
+                                  <!-- Store Code end -->
+                                </div>
+                                <div class="form-group ">
+                                <label for="expire_date" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?></label>
+                                 <div class="col-sm-3">
+											<?php 
+                               if(warehouse_module() && warehouse_count()>1) { ?>
+										 <select class="form-control select2 " id="warehouse_id" name="warehouse_id">
+											<?= get_warehouse_select_list($warehouse_id, get_current_store_id()); ?>
+										</select>
+										<?php }else{
+                                echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+                               }
+                              ?>
+                              
+                                 </div>
+										</div>
+                             
+                              
+                           
 
+                           </div>
+
+                           <!-- /.box-body -->
+                           <div class="box-footer">
+                              <div class="col-sm-8 col-sm-offset-2 text-center">
+                                 <div class="col-md-3 col-md-offset-3">
+                                    <button type="button" id="view" class=" btn btn-block btn-success" title="Save Data">Show</button>
+                                 </div>
+                                 <div class="col-sm-3">
+                                    <a href="<?=base_url('dashboard');?>">
+                                    <button type="button" class="col-sm-3 btn btn-block btn-warning close_btn" title="Go Dashboard">Close</button>
+                                    </a>
+                                 </div>
+                              </div>
+                           </div>
+                           
+
+                           <!-- /.box-footer -->
+                        </form>
+                     </div>
+                     <!-- /.box -->
+                  </div>
+                  <!--/.col (right) -->
+               </div>
+               <!-- /.row -->
+            </section>
+            <!-- /.content -->
          <!-- /.content -->
          <section class="content">
             <div class="row">
@@ -90,19 +157,19 @@
    </script>
    <script type="text/javascript">
       $(document).ready(function() {
-         var base_url = '<?= base_url() ?>';
+        
+      });
+
+      $("#view").click(function(){
+      var base_url = '<?= base_url() ?>';
          $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-         $.ajax({
-            url: base_url + 'reports/show_top_trending_report',
-            type: 'GET',
-            // dataType: 'json', // added data type
-            success: function(result) {
-               setTimeout(function() {
-                  $("#tbodyid").empty().append(result);
-                  $(".overlay").remove();
-               }, 0);
-            }
-         });
+         $.post($("#base_url").val()+"reports/show_top_trending_report",{warehouse_id:$("#warehouse_id").val()},function(result){
+                //alert(result);
+                setTimeout(function() {
+                $("#tbodyid").empty().append(result);     
+                $(".overlay").remove();
+             }, 0);
+            });
       });
    </script>
    <!-- Make sidebar menu hughlighter/selector -->
