@@ -18,6 +18,20 @@ function validateEmail(sEmail) {
     }
 }
 $("#pay_all").on("click",function(){
+  //======================due amount section ==========================
+  isChecked = $('#check_bx_previous_due').is(':checked');
+  var due_amt = $('.customer_purchase_due').text();
+  due_amt = parseFloat(due_amt);
+  $('#payment_due_amount').val(due_amt);
+  $('#add_due_amt').val(1);
+  if (!isChecked && due_amt > 0) {
+    due_amt = 0;
+    $('#add_due_amt').val(0);
+  }
+
+
+  //========================================
+  final_total();
 	save(print=true,pay_all=true);
 });
 
@@ -387,6 +401,7 @@ $('#show_cash_modal').on("click",function (e) {
     }
     else{
     	adjust_payments();
+      final_total();
     	$("#add_payment_row,#payment_type_1").parent().hide();
     	$("#amount_1").focus();
     	$("#amount_1").parent().parent().removeClass('col-md-6').addClass('col-md-12');

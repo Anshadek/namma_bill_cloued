@@ -696,7 +696,7 @@
 			store_module = true;
 		<?php } ?>
 	</script>
-	<script src="<?php echo $theme_link; ?>js/pos.js?v=4"></script>
+	<script src="<?php echo $theme_link; ?>js/pos.js?v=5"></script>
 	<script>
 		var base_url = $("#base_url").val();
 		/*$("#store_id").on("change",function(){
