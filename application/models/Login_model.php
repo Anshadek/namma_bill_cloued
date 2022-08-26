@@ -36,7 +36,7 @@ class Login_model extends CI_Model
 				}
 			}
 
-			$store_rec = get_store_details($query->row()->store_id);
+			$store_rec = get_store_details_login($query->row()->store_id);
 			//STORE ACTIVE OR NOT
 			if(!$store_rec->status){
 				$this->session->set_flashdata('failed', 'Your Store Temporarily Inactive!');
@@ -47,8 +47,7 @@ class Login_model extends CI_Model
 				$this->session->set_flashdata('failed', 'Your account is temporarily inactive!');
 				redirect('login');exit;
 			}
-
-
+		
 			$logdata = array(
 							'inv_username'  => $query->row()->username,
 							'user_lname'  => $query->row()->last_name,
@@ -61,8 +60,10 @@ class Login_model extends CI_Model
 							
 				        	);
 			$this->session->set_userdata($logdata);
+			
 			$this->session->set_flashdata('success', 'Welcome '.ucfirst($query->row()->username)." !");
 			redirect(base_url().'dashboard');
+			
 		}
 		else{
 			$this->session->set_flashdata('failed', 'Invalid Email or Password!');

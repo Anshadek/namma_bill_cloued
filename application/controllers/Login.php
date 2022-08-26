@@ -26,12 +26,14 @@ class Login extends MY_Controller {
 		//print_r($_POST);exit;
 		$this->form_validation->set_rules('email','Email','required');
 		$this->form_validation->set_rules('pass','Password','required');
+		
 		if($this->form_validation->run()==FALSE){
+			
 			$this->session->set_flashdata('failed', 'Please Enter Email & password!');
 			redirect('login');
 		}
 		else{
-
+			
 			$email=$this->input->post('email');
 			$password=$this->input->post('pass');
 			

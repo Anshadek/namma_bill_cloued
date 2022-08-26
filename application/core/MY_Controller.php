@@ -109,6 +109,7 @@ class MY_Controller extends CI_Controller{
         if($this->session->userdata('logged_in')){
           $q1=$this->db->query("SELECT a.currency_name,a.currency,a.currency_code,a.symbol,b.currency_placement FROM db_currency a,db_store b WHERE a.id=b.currency_id AND b.id=".get_current_store_id());
               $currency = $q1->row()->currency;
+
               $currency_placement = $q1->row()->currency_placement;
               $currency_code = $q1->row()->currency_code;
               $this->session->set_userdata(array('currency'  => $currency,'currency_placement'  => $currency_placement,'currency_code'  => $currency_code));
@@ -119,19 +120,21 @@ class MY_Controller extends CI_Controller{
       }
 
       public function verify_store_and_user_status(){
-            $store_rec = get_store_details();
+            $store_rec = get_store_details_login();
             //STORE ACTIVE OR NOT
             if(!$store_rec->status){
               $this->session->set_flashdata('failed', 'Your Store Temporarily Inactive!');
               redirect('logout');exit;
             }
             //USER ACTIVE OR NOT
+						
             if(!get_user_details()->status){
               $this->session->set_flashdata('failed', 'Your account is temporarily inactive!');
               redirect('logout');exit;
             }
       }
       public function load_global($validate_subs='VALIDATE'){
+				
             //Check login or redirect to logout
             if($this->session->userdata('logged_in')!=1){ redirect(base_url().'logout','refresh');    }
 

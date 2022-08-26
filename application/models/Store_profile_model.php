@@ -302,4 +302,187 @@ class Store_profile_model extends CI_Model {
 		}
 	}
 
+	public function create_store()
+	{
+		
+		//Filtering XSS and html escape from user inputs 
+		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
+		//echo "<pre>";print_r($this->security->xss_clean(html_escape(array_merge($this->data,$_POST))));exit();
+
+		//if not admin
+
+
+		$this->db->trans_begin();
+		if (!empty($mobile)) {
+			$query = $this->db->query("select * from db_users where mobile='$mobile'")->num_rows();
+			if ($query > 0) {
+				return "This Moble Number already exist.";
+			}
+		}
+		if (!empty($email)) {
+			$query = $this->db->query("select * from db_users where email='$email'")->num_rows();
+			if ($query > 0) {
+				return "This Email ID already exist.";
+			}
+		}
+
+		$store_logo = '';
+		if (!empty($_FILES['store_logo']['name'])) {
+			$config['upload_path']          = './uploads/store/';
+			$config['allowed_types']        = 'gif|jpg|jpeg|png';
+			$config['max_size']             = 1000;
+			$config['max_width']            = 1000;
+			$config['max_height']           = 1000;
+
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload('store_logo')) {
+				$error = array('error' => $this->upload->display_errors());
+				return $error['error'];
+				exit();
+			} else {
+				$store_logo = 'uploads/store/' . $this->upload->data('file_name');
+			}
+		}
+
+		$change_return = (isset($change_return)) ? 1 : 0;
+		$mrp_column = (isset($mrp_column)) ? 1 : 0;
+		$round_off = (isset($round_off)) ? 1 : 0;
+
+		$query = $this->db->query("SELECT * FROM db_store ORDER BY id DESC LIMIT 1");
+		$result = $query->result_array();
+		if (count($result) > 0){
+			$code = substr($result[0]['store_code'] , -4);
+		$l=max(strlen($code),1);
+		$next_code=str_pad($code+1, $l,"0", STR_PAD_LEFT);
+		$store_code = 'ST'.$next_code;
+		}else{
+			$store_code = 'ST0003';
+		}
+		
+		
+	$data = array(
+			'store_code'				=> $store_code,
+			'store_name'				=> $store_name,
+			'currency_id'			=>35,
+			'currency_placement'	=>'Left',
+			'mobile'					=> $mobile,
+			'phone'						=> $phone,
+			'email'						=> $email,
+			'country'					=> $country,
+			'timezone'					=>'Asia/Kolkata',
+			'state'						=> $state,
+			'city'						=> $city,
+			'address'					=> $address,
+			'postcode'					=> $postcode,
+			'bank_details'				=> $bank_details,
+			'status'					=>1,
+		
+		);
+
+		if (!empty($store_logo)) {
+			$data['store_logo'] = $store_logo;
+		}
+		/*custom helper*/
+		
+		if (vat_number()) {
+			$data['vat_no'] = $vat_no;
+		}
+		if (pan_number()) {
+			$data['pan_no'] = $pan_no;
+		}
+		/*end*/
+
+
+	
+		$q1 = $this->db->insert('db_store', $data);
+		
+		$row = $this->db->select("*")->limit(1)->order_by('id',"DESC")->get("db_store")->row();
+		
+		$last_inert_id =$row->id;
+	
+		
+
+		/*$query=$this->db->query("select * from db_users where username='$new_user'")->num_rows();
+				if($query>0){ return "This username already exist.";}*/
+		
+		$info = array(
+			'username' 				=> $store_name,
+			'last_name' 			=> '',
+			'password' 				=> md5(12345),
+			'mobile' 				=> $mobile,
+			'email' 				=> $email,
+			/*System Info*/
+			'created_date' 			=> $CUR_DATE,
+			'created_time' 			=> $CUR_TIME,
+			'created_by' 			=> 'admin',
+			'system_ip' 			=> $SYSTEM_IP,
+			'system_name' 			=> $SYSTEM_NAME,
+			'role_id'				=>2,
+			'status' 				=> 1,
+			'store_id'              =>$last_inert_id,
+		
+		);
+		
+	
+		$q1 = $this->db->insert('db_users', $info);
+		
+		$data = array(
+
+			'store_id'					=> $last_inert_id,
+			'currency_id'			=>35,
+			'currency_placement'	=>'Left',
+			'warehouse_type'            => 'System',
+			'warehouse_name'			=> $store_name,
+			'mobile'					=> $mobile,
+			'phone'						=> $phone,
+			'email'						=> $email,
+			'country'					=> $country,
+			'timezone'					=>'Asia/Kolkata',
+			'state'						=> $state,
+			'city'						=> $city,
+			'address'					=> $address,
+			'postcode'					=> $postcode,
+			'status'					=>1,
+			'bank_details'				=> $bank_details,
+		
+		);
+		
+
+		if (!empty($store_logo)) {
+			$data['warehouse_logo'] = $store_logo;
+		}
+		/*custom helper*/
+		
+		if (vat_number()) {
+			$data['vat_no'] = $vat_no;
+		}
+		if (pan_number()) {
+			$data['pan_no'] = $pan_no;
+		}
+		/*end*/
+
+
+	
+		$q1 = $this->db->insert('db_warehouse', $data);
+
+		if (!$q1) {
+			return "failed";
+		}
+		
+		$this->db->trans_commit();
+		$this->session->set_flashdata('success', 'Success!! New User created Succssfully!!');
+		return "success";
+		if ($q1) {
+			$this->db->trans_commit();
+			$this->session->unset_userdata('currency');
+			$this->session->set_flashdata('success', 'Success!! Record Updated Successfully! ');
+			echo "success";
+		}
+
+
+
+		exit();
+	}
+
 }

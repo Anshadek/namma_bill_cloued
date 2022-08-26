@@ -1092,7 +1092,11 @@
     $store_id = (!empty($store_id)) ? $store_id : get_current_store_id();
     return $CI->db->select('*')->where('id',$store_id)->get('db_warehouse')->row();
   }
-
+	function get_store_details_login($store_id=''){
+    $CI =& get_instance();
+    $store_id = (!empty($store_id)) ? $store_id : get_current_store_id();
+    return $CI->db->select('*')->where('id',$store_id)->get('db_store')->row();
+  }
   function get_super_admin_bank_details($store_id=''){
     $CI =& get_instance();
     return $CI->db->select('*')->where('id',1)->get('db_bankdetails')->row();

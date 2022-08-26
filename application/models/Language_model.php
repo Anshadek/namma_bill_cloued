@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Language_model extends CI_Model {	
 
 	public function set($id = 1){
+		$id = 1;
 		$language =$this->db->select('language')->where('id',$id)->get('db_languages')->row()->language;
 		if(!empty($language)){
         	$this->session->set_userdata(array('language'  => $language,'language_id'  => $id));	
