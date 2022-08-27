@@ -64,7 +64,7 @@
                   <th class="text-center">
                     <input type="checkbox" class="group_check checkbox" >
                   </th>
-                  <!-- <th><?= $this->lang->line('store_name'); ?></th> -->
+                  <th><?= $this->lang->line('warehouse_name'); ?></th> 
                   <th><?= $this->lang->line('account_code'); ?></th>
                   <th><?= $this->lang->line('account_name'); ?></th>
                   <th><?= $this->lang->line('parent_account_name'); ?></th>
@@ -81,6 +81,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
+																		<th></th>
 																		<th style="text-align:right">Total</th>
                                     <th></th>
                                     <th></th>
@@ -181,7 +182,7 @@ $("#warehouse_id").on("change",function(){
         //Set column definition initialisation properties.
         "columnDefs": [
         { 
-            "targets": [ 0,6 ], //first column / numbering column
+            "targets": [ 0,7 ], //first column / numbering column
             "orderable": false, //set not orderable
         },
         {
@@ -201,7 +202,7 @@ $("#warehouse_id").on("change",function(){
                                   i : 0;
                       };
                       var total = api
-                          .column( 4, { page: 'none'} )
+                          .column( 5, { page: 'none'} )
                           .data()
                           .reduce( function (a, b) {
                               return intVal(a) + intVal(b);
@@ -215,7 +216,7 @@ $("#warehouse_id").on("change",function(){
                           }, 0 );*/
                      
                       //$( api.column( 0 ).footer() ).html('Total');
-                      $( api.column( 4 ).footer() ).html(to_Fixed(total));
+                      $( api.column( 5 ).footer() ).html(to_Fixed(total));
                       
                      // $( api.column( 8 ).footer() ).html((due));
                      

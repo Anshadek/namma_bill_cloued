@@ -5,7 +5,7 @@ class Accounts_model extends CI_Model {
 
 	//Datatable start
 	var $table = 'ac_accounts as a';
-	var $column_order = array('a.id','a.account_name','a.parent_id','a.note','a.account_code','a.balance','a.created_by','a.store_id','a.delete_bit'); //set column field database for datatable orderable
+	var $column_order = array('a.id','a.account_name','a.parent_id','a.note','a.account_code','a.balance','a.created_by','a.store_id','a.delete_bit','w.warehouse_name'); //set column field database for datatable orderable
 	var $column_search = array('a.id','a.account_name','a.parent_id','a.note','a.account_code','a.balance','a.created_by','a.store_id'); //set column field database for datatable searchable 
 	var $order = array('a.id' => 'desc'); // default order 
 
@@ -19,6 +19,7 @@ class Accounts_model extends CI_Model {
 		
 		$this->db->from($this->table);
 		//if(!is_admin()){
+			$this->db->join("db_warehouse as w",'w.id = a.warehouse_id','left');
 			$this->db->where("a.store_id",get_current_store_id());
 		//}
 		if ($_POST['warehouse_id'] > 0){

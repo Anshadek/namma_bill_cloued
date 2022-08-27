@@ -118,7 +118,7 @@
                         </a>
                       </li>
                       <?php } ?>
-                      <?php if($CI->permissions('users_delete') && $res1->id!=1) { ?>
+                      <?php if($CI->permissions('users_delete') && $res1->id!=1 && $res1->created_by != 'system') { ?>
                       <li>
                         <a style="cursor:pointer" title="Delete Record ?" onclick="delete_user(<?= $res1->id; ?>)">
                           <i class="fa fa-fw fa-trash text-red"></i>Delete

@@ -400,7 +400,7 @@ class Store_profile_model extends CI_Model {
 		$row = $this->db->select("*")->limit(1)->order_by('id',"DESC")->get("db_store")->row();
 		
 		$last_inert_id =$row->id;
-	
+		$store_id = $last_inert_id;
 		
 
 		/*$query=$this->db->query("select * from db_users where username='$new_user'")->num_rows();
@@ -415,7 +415,7 @@ class Store_profile_model extends CI_Model {
 			/*System Info*/
 			'created_date' 			=> $CUR_DATE,
 			'created_time' 			=> $CUR_TIME,
-			'created_by' 			=> 'admin',
+			'created_by' 			=> 'system',
 			'system_ip' 			=> $SYSTEM_IP,
 			'system_name' 			=> $SYSTEM_NAME,
 			'role_id'				=>2,
@@ -469,6 +469,57 @@ class Store_profile_model extends CI_Model {
 		if (!$q1) {
 			return "failed";
 		}
+		
+		$row = $this->db->select("*")->limit(1)->order_by('id',"DESC")->get("db_warehouse")->row();
+		
+		$warehouse_id =$row->id;
+		
+		//============================================automatic account number genertaing==============================================
+		$query = $this->db->query("SELECT accounts_init FROM db_store where id = ".$store_id." ORDER BY id DESC LIMIT 1");
+		$accounts_init =  $query->result_array();
+	
+		$query = $this->db->query("SELECT account_code FROM ac_accounts ORDER BY id DESC LIMIT 1");
+		$result = $query->result_array();
+		$newstring = substr($result[0]['account_code'], -4);
+		$next_int = $newstring + 1;
+		$account_code = $accounts_init[0]['accounts_init'].'000'.$next_int;
+		//Filtering XSS and html escape from user inputs 
+		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET))));
+
+		$this->db->query("ALTER TABLE ac_accounts AUTO_INCREMENT = 1");
+		if(empty($parent_id)) { 
+			$parent_id=0;
+			$maxid=$this->db->select("coalesce(max(id),0)+1 as maxid")->get("ac_accounts")->row()->maxid;
+			$subtree_count='';
+			$sort_code = $maxid;
+		}
+		else{
+			//Find the sub tree count
+			$this->db->select("sort_code")->where("id",$parent_id)->from("ac_accounts");
+			$sort_code=$this->db->get()->row()->sort_code;
+			$maxid=$this->db->select("count(*)+1 as maxid")->where("parent_id",$parent_id)->get("ac_accounts")->row()->maxid;
+			$sort_code = $sort_code.".".$maxid;
+		}
+		
+		$info = array(  
+						'count_id' 					=> get_count_id('ac_accounts'), 
+	    				'store_id' 					=> $store_id,
+	    				'sort_code' 				=> $sort_code,
+	    				'account_code' 				=> $account_code,
+	    				'parent_id' 				=> $parent_id,
+						'warehouse_id'				=> $warehouse_id,
+	    				'account_name' 				=> 'cash',
+	    				'note' 						=> "system created account",
+	    				/*System Info*/
+	    				'created_date' 				=> $CUR_DATE,
+	    				'created_time' 				=> $CUR_TIME,
+	    				'created_by' 				=> $CUR_USERNAME,
+	    				'system_ip' 				=> $SYSTEM_IP,
+	    				'system_name' 				=> $SYSTEM_NAME,
+	    				'status' 					=> 1,
+	    			);
+		$q1 = $this->db->insert('ac_accounts', $info);
+		//==============================================================================================================================
 		
 		$this->db->trans_commit();
 		$this->session->set_flashdata('success', 'Success!! New User created Succssfully!!');

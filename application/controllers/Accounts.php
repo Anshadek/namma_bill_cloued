@@ -87,6 +87,7 @@ class Accounts extends MY_Controller {
 			$row = array();
 			$row[] = ($accounts->delete_bit) ? '<span data-toggle="tooltip" title="Resticted" class="text-danger fa fa-fw fa-ban"></span>' : '<input type="checkbox" name="checkbox[]" value='.$accounts->id.' class="checkbox column_checkbox" >';
 			//$row[] = get_store_name($accounts->store_id);
+			$row[] = $accounts->warehouse_name;
 			$row[] = $accounts->account_code;
 			$row[] = $accounts->account_name;
 			$row[] = get_account_name($accounts->parent_id);
