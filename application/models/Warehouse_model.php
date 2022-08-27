@@ -392,6 +392,26 @@ class Warehouse_model extends CI_Model {
 			return "Can't Delete! These warehouse List Have the  account Records!";
 		}
 
+		// check expense category 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_expense_category');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the expense category Records!";
+		}
+
+		// check expense 
+		$this->db->select("*");
+		  $this->db->where("warehouse_id",$id);
+		  $query = $this->db->get('db_expense');
+		  $result = $query->result();
+		if(count($result)>0){
+			$this->db->trans_rollback();
+			return "Can't Delete! These warehouse List Have the expense  Records!";
+		}
+
 		//==========================================================================================
 
 

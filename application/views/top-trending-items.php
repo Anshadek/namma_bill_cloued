@@ -47,7 +47,10 @@
                                   <!-- Store Code end -->
                                 </div>
                                 <div class="form-group ">
+										  <?php 
+										  if(warehouse_module() && warehouse_count()>1) { ?>
                                 <label for="expire_date" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?></label>
+										  <?php } ?>
                                  <div class="col-sm-3">
 											<?php 
                                if(warehouse_module() && warehouse_count()>1) { ?>

@@ -493,7 +493,7 @@
                           </th>
                        </tr>
                        <tr>
-                          <th class="text-right" style="font-size: 17px;"><?= $this->lang->line('round_off'); ?></th>
+                          <th class="text-right" style="font-size: 17px;"><?= $this->lang->line('previous_due'); ?></th>
                           <th class="text-right" style="padding-left:10%;font-size: 17px;">
                              <h4><b id="round_off_amt" name="tot_round_off_amt"><?=store_number_format($round_off);?></b></h4>
                           </th>

@@ -12,7 +12,7 @@ class Brand_model extends CI_Model {
 	{
 		
 		$this->db->from($this->table);
-		$this->db->select('db_brands.*,w.warehouse_name');
+		$this->db->select('db_brands.*,w.warehouse_name','db_brands.id as id');
 		$this->db->join('db_warehouse as w','w.id=db_brands.warehouse_id','left');
 		//if not admin
 		//if(!is_admin()){

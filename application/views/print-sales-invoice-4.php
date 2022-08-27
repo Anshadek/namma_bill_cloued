@@ -453,7 +453,7 @@ body { margin: 5px; }
   </tr>
   <?php } ?>
     <tr>
-    <td colspan="14" class='text-right'><b><?= $this->lang->line('round_off'); ?></b></td>
+    <td colspan="14" class='text-right'><b><?= $this->lang->line('previous_due'); ?></b></td>
     <td colspan="2" class='text-right' ><b><?= store_number_format($sales_rec->round_off); ?></b></td>
   </tr>
    <?php  ?>
