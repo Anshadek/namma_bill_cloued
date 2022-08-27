@@ -606,7 +606,7 @@ $("#item_group").on("change",function(event) {
 	var item_group = $("#item_group").val();
 	if(item_group=='Variants'){
 		//$('#expiry_date_div').hide();
-		$("#price,#profit_margin,#adjustment_qt,#sales_price,#purchase_price,#mrp,#hsn,#sku,#custom_barcode,#expiry_date").parent().addClass('hide');	
+		$("#price,#profit_margin,#adjustment_qt,#sales_price,#purchase_price,#mrp,#hsn,#sku,#custom_barcode,#expiry_date,#alert_qty").parent().addClass('hide');	
 		$(".variant_div").show();
 		if($('#update').val() != 'undefined'){
 			//$("#sales_price").parent().removeClass('hide');	
@@ -614,7 +614,7 @@ $("#item_group").on("change",function(event) {
 	}
 	else{
 		$('#expiry_date_div').show();
-		$("#adjustment_qt,#price,#purchase_price,#sales_price,#mrp,#hsn,#sku,#custom_barcode,#adjustment_qty").parent().removeClass('hide');
+		$("#adjustment_qt,#price,#purchase_price,#sales_price,#mrp,#hsn,#sku,#custom_barcode,#adjustment_qty,#alert_qty").parent().removeClass('hide');
 		$(".variant_div").hide();
 	}
 });

@@ -327,6 +327,7 @@ class Items_model extends CI_Model {
 						$expire_date	 	=$this->xss_html_filter(trim($_REQUEST['td_data_'.$i.'_7']));
 						$item_mrp	 		=$this->xss_html_filter(trim($_REQUEST['td_data_'.$i.'_10']));
 						$opening_stock	 	=$this->xss_html_filter(trim($_REQUEST['td_data_'.$i.'_11']));
+						$alert_qty	 		=$this->xss_html_filter(trim($_REQUEST['td_data_'.$i.'_12']));
 						
 						$variant_details = $this->db->select("*")->where("id",$variant_id)->get("db_variants")->row();
 						$variant_name = $variant_details->variant_name;
@@ -765,8 +766,9 @@ class Items_model extends CI_Model {
 							'item_code'				 	=> '',
 							'item_mrp'				 	=> '',
 							'opening_stock'				=> '0',
+							'alert_qty'				 	=> '',
 						);
-
+						
 		$this->return_variant_data_in_html_row($rowcount,$info);
 	}
 	public function get_variants_list_in_row($parent_id){
@@ -791,6 +793,7 @@ class Items_model extends CI_Model {
 							'item_code'				 	=> $res1->item_code,
 							'item_mrp'				 	=> store_number_format($res1->mrp,0),
 							'opening_stock'				=> 0,
+							'alert_qty'				 	=> $res1->alert_qty,
 						);
 			
 			$result = $this->return_variant_data_in_html_row($rowcount++,$info);
@@ -799,6 +802,7 @@ class Items_model extends CI_Model {
 	}
 
 	public function return_variant_data_in_html_row($rowcount,$info){
+		
 		extract($info);
 		?>
             <tr id="row_<?=$rowcount;?>" data-row='<?=$rowcount;?>'>
@@ -834,7 +838,8 @@ class Items_model extends CI_Model {
 
                <!-- Opening Stock -->
                <td id="td_<?=$rowcount;?>_11"><input type="text" name="td_data_<?=$rowcount;?>_11" id="td_data_<?=$rowcount;?>_11" class="form-control text-right no-padding only_currency text-center" placeholder='Optional' value="<?=$opening_stock;?>"></td>
-
+				<!-- Alert Qty -->
+				<td id="td_<?=$rowcount;?>_12"><input type="text" name="td_data_<?=$rowcount;?>_12" id="td_data_<?=$rowcount;?>_12" class="form-control text-right no-padding only_currency text-center" placeholder='Optional' value="<?=$alert_qty;?>"></td>
                 <!--Expiry Date-->
 				<td id="td_<?=$rowcount;?>_7"><input type="date" name="td_data_<?=$rowcount;?>_7" id="td_data_<?=$rowcount;?>_7" class="form-control text-right no-padding only_currency text-center" placeholder='Required' value="<?= isset($expire_date)?$expire_date:'' ?>"></td>
                <!-- Delete button -->

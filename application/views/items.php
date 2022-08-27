@@ -14,7 +14,7 @@
       <?php
       if (!isset($item_name)) {
          $item_name = $sku = $hsn = $opening_stock = $item_code = $brand_id = $category_id = $gst_percentage = $tax_type =
-            $sales_price = $purchase_price = $profit_margin = $unit_id = $price = $alert_qty = $store_id = "";
+            $sales_price = $purchase_price = $profit_margin = $unit_id = $price = $alert_qty = $store_id  = "";
          $stock = 0;
          $seller_points = 0;
          $custom_barcode = '';
@@ -289,6 +289,7 @@
                                                       <th rowspan='2' style="width:10%"><?= $this->lang->line('sales_price'); ?>(<?= $CI->currency() ?>)</th>
                                                       <th rowspan='2' style="width:10%"><?= $this->lang->line('mrp'); ?>(<?= $CI->currency() ?>)</th>
                                                       <th rowspan='2' style="width:10%"><?= $this->lang->line('opening_stock'); ?></th>
+																		<th rowspan='2' style="width:10%"><?= $this->lang->line('alert_qty'); ?></th>
                                                       <th rowspan='2' style="width:10%">Expiry Date</th>
                                                       <th rowspan='2' style="width:5%"><?= $this->lang->line('action'); ?></th>
                                                    </tr>
@@ -420,7 +421,7 @@
    <?php include "comman/code_js.php"; ?>
 
 
-   <script src="<?php echo $theme_link; ?>js/items.js?ver=4"></script>
+   <script src="<?php echo $theme_link; ?>js/items.js?ver=8"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
    <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=3"></script>
    <script type="text/javascript">
