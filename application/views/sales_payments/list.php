@@ -150,7 +150,7 @@
                     <div class="form-group">
                        <label for="warehouse_search"><?=$this->lang->line('warehouse');?> </label></label>
                        <select class="form-control select2" id="warehouse_search" name="warehouse_search"  style="width: 100%;">
-                       <option value="">-select-</option>
+                     
 											 <?=get_warehouse_select_list()?>
                      </select>
                        <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>

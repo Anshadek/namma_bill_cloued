@@ -55,7 +55,7 @@
 											<div class="col-sm-3">
                                     <div class="">
 												<select class="form-control select2" id="warehouse_id" name="warehouse_id"  style="width: 100%;"  value="<?php print $warehouse_id; ?>">
-            								<option value="0">-Select-</option>
+            								
                                   <?= get_warehouse_select_list($warehouse_id,get_current_store_id());  ?>
                                  </select>
                                  <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>

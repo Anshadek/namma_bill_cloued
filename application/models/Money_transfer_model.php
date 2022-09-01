@@ -50,6 +50,7 @@ class Money_transfer_model extends CI_Model {
 			
 		$transfer_date = $this->input->post('transfer_date');
 		$warehouse_id = $this->input->post('warehouse_id');
+		
      	$transfer_date = system_fromatted_date($transfer_date);
 		 if($warehouse_id > 0){
 			$this->db->where("a.warehouse_id",$warehouse_id);

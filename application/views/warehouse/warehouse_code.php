@@ -48,7 +48,7 @@
 		             	if($show_select_option){
 		             		echo "<option value=''>-Select-</option>";
 		             	}
-		             	if(isset($show_all_option)){
+		             	if(isset($show_all_option) && is_admin()){
 		             		echo "<option value=''>-All Warehouses-</option>";
 		             	}
 		             	
@@ -113,7 +113,7 @@
 		            $q2=$this->db->get();
 		            if($q2->num_rows()>0)
 		             {
-		             	if(isset($show_all_option)){
+		             	if(isset($show_all_option) && is_admin()){
 		             		echo "<option value=''>-All Warehouses-</option>";
 		             	}
 		             	else{
@@ -160,7 +160,7 @@
 				            $q2=$this->db->get();
 				            if($q2->num_rows()>0)
 				             {
-				             	if(isset($show_all_option)){
+				             	if(isset($show_all_option) && is_admin()){
 				             		echo "<option value=''>-All Warehouses-</option>";
 				             	}
 				              foreach($q2->result() as $res1)

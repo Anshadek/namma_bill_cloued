@@ -42,11 +42,11 @@
                             </div>
 							<div class="form-group">
                                 <label for="phone"><i class="zmdi zmdi-account-box-phone zmd-fw"></i></label>
-                                <input type="number" name="phone" id="phone" placeholder="phone *" required/>
+                                <input type="number" name="phone" id="phone" placeholder="phone *" />
                             </div>
                             <div class="form-group">
                                 <label for="vat_no"><i class="zmdi zmdi-badge-check"></i></label>
-                                <input type="text" name="vat_no" id="vat_no" placeholder="Vat No *" required/>
+                                <input type="text" name="vat_no" id="vat_no" placeholder="Vat No *" />
                             </div>
 							<div class="form-group">
                                 <label for="pan_no"><i class="zmdi zmdi-card"></i></label>
@@ -54,12 +54,12 @@
                             </div>
 							<div class="form-group">
                                 <label for="store_website"><i class="zmdi zmdi-view-web"></i></label>
-                                <input type="text" name="store_website" id="store_website" placeholder="Store Website *" required/>
+                                <input type="text" name="store_website" id="store_website" placeholder="Store Website *" />
                             </div>
 							<div class="form-group">
                                 <label for="bank_details"><i class="zmdi zmdi-view-week"></i></label>
                                 <textarea style="width: 100%;display: block; border: none;  border-bottom: 1px solid #999; padding: 6px 30px; font-family: Poppins;box-sizing: border-box;"
-								name="bank_details" placeholder="Bank Details *" required> </textarea>
+								name="bank_details" placeholder="Bank Details *" > </textarea>
                             </div>
 							<div class="form-group">
                                 <label for="country"><i class="zmdi zmdi-flag"></i></label>

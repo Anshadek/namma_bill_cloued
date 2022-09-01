@@ -108,7 +108,7 @@
                     <div class="form-group">
                        <label for="debit_account_id"><?= $this->lang->line('warehouse'); ?> </label></label>
 											 <select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_accounts(this)" style="width: 100%;">
-                       <option value="">-- select  --</option>         
+                              
 											 <?= get_warehouse_select_list($warehouse_id); ?>
                               </select>
                        <span id="debit_account_id_msg" style="display:none" class="text-danger"></span>

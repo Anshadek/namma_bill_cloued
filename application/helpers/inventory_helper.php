@@ -347,12 +347,16 @@
   function get_warehouse_select_list($select_id='',$store_id='',$show_select=false){
  	  $CI =& get_instance();
 
-	  
+	   $show_select=true;
 
 	  //Only Allowed Warehouse show to loged in user
  	if(!is_admin()){
+		
  		//Find the previllaged wareshouses to the user
- 		$q3 = $CI->db->select("warehouse_id")->where("user_id",get_current_user_id())->get("db_userswarehouses");
+		
+		 $privileged_warehouses = get_privileged_warehouses_ids();
+		 
+ 		$q3 = $CI->db->select("warehouse_id")->where("id in ($privileged_warehouses)")->get("db_userswarehouses");
  		$ids = array();
  		foreach ($q3->result() as $res3) {
  			$ids[] = $res3->warehouse_id;
@@ -362,18 +366,25 @@
  	}
 
     //if not admin
-	  if(!empty($store_id)){
-	    $CI->db->where("store_id",$store_id);
+	//   if(!empty($store_id)){
+	//     $CI->db->where("store_id",$store_id);
+	//   }
+	//   else{
+	//   	$CI->db->where("store_id",get_current_store_id());
+	//   }
+	  if(!is_admin()){
+		$privileged_warehouses = get_privileged_warehouses_ids();
+	  $q1=$CI->db->select("*")
+	  ->where("status=1")
+	  ->where("id in ($privileged_warehouses)")
+	  ->from("db_warehouse")->get();
+	  }else{
+		$q1=$CI->db->select("*")->where("status=1")->from("db_warehouse")->get();
 	  }
-	  else{
-	  	$CI->db->where("store_id",get_current_store_id());
-	  }
-
-	  $q1=$CI->db->select("*")->where("status=1")->from("db_warehouse")->get();
 	  $str='';
 	   if($q1->num_rows($q1)>0)
 	    {  
-	    	if($show_select==true){
+	    	if($show_select==true && is_admin()){
 	    		$str.='<option value="">-Select-</option>'; 
 	    	}
 	        foreach($q1->result() as $res1)
