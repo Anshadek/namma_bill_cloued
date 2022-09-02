@@ -271,4 +271,41 @@ function get_warehouse_brand(datas){
 		alert('server not responding...');
 	});
 }
+function get_warehouse_unit(datas){
+	
+	var warehouse_id = 0;
+	var selected = $('#selected_warehouse').val();
+	if (selected > 0){
+
+	}else{
+		selected = 0;
+	}
+	
+	if (datas > 0){
+		warehouse_id = datas;
+	}else{
+		warehouse_id = datas.value;
+	}
+	
+	
+	var base_url = $('#base_url').val();
+	$.ajax({
+		url: base_url+'units/get_unit_select_list',
+		type: "post",
+		data: {
+			//store_id: $("#store_id").val(),
+			warehouse_id : warehouse_id,
+			selected : selected,
+			
+		},
+		beforeSend: function() {
+			$('.ajax-load').show();
+		}
+	}).done(function(data) {
+		$('#unit_id').html(data);
+
+	}).fail(function(jqXHR, ajaxOptions, thrownError) {
+		alert('server not responding...');
+	});
+}
 

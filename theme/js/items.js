@@ -651,6 +651,13 @@ function validate_variants_records(this_id){
    return true;
  }
  $(document).ready(function() {
+	
+	var btn_id = $('#btn_id').val();
+	if (btn_id=='update'){
+		$('#expiry_date_div').show();
+		$("#adjustment_qt,#price,#purchase_price,#sales_price,#mrp,#hsn,#sku,#custom_barcode,#adjustment_qty,#alert_qty").parent().removeClass('hide');
+		$(".variant_div").hide();
+	}
   $(window).keydown(function(event){
     if(event.keyCode == 13) {
       event.preventDefault();

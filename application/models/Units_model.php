@@ -88,6 +88,7 @@ class Units_model extends CI_Model {
 		else{
 			$info = array(
 		    				'store_id' 				=> $store_id, 
+							'warehouse_id'			=> $warehouse_id,
 		    				'unit_name' 				=> $unit_name, 
 		    				'description' 				=> $description,
 		    				'status' 				=> 1,

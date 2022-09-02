@@ -327,8 +327,9 @@
                               }
 
                               ?>
+										<input id="btn_id" type="hidden" value="<?= $btn_id ?>">
                               <div class="col-md-3 col-md-offset-3">
-                                 <button type="button" id="<?php echo $btn_id; ?>" class=" btn btn-block btn-success" title="Save Data"><?php echo $btn_name; ?></button>
+                                 <button type="button" id="<?php echo $btn_id; ?>" class=" btn btn-block btn-success submit_btn" title="Save Data"><?php echo $btn_name; ?></button>
                               </div>
                               <div class="col-sm-3">
                                  <a href="<?= base_url('dashboard'); ?>">
@@ -421,9 +422,9 @@
    <?php include "comman/code_js.php"; ?>
 
 
-   <script src="<?php echo $theme_link; ?>js/items.js?ver=8"></script>
+   <script src="<?php echo $theme_link; ?>js/items.js?ver=10"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
-   <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=3"></script>
+   <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=5"></script>
    <script type="text/javascript">
       $(document).ready(function() {
          warehouse_id = $('#warehouse_id').val();
@@ -432,7 +433,8 @@
             warehouse_id = selected;
          }
          get_warehouse_brand(warehouse_id);
-         get_warehouse_category(warehouse_id)
+         get_warehouse_category(warehouse_id);
+			get_warehouse_unit(warehouse_id);
       });
       $("#discount_type").val('<?= $discount_type; ?>');
       <?php if (isset($q_id)) { ?>

@@ -23,6 +23,7 @@ class Items extends MY_Controller {
 		$this->permission_check('items_add');
 		$data=$this->data;
 		$data['page_title']=$this->lang->line('items');
+		$data['warehouse_id'] = '';
 		$this->load->view('items',$data);
 	}
 

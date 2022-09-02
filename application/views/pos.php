@@ -418,7 +418,7 @@
 											<div class="input-group" data-toggle="tooltip" title="Select Items">
 												<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
 												<input type="text" class="form-control" placeholder="Item name/Barcode/Itemcode" id="item_search">
-												<span class="input-group-addon pointer show_item_service" title="New Item?"><i class="fa fa-plus text-primary fa-lg"></i></span>
+												<!-- <span class="input-group-addon pointer show_item_service" title="New Item?"><i class="fa fa-plus text-primary fa-lg"></i></span> -->
 											</div>
 										</div>
 									</div><!-- row end -->
@@ -1142,6 +1142,8 @@
 			get_coupon_details();
 			//this moda function included that html
 			get_account();
+			get_categories_select_list();
+			get_brand_select_list();
 		});
 
 		function check_same_item(item_id) {
