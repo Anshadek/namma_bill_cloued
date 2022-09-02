@@ -549,9 +549,14 @@
     return false;
   }
   function is_admin(){
+		
     if(strtoupper(get_role_name())==strtoupper('admin')){
       return true;
     }
+		if(get_role_name()=='Store Admin'){
+      return true;
+    }
+		
     return false;
   }
   function is_user(){

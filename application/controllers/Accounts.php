@@ -82,6 +82,7 @@ class Accounts extends MY_Controller {
 		
 		$data = array();
 		$no = $_POST['start'];
+		
 		foreach ($list as $accounts) {
 			$no++;
 			$row = array();

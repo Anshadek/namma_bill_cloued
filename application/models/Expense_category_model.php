@@ -85,7 +85,7 @@ class Expense_category_model extends CI_Model {
 
 		//Validate This category already exist or not
 		$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();
-		$query=$this->db->query("select * from db_expense_category where upper(category_name)=upper('$category') and store_id=$store_id");
+		$query=$this->db->query("select * from db_expense_category where upper(category_name)=upper('$category') and store_id=$store_id and warehouse_id=$warehouse_id");
 		if($query->num_rows()>0){
 			return "This Category Name already Exist.";
 			

@@ -352,6 +352,7 @@
 	  //Only Allowed Warehouse show to loged in user
  	if(!is_admin()){
 		
+		
  		//Find the previllaged wareshouses to the user
 		
 		 $privileged_warehouses = get_privileged_warehouses_ids();
@@ -379,7 +380,7 @@
 	  ->where("id in ($privileged_warehouses)")
 	  ->from("db_warehouse")->get();
 	  }else{
-		$q1=$CI->db->select("*")->where("status=1")->from("db_warehouse")->get();
+		$q1=$CI->db->select("*")->where("status=1")->where("store_id",get_current_store_id())->from("db_warehouse")->get();
 	  }
 	  $str='';
 	   if($q1->num_rows($q1)>0)

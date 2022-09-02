@@ -32,29 +32,47 @@
                                 <label for="store_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="store_name" id="store_name" placeholder="Store Name *" required/>
                             </div>
+							<?php echo form_error('store_name', '<div style="color:red;margin-bottom:3px;" class="error">', '</div>'); ?>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
                                 <input type="email" name="email" id="email" placeholder="Your Email *" required/>
                             </div>
+							<?php echo form_error('email', '<div style="color:red;margin-bottom:3px;" class="error">', '</div>'); ?>
                             <div class="form-group">
                                 <label for="mobile"><i class="zmdi zmdi-phone"></i></label>
                                 <input type="number" name="mobile" id="mobile" placeholder="Mobile *" required/>
                             </div>
+							<?php echo form_error('mobile', '<div style="color:red;margin-bottom:3px;" class="error">', '</div>'); ?>
 							<div class="form-group">
                                 <label for="phone"><i class="zmdi zmdi-account-box-phone zmd-fw"></i></label>
-                                <input type="number" name="phone" id="phone" placeholder="phone *" />
+                                <input type="number" name="phone" id="phone" placeholder="phone" />
                             </div>
                             <div class="form-group">
                                 <label for="vat_no"><i class="zmdi zmdi-badge-check"></i></label>
-                                <input type="text" name="vat_no" id="vat_no" placeholder="Vat No *" />
+                                <input type="text" name="vat_no" id="vat_no" placeholder="Vat No" />
                             </div>
 							<div class="form-group">
                                 <label for="pan_no"><i class="zmdi zmdi-card"></i></label>
                                 <input type="text" name="pan_no" id="pan_no" placeholder="Pan No *" required/>
                             </div>
 							<div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-card"></i></label>
+                                <input type="password" name="pass" id="pass" placeholder="Password *" required/>
+                            </div>
+							<div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-card"></i></label>
+                                <input type="password" name="conf_pass" id="conf_pass" placeholder="Confirm Password *" onkeyup="checkPassword()" required/>
+								
+                            </div>
+							<span id="conf_pass_error" style="color:red"></span>
+							<div class="form-group">
+                                <label for="pan_no"><i class="zmdi zmdi-card"></i></label>
+                                <input type="text" name="pan_no" id="pan_no" placeholder="Pan No *" required/>
+                            </div>
+							<?php echo form_error('pan_no', '<div style="color:red;margin-bottom:3px;" class="error">', '</div>'); ?>
+							<div class="form-group">
                                 <label for="store_website"><i class="zmdi zmdi-view-web"></i></label>
-                                <input type="text" name="store_website" id="store_website" placeholder="Store Website *" />
+                                <input type="text" name="store_website" id="store_website" placeholder="Store Website" />
                             </div>
 							<div class="form-group">
                                 <label for="bank_details"><i class="zmdi zmdi-view-week"></i></label>
@@ -76,7 +94,7 @@
                                                                  foreach($q1->result() as $res1)
                                                                {
                                                                  $selected = ($res1->country ==$country) ? 'selected' : '';
-                                                                 echo "<option $selected value='".$res1->country."'>".$res1->country."</option>";
+                                                                 echo "<option $selected   value='".$res1->country."'>".$res1->country."</option>";
                                                                }
                                                              }
                                                              else
@@ -88,6 +106,7 @@
                                                             ?>
                                             </select>
                             </div>
+							<?php echo form_error('country', '<div style="color:red;margin-bottom:3px;" class="error">', '</div>'); ?>
 							<div class="form-group">
 							<label for="state"><i class="zmdi zmdi-flag"></i></label>
 							<select style="width: 100%;display: block; border: none;  border-bottom: 1px solid #999; padding: 6px 30px; font-family: Poppins;box-sizing: border-box;"
@@ -114,14 +133,17 @@
                                                             ?>
                                             </select>
                             </div>
+							<?php echo form_error('state', '<div style="color:red;margin-bottom:3px;" class="error">', '</div>'); ?>
 							<div class="form-group">
                                 <label for="city"><i class="zmdi zmdi-flag"></i></label>
                                 <input type="text" name="city" id="city" placeholder="City *" required/>
                             </div>
+							<?php echo form_error('city', '<div style="color:red;margin-bottom:3px;" class="error">', '</div>'); ?>
 							<div class="form-group">
                                 <label for="postcode"><i class="zmdi zmdi-gesture"></i></label>
                                 <input type="text" name="postcode" id="postcode" placeholder="Postcode *" required/>
                             </div>
+							<?php echo form_error('postcode', '<div style="color:red;margin-bottom:3px;" class="error">', '</div>'); ?>
 							<div class="form-group">
                                 <label for="address"><i class="zmdi zmdi-my-location"></i></label>
                                 <textarea style="width: 100%;display: block; border: none;  border-bottom: 1px solid #999; padding: 6px 30px; font-family: Poppins;box-sizing: border-box;"
@@ -192,5 +214,21 @@
     <script src="<?php echo $theme_link; ?>sign_up/vendor/jquery/jquery.min.js"></script>
     <script src="<?php echo $theme_link; ?>sign_up/js/main.js"></script>
 	<script src="<?php echo $theme_link; ?>js/state_filter.js?v=4"></script>
+	<script>
+		function checkPassword(){
+			var conf_pass = $('#conf_pass').val();
+
+			var pass = $('#pass').val();
+			
+			if (conf_pass == pass){
+				$('#signup').show();
+				$('#conf_pass_error').text("")
+			}else{
+				$('#signup').hide();
+				$('#conf_pass_error').text("New password and confirm password doesn't match..");
+			}
+			
+		}
+	</script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

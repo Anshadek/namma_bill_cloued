@@ -156,6 +156,7 @@ class Expense extends MY_Controller {
 		$this->permission_check('expense_category_add');
 		$data=$this->data;
 		$data['page_title']=$this->lang->line('expense_category');
+		$data['warehouse_id'] = "";
 		$this->load->view('expense-category',$data);
 	}
 	public function newcategory(){

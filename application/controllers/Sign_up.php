@@ -13,14 +13,26 @@ class Sign_up extends MY_Controller {
 	
 	public function index()
 	{	
-			$this->load->view('signup');
+		$this->load->view('signup');
+			
 	}
 
 	public function add_customer(){
-		
+		$this->form_validation->set_rules("store_name", "Store Name", "required");
+		 $this->form_validation->set_rules("email", "Email", "required|valid_email|is_unique[db_users.email]'");
+		 $this->form_validation->set_rules("mobile", "Mobile", "required|regex_match[/^[0-9]{10}$/]");
+		 $this->form_validation->set_rules("pan_no", "Pan No", "trim|required");
+		 $this->form_validation->set_rules("state", "State", "trim|required");
+		 $this->form_validation->set_rules("country", "State", "trim|required");
+		$this->form_validation->set_rules("city", "City", "trim|required");
+		$this->form_validation->set_rules("postcode", "Postcode", "trim|required");
+		if($this->form_validation->run() == false) { 
+			return $this->load->view('signup');
+		}else{
 		$result=$this->store->create_store();
 		$this->session->set_flashdata('success', 'Please Login Here!');
 		redirect('login');
+		}
 		//echo $result;	
 	}
 

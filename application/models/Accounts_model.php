@@ -16,11 +16,12 @@ class Accounts_model extends CI_Model {
 
 	private function _get_datatables_query()
 	{
-		
+		$this->db->select($this->column_order);
 		$this->db->from($this->table);
 		//if(!is_admin()){
 			$this->db->join("db_warehouse as w",'w.id = a.warehouse_id','left');
 			$this->db->where("a.store_id",get_current_store_id());
+			
 		//}
 		if ($_POST['warehouse_id'] > 0){
 			$this->db->where("a.warehouse_id",$_POST['warehouse_id']);
