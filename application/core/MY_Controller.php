@@ -30,6 +30,7 @@ class MY_Controller extends CI_Controller{
       public function load_info(){
 				$app_name = "";
 				if($this->session->userdata('inv_userid') > 0) {
+				
 				$warehouse_query =$this->db->select('warehouse_id')->where('user_id ',$this->session->userdata('inv_userid'))->get('db_userswarehouses');
 				if (isset($warehouse_query->row()->warehouse_id) && $warehouse_query->row()->warehouse_id > 0){
 					$warehouse_query =$this->db->select('warehouse_name')
@@ -45,6 +46,7 @@ class MY_Controller extends CI_Controller{
 					$app_name = $warehouse_query->row()->warehouse_name;
 				}
 			}
+			
 		
 				//die();
         /*if(strtotime(date("d-m-Y")) >= strtotime(date("05-04-2019"))){
@@ -88,7 +90,7 @@ class MY_Controller extends CI_Controller{
             $this->session->set_userdata(array('view_time'  => $query1->row()->time_format));
             $this->session->set_userdata(array('decimals'  => $query1->row()->decimals));
             $this->session->set_userdata(array('store_name'  => $query1->row()->store_name));
-
+						
             $this->data = array('theme_link'    => base_url().'theme/',
                                 'base_url'      => base_url(),
                                 'SITE_TITLE'    => $app_name,
@@ -105,6 +107,7 @@ class MY_Controller extends CI_Controller{
                                 'CUR_USERID'    => $this->session->userdata('inv_userid'),
                                     );
       }
+			
       public function load_currency_data(){
         if($this->session->userdata('logged_in')){
           $q1=$this->db->query("SELECT a.currency_name,a.currency,a.currency_code,a.symbol,b.currency_placement FROM db_currency a,db_store b WHERE a.id=b.currency_id AND b.id=".get_current_store_id());
@@ -120,6 +123,7 @@ class MY_Controller extends CI_Controller{
       }
 
       public function verify_store_and_user_status(){
+				
             $store_rec = get_store_details_login();
             //STORE ACTIVE OR NOT
             if(!$store_rec->status){
@@ -137,10 +141,12 @@ class MY_Controller extends CI_Controller{
 				
             //Check login or redirect to logout
             if($this->session->userdata('logged_in')!=1){ redirect(base_url().'logout','refresh');    }
-
+						if($this->session->userdata('role_id') != 0){
             $this->verify_store_and_user_status();
-
+						}
+						
             $this->load_info();
+						
       }
 
       public function currency($value='',$with_comma=false){

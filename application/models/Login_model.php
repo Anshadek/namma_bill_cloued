@@ -17,7 +17,33 @@ class Login_model extends CI_Model
 		//Filtering XSS and html escape from user inputs 
 		$email=$this->security->xss_clean(html_escape($email));
 		$password=$this->security->xss_clean(html_escape($password));
-
+		//======================================super admin login section============================================================
+		$this->db->select("a.email,a.store_id,a.id,a.username,a.role_id");
+		$this->db->from("db_users a");
+		$this->db->where("a.email",$email);
+		$this->db->where("a.password",md5($password));
+		$query = $this->db->get();
+		if($query->num_rows()==1){
+			if ($query->row()->role_id == 0){
+				
+				$logdata = array(
+					'inv_username'  => $query->row()->username,
+					'user_lname'  => $query->row()->last_name,
+					 'inv_userid'  => $query->row()->id,
+					 'logged_in' => TRUE,
+					 'role_id' => $query->row()->role_id,
+					 'role_name' => trim($query->row()->role_name),
+					 'store_id' => trim($query->row()->store_id),
+					 'email' => trim($query->row()->email),
+					
+					);
+		$this->session->set_userdata($logdata);
+	
+	$this->session->set_flashdata('success', 'Welcome '.ucfirst($query->row()->username)." !");
+	redirect(base_url().'super_admin_dashboard');
+			}
+		}
+		//============================================================================================
 
 		$this->db->select("a.email,a.store_id,a.id,a.username,a.role_id,b.role_name,a.status,a.last_name");
 		$this->db->from("db_users a");
