@@ -18,8 +18,7 @@ class Super_admin_dashboard extends MY_Controller {
 		
 		//echo "<pre>";echo(  get_super_admin_bank_status_select_list());exit;
 		$this->load->model('dashboard_model');//Model
-
-		$data=array();
+		$data=$this->data;
 		if(is_admin()){
 			$data = array_merge($data,$this->dashboard_model->get_subscription_chart());
 		}
