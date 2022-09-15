@@ -30,16 +30,93 @@
      </div>
       
     <!-- Main content -->
+    <?php 
+    $qs5="SELECT * FROM db_store";
+    $q5=$this->db->query($qs5);
+    ?>
     <section class="content">
+    <section class="content">
+      <div class="row">
+          <div class="col-md-4 col-sm-6 col-xs-12">
+             <div class="info-box" data-pos_value="">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-credit-card"></i></span>
+                <div class="info-box-content">
+                   <span class="text-bold text-uppercase  ">Total POS</span><br>
+                   <h3 class="info-box-number-admin-panel"><?= $q5->num_rows() ?></h3>
+                </div>
+                <!-- /.info-box-content -->
+             </div>
+             <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          
+          <!-- /.col -->
+         
+          <!-- /.col -->
+          
+          <!-- /.col -->
+       </div>
+     
+      <!-- /.row -->
+      <?php /*
+      <div class="row">
+        <!-- /.row -->
+     
+     <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title text-uppercase">Expiring Pos</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <div id="example3_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example3" class="datatable table table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="example3_info">
+                <thead>
+                <tr class="bg-blue" role="row"><th class="sorting_asc" tabindex="0" aria-controls="example3" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending">#</th><th class="sorting" tabindex="0" aria-controls="example3" rowspan="1" colspan="1" aria-label="Name &amp;amp; Contact: activate to sort column ascending">Name &amp; Contact</th><th class="sorting" tabindex="0" aria-controls="example3" rowspan="1" colspan="1" aria-label="Slug: activate to sort column ascending">Slug</th><th class="sorting" tabindex="0" aria-controls="example3" rowspan="1" colspan="1" aria-label="Create Date: activate to sort column ascending">Create Date</th><th class="sorting" tabindex="0" aria-controls="example3" rowspan="1" colspan="1" aria-label="Expire Date: activate to sort column ascending">Expire Date</th></tr>
+                </thead>
+                <tbody>
+                
+                <tr role="row" class="odd"><td class="sorting_1">1</td><td>GOKULAKRISHNAN V</td><td>nammabill</td><td>24-03-2021</td><td>24-03-2022</td></tr><tr role="row" class="even"><td class="sorting_1">2</td><td>NadanaSabesan T</td><td>aalayaaquacare</td><td>24-03-2021</td><td>24-03-2022</td></tr><tr role="row" class="odd"><td class="sorting_1">3</td><td>Balaji V</td><td>vinayagaatm</td><td>25-03-2021</td><td>25-03-2022</td></tr><tr role="row" class="even"><td class="sorting_1">4</td><td>Deepak kumar .</td><td>ambika-electric</td><td>26-03-2021</td><td>26-03-2022</td></tr><tr role="row" class="odd"><td class="sorting_1">5</td><td>Srinivasan s</td><td>sri_mobiles_salesservice_sirkali</td><td>27-03-2021</td><td>27-03-2022</td></tr></tbody>
+                
+              </table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="example3_info" role="status" aria-live="polite">Showing 1 to 5 of 27 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="example3_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="example3_previous"><a href="#" aria-controls="example3" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button active"><a href="#" aria-controls="example3" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example3" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example3" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example3" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example3" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example3" data-dt-idx="6" tabindex="0">6</a></li><li class="paginate_button next" id="example3_next"><a href="#" aria-controls="example3" data-dt-idx="7" tabindex="0">Next</a></li></ul></div></div></div></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <div class="row">
+        <!-- /.col (LEFT) -->
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title text-uppercase">Newly Created</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="example2_info">
+                <thead>
+                <tr class="bg-blue" role="row"><th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending">#</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Name &amp;amp; Contact: activate to sort column ascending">Name &amp; Contact</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Slug: activate to sort column ascending">Slug</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Created Date: activate to sort column ascending">Created Date</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Created By: activate to sort column ascending">Created By</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Notes: activate to sort column ascending">Notes</th></tr>
+                </thead>
+                <tbody>
+                
+                <tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr></tbody>
+                
+              </table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="example2_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button next disabled" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">Next</a></li></ul></div></div></div></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col (RIGHT) -->
+      </div>
+     <?php */?>
+            <!-- ############################# GRAPHS END############################## -->
 
 
+    </section>
 
-
-
-
-
-
-    
     </section>
     <!-- /.content -->
   </div>

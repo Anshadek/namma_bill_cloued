@@ -51,6 +51,8 @@
 			//$data['page_title']='Warehouse';
 			$data=array_merge($this->data,$this->store->store_making_codes());
 			$data['page_title']=$this->lang->line('Warehouse');
+			print_r($data);
+			die();
 			$this->load->view('warehouse/warehouse',$data);
 		}
 		public function status_update(){

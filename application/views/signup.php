@@ -65,11 +65,7 @@
 								
                             </div>
 							<span id="conf_pass_error" style="color:red"></span>
-							<div class="form-group">
-                                <label for="pan_no"><i class="zmdi zmdi-card"></i></label>
-                                <input type="text" name="pan_no" id="pan_no" placeholder="Pan No *" required/>
-                            </div>
-							<?php echo form_error('pan_no', '<div style="color:red;margin-bottom:3px;" class="error">', '</div>'); ?>
+							
 							<div class="form-group">
                                 <label for="store_website"><i class="zmdi zmdi-view-web"></i></label>
                                 <input type="text" name="store_website" id="store_website" placeholder="Store Website" />

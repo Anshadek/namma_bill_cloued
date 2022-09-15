@@ -40,7 +40,7 @@ class Login_model extends CI_Model
 		$this->session->set_userdata($logdata);
 	
 	$this->session->set_flashdata('success', 'Welcome '.ucfirst($query->row()->username)." !");
-	redirect(base_url().'super_admin_dashboard');
+	redirect(base_url().'super_admin/dashboard');
 			}
 		}
 		//============================================================================================
