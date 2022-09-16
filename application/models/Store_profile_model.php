@@ -426,7 +426,7 @@ class Store_profile_model extends CI_Model
 		$info = array(
 			'username' 				=> $store_name,
 			'last_name' 			=> '',
-			'password' 				=> md5($pass),
+			'password' 				=> (isset($pass))?md5($pass) : '1234',
 			'mobile' 				=> $mobile,
 			'email' 				=> $email,
 			/*System Info*/

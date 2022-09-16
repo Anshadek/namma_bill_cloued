@@ -6,7 +6,7 @@ class Super_admin extends MY_Controller {
 		parent::__construct();
 		$this->load_global();
 		$this->load->model('warehouse_model','warehouse');
-			$this->load->model('store_model','store');
+			$this->load->model('store_profile_model','store');
 	}
 	public function dashboard()
 	{	
@@ -30,13 +30,39 @@ class Super_admin extends MY_Controller {
 	public function users(){
 		$data=$this->data;//My_Controller constructor data accessed here
 		$data['page_title']='Warehouse List';
-		$this->load->view('super_admin/user-list',$data);
+		$this->load->view('super_admin/store-list',$data);
 	}
 	public function add_users(){
 		$data=$this->data;//My_Controller constructor data accessed here
 		$data['page_title']='Warehouse List';
-		$this->load->view('super_admin/add-user',$data);
+		$this->load->view('super_admin/add-store',$data);
 	}
+	public function create_store(){
+		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
+		if (!empty($mobile)) {
+			$query = $this->db->query("select * from db_users where mobile='$mobile'")->num_rows();
+			if ($query > 0) {
+				$this->session->set_flashdata('danger','This Moble Number already exist.');
+				redirect('super_admin/add_users');
+				
+			}
+		}
+		if (!empty($email)) {
+			$query = $this->db->query("select * from db_users where email='$email'")->num_rows();
+			if ($query > 0) {
+				$this->session->set_flashdata('danger','This Email ID already exist.');
+				redirect('super_admin/add_users');
+				
+			}
+		}
+		$result=$this->store->create_store();
+		$this->session->set_flashdata('success', 'Succesfully Saved.');
+		redirect('super_admin/users');
+
+		
+		}
+		
+	
 	
 
 
