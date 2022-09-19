@@ -61,6 +61,22 @@ class Super_admin extends MY_Controller {
 
 		
 		}
+		public function warehouse_status_update(){
+			$id=$this->input->post('id');
+			$status=$this->input->post('status');
+			$result=$this->warehouse->status_update($id,$status);
+			return $result;
+
+		}
+
+		public function pay_status_update(){
+			$id=$this->input->post('id');
+			$status=$this->input->post('status');
+			$result=$this->warehouse->pay_status_update($id,$status);
+			return $result;
+
+		}
+
 		
 	
 	

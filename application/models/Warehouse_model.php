@@ -17,7 +17,15 @@ class Warehouse_model extends CI_Model {
 
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET))));
-		
+		$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();
+		if(!empty($mobile)){
+			$query=$this->db->query("select * from db_warehouse where mobile='$mobile' and  store_id=$store_id")->num_rows();
+			if($query>0){ return "This Moble Number already exist.";}
+		}
+		if(!empty($email)){
+			$query=$this->db->query("select * from db_warehouse where email='$email' and  store_id=$store_id")->num_rows();
+			if($query>0){ return "This Email ID already exist.";}
+		}
 		$this->db->trans_begin();
 
 		
@@ -249,6 +257,17 @@ class Warehouse_model extends CI_Model {
 	public function status_update($id,$status){
 		
         $query1="update db_warehouse set status='$status' where id=$id and warehouse_type='Custom' and store_id=".get_current_store_id();
+        if ($this->db->simple_query($query1)){
+            echo "success";
+        }
+        else{
+            echo "failed";
+        }
+	}
+
+	public function pay_status_update($id,$status){
+		
+        $query1="update db_warehouse set pay_status='$status' where id=$id";
         if ($this->db->simple_query($query1)){
             echo "success";
         }

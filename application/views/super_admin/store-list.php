@@ -55,6 +55,7 @@
                                     <th><?= $CI->lang->line('mobile'); ?></th>
                                     <th><?= $CI->lang->line('email'); ?></th>
                                     <th><?= $CI->lang->line('details'); ?></th>
+                                    <th>Pay status</th>
                                     <th><?= $CI->lang->line('status'); ?></th>
                                     <th><?= $CI->lang->line('action'); ?></th>
                                  </tr>
@@ -87,13 +88,19 @@
 
                                     </td>
                                     <td>
+                                    <?php if($res1->pay_status==1)                   //1=Active, 0=Inactive
+                                          { 
+                                             echo '<span id="pay_status66" onclick="pay_status('.$res1->id.',0)" data-company_id="66" data-pay_status="1" class="label label-success change_pay_status" style="cursor:pointer"><i class="fa fa-money" aria-hidden="true"></i> </span>';
+                                             
+                                          }else{
+                                             echo '<span id="pay_status66" onclick="pay_status('.$res1->id.',1)" data-company_id="66" data-pay_status="0" class="label label-danger change_pay_status" style="cursor:pointer"><i class="fa fa-money" aria-hidden="true"></i> </span>';
+                                          }
+                                          ?>
+                                             
+                                 </td>
+                                    <td>
                                        <?php
-                                       if($res1->store_id!=get_current_store_id()){
-                                        echo "  <span  class='label label-default' disabled='disabled' style='cursor:disabled'>Restricted</span>";
-                                       }
-                                       else if($res1->id==1 || $res1->warehouse_type=='System')                   //1=Active, 0=Inactive
-                                          { echo "  <span  class='label label-default' disabled='disabled' style='cursor:disabled'>Restricted</span>"; }
-                                          else if($res1->status==1)                   //1=Active, 0=Inactive
+                                        if($res1->status==1)                   //1=Active, 0=Inactive
                                           { echo "  <span onclick='update_status(".$res1->id.",0)' id='span_".$res1->id."'  class='label label-success' style='cursor:pointer'>Active </span>"; }
                                           else
                                           {
@@ -162,7 +169,7 @@
       <?php $this->load->view('admin_common/code_js_sound.php');?>
       <!-- TABLES CODE -->
       <?php $this->load->view('admin_common/code_js.php');?>
-      <script src="<?php echo $theme_link; ?>js/warehouse/warehouse.js"></script>
+      <script src="<?php echo $theme_link; ?>js/warehouse/super_admin_warehouse.js"></script>
       <script type="text/javascript">
          function delete_warehouse(id)
          {

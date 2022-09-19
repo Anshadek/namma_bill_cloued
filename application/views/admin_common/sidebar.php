@@ -190,29 +190,7 @@
 
     <!-- Users -->
     
-     <li class="users-view-active-li users-active-li roles-list-active-li role-active-li treeview">
-          <a href="#">
-            <i class="fa fa-user-plus text-aqua"></i> <span><?= $this->lang->line('users'); ?></span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            
-            <?php if($CI->permissions('users_view')) { ?>
-            <li class="users-view-active-li"><a href="<?php echo $base_url; ?>users/view"><i class="fa fa-list "></i> <span><?= $this->lang->line('users_list'); ?></span></a></li>
-            <?php } ?>
-
-            <?php if($CI->permissions('roles_view')) { ?>
-            <li class="roles-list-active-li ">
-              <a href="<?php echo $base_url; ?>roles/view">
-                <i class="fa fa-list "></i> 
-                <span><?= $this->lang->line('roles_list'); ?></span>
-              </a>
-            </li>
-            <?php } ?>
-          </ul>
-        </li>
+    
     <!--<li class="header">SETTINGS</li>-->
       </ul>
     </section>

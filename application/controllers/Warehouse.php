@@ -41,7 +41,6 @@
 		public function new_warehouse(){
 			//$result=$this->store->verify_and_save();
 			$result=$this->warehouse->verify_and_save();
-			
 			echo $result;	
 		}
 		public function add(){

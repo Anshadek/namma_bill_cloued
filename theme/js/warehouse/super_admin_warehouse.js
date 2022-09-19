@@ -9,7 +9,6 @@ function validateEmail(sEmail) {
     }
 }
 $("#save,#update").on("click",function(){
-  alert('ddd');
       var base_url=$("#base_url").val();
       var flag=true;
       var this_id=this.id;
@@ -37,8 +36,8 @@ $("#save,#update").on("click",function(){
           }
       }
       check_field("warehouse_name");
-      check_field("mobile");
-      check_field("email");
+      //check_field("mobile");
+      //check_field("email");
       
       
       if(flag==false)
@@ -92,7 +91,7 @@ function shift_cursor(kevent,target){
 function update_status(id,status)
 {
   var base_url=$("#base_url").val();
-    $.post(base_url+"warehouse/status_update",{id:id,status:status},function(result){
+    $.post(base_url+"super_admin/warehouse_status_update",{id:id,status:status},function(result){
 //alert(result);return;
         if(result=="success")
         {
@@ -114,6 +113,32 @@ function update_status(id,status)
           $("#span_"+id).attr('class',span_class);
           $("#span_"+id).html(status);
          
+        }
+        else if(result=="failed"){
+          toastr["error"]("Failed to Update Status.Try again!");
+          failed.currentTime = 0; 
+          failed.play();
+        }
+        else{
+         toastr["error"]("Error! Something Went Wrong!");
+         failed.currentTime = 0; 
+         failed.play();
+        }
+         return false;
+    });
+}
+
+function pay_status(id,status)
+{
+  var base_url=$("#base_url").val();
+    $.post(base_url+"super_admin/pay_status_update",{id:id,status:status},function(result){
+//alert(result);return;
+        if(result=="success")
+        {
+          toastr["success"]("Record Updated Successfully!");
+          success.currentTime = 0; 
+          success.play();
+          location.reload();
         }
         else if(result=="failed"){
           toastr["error"]("Failed to Update Status.Try again!");
