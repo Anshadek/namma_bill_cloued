@@ -109,7 +109,7 @@
                                           ?>
                                     </td>
                                     <td>
-                                      <?php if($res1->store_id==get_current_store_id()){?>
+                                     
 
 
                                        <div class="btn-group" title="View Account">
@@ -117,27 +117,24 @@
                                           Action <span class="caret"></span>
                                           </a>
                                           <ul role="menu" class="dropdown-menu dropdown-light pull-right">
-                                            <?php if($CI->permissions('warehouse_edit')) { ?>
+                                            
                                              <li>
-                                                <a title="Update Record ?" href="<?= base_url()?>warehouse/edit/<?=$res1->id;?>">
+                                                <a title="Update Record ?" href="<?= base_url()?>super_admin/edit_user/<?=$res1->id;?>">
                                                 Edit
                                                 </a>
                                              </li>
-                                             <?php } ?>
-                                             <?php if($CI->permissions('warehouse_delete') && $res1->warehouse_type!='System') { ?>
+                                             
+                                            
                                              <li>
                                                 <a style="cursor:pointer" title="Delete Record ?" onclick="delete_warehouse('<?=$res1->id;?>')">
                                                 Delete
                                                 </a>
                                              </li>
-                                             <?php } ?>
+                                             
                                           </ul>
                                        </div>
 
-                                       <?php } 
-                                       else{
-                                        echo "--";
-                                        } ?>
+                                     
 
                                     </td>
                                  </tr>

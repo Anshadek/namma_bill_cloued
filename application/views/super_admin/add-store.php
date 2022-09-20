@@ -16,7 +16,7 @@
       <?php
       if (!isset($q_id)) {
 
-         $store_name = $logo = $currency_id = $currency_placement = $timezone =
+         $store_name = $warehouse_name =  $logo = $currency_id = $currency_placement = $timezone =
             $date_format = $time_format =
             $round_off = '';
          $mobile = $phone = $email = $country = $state = $city =
@@ -42,7 +42,7 @@
          </section>
 
          <!-- Main content -->
-         <?php echo form_open(base_url( 'super_admin/create_store' ), array( 'id' => 'store-form', 'class' => 'form-horizontal' , 'method'=>'post' ));?>
+         <?= form_open('#', array('class' => 'form-horizontal', 'id' => 'store-form', 'enctype'=>'multipart/form-data', 'method'=>'POST'));?>
          <!-- <form method="post" class = 'form-horizontal' action="<?=  base_url().'super_admin/create_store'?>" id="store-form" > -->
          
          <section class="content">
@@ -74,7 +74,7 @@
                                           <div class="form-group">
                                              <label for="store_name" class="col-sm-4 control-label"><?= $this->lang->line('store_name'); ?><label class="text-danger">*</label></label>
                                              <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="store_name" name="store_name" placeholder=""  value="<?php print $store_name; ?>">
+                                                <input type="text" class="form-control" id="store_name" name="store_name" placeholder=""  value="<?php print $warehouse_name; ?>">
                                                 <span id="store_name_msg" style="display:none" class="text-danger"></span>
                                              </div>
                                           </div>
@@ -231,7 +231,7 @@
                                     </div>
                                     <center>
                                        <div class="col-md-2 col-md-offset-3">
-                                          <button  id="form_submit" class=" btn btn-block btn-success" title="Save Data">Submit</button>
+                                          <label  id="save" class="btn btn-block btn-success" title="Save Data">Submit</label>
                                        </div>
                                        <div class="col-sm-2">
                                           <a href="<?= base_url('dashboard'); ?>">
@@ -282,7 +282,8 @@
    <?php $this->load->view('admin_common/code_js_sound.php'); ?>
    <!-- TABLES CODE -->
    <?php $this->load->view('admin_common/code_js.php'); ?>
-   <script src="<?php echo $theme_link; ?>js/state_filter.js?v=3"></script>
+   <script src="<?php echo $theme_link; ?>js/state_filter.js?v=4"></script>
+   <script src="<?php echo $theme_link; ?>js/warehouse/super_admin_warehouse.js?v=3"></script>
    <!-- Bootstrap WYSIHTML5 -->
    <script src="<?php echo $theme_link; ?>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
    <!-- Make sidebar menu hughlighter/selector -->
@@ -298,57 +299,14 @@
 
    <script>
       $(function() {
+         alert($('#country').val());
          //bootstrap WYSIHTML5 - text editor
          get_states($('#country').val());
          $("#invoice_terms").wysihtml5()
       })
    </script>
    <script type="text/javascript">
-      $('#form_submit').on('click',function(event){ 
-         event.preventDefault();
-         var base_url = $("#base_url").val();
-         //Initially flag set true
-         var flag = true;
-         function check_field(id) {
-            if (!$("#" + id).val()) //Also check Others????
-            {
-               $('#' + id + '_msg').fadeIn(200).show().html('Required Field').addClass('required');
-               // $('#'+id).css({'background-color' : '#E8E2E9'});
-               flag = false;
-            } else {
-               $('#' + id + '_msg').fadeOut(200).hide();
-               //$('#'+id).css({'background-color' : '#FFFFFF'});    //White color
-            }
-         }
-
-         //STORE
-         //check_field("store_code");if(flag==false){$("#tab_4_btn").trigger('click');}
-         check_field("store_name");
-         if (flag == false) {
-            $("#tab_4_btn").trigger('click');
-         }
-         check_field("mobile");
-         if (flag == false) {
-            $("#tab_4_btn").trigger('click');
-         }
-         check_field("email");
-         if (flag == false) {
-            $("#tab_4_btn").trigger('click');
-         }
-         check_field("city");
-         if (flag == false) {
-            $("#tab_4_btn").trigger('click');
-         }
-         
-         if (flag == false) {
-            toastr["warning"]("You have Missed Something to Fillup!")
-            return;
-         }
-
-            $( "#store-form" ).submit();
-
-
-      });
+      
    </script>
 
 </body>

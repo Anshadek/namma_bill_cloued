@@ -9,7 +9,7 @@ function validateEmail(sEmail) {
     }
 }
 $("#save,#update").on("click",function(){
-  alert('ddd');
+
       var base_url=$("#base_url").val();
       var flag=true;
       var this_id=this.id;

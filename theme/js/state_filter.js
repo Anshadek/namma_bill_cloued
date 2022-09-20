@@ -9,7 +9,7 @@ function get_states(datas){
 				selected = 0;
 			}
 			
-			if (datas > 0){
+			if (datas != ""){
 				country = datas;
 			}else{
 				country = $(datas).find("option:selected").text();
