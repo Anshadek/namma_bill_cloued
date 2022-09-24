@@ -27,13 +27,13 @@ class Super_admin extends MY_Controller {
 		
 	}
 
-	public function users(){
+	public function stores(){
 		$data=$this->data;//My_Controller constructor data accessed here
 		$data['page_title']='Warehouse List';
 		$this->load->view('super_admin/store-list',$data);
 	}
 
-	public function add_users(){
+	public function add_store(){
 		$data=$this->data;//My_Controller constructor data accessed here
 		$data['page_title']='Warehouse List';
 		$this->load->view('super_admin/add-store',$data);

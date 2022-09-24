@@ -185,7 +185,7 @@
         <!--<li class="header">MAIN NAVIGATION</li>-->
     <li class="dashboard-active-li "><a href="<?php echo $base_url; ?>super_admin/dashboard"><i class="fa fa-dashboard text-aqua"></i> <span><?= $this->lang->line('dashboard'); ?></span></a></li>
     
-    <li class="dashboard-active-li "><a href="<?php echo $base_url; ?>super_admin/users"><i class="fa fa-user-plus text-aqua"></i> <span><?= $this->lang->line('users'); ?></span></a></li>
+    <li class="dashboard-active-li "><a href="<?php echo $base_url; ?>super_admin/stores"><i class="fa fa-user-plus text-aqua"></i> <span><?= $this->lang->line('store'); ?></span></a></li>
     
 
     <!-- Users -->

@@ -15,12 +15,12 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                <h1>
-                  <?= $this->lang->line('warehouse_list'); ?>
-                  <small>Manage Warehouse</small>
+                  <?= $this->lang->line('store_list'); ?>
+                  <small>Manage Store</small>
                </h1>
                <ol class="breadcrumb">
                   <li><a href="<?php echo $base_url; ?>dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-                  <li class="active"><?= $this->lang->line('warehouse_list'); ?></li>
+                  <li class="active"><?= $this->lang->line('store_list'); ?></li>
                </ol>
             </section>
             <!-- Main content -->
@@ -33,10 +33,10 @@
                      <div class="box box-primary">
                         <div class="box-header with-border">
                            <h3 class="box-title"><?= $CI->lang->line('warehouse_list'); ?></h3>
-                           <a href="<?php echo $base_url; ?>super_admin/add_users"><button class="btn btn-primary pull-right"> Add User </button></a>                          <?php if($CI->permissions('warehouse_add')) { ?>
+                           <a href="<?php echo $base_url; ?>super_admin/add_store"><button class="btn btn-primary pull-right"> Add Store </button></a>                          <?php if($CI->permissions('warehouse_add')) { ?>
                             <div class="box-tools">
                               <a class="btn btn-block btn-info" href="<?php echo $base_url; ?>warehouse/add">
-                              <i class="fa fa-plus"></i> <?= $this->lang->line('add_warehouse'); ?></a>
+                              <i class="fa fa-plus"></i> <?= $this->lang->line('add_store'); ?></a>
                             </div>
                             <?php } ?>
                         </div>
