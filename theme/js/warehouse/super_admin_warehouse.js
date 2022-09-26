@@ -50,7 +50,7 @@ $('#save,#update').on("click", function (e) {
     return;
   }
   var this_id = this.id;
-  if (confirm("Do You Wants to " + this_id + " Record ?")) {
+  if (confirm("Do You Wants To Save Or Update Record ?")) {
     e.preventDefault();
     data = new FormData($('#store-form')[0]);//form name
     /*Check XSS Code*/
@@ -69,7 +69,7 @@ $('#save,#update').on("click", function (e) {
         //alert(result);return;
         if (result == "success") {
           toastr["success"]("Record Updated Successfully!");
-          window.location.replace(base_url+'super_admin/users');
+          window.location.replace(base_url+'super_admin/stores');
         }
         else if (result == "failed") {
           toastr["error"]("Sorry! Failed to save Record.Try again!");

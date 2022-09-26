@@ -186,6 +186,7 @@ class Store_profile_model extends CI_Model
 			//'store_code'				=> $store_code,
 			'warehouse_name'			=> $warehouse_name,
 			'warehouse_website'			=> $warehouse_website,
+			'gst_no'					=> $gst_no,
 			'mobile'					=> $mobile,
 			'phone'						=> $phone,
 			'email'						=> $email,
@@ -343,7 +344,26 @@ class Store_profile_model extends CI_Model
 				$store_logo = 'uploads/store/' . $this->upload->data('file_name');
 			}
 		}
+		//===========================document section===============================================
+		$document_file = "";
+		if (!empty($_FILES['document']['name'])) {
+			$config['upload_path']          = './uploads/store/';
+			$config['allowed_types']        = 'gif|jpg|jpeg|png|pdf|csv';
+			$config['max_size']             = 1000;
+			$config['max_width']            = 1000;
+			$config['max_height']           = 1000;
 
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload('document')) {
+				$error = array('error' => $this->upload->display_errors());
+				return $error['error'];
+				exit();
+			} else {
+				$document_file = 'uploads/store/' . $this->upload->data('file_name');
+			}
+		}
+		//==========================================================================
 		$change_return = (isset($change_return)) ? 1 : 0;
 		$mrp_column = (isset($mrp_column)) ? 1 : 0;
 		$round_off = (isset($round_off)) ? 1 : 0;
@@ -363,6 +383,8 @@ class Store_profile_model extends CI_Model
 		$data = array(
 			'store_code'				=> $store_code,
 			'store_name'				=> $store_name,
+			'gst_no'					=> $gst_no,
+			'store_website'			=> $warehouse_website,
 			'currency_id'			=> 35,
 			'currency_placement'	=> 'Left',
 			'mobile'					=> $mobile,
@@ -426,7 +448,7 @@ class Store_profile_model extends CI_Model
 		$info = array(
 			'username' 				=> $store_name,
 			'last_name' 			=> '',
-			'password' 				=> (isset($pass))?md5($pass) : '1234',
+			'password' 				=> (isset($pass))?md5($pass) : md5('1234'),
 			'mobile' 				=> $mobile,
 			'email' 				=> $email,
 			/*System Info*/
@@ -443,7 +465,7 @@ class Store_profile_model extends CI_Model
 
 
 		$q1 = $this->db->insert('db_users', $info);
-
+		$user = $this->db->select("*")->limit(1)->order_by('id', "DESC")->get("db_users")->row();
 		$data = array(
 
 			'store_id'					=> $last_inert_id,
@@ -451,8 +473,10 @@ class Store_profile_model extends CI_Model
 			'currency_placement'	=> 'Left',
 			'warehouse_type'            => 'System',
 			'warehouse_name'			=> $store_name,
+			'user_id'					=> $user->id,
 			'mobile'					=> $mobile,
 			'phone'						=> $phone,
+			'note'						=> $note,
 			'email'						=> $email,
 			'country'					=> $country,
 			'timezone'					=> 'Asia/Kolkata',
@@ -487,6 +511,10 @@ class Store_profile_model extends CI_Model
 		if (!empty($store_logo)) {
 			$data['warehouse_logo'] = $store_logo;
 		}
+		if (!empty($document_file)) {
+			$data['document'] = $document_file;
+		}
+		
 		/*custom helper*/
 
 		if (vat_number()) {
@@ -508,7 +536,14 @@ class Store_profile_model extends CI_Model
 		$row = $this->db->select("*")->limit(1)->order_by('id', "DESC")->get("db_warehouse")->row();
 
 		$warehouse_id = $row->id;
+		//==========================================================================================
+		$data = array(
 
+			'warehouse_id'					=> $warehouse_id,
+			'user_id'			=> $user->id);
+			$q1 = $this->db->insert('db_userswarehouses', $data);    
+			
+			
 		//============================================automatic account number genertaing==============================================
 		$query = $this->db->query("SELECT accounts_init FROM db_store where id = " . $store_id . " ORDER BY id DESC LIMIT 1");
 		$accounts_init =  $query->result_array();
@@ -563,6 +598,55 @@ class Store_profile_model extends CI_Model
 			$this->session->unset_userdata('currency');
 			$this->session->set_flashdata('success', 'Success!! Record Updated Successfully! ');
 			echo "success";
+		}
+
+
+
+		exit();
+	}
+
+
+	public function superadmin_update_store()
+	{
+
+		//Filtering XSS and html escape from user inputs 
+		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
+		$this->db->trans_begin();
+		$data = array(
+			'warehouse_name'			=> $store_name,
+			'warehouse_website'			=> $warehouse_website,
+			'gst_no'					=> $gst_no,
+			'vat_no'					=> $vat_no,
+			'pan_no'					=> $pan_no,
+			'mobile'					=> $mobile,
+			'phone'						=> $phone,
+			'email'						=> $email,
+			'country'					=> $country,
+			'state'						=> $state,
+			'city'						=> $city,
+			'address'					=> $address,
+			'postcode'					=> $postcode,
+			'bank_details'				=> $bank_details,
+		);
+		/*end*/
+
+		$q1 = $this->db
+			->where('id', $q_id)
+			//->where('warehouse_type','System')
+			->update('db_warehouse', $data);
+		if ($old_pass != $password && $password != ""){
+			$data = array(
+				'password' => md5($password),
+			);
+		$this->db->where("id",$user_id)
+		->update('db_users', $data);
+		}
+		
+		if ($q1) {
+			$this->db->trans_commit();
+			echo "success";
+		}else{
+			echo "something went wrong try again..";
 		}
 
 

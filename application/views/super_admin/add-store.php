@@ -16,16 +16,18 @@
       <?php
       if (!isset($q_id)) {
 
-         $store_name = $warehouse_name =  $logo = $currency_id = $currency_placement = $timezone =
-            $date_format = $time_format =
-            $round_off = '';
+			$store_id =  $store_name = $warehouse_name = $document = $logo = $currency_id = $currency_placement = $timezone =
+            $date_format = $time_format = $user_id =
+            $round_off= $note = '';
          $mobile = $phone = $email = $country = $state = $city =
-            $postcode = $address = $gst_no = $vat_no =
+            $postcode = $address = $gst_no = $vat_no = $password = 
             $warehouse_website = $pan_no = $bank_details = $store_logo = '';
 
          $decimals = 2;
          $invoice_terms = '';
       }
+		$q_id = (isset($q_id)) ? $q_id : 0;
+		
       ?>
 
       <!-- Content Wrapper. Contains page content -->
@@ -61,6 +63,11 @@
                               <div class="col-md-12">
                                  <!-- form start -->
                                  <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
+											<input type="hidden" name="q_id" value="<?= $q_id ?>">
+											<input type="hidden" name="old_pass" value="<?= $password ?>">
+											<input type="hidden" name="user_id" value="<?= $user_id ?>">
+											<input type="hidden" id="selected_state" value="<?= $state ?>">
+											
                                  <div class="box-body">
                                     <div class="row">
                                        <div class="col-md-5">
@@ -127,9 +134,15 @@
                                                 <span id="pan_msg" style="display:none" class="text-danger"></span>
                                              </div>
                                           </div>
-
+														<div class="form-group">
+                                                   <label for="document" class="col-sm-4 control-label">Document</label>
+                                                   <div class="col-sm-8">
+                                                      <input type="file" class="form-control" id="document" name="document" placeholder="" value="">
+                                                      <!-- <span id="website_msg" style="display:none" class="text-danger"></span> -->
+                                                   </div>
+                                       </div>
                                           <div class="form-group">
-                                             <label for="warehouse_website" class="col-sm-4 control-label">Warehouse Website</label>
+                                             <label for="warehouse_website" class="col-sm-4 control-label">Store Website</label>
                                              <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="warehouse_website" name="warehouse_website" placeholder="" value="<?php print $warehouse_website; ?>" >
                                                 <span id="website_msg" style="display:none" class="text-danger"></span>
@@ -156,7 +169,7 @@
                                           <div class="form-group">
                                              <label for="country" class="col-sm-4 control-label"><?= $this->lang->line('country'); ?></label>
                                              <div class="col-sm-8">
-                                                <select class="form-control select2" id="country" name="country" onchange="get_states(this)" style="width: 100%;">
+                                                <select class="form-control select2" id="country" name="country" onchange="get_states(this.value)" style="width: 100%;">
                                                    <?php
                                                    $query1 = "select * from db_country where status=1";
                                                    $q1 = $this->db->query($query1);
@@ -221,12 +234,21 @@
                                                 <span id="address_msg" style="display:none" class="text-danger"></span>
                                              </div>
                                           </div>
-                                          <!-- <div class="form-group">
-                                                   <label for="conf_pass" class="col-sm-4 control-label">Confirm Passowrd</label>
+														
+														<div class="form-group">
+                                             <label for="note" class="col-sm-4 control-label"><?= $this->lang->line('note'); ?><label class="text-danger">*</label></label>
+                                             <div class="col-sm-8">
+                                                <textarea type="text" class="form-control" id="note" name="note" placeholder=""><?php print $note; ?></textarea>
+                                                <span id="note_msg" style="display:none" class="text-danger"></span>
+                                             </div>
+                                          </div>
+														
+                                          <div class="form-group">
+                                                   <label for="conf_pass" class="col-sm-4 control-label">Password</label>
                                                    <div class="col-sm-8">
-                                                      <input type="text" class="form-control" id="conf_pass" name="conf_pass" placeholder="" value="<?php print $warehouse_website; ?>" onkeyup="shift_cursor(event,'country')">
-                                                      <span id="website_msg" style="display:none" class="text-danger"></span>
-                                                   </div> -->
+                                                      <input type="text" class="form-control" id="pass" name="password" placeholder="" value="">
+                                                      <!-- <span id="website_msg" style="display:none" class="text-danger"></span> -->
+                                                   </div>
                                        </div>
                                     </div>
                                     <center>
@@ -282,8 +304,8 @@
    <?php $this->load->view('admin_common/code_js_sound.php'); ?>
    <!-- TABLES CODE -->
    <?php $this->load->view('admin_common/code_js.php'); ?>
-   <script src="<?php echo $theme_link; ?>js/state_filter.js?v=4"></script>
-   <script src="<?php echo $theme_link; ?>js/warehouse/super_admin_warehouse.js?v=3"></script>
+   <script src="<?php echo $theme_link; ?>js/state_filter.js?v=7"></script>
+   <script src="<?php echo $theme_link; ?>js/warehouse/super_admin_warehouse.js?v=4"></script>
    <!-- Bootstrap WYSIHTML5 -->
    <script src="<?php echo $theme_link; ?>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
    <!-- Make sidebar menu hughlighter/selector -->
@@ -299,10 +321,8 @@
 
    <script>
       $(function() {
-         
          //bootstrap WYSIHTML5 - text editor
          get_states($('#country').val());
-         $("#invoice_terms").wysihtml5()
       })
    </script>
    <script type="text/javascript">

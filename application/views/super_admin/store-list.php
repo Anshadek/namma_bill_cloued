@@ -32,7 +32,7 @@
                   <div class="col-xs-12">
                      <div class="box box-primary">
                         <div class="box-header with-border">
-                           <h3 class="box-title"><?= $CI->lang->line('warehouse_list'); ?></h3>
+                           <h3 class="box-title"><?= $CI->lang->line('store_list'); ?></h3>
                            <a href="<?php echo $base_url; ?>super_admin/add_store"><button class="btn btn-primary pull-right"> Add Store </button></a>                          <?php if($CI->permissions('warehouse_add')) { ?>
                             <div class="box-tools">
                               <a class="btn btn-block btn-info" href="<?php echo $base_url; ?>warehouse/add">
@@ -119,7 +119,7 @@
                                           <ul role="menu" class="dropdown-menu dropdown-light pull-right">
                                             
                                              <li>
-                                                <a title="Update Record ?" href="<?= base_url()?>super_admin/edit_user/<?=$res1->id;?>">
+                                                <a title="Update Record ?" href="<?= base_url()?>super_admin/edit_store/<?=$res1->id;?>">
                                                 Edit
                                                 </a>
                                              </li>
@@ -128,6 +128,11 @@
                                              <li>
                                                 <a style="cursor:pointer" title="Delete Record ?" onclick="delete_warehouse('<?=$res1->id;?>')">
                                                 Delete
+                                                </a>
+                                             </li>
+															<li>
+                                                <a title="Update Record ?" href="<?= base_url()?><?=$res1->document;?>">
+                                                Download
                                                 </a>
                                              </li>
                                              
@@ -173,7 +178,7 @@
           var base_url=$("#base_url").val();
             if(confirm("Do You Wants to Delete Record ?")){
              $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-            $.post(base_url+"warehouse/delete_warehouse",{id:id},function(result){
+            $.post(base_url+"super_admin/delete_store",{id:id},function(result){
             //alert(result);return;
               if(result=="success")
                  {

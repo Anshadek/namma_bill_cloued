@@ -152,7 +152,8 @@ class State extends MY_Controller {
 			{ 
 				
 			  $selected = ($select_id==$res1->id)? 'selected' : '';
-			  $str.="<option $selected value='".$res1->id."'>".$res1->state."</option>";
+			
+			  $str.="<option $selected value='".$res1->id."'. $selected.>".$res1->state."</option>";
 			}
 		  }
 		  else

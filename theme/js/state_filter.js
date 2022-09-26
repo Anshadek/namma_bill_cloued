@@ -1,14 +1,11 @@
 //appending customers based on warehouse_id
 
 function get_states(datas){
+	
+	
 			var country = 0;
-			var selected = $('#selected_warehouse').val();
-			if (selected > 0){
-
-			}else{
-				selected = 0;
-			}
-			
+			var selected_state = $('#selected_state').val();
+		
 			if (datas != ""){
 				country = datas;
 			}else{
@@ -24,6 +21,7 @@ function get_states(datas){
 				data: {
 					//store_id: $("#store_id").val(),
 					country : country,
+					selected : selected_state,
 					
 					
 				},

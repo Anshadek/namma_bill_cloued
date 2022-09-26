@@ -288,8 +288,16 @@ class Warehouse_model extends CI_Model {
 			show_404();exit;
 		}
 		else{
+			// check  users 	$this->db->table('');
+		$this->db->select("db_users.password");
+		$this->db->where("db_userswarehouses.warehouse_id",$id);
+		$this->db->join("db_userswarehouses","db_users.id = db_userswarehouses.user_id");
+		
+		$users = $this->db->get('db_users')->row();
 			/* QUERY 1*/
 			$data['q_id']=$query1->row()->id;
+			$data['password'] = $users->password;
+
 			return array_merge($data,$query1->row_array());
 			return $data;
 		}

@@ -1,0 +1,7 @@
+item_name,item_codeitem_sku,item_sku,item_upc,item_brand,category_id,item_qty,item_unit,item_price,item_currency,item_length,item_height,item_width,item_remark,item_status
+item1,11,10,23,nike,1,22,343,34,45,34,34,344,AA,1
+item2,2343,10,23,dell,2,45,55,55,5,55,5,55,55,1
+item3,44,20,66,dell,1,55,656,66,66,66,66,66,66,1
+item4,33,33,22,dell,2,44,44,44,44,44,44,44,4,1
+item5,22,20,23,dell,2,,2,33,233,33,33,33,33,1
+item6,22,20,22,dell,2,2,2,22,323,33,33,33,33,1
