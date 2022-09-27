@@ -149,8 +149,8 @@
                                     <th><?= $CI->lang->line('store_name'); ?></th>
                                     <th><?= $CI->lang->line('mobile'); ?></th>
                                     <th><?= $CI->lang->line('email'); ?></th>
-																		<th><?= $CI->lang->line('created_date'); ?></th>
-																		<th>Expired Date</th>
+									<th><?= $CI->lang->line('created_date'); ?></th>
+									<th>Expired Date</th>
                                  </tr>
                               </thead>
                               <tbody>

@@ -396,5 +396,20 @@ class Super_admin extends MY_Controller
 			return 1;
 		}
 	}
+
+	
+//==========reports============
+public function newly_created_pos_report()
+	{
+		$data = $this->data; //My_Controller constructor data accessed here
+		$data['page_title'] = 'Warehouse List';
+		$this->load->view('super_admin/newly-created-pos-list', $data);
+	}
+	public function expiring_pos_report()
+	{
+		$data = $this->data; //My_Controller constructor data accessed here
+		$data['page_title'] = 'Warehouse List';
+		$this->load->view('super_admin/expired-pos-list', $data);
+	}
 	
 }

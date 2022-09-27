@@ -245,6 +245,18 @@ $CI = &get_instance();
 
 				</ul>
 			</li>
+			<li class="users-view-active-li users-active-li roles-list-active-li role-active-li treeview animate__animated animate__slideInUp">
+				<a href="#">
+					<i class="fa fa-user-plus text-aqua"></i> <span>Reports</span>
+					<span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+				<ul class="treeview-menu" style="display: none;">
+					<li class="country-list-active-li "><a href="<?php echo $base_url; ?>super_admin/newly_created_pos_report"><i class="fa fa-list "></i> <span>New Pos</span></a></li>
+					<li class="country-list-active-li "><a href="<?php echo $base_url; ?>super_admin/expiring_pos_report"><i class="fa fa-list "></i> <span>Expiring Pos</span></a></li>
+				</ul>
+			</li>
 		</ul>
 	</section>
 	<!-- /.sidebar -->
