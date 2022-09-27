@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Superadmin_coupon_model extends CI_Model {
 
 	var $table = 'db_store_coupons a';
-	var $column_order = array('a.id','c.warehouse_name as customer_name','b.name','a.code','a.expire_date','a.value','a.type','a.description','a.status'); //set column field database for datatable orderable
+	var $column_order = array('a.id as id','c.warehouse_name as customer_name','b.name','a.code','a.expire_date','a.value','a.type','a.description','a.status'); //set column field database for datatable orderable
 	var $column_search = array('a.id','c.warehouse_name','b.name','a.code','a.expire_date','a.value','a.type','a.description','a.status'); //set column field database for datatable searchable 
 	var $order = array('a.id' => 'desc'); // default order 
 
@@ -106,10 +106,13 @@ class Superadmin_coupon_model extends CI_Model {
 	              );
 		if($command=='save'){
 			//Verify code already exists ?
-			$count = $this->db->select("count(*) as tot")->where("upper(code)=".strtoupper($code))->get("db_store_coupons")->row()->tot;
-			if($count>0){
+			
+			$res = $this->db->select("*")->where('code',$code)->get("db_store_coupons");
+			$res = $res->result_array();
+			if(count($res)>0){
 				echo "This Coupon Code already exists!!";exit;
 			}
+			
 			if($coupon_details->expire_date<$CUR_DATE){
 				echo "This Coupon Season already expired!!";exit;
 			}

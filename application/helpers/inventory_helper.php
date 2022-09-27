@@ -272,6 +272,7 @@
 	if($q1->num_rows($q1)>0)
 	 {  
 		 $str='';
+		 $str.="<option selected  value='0'>--All--</option>";
 		 foreach($q1->result() as $res1)
 	   { 
 		   //$customer_previous_due = $res1->sales_due +$res1->opening_balance;

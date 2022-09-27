@@ -25,7 +25,7 @@ class Super_admin_coupon extends MY_Controller
 		$this->form_validation->set_rules('coupon_id', 'Coupon Name', 'trim|required');
 		$this->form_validation->set_rules('code', 'Coupon Code', 'trim|required');
 		$this->form_validation->set_rules('min_val', 'Minimun Value', 'trim|required');
-		$this->form_validation->set_rules('max_val', 'Maximum Value', 'trim|required');
+		//$this->form_validation->set_rules('max_val', 'Maximum Value', 'trim|required');
 		$this->form_validation->set_rules('coupon_usage', 'Coupon Usage', 'trim|required');
 
 		if ($this->form_validation->run() == TRUE) {
@@ -69,7 +69,7 @@ class Super_admin_coupon extends MY_Controller
 	public function ajax_list()
 	{
 		$list = $this->store_coupon->get_datatables();
-
+		
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $customer_coupon) {
@@ -103,12 +103,12 @@ class Super_admin_coupon extends MY_Controller
 										</a>
 										<ul role="menu" class="dropdown-menu dropdown-light pull-right">';
 
-			$str2 .= '<li>
-												<a title="Take Print" target="_blank" href="super_admin_coupon/print/' . $customer_coupon->id . '">
-													<i class="fa fa-fw fa-print text-blue"></i>Print
-												</a>
-											</li>
-											';
+			// $str2 .= '<li>
+			// 									<a title="Take Print" target="_blank" href="super_admin_coupon/print/' . $customer_coupon->id . '">
+			// 										<i class="fa fa-fw fa-print text-blue"></i>Print
+			// 									</a>
+			// 								</li>
+			// 								';
 
 
 			$str2 .= '<li>
@@ -151,13 +151,13 @@ class Super_admin_coupon extends MY_Controller
 	{
 
 		$id = $this->input->post('q_id');
-		return $this->customer_coupon->delete_coupons($id);
+		return $this->store_coupon->delete_coupons($id);
 	}
 	public function multi_delete()
 	{
 
 		$ids = implode(",", $_POST['checkbox']);
-		return $this->customer_coupon->delete_coupons($ids);
+		return $this->store_coupon->delete_coupons($ids);
 	}
 	function get_coupon_details()
 	{
@@ -169,7 +169,7 @@ class Super_admin_coupon extends MY_Controller
 		$this->db->select("a.expire_date,a.value,a.type,b.name,a.customer_id");
 		$this->db->where("upper(a.code) like '$coupon_code'");
 		//$this->db->where("a.customer_id",$customer_id);
-		$this->db->from("db_customer_coupons a");
+		$this->db->from("db_store_coupons a");
 		$this->db->join("db_coupons b", "b.id=a.coupon_id");
 		$q1 = $this->db->get();
 		$data = array();
@@ -229,7 +229,7 @@ class Super_admin_coupon extends MY_Controller
 	//Print Coupons 
 	public function print($coupon_id)
 	{
-		$this->belong_to('db_customer_coupons', $coupon_id);
+		$this->belong_to('db_store_coupons', $coupon_id);
 		
 		$data = $this->data;
 		$data = array_merge($data, array('coupon_id' => $coupon_id));

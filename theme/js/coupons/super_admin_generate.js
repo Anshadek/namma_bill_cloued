@@ -24,7 +24,7 @@ $('#save,#update').on("click",function (e) {
 	check_field("coupon_id");	
 	check_field("code");	
 	check_field("min_val");	
-	check_field("max_val");	
+	//check_field("max_val");	
 	check_field("coupon_usage");	
 	/*check_field("expire_date");	
 	check_field("coupon_value");	
@@ -100,7 +100,7 @@ function shift_cursor(kevent,target){
 function update_status(id,status)
 {
 	var base_url=$("#base_url").val();
-	$.post(base_url+"customer_coupon/update_status",{id:id,status:status},function(result){
+	$.post(base_url+"super_admin_coupon/update_status",{id:id,status:status},function(result){
 		if(result=="success")
 				{
 					 toastr["success"]("Status Updated Successfully!");
@@ -146,7 +146,7 @@ function delete_coupon(q_id)
 	
    if(confirm("Do You Wants to Delete Record ?")){
    	$(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-   $.post($("#base_url").val()+"customer_coupon/delete_coupon",{q_id:q_id},function(result){
+   $.post($("#base_url").val()+"super_admin_coupon/delete_coupon",{q_id:q_id},function(result){
    //alert(result);return;
 	   if(result=="success")
 				{
@@ -177,7 +177,7 @@ function multi_delete(){
 			data = new FormData($('#table_form')[0]);//form name
 			$.ajax({
 			type: 'POST',
-			url: $("#base_url").val()+'customer_coupon/multi_delete',
+			url: $("#base_url").val()+'super_admin_coupon/multi_delete',
 			data: data,
 			cache: false,
 			contentType: false,

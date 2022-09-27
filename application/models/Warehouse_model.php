@@ -256,8 +256,9 @@ class Warehouse_model extends CI_Model {
 	}
 	public function status_update($id,$status){
 		
-        $query1="update db_warehouse set status='$status' where id=$id and warehouse_type='Custom' and store_id=".get_current_store_id();
-        if ($this->db->simple_query($query1)){
+        $query1="update db_warehouse set status='$status' where id=$id";
+		
+		if ($this->db->simple_query($query1)){
             echo "success";
         }
         else{

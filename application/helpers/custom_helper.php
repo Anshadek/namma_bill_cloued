@@ -933,6 +933,13 @@
             ->where('store_id',get_current_store_id())
             ->where("id=",$id)->get()->row();
   }
+	function get_store_coupon_details($id){
+    $CI =& get_instance();
+    return $CI->db->select("*")
+            ->from("db_store_coupons")
+            ->where('store_id',get_current_store_id())
+            ->where("id=",$id)->get()->row();
+  }
   function get_customer_coupon_details_by_coupon_code($code){
     $CI =& get_instance();
     return $CI->db->select("*")

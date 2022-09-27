@@ -118,7 +118,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="max_val" class="col-sm-2 control-label">Maximum Value <label class="text-danger">*</label></label>
+										<label for="max_val" class="col-sm-2 control-label">Maximum Value </label>
 										<div class="col-sm-4">
 											<input type="text" class="form-control input-sm " id="max_val" name="max_val" value="">
 
