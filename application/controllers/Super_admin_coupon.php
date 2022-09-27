@@ -1,19 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Customer_coupon extends MY_Controller {
+class Super_admin_coupon extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load_global();
-		$this->load->model('customer_coupon_model', 'customer_coupon');
+		$this->load->model('Superadmin_coupon_model', 'store_coupon');
 	}
 
 	public function generate($customer_id='') {
-		$this->permission_check('customerCouponAdd');
+		
 		$data = $this->data;
 		$data['page_title'] = $this->lang->line('generatecustomerCoupon');
 		$data['customer_id'] = $customer_id;
-		$this->load->view('coupons/generate', $data);
+		$this->load->view('super_admin_coupons/generate', $data);
 	}
 
 
@@ -22,7 +22,7 @@ class Customer_coupon extends MY_Controller {
 		$this->form_validation->set_rules('code', 'Coupon Code', 'trim|required');
 		
 		if ($this->form_validation->run() == TRUE) {
-			$result = $this->customer_coupon->save_record();
+			$result = $this->store_coupon->save_record();
 			echo $result;
 		} else {
 			echo validation_errors();
@@ -52,14 +52,14 @@ class Customer_coupon extends MY_Controller {
 		}
 	}*/
 	public function index() {
-		$this->permission_check('customerCouponView');
+		
 		$data = $this->data;
 		$data['page_title'] = $this->lang->line('customerCouponsList');
-		$this->load->view('coupons/customer-coupons-list', $data);
+		$this->load->view('super_admin_coupons/customer-coupons-list', $data);
 	}
 
 	public function ajax_list() {
-		$list = $this->customer_coupon->get_datatables();
+		$list = $this->store_coupon->get_datatables();
 
 		$data = array();
 		$no = $_POST['start'];
@@ -119,8 +119,8 @@ class Customer_coupon extends MY_Controller {
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->customer_coupon->count_all(),
-			"recordsFiltered" => $this->customer_coupon->count_filtered(),
+			"recordsTotal" => $this->store_coupon->count_all(),
+			"recordsFiltered" => $this->store_coupon->count_filtered(),
 			"data" => $data,
 		);
 		//output to json format
@@ -128,7 +128,7 @@ class Customer_coupon extends MY_Controller {
 	}
 
 	public function update_status() {
-		$this->permission_check_with_msg('customerCouponEdit');
+		
 		$id = $this->input->post('id');
 		$status = $this->input->post('status');
 
@@ -138,12 +138,12 @@ class Customer_coupon extends MY_Controller {
 	}
 
 	public function delete_coupon() {
-		$this->permission_check_with_msg('customerCouponDelete');
+		
 		$id = $this->input->post('q_id');
 		return $this->customer_coupon->delete_coupons($id);
 	}
 	public function multi_delete() {
-		$this->permission_check_with_msg('customerCouponDelete');
+	
 		$ids = implode(",", $_POST['checkbox']);
 		return $this->customer_coupon->delete_coupons($ids);
 	}

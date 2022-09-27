@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Discount_coupon extends MY_Controller {
+class Super_admin_discount_coupon extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load_global();
@@ -9,10 +9,10 @@ class Discount_coupon extends MY_Controller {
 	}
 
 	public function add() {
-		$this->permission_check('discountCouponAdd');
+	
 		$data = $this->data;
 		$data['page_title'] = $this->lang->line('discountCoupon');
-		$this->load->view('coupons/create', $data);
+		$this->load->view('super_admin_coupons/create', $data);
 	}
 	
 	public function save() {
@@ -21,7 +21,10 @@ class Discount_coupon extends MY_Controller {
 		$this->form_validation->set_rules('expire_date', 'Expire Date', 'trim|required');
 		$this->form_validation->set_rules('coupon_value', 'Coupon Value', 'trim|required');
 		$this->form_validation->set_rules('coupon_type', 'Coupon Type', 'trim|required');
-
+		$this->form_validation->set_rules('min_val', 'Minimum Value', 'trim|required');
+		$this->form_validation->set_rules('max_val', 'Maximum Value', 'trim|required');
+		$this->form_validation->set_rules('coupon_usage', 'Coupon Usage', 'trim|required');
+		
 		if ($this->form_validation->run() == TRUE) {
 			$result = $this->discount_coupon->save_record();
 			echo $result;
@@ -31,14 +34,14 @@ class Discount_coupon extends MY_Controller {
 	}
 	public function update($id) {
 		$this->belong_to('db_coupons', $id);
-		$this->permission_check('discountCouponEdit');
+	
 		$data = $this->data;
 
 		$this->load->model('discount_coupon_model');
 		$result = $this->discount_coupon_model->get_details($id, $data);
 		$data = array_merge($data, $result);
 		$data['page_title'] = $this->lang->line('discountCoupon');
-		$this->load->view('coupons/create', $data);
+		$this->load->view('super_admin_coupons/create', $data);
 	}
 	public function update_discount_coupon() {
 		$this->form_validation->set_rules('discount_coupon', 'discount_coupon', 'trim|required');
@@ -53,10 +56,10 @@ class Discount_coupon extends MY_Controller {
 		}
 	}
 	public function view() {
-		$this->permission_check('discountCouponView');
+	
 		$data = $this->data;
 		$data['page_title'] = $this->lang->line('discountCoupons');
-		$this->load->view('coupons/list', $data);
+		$this->load->view('super_admin_coupons/list', $data);
 	}
 
 	public function ajax_list() {
@@ -120,7 +123,7 @@ class Discount_coupon extends MY_Controller {
 	}
 
 	public function update_status() {
-		$this->permission_check_with_msg('discountCouponEdit');
+	
 		$id = $this->input->post('id');
 		$status = $this->input->post('status');
 
@@ -130,12 +133,12 @@ class Discount_coupon extends MY_Controller {
 	}
 
 	public function delete_coupon() {
-		$this->permission_check_with_msg('discountCouponDelete');
+	
 		$id = $this->input->post('q_id');
 		return $this->discount_coupon->delete_coupons($id);
 	}
 	public function multi_delete() {
-		$this->permission_check_with_msg('discountCouponDelete');
+	
 		$ids = implode(",", $_POST['checkbox']);
 		return $this->discount_coupon->delete_coupons($ids);
 	}

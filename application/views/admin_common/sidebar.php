@@ -217,6 +217,34 @@ $CI = &get_instance();
 
 			<li class="dashboard-active-li "><a href="<?php echo $base_url; ?>super_admin/subscription"><i class="fa fa-user-plus text-aqua"></i> <span><?= $this->lang->line('subscription'); ?></span></a></li>
 			<!-- Users -->
+			<li class="coupon-active-li treeview">
+          <a href="#">
+            <i class=" fa fa-tags text-aqua"></i> <span><?= $this->lang->line('coupons'); ?><span class="">
+<small class="label bg-green">new</small>
+</span></span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+      
+        <li class="createCoupon-active-li"><a href="<?php echo $base_url; ?>super_admin_coupon/generate"><i class="fa fa-plus-square-o "></i> <span><?= $this->lang->line('createCustomerCoupon'); ?></span></a></li>
+       
+        
+     
+        <li class="customerCouponsList-active-li"><a href="<?php echo $base_url; ?>super_admin_coupon"><i class="fa fa-list "></i> <span><?= $this->lang->line('customerCouponsList'); ?></span></a></li>
+      
+
+    
+        <li class="createDiscountCoupon-active-li"><a href="<?php echo $base_url; ?>super_admin_discount_coupon/add"><i class="fa fa-plus-square-o "></i> <span><?= $this->lang->line('createCoupon'); ?></span></a></li>
+    
+
+     
+        <li class="discountCoupon-active-li"><a href="<?php echo $base_url; ?>super_admin_discount_coupon/view"><i class="fa fa-list "></i> <span><?= $this->lang->line('couponsMaster'); ?></span></a></li>
+      
+
+          </ul>
+        </li>
 		</ul>
 	</section>
 	<!-- /.sidebar -->

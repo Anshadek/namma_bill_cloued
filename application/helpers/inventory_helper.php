@@ -259,6 +259,35 @@
 	    }
 	    return $str;
  }
+
+
+ function get_store_select_list($select_id='',$store_id=''){
+	$CI =& get_instance();
+
+   //if not admin
+  
+
+   $q1=$CI->db->select("*")->where("status=1")->where("warehouse_type='System'")->from("db_warehouse")->get();
+   $str='';
+	if($q1->num_rows($q1)>0)
+	 {  
+		 $str='';
+		 foreach($q1->result() as $res1)
+	   { 
+		   //$customer_previous_due = $res1->sales_due +$res1->opening_balance;
+		   //$customer_previous_due = store_number_format($customer_previous_due,0);
+		 $selected = ($select_id==$res1->id)? 'selected' : '';
+		 $str.="<option $selected value='".$res1->id."'>".$res1->warehouse_name."</option>";
+	   }
+	 }
+	 else
+	 {
+		 $str.='<option value="">No Records Found</option>'; 
+	 }
+	 return $str;
+}
+
+
  function get_customers_select_list_pos($select_id='',$store_id=''){
 	$CI =& get_instance();
 

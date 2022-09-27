@@ -1,22 +1,26 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Discount_coupon_model extends CI_Model {
+class Superadmin_coupon_model extends CI_Model {
 
-	var $table = 'db_coupons';
-	var $column_order = array('id','name','expire_date','value','type','status'); //set column field database for datatable orderable
-	var $column_search = array('id','name','expire_date','value','type','status'); //set column field database for datatable searchable 
-	var $order = array('id' => 'desc'); // default order 
+	var $table = 'db_store_coupons a';
+	var $column_order = array('a.id','c.warehouse_name as customer_name','b.name','a.code','a.expire_date','a.value','a.type','a.description','a.status'); //set column field database for datatable orderable
+	var $column_search = array('a.id','c.warehouse_name','b.name','a.code','a.expire_date','a.value','a.type','a.description','a.status'); //set column field database for datatable searchable 
+	var $order = array('a.id' => 'desc'); // default order 
 
 	private function _get_datatables_query()
 	{
 		
 		$this->db->from($this->table);
+		$this->db->select($this->column_order);
 		//if not admin
 		//if(!is_admin()){
-			$this->db->where("store_id",get_current_store_id());
+			$this->db->where("a.store_id",get_current_store_id());
 		//}
-		
+			$this->db->join("db_coupons b","b.id=a.coupon_id","left");
+			$this->db->join("db_warehouse c","c.id=a.store_id","left");
+
+		//echo $this->db->get_compiled_select();exit;
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -75,7 +79,9 @@ class Discount_coupon_model extends CI_Model {
 	}
 
 
-	public function save_record(){
+
+
+	public function save_record(){   
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET))));
 
@@ -83,20 +89,27 @@ class Discount_coupon_model extends CI_Model {
 		//Validate This customers already exist or not
 		$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();  	
 		
+		$coupon_details = get_coupon_master_details($coupon_id);
+
 		$info = array(
 	                'store_id'         	=> $store_id,
-	                //'code'         		=> $code,
-	                'name'         		=> $coupon_name,
-	                'expire_date'       => $expire_date,
-	                'value'         	=> $coupon_value,
-					'min_val'         	=> $min_val,
-					'max_val'         	=> $max_val,
-					'coupon_usage'      => $coupon_usage,
-	                'type'		        => $coupon_type,
+	                'coupon_id'         => $coupon_id,
+	                'store_id'       => $customer_id,
+	                'code'         		=> trim($code),
+	                'expire_date'       => $coupon_details->expire_date,
+	                'value'         	=> $coupon_details->value,
+	                'type'		        => $coupon_details->type,
 	                'description'		=> $description,
 	              );
 		if($command=='save'){
-			
+			//Verify code already exists ?
+			$count = $this->db->select("count(*) as tot")->where("upper(code)=".strtoupper($code))->get("db_store_coupons")->row()->tot;
+			if($count>0){
+				echo "This Coupon Code already exists!!";exit;
+			}
+			if($coupon_details->expire_date<$CUR_DATE){
+				echo "This Coupon Season already expired!!";exit;
+			}
 			$save_operation = array(
 				                /*System Info*/
 				                'created_date'        	=> $CUR_DATE,
@@ -107,7 +120,7 @@ class Discount_coupon_model extends CI_Model {
 				                'status'          		=> 1,
 				              );
 		    $info = array_merge($info,$save_operation);
-		    $query1 = $this->db->insert('db_coupons', $info);
+		    $query1 = $this->db->insert('db_store_coupons', $info);
 		    if(!$query1){
 		    	return "failed";
 		    }
@@ -116,7 +129,7 @@ class Discount_coupon_model extends CI_Model {
 		}
 		else{
 			//UPDATE OPERATION
-			$query1 = $this->db->where('id',$q_id)->update('db_coupons', $info);
+			$query1 = $this->db->where('id',$q_id)->update('db_store_coupons', $info);
 			if(!$query1){
 		    	return "failed";
 		    }
@@ -129,7 +142,7 @@ class Discount_coupon_model extends CI_Model {
 	//Get brand_details
 	public function get_details($id,$data){
 		//Validate This brand already exist or not
-		$query=$this->db->query("select * from db_coupons where upper(id)=upper('$id')");
+		$query=$this->db->query("select * from db_store_coupons where upper(id)=upper('$id')");
 		if($query->num_rows()==0){
 			show_404();exit;
 		}
@@ -137,12 +150,9 @@ class Discount_coupon_model extends CI_Model {
 			$query=$query->row();
 			$data['q_id']=$query->id;
 			$data['name']=$query->name;
-			//$data['code']=$query->code;
+			$data['code']=$query->code;
 			$data['description']=$query->description;
 			$data['value']=$query->value;
-			$data['min_val']=$query->min_val;
-			$data['max_val']=$query->max_val;
-			$data['coupon_usage']=$query->coupon_usage;
 			$data['type']=$query->type;
 			$data['expire_date']=show_date($query->expire_date);
 			return $data;
@@ -150,7 +160,7 @@ class Discount_coupon_model extends CI_Model {
 	}
 	
 	public function update_status($id,$status){
-		if (set_status_of_table($id,$status,'db_coupons')){
+		if (set_status_of_table($id,$status,'db_store_coupons')){
             echo "success";
         }
         else{
@@ -158,24 +168,35 @@ class Discount_coupon_model extends CI_Model {
         }
 	}
 	public function delete_coupons($ids){
-			$this->db->trans_begin();
+		$this->db->trans_begin();
 
-			$this->db->where("id in ($ids)");
-			//if not admin
-			if(!is_admin()){
-				$this->db->where("store_id",get_current_store_id());
-			}
+		$q12=$this->db->select("*")->where("coupon_id in ($ids)")->get("db_sales");
+      	if($q12->num_rows()>0){
+      		echo "Can't Delete!! This Coupon Already Used in Sales invoice!";
+      		foreach ($q12->result() as $res12) {
+      			$sales_code = $this->db->select("sales_code")->where("id",$res12->id)->get("db_sales")->row()->sales_code;
+      			echo "<br>Invoice Code: ".$sales_code;
+      		}
+      		
+      		exit;
+      	}
 
-			$query1=$this->db->delete("db_coupons");
-	
+		$this->db->where("id in ($ids)");
+		//if not admin
+		if(!is_admin()){
+			$this->db->where("store_id",get_current_store_id());
+		}
 
-	        if ($query1){
-	        	$this->db->trans_commit();
-	            echo "success";
-	        }
-	        else{
-	            echo "failed";
-	        }	
+		$query1=$this->db->delete("db_store_coupons");
+
+
+        if ($query1){
+        	$this->db->trans_commit();
+            echo "success";
+        }
+        else{
+            echo "failed";
+        }	
 		
 	}
 
