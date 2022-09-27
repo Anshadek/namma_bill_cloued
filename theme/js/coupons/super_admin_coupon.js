@@ -95,7 +95,7 @@ function shift_cursor(kevent,target){
 function update_status(id,status)
 {
 	var base_url=$("#base_url").val();
-	$.post(base_url+"discount_coupon/update_status",{id:id,status:status},function(result){
+	$.post(base_url+"super_admin_discount_coupon/update_status",{id:id,status:status},function(result){
 		if(result=="success")
 				{
 					 toastr["success"]("Status Updated Successfully!");

@@ -164,7 +164,7 @@ $(document).ready(function() {
     new $.fn.dataTable.FixedHeader( table );
 });
 </script>
-<script src="<?php echo $theme_link; ?>js/coupons/super_admin_coupon.js"></script>
+<script src="<?php echo $theme_link; ?>js/coupons/super_admin_coupon.js?v=1"></script>
 <!-- Make sidebar menu hughlighter/selector -->
 <script>$(".discountCoupon-active-li, .coupon-active-li").addClass("active");</script>
 </body>

@@ -21,9 +21,7 @@ class Super_admin_discount_coupon extends MY_Controller {
 		$this->form_validation->set_rules('expire_date', 'Expire Date', 'trim|required');
 		$this->form_validation->set_rules('coupon_value', 'Coupon Value', 'trim|required');
 		$this->form_validation->set_rules('coupon_type', 'Coupon Type', 'trim|required');
-		$this->form_validation->set_rules('min_val', 'Minimum Value', 'trim|required');
-		$this->form_validation->set_rules('max_val', 'Maximum Value', 'trim|required');
-		$this->form_validation->set_rules('coupon_usage', 'Coupon Usage', 'trim|required');
+		
 		
 		if ($this->form_validation->run() == TRUE) {
 			$result = $this->discount_coupon->save_record();
@@ -89,15 +87,15 @@ class Super_admin_discount_coupon extends MY_Controller {
 										</a>
 										<ul role="menu" class="dropdown-menu dropdown-light pull-right">';
 
-			if ($this->permissions('discountCouponEdit')) {
+			
 				$str2 .= '<li>
-												<a title="Edit Record ?" href="' . base_url() . 'discount_coupon/update/' . $discount_coupon->id . '">
+												<a title="Edit Record ?" href="' . base_url() . 'super_admin_discount_coupon/update/' . $discount_coupon->id . '">
 													<i class="fa fa-fw fa-edit text-blue"></i>Edit
 												</a>
 											</li>';
-			}
+			
 
-			if ($this->permissions('discountCouponDelete')) {
+			
 				$str2 .= '<li>
 												<a style="cursor:pointer" title="Delete Record ?" onclick="delete_coupon(' . $discount_coupon->id . ')">
 													<i class="fa fa-fw fa-trash text-red"></i>Delete
@@ -106,7 +104,7 @@ class Super_admin_discount_coupon extends MY_Controller {
 
 										</ul>
 									</div>';
-			}
+			
 
 			$row[] = $str2;
 			$data[] = $row;

@@ -89,9 +89,7 @@ class Discount_coupon_model extends CI_Model {
 	                'name'         		=> $coupon_name,
 	                'expire_date'       => $expire_date,
 	                'value'         	=> $coupon_value,
-					'min_val'         	=> $min_val,
-					'max_val'         	=> $max_val,
-					'coupon_usage'      => $coupon_usage,
+					
 	                'type'		        => $coupon_type,
 	                'description'		=> $description,
 	              );

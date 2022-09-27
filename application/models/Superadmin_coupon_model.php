@@ -99,6 +99,9 @@ class Superadmin_coupon_model extends CI_Model {
 	                'expire_date'       => $coupon_details->expire_date,
 	                'value'         	=> $coupon_details->value,
 	                'type'		        => $coupon_details->type,
+					'min_val'		        => $min_val,
+					'max_val'		        => $max_val,
+					'coupon_usage'		      => $coupon_usage,
 	                'description'		=> $description,
 	              );
 		if($command=='save'){
@@ -153,6 +156,9 @@ class Superadmin_coupon_model extends CI_Model {
 			$data['code']=$query->code;
 			$data['description']=$query->description;
 			$data['value']=$query->value;
+			$data['min_val']=$query->min_val;
+			$data['max_val']=$query->max_val;
+			$data['coupon_usage']=$query->coupon_usage;
 			$data['type']=$query->type;
 			$data['expire_date']=show_date($query->expire_date);
 			return $data;

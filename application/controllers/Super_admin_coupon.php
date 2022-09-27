@@ -1,15 +1,18 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Super_admin_coupon extends MY_Controller {
-	public function __construct() {
+class Super_admin_coupon extends MY_Controller
+{
+	public function __construct()
+	{
 		parent::__construct();
 		$this->load_global();
 		$this->load->model('Superadmin_coupon_model', 'store_coupon');
 	}
 
-	public function generate($customer_id='') {
-		
+	public function generate($customer_id = '')
+	{
+
 		$data = $this->data;
 		$data['page_title'] = $this->lang->line('generatecustomerCoupon');
 		$data['customer_id'] = $customer_id;
@@ -17,10 +20,14 @@ class Super_admin_coupon extends MY_Controller {
 	}
 
 
-	public function save() {
+	public function save()
+	{
 		$this->form_validation->set_rules('coupon_id', 'Coupon Name', 'trim|required');
 		$this->form_validation->set_rules('code', 'Coupon Code', 'trim|required');
-		
+		$this->form_validation->set_rules('min_val', 'Minimun Value', 'trim|required');
+		$this->form_validation->set_rules('max_val', 'Maximum Value', 'trim|required');
+		$this->form_validation->set_rules('coupon_usage', 'Coupon Usage', 'trim|required');
+
 		if ($this->form_validation->run() == TRUE) {
 			$result = $this->store_coupon->save_record();
 			echo $result;
@@ -51,14 +58,16 @@ class Super_admin_coupon extends MY_Controller {
 			echo "Please Enter Coupon name.";
 		}
 	}*/
-	public function index() {
-		
+	public function index()
+	{
+
 		$data = $this->data;
 		$data['page_title'] = $this->lang->line('customerCouponsList');
 		$this->load->view('super_admin_coupons/customer-coupons-list', $data);
 	}
 
-	public function ajax_list() {
+	public function ajax_list()
+	{
 		$list = $this->store_coupon->get_datatables();
 
 		$data = array();
@@ -70,19 +79,20 @@ class Super_admin_coupon extends MY_Controller {
 			$row[] = $customer_coupon->customer_name;
 			$row[] = $customer_coupon->name;
 			$row[] = $customer_coupon->code;
-					$str='';
-					if($customer_coupon->expire_date<date("Y-m-d")){ 
-			 			$str = "<span class='label label-danger'>Expired</span>";
-			 		}
+			$str = '';
+			if ($customer_coupon->expire_date < date("Y-m-d")) {
+				$str = "<span class='label label-danger'>Expired</span>";
+			}
 
-			$row[] = show_date($customer_coupon->expire_date)."<br>".$str;
+			$row[] = show_date($customer_coupon->expire_date) . "<br>" . $str;
 			$row[] = store_number_format($customer_coupon->value);
 			$row[] = $customer_coupon->type;
 			$row[] = $customer_coupon->description;
-			
+
 
 			if ($customer_coupon->status == 1) {
-				$str = "<span onclick='update_status(" . $customer_coupon->id . ",0)' id='span_" . $customer_coupon->id . "'  class='label label-success' style='cursor:pointer'>Active </span>";} else {
+				$str = "<span onclick='update_status(" . $customer_coupon->id . ",0)' id='span_" . $customer_coupon->id . "'  class='label label-success' style='cursor:pointer'>Active </span>";
+			} else {
 				$str = "<span onclick='update_status(" . $customer_coupon->id . ",1)' id='span_" . $customer_coupon->id . "'  class='label label-danger' style='cursor:pointer'> Inactive </span>";
 			}
 			$row[] = $str;
@@ -92,18 +102,17 @@ class Super_admin_coupon extends MY_Controller {
 											Action <span class="caret"></span>
 										</a>
 										<ul role="menu" class="dropdown-menu dropdown-light pull-right">';
-											
-											if($this->permissions('customerCouponView'))
-											$str2.='<li>
-												<a title="Take Print" target="_blank" href="customer_coupon/print/'.$customer_coupon->id.'">
+
+			$str2 .= '<li>
+												<a title="Take Print" target="_blank" href="super_admin_coupon/print/' . $customer_coupon->id . '">
 													<i class="fa fa-fw fa-print text-blue"></i>Print
 												</a>
 											</li>
 											';
 
-											if($this->permissions('customerCouponDelete'))
-											$str2.='<li>
-												<a style="cursor:pointer" title="Delete Record ?" onclick="delete_coupon(\''.$customer_coupon->id.'\')">
+
+			$str2 .= '<li>
+												<a style="cursor:pointer" title="Delete Record ?" onclick="delete_coupon(\'' . $customer_coupon->id . '\')">
 													<i class="fa fa-fw fa-trash text-red"></i>Delete
 												</a>
 											</li>
@@ -111,7 +120,7 @@ class Super_admin_coupon extends MY_Controller {
 										</ul>
 									</div>';
 
-			
+
 
 			$row[] = $str2;
 			$data[] = $row;
@@ -127,8 +136,9 @@ class Super_admin_coupon extends MY_Controller {
 		echo json_encode($output);
 	}
 
-	public function update_status() {
-		
+	public function update_status()
+	{
+
 		$id = $this->input->post('id');
 		$status = $this->input->post('status');
 
@@ -137,17 +147,20 @@ class Super_admin_coupon extends MY_Controller {
 		return $result;
 	}
 
-	public function delete_coupon() {
-		
+	public function delete_coupon()
+	{
+
 		$id = $this->input->post('q_id');
 		return $this->customer_coupon->delete_coupons($id);
 	}
-	public function multi_delete() {
-	
+	public function multi_delete()
+	{
+
 		$ids = implode(",", $_POST['checkbox']);
 		return $this->customer_coupon->delete_coupons($ids);
 	}
-	function get_coupon_details(){
+	function get_coupon_details()
+	{
 		$coupon_code = $this->input->post('coupon_code');
 		$invoice_type = $this->input->post('invoice_type');
 		$coupon_code = strtoupper($coupon_code);
@@ -157,60 +170,58 @@ class Super_admin_coupon extends MY_Controller {
 		$this->db->where("upper(a.code) like '$coupon_code'");
 		//$this->db->where("a.customer_id",$customer_id);
 		$this->db->from("db_customer_coupons a");
-		$this->db->join("db_coupons b","b.id=a.coupon_id");
+		$this->db->join("db_coupons b", "b.id=a.coupon_id");
 		$q1 = $this->db->get();
-		$data =array();
-		if($q1->num_rows()>0){
+		$data = array();
+		if ($q1->num_rows() > 0) {
 			$row = $q1->row();
 
-			
+
 			//Verify Customer
-			if($row->customer_id!=$customer_id){
+			if ($row->customer_id != $customer_id) {
 				$expire_status = "Invalid";
 				$message = "This coupon not belongs to this Customer!!";
-				$coupon_value =$row->value; 
-				$coupon_type =$row->type; 
-				$occasion_name =$row->name; 
-				$expire_date =$row->expire_date;
-			}
-			else if(($row->expire_date>=date('Y-m-d') && $invoice_type=='sales' ) || ($invoice_type=='return')){
+				$coupon_value = $row->value;
+				$coupon_type = $row->type;
+				$occasion_name = $row->name;
+				$expire_date = $row->expire_date;
+			} else if (($row->expire_date >= date('Y-m-d') && $invoice_type == 'sales') || ($invoice_type == 'return')) {
 				$expire_status = "Valid";
-				$message = "Valid Coupon,Expired on ".show_date($row->expire_date)."";
-				$coupon_value =$row->value; 
-				$coupon_type =$row->type; 
-				$occasion_name =$row->name; 
-				$expire_date =$row->expire_date; 
-			}else{
-				$expire_status= "Expired";
-				$message = "Coupon Expired on ".show_date($row->expire_date)."!";
-				$coupon_value =0;
-				$coupon_type =$row->type."(".$row->value.")"; 
-				$occasion_name =$row->name;
-				$expire_date =$row->expire_date; 
+				$message = "Valid Coupon,Expired on " . show_date($row->expire_date) . "";
+				$coupon_value = $row->value;
+				$coupon_type = $row->type;
+				$occasion_name = $row->name;
+				$expire_date = $row->expire_date;
+			} else {
+				$expire_status = "Expired";
+				$message = "Coupon Expired on " . show_date($row->expire_date) . "!";
+				$coupon_value = 0;
+				$coupon_type = $row->type . "(" . $row->value . ")";
+				$occasion_name = $row->name;
+				$expire_date = $row->expire_date;
 			}
 
 
 			$data = array(
-							'expire_date' =>$expire_date,
-							'coupon_value' =>$coupon_value,
-							'coupon_type' =>$coupon_type,
-							'occasion_name' =>$occasion_name,
-							'expire_status' => $expire_status,
-							'message' => $message,
-							);
-		}
-		else{
-			$expire_status= "Invalid";
+				'expire_date' => $expire_date,
+				'coupon_value' => $coupon_value,
+				'coupon_type' => $coupon_type,
+				'occasion_name' => $occasion_name,
+				'expire_status' => $expire_status,
+				'message' => $message,
+			);
+		} else {
+			$expire_status = "Invalid";
 			$message = "Invalid Coupon Code!!";
 
 			$data = array(
-							'expire_date' =>'',
-							'coupon_value' =>0,
-							'coupon_type' =>'',
-							'occasion_name' =>'',
-							'expire_status' => $expire_status,
-							'message' => $message,
-							);
+				'expire_date' => '',
+				'coupon_value' => 0,
+				'coupon_type' => '',
+				'occasion_name' => '',
+				'expire_status' => $expire_status,
+				'message' => $message,
+			);
 		}
 		echo json_encode($data);
 	}
@@ -218,14 +229,11 @@ class Super_admin_coupon extends MY_Controller {
 	//Print Coupons 
 	public function print($coupon_id)
 	{
-		$this->belong_to('db_customer_coupons',$coupon_id);
-		if(!$this->permissions('customerCouponView')){
-			$this->show_access_denied_page();
-		}
-		$data=$this->data;
-		$data=array_merge($data,array('coupon_id'=>$coupon_id));
-		$data['page_title']=$this->lang->line('discountCouponPrint');
-		$this->load->view('coupons/print-coupon',$data);
+		$this->belong_to('db_customer_coupons', $coupon_id);
+		
+		$data = $this->data;
+		$data = array_merge($data, array('coupon_id' => $coupon_id));
+		$data['page_title'] = $this->lang->line('discountCouponPrint');
+		$this->load->view('super_admin_coupons/print-coupon', $data);
 	}
-
 }
