@@ -20,7 +20,7 @@ $CI = &get_instance();
 	<!-- Logo -->
 	<a href="<?php echo $base_url; ?>dashboard" class="logo">
 		<span class="logo-mini"><b>POS</b></span>
-		<span class="logo-lg"><b><?php echo $SITE_TITLE; ?></b></span>
+		<span class="logo-lg"><b>Super Admin</b></span>
 
 		<!-- <span class="logo-lg"><b><?= $this->session->userdata('store_name'); ?></b></span> -->
 	</a>

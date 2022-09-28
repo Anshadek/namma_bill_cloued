@@ -18,6 +18,7 @@ class Sign_up extends MY_Controller {
 	}
 
 	public function add_customer(){
+		
 		$this->form_validation->set_rules("store_name", "Store Name", "required");
 		 $this->form_validation->set_rules("email", "Email", "required|valid_email|is_unique[db_users.email]'");
 		 $this->form_validation->set_rules("mobile", "Mobile", "required|regex_match[/^[0-9]{10}$/]");

@@ -107,7 +107,23 @@
 							<div class="info-box" data-pos_value="">
 								<span class="info-box-icon bg-aqua"><i class="fa fa-credit-card"></i></span>
 								<div class="info-box-content">
-									<span class="text-bold text-uppercase  ">Total In Active</span><br>
+									<span class="text-bold text-uppercase  ">Total InActive</span><br>
+									<h3 class="info-box-number-admin-panel"><?= $q5->num_rows() ?></h3>
+								</div>
+								<!-- /.info-box-content -->
+							</div>
+							<!-- /.info-box -->
+						</div>
+						<!-- /.col -->
+						<?php
+						$qs5 = "SELECT * FROM db_warehouse where status = 0 and warehouse_type = 'System'";
+						$q5 = $this->db->query($qs5);
+						?>
+						<div class="col-md-4 col-sm-6 col-xs-12">
+							<div class="info-box" data-pos_value="">
+								<span class="info-box-icon bg-aqua"><i class="fa fa-credit-card"></i></span>
+								<div class="info-box-content">
+									<span class="text-bold text-uppercase  ">Expired Item</span><br>
 									<h3 class="info-box-number-admin-panel"><?= $q5->num_rows() ?></h3>
 								</div>
 								<!-- /.info-box-content -->
@@ -131,7 +147,7 @@
 						<div class="col-md-12">
 							<div class="box box-primary">
 								<div class="box-header">
-									<h3 class="box-title text-uppercase">Expiring Pos</h3>
+									<h3 class="box-title text-uppercase">Expired Pos</h3>
 								</div>
 								<!-- /.box-header -->
 								<div class="box-body table-responsive">

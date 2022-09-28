@@ -44,6 +44,26 @@ $('#save,#update').on("click", function (e) {
   if (flag == false) {
     $("#tab_4_btn").trigger('click');
   }
+	check_field("pan_no");
+  if (flag == false) {
+    $("#tab_4_btn").trigger('click');
+  }
+	check_field("country");
+  if (flag == false) {
+    $("#tab_4_btn").trigger('click');
+  }
+	check_field("state");
+  if (flag == false) {
+    $("#tab_4_btn").trigger('click');
+  }
+	check_field("postcode");
+  if (flag == false) {
+    $("#tab_4_btn").trigger('click');
+  }
+	check_field("address");
+  if (flag == false) {
+    $("#tab_4_btn").trigger('click');
+  }
 
   if (flag == false) {
     toastr["warning"]("You have Missed Something to Fillup!")
@@ -76,7 +96,7 @@ $('#save,#update').on("click", function (e) {
           //	return;
         }
         else {
-          alert(result);
+
           toastr["error"](result);
         }
         $("#" + this_id).attr('disabled', false);  //Enable Save or Update button

@@ -79,11 +79,24 @@ class Super_admin extends MY_Controller
 
 			}
 		}
+		$this->form_validation->set_rules("store_name", "Store Name", "required");
+		$this->form_validation->set_rules("email", "Email", "required|valid_email|is_unique[db_users.email]'");
+		$this->form_validation->set_rules("mobile", "Mobile", "required|regex_match[/^[0-9]{10}$/]");
+		$this->form_validation->set_rules("pan_no", "Pan No", "trim|required");
+		$this->form_validation->set_rules("state", "State", "trim|required");
+		$this->form_validation->set_rules("country", "State", "trim|required");
+	   $this->form_validation->set_rules("city", "City", "trim|required");
+	   $this->form_validation->set_rules("postcode", "Postcode", "trim|required");
+	   if($this->form_validation->run() == false) { 
+		echo validation_errors();
+		
+	}else{
 		$result = $this->store->create_store();
 
 		$this->session->set_flashdata('success', 'Succesfully Saved.');
 		echo 'success';
 		return 0;
+	}
 	}
 	public function warehouse_status_update()
 	{

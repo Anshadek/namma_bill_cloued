@@ -128,10 +128,10 @@
                                           <?php } ?>
 
                                           <div class="form-group">
-                                             <label for="pan_no" class="col-sm-4 control-label"><?= $this->lang->line('pan_number'); ?></label>
+                                             <label for="pan_no" class="col-sm-4 control-label"><?= $this->lang->line('pan_number'); ?><label class="text-danger">*</label></label>
                                              <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="pan_no" name="pan_no" placeholder="" value="<?php print $pan_no; ?>" >
-                                                <span id="pan_msg" style="display:none" class="text-danger"></span>
+                                                <span id="pan_no_msg" style="display:none" class="text-danger"></span>
                                              </div>
                                           </div>
 														<div class="form-group">
@@ -190,7 +190,7 @@
                                              </div>
                                           </div>
                                           <div class="form-group">
-                                             <label for="state" class="col-sm-4 control-label"><?= $this->lang->line('state'); ?></label>
+                                             <label for="state" class="col-sm-4 control-label"><?= $this->lang->line('state'); ?><label class="text-danger">*</label></label>
                                              <div class="col-sm-8">
                                                 <select class="form-control select2" id="state" name="state" style="width: 100%;">
                                                    <?php
@@ -221,7 +221,7 @@
                                              </div>
                                           </div>
                                           <div class="form-group">
-                                             <label for="postcode" class="col-sm-4 control-label"><?= $this->lang->line('postcode'); ?></label>
+                                             <label for="postcode" class="col-sm-4 control-label"><?= $this->lang->line('postcode'); ?><label class="text-danger">*</label></label>
                                              <div class="col-sm-8">
                                                 <input type="text" class="form-control no_special_char_no_space" id="postcode" name="postcode" placeholder="" value="<?php print $postcode; ?>">
                                                 <span id="postcode_msg" style="display:none" class="text-danger"></span>
@@ -236,7 +236,7 @@
                                           </div>
 														
 														<div class="form-group">
-                                             <label for="note" class="col-sm-4 control-label"><?= $this->lang->line('note'); ?><label class="text-danger">*</label></label>
+                                             <label for="note" class="col-sm-4 control-label"><?= $this->lang->line('note'); ?></label>
                                              <div class="col-sm-8">
                                                 <textarea type="text" class="form-control" id="note" name="note" placeholder=""><?php print $note; ?></textarea>
                                                 <span id="note_msg" style="display:none" class="text-danger"></span>
@@ -305,7 +305,7 @@
    <!-- TABLES CODE -->
    <?php $this->load->view('admin_common/code_js.php'); ?>
    <script src="<?php echo $theme_link; ?>js/state_filter.js?v=7"></script>
-   <script src="<?php echo $theme_link; ?>js/warehouse/super_admin_warehouse.js?v=4"></script>
+   <script src="<?php echo $theme_link; ?>js/warehouse/super_admin_warehouse.js?v=6"></script>
    <!-- Bootstrap WYSIHTML5 -->
    <script src="<?php echo $theme_link; ?>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
    <!-- Make sidebar menu hughlighter/selector -->
