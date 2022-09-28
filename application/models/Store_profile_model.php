@@ -378,13 +378,13 @@ class Store_profile_model extends CI_Model
 		} else {
 			$store_code = 'ST0003';
 		}
-
+		
 
 		$data = array(
 			'store_code'				=> $store_code,
 			'store_name'				=> $store_name,
-			'gst_no'					=> $gst_no,
-			'store_website'			=> $warehouse_website,
+			//'gst_no'					=> $gst_no,
+			'store_website'			=> $store_website,
 			'currency_id'			=> 35,
 			'currency_placement'	=> 'Left',
 			'mobile'					=> $mobile,
@@ -406,7 +406,7 @@ class Store_profile_model extends CI_Model
 			'sales_init'				=> 'SAL/2022/',
 			'sales_return_init'			=> 'SALR/2022/',
 			'expense_init'				=> 'EX/2022/',
-			'quotation_init'			=>'QUT/2022/',
+			'quotation_init'			=> 'QUT/2022/',
 			'money_transfer_init'		=> 'MT/2022/',
 			'accounts_init'				=> 'AC/2022/',
 			'sales_payment_init'		=> 'SP/2022/',
@@ -440,7 +440,19 @@ class Store_profile_model extends CI_Model
 
 		$last_inert_id = $row->id;
 		$store_id = $last_inert_id;
+		//=================================create a user role===========================
 
+
+	$data = array(
+			'store_id'					=> $store_id,
+			'role_name'				=> 'Admin',
+			'description'					=> 'All Rights Permitted.',
+			'status'				=> 1,
+		);
+		$q1 = $this->db->insert('db_roles', $data);
+		$row = $this->db->select("*")->limit(1)->order_by('id', "DESC")->get("db_roles")->row();
+		$role_id = $row->id;
+		//============================================================================
 
 		/*$query=$this->db->query("select * from db_users where username='$new_user'")->num_rows();
 				if($query>0){ return "This username already exist.";}*/
@@ -448,7 +460,7 @@ class Store_profile_model extends CI_Model
 		$info = array(
 			'username' 				=> $store_name,
 			'last_name' 			=> '',
-			'password' 				=> (isset($pass))?md5($pass) : md5('1234'),
+			'password' 				=> (isset($pass)) ? md5($pass) : md5('1234'),
 			'mobile' 				=> $mobile,
 			'email' 				=> $email,
 			/*System Info*/
@@ -457,7 +469,7 @@ class Store_profile_model extends CI_Model
 			'created_by' 			=> 'system',
 			'system_ip' 			=> $SYSTEM_IP,
 			'system_name' 			=> $SYSTEM_NAME,
-			'role_id'				=> 1,
+			'role_id'				=> $role_id,
 			'status' 				=> 1,
 			'store_id'              => $last_inert_id,
 
@@ -473,10 +485,11 @@ class Store_profile_model extends CI_Model
 			'currency_placement'	=> 'Left',
 			'warehouse_type'            => 'System',
 			'warehouse_name'			=> $store_name,
+			'warehouse_website'			=> $store_website,
 			'user_id'					=> $user->id,
 			'mobile'					=> $mobile,
 			'phone'						=> $phone,
-			'note'						=> $note,
+			'note'						=> 'SystemCreated.',
 			'email'						=> $email,
 			'country'					=> $country,
 			'timezone'					=> 'Asia/Kolkata',
@@ -493,7 +506,7 @@ class Store_profile_model extends CI_Model
 			'sales_init'				=> 'SAL/2022/',
 			'sales_return_init'			=> 'SALR/2022/',
 			'expense_init'				=> 'EX/2022/',
-			'quotation_init'			=>'QUT/2022/',
+			'quotation_init'			=> 'QUT/2022/',
 			'money_transfer_init'		=> 'MT/2022/',
 			'accounts_init'				=> 'AC/2022/',
 			'sales_payment_init'		=> 'SP/2022/',
@@ -504,6 +517,8 @@ class Store_profile_model extends CI_Model
 			'cust_advance_init'	=> 'CUA/2022/',
 			'status'					=> 1,
 			'bank_details'				=> $bank_details,
+			'created_date' 				=> $CUR_DATE,
+			'created_time' 				=> $CUR_TIME,
 
 		);
 
@@ -514,7 +529,7 @@ class Store_profile_model extends CI_Model
 		if (!empty($document_file)) {
 			$data['document'] = $document_file;
 		}
-		
+
 		/*custom helper*/
 
 		if (vat_number()) {
@@ -540,10 +555,11 @@ class Store_profile_model extends CI_Model
 		$data = array(
 
 			'warehouse_id'					=> $warehouse_id,
-			'user_id'			=> $user->id);
-			$q1 = $this->db->insert('db_userswarehouses', $data);    
-			
-			
+			'user_id'			=> $user->id
+		);
+		$q1 = $this->db->insert('db_userswarehouses', $data);
+
+
 		//============================================automatic account number genertaing==============================================
 		$query = $this->db->query("SELECT accounts_init FROM db_store where id = " . $store_id . " ORDER BY id DESC LIMIT 1");
 		$accounts_init =  $query->result_array();
@@ -634,18 +650,18 @@ class Store_profile_model extends CI_Model
 			->where('id', $q_id)
 			//->where('warehouse_type','System')
 			->update('db_warehouse', $data);
-		if ($old_pass != $password && $password != ""){
+		if ($old_pass != $password && $password != "") {
 			$data = array(
 				'password' => md5($password),
 			);
-		$this->db->where("id",$user_id)
-		->update('db_users', $data);
+			$this->db->where("id", $user_id)
+				->update('db_users', $data);
 		}
-		
+
 		if ($q1) {
 			$this->db->trans_commit();
 			echo "success";
-		}else{
+		} else {
 			echo "something went wrong try again..";
 		}
 

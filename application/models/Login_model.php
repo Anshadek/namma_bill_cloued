@@ -23,6 +23,7 @@ class Login_model extends CI_Model
 		$this->db->where("a.email",$email);
 		$this->db->where("a.password",md5($password));
 		$query = $this->db->get();
+		
 		if($query->num_rows()==1){
 			if ($query->row()->role_id == 0){
 				
@@ -36,7 +37,9 @@ class Login_model extends CI_Model
 					 'store_id' => trim($query->row()->store_id),
 					 'email' => trim($query->row()->email),
 					
+
 					);
+					
 		$this->session->set_userdata($logdata);
 	
 	$this->session->set_flashdata('success', 'Welcome '.ucfirst($query->row()->username)." !");
@@ -52,15 +55,17 @@ class Login_model extends CI_Model
 		$this->db->where("a.email",$email);
 		$this->db->where("a.password",md5($password));
 		$query = $this->db->get();
+		
 		if($query->num_rows()==1){
+			
 
 			//Verify is SaaS module Active ?
-			if($query->row()->id==1){
-				if(!store_module()){
-					$this->session->set_flashdata('failed', 'Access Denied!! SaaS module is not Active!!');
-					redirect('login');exit;
-				}
-			}
+			// if($query->row()->id==1){
+			// 	if(!store_module()){
+			// 		$this->session->set_flashdata('failed', 'Access Denied!! SaaS module is not Active!!');
+			// 		redirect('login');exit;
+			// 	}
+			// }
 
 			$store_rec = get_store_details_login($query->row()->store_id);
 			//STORE ACTIVE OR NOT

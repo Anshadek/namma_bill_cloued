@@ -535,6 +535,7 @@
     }
   }
   function get_role_name(){
+		
       $CI =& get_instance();
       return $CI->session->userdata('role_name');
   }
@@ -549,8 +550,7 @@
     return false;
   }
   function is_admin(){
-		
-    if(strtoupper(get_role_name())==strtoupper('admin')){
+    if(strtoupper(get_role_name())==ucfirst('admin')){
       return true;
     }
 		if(get_role_name()=='Store Admin'){

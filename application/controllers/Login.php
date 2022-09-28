@@ -21,8 +21,11 @@ class Login extends MY_Controller {
 		$data = $this->data;
 		$this->load->view('login',$data);
 	}
+
+
 	public function verify()
 	{
+		
 		//print_r($_POST);exit;
 		$this->form_validation->set_rules('email','Email','required');
 		$this->form_validation->set_rules('pass','Password','required');
@@ -43,6 +46,8 @@ class Login extends MY_Controller {
 			
 		}
 	}
+
+
 	public function forgot_password(){
 		if($this->session->userdata('logged_in')==1){ redirect(base_url().'dashboard','refresh');	}
 		$data = $this->data;

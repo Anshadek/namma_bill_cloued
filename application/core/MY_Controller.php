@@ -214,10 +214,17 @@ class MY_Controller extends CI_Controller{
       }
       public function permissions($permissions=''){
           //If he the Admin
+				
+					
           if($this->session->userdata('inv_userid')==1){
+						
             return true;
           }
-
+					if($this->session->userdata('role_name')=='Admin'){
+						
+            return true;
+          }
+				
           $tot=$this->db->query('SELECT count(*) as tot FROM db_permissions where permissions="'.$permissions.'" and role_id='.$this->session->userdata('role_id'))->row()->tot;
           if($tot==1){
             return true;

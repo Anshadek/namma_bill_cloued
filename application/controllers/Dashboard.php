@@ -28,9 +28,11 @@ class Dashboard extends MY_Controller {
 			$data['store_id'] =$_POST['store_id'];
 		}
 		if(!$this->permissions('dashboard_view')){
+			
 			$this->load->view('role/dashboard_empty',$data);
 		}
 		else{
+			
 			$this->load->view('dashboard',$data);
 		}
 		
