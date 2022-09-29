@@ -144,7 +144,7 @@
                                           <div class="form-group">
                                              <label for="warehouse_website" class="col-sm-4 control-label">Store Website</label>
                                              <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="warehouse_website" name="warehouse_website" placeholder="" value="<?php print $warehouse_website; ?>" >
+                                                <input type="text" class="form-control" id="warehouse_website" name="store_website" placeholder="" value="<?php print $warehouse_website; ?>" >
                                                 <span id="website_msg" style="display:none" class="text-danger"></span>
                                              </div>
                                           </div>
