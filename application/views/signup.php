@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form by Colorlib</title>
+    <title>Namma Bill </title>
 <?php
    $theme_link =  base_url().'theme/';
  ?>
@@ -19,7 +19,7 @@
 <body>
 
     <div class="main">
-	<input type="hidden" id="base_url" value="<?= base_url() ?>"
+	<input type="hidden" id="base_url" value="<?= base_url() ?>">
         <!-- Sign up form -->
         <section class="signup">
             <div class="container">

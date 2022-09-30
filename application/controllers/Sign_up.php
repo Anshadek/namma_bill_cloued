@@ -16,6 +16,26 @@ class Sign_up extends MY_Controller {
 		$this->load->view('signup');
 			
 	}
+	public function pricing_plan()
+
+	{	
+		
+		$data = array();
+		$query_1=$this->db->query("select * from db_trialpackage where is_primary = 1");
+
+		$query_2=$this->db->query("select * from db_package_subscription where status = 1");
+
+		
+		
+			$trial_pack = $query_1->row();
+			//$subscription_plan = $query_2->get();
+			$subscription_plan = $query_2->result_array();
+			$data['trial_pack']  = $trial_pack;
+			$data['subscription_plan']  = $subscription_plan;
+		
+		$this->load->view('pricing_plan',$data);
+			
+	}
 
 	public function add_customer(){
 		
