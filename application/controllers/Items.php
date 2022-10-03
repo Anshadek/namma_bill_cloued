@@ -11,6 +11,7 @@ class Items extends MY_Controller {
 	
 	public function index()
 	{
+		
 		if(!$this->permissions('items_view') && !$this->permissions('services_view')){
 			$this->show_access_denied_page();exit;
 		}

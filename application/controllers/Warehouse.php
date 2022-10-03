@@ -44,6 +44,7 @@
 			echo $result;	
 		}
 		public function add(){
+			
 			$this->permission_check('warehouse_add');
 			$data=$this->data;//My_Controller constructor data accessed here
 			//$data['page_title']='Create/Update Warehouse';

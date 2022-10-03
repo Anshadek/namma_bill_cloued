@@ -378,7 +378,7 @@ class Store_profile_model extends CI_Model
 		} else {
 			$store_code = 'ST0003';
 		}
-		
+
 
 		$data = array(
 			'store_code'				=> $store_code,
@@ -443,7 +443,7 @@ class Store_profile_model extends CI_Model
 		//=================================create a user role===========================
 
 
-	$data = array(
+		$data = array(
 			'store_id'					=> $store_id,
 			'role_name'				=> 'Admin',
 			'description'					=> 'All Rights Permitted.',
@@ -605,7 +605,25 @@ class Store_profile_model extends CI_Model
 		);
 		$q1 = $this->db->insert('ac_accounts', $info);
 		//==============================================================================================================================
-
+		//========================assign package store=========================================
+		if (!isset($trialpackage)){
+			$query1 = $this->db->query("select db_trialpackage.id
+		 where 
+		 is_primary
+		 =1
+		 ");
+		 $trialpackage = $query1->row()->id;
+		}
+		$data = array(
+			'store_id'			=>  $store_id,
+			'warehouse_id'		=> $warehouse_id,
+			'package_id'		=> $trialpackage,
+			'type'				=> "trial",
+			'created_date'		=> $CUR_DATE,
+		);
+		
+		$q1 = $this->db->insert('db_store_purchased_packages', $data);
+		//===================================================================
 		$this->db->trans_commit();
 		$this->session->set_flashdata('success', 'Success!! New User created Succssfully!!');
 		return "success";

@@ -158,7 +158,7 @@
                                                 <div class="form-group">
                                                    <label for="country" class="col-sm-4 control-label"><?= $this->lang->line('country'); ?></label>
                                                    <div class="col-sm-8">
-                                                      <select class="form-control select2" id="country" name="country" onchange="get_states(this)" style="width: 100%;" onkeyup="shift_cursor(event,'state')" value="<?php print $country; ?>">
+                                                      <select class="form-control select2" id="country" name="country" onchange="get_states(this.value)" style="width: 100%;" onkeyup="shift_cursor(event,'state')" value="<?php print $country; ?>">
                                                          <?php
                                                             $query1="select * from db_country where status=1";
                                                             $q1=$this->db->query($query1);

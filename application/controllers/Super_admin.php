@@ -29,8 +29,41 @@ class Super_admin extends MY_Controller
 
 	public function stores()
 	{
+		$pay_status = "";
+		$status = "";
+		$date = "";
 		$data = $this->data; //My_Controller constructor data accessed here
+	
+		if ($this->input->post()) {
+			$this->db->select('db_warehouse.*','profile_picture as prof');
+			$this->db->from('db_warehouse');
+			$pay_status = $this->input->post('filter_pay_status');
+			$status = $this->input->post('filter_status');
+			$date = $this->input->post('filter_date');
+			if(!empty($pay_status)){
+				$this->db->where('pay_status',$pay_status);
+				
+			}
+			if(!empty($status)){
+				$this->db->where('status',$status);
+				
+			}
+			if(!empty($date)){
+			
+				$this->db->where('created_date',$date);
+			
+			}
+			$res = $this->db->get();
+			$data['warehouses'] = $res->result();
+		}else{
+			
+			$q1= $this->db->select("*")->where('warehouse_type','System')->get("db_warehouse");
+			$data['warehouses'] = $q1->result();
+		}
 		$data['page_title'] = 'Warehouse List';
+		$data['filter_pay_status'] = $pay_status;
+		$data['filter_status'] = $status;
+		$data['filter_date'] = $date;
 		$this->load->view('super_admin/store-list', $data);
 	}
 
@@ -62,6 +95,7 @@ class Super_admin extends MY_Controller
 		//=======================================================================================
 		if (!empty($mobile)) {
 			$query = $this->db->query("select * from db_users where mobile='$mobile'")->num_rows();
+			
 			if ($query > 0) {
 
 				echo 'This Moble Number already exist.';

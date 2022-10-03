@@ -550,7 +550,11 @@
     return false;
   }
   function is_admin(){
-    if(strtoupper(get_role_name())==ucfirst('admin')){
+		// print_r(strtoupper(get_role_name()) == strtoupper('admin'));
+		// print_r(true);
+		// die();
+	
+    if(strtoupper(get_role_name())==strtoupper('admin')){
       return true;
     }
 		if(get_role_name()=='Store Admin'){
@@ -560,7 +564,15 @@
     return false;
   }
   function is_user(){
-    return is_admin();
+		if(strtoupper(get_role_name())!=strtoupper('admin')){
+      return true;
+    }
+		if(get_role_name()=='Store Admin'){
+      return true;
+    }
+		
+    return false;
+    //return is_admin();
   }
   function set_status_of_table($col_id,$status,$table){
     $CI =& get_instance();
