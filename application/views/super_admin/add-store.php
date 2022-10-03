@@ -148,7 +148,7 @@
                                                 <span id="website_msg" style="display:none" class="text-danger"></span>
                                              </div>
                                           </div>
-														<div class="form-group">
+														 <div class="form-group">
                                                    <label for="conf_pass" class="col-sm-4 control-label">Password</label>
                                                    <div class="col-sm-8">
                                                       <input type="text" class="form-control" id="pass" name="password" placeholder="" value="">
@@ -242,17 +242,17 @@
                                              </div>
                                           </div>
 														<div class="form-group">
-                                             <label for="trialpackage" class="col-sm-4 control-label">Trial Package</label>
+                                             <label for="country" class="col-sm-4 control-label">Trial Package</label>
                                              <div class="col-sm-8">
-                                                <select class="form-control select2" id="trialpackage" name="trialpackage" onchange="get_states(this.value)" style="width: 100%;">
+                                                <select class="form-control select2" id="country" name="country" onchange="get_states(this.value)" style="width: 100%;">
                                                    <?php
-                                                   $query1 = "select * from db_trialpackage where status=1";
+                                                   $query1 = "select * from db_country where status=1";
                                                    $q1 = $this->db->query($query1);
                                                    if ($q1->num_rows($q1) > 0) {
                                                       //echo '<option value="">-Select-</option>'; 
                                                       foreach ($q1->result() as $res1) {
-                                                         $selected = ($res1->is_primary == 1) ? 'selected' : '';
-                                                         echo "<option $selected value='" . $res1->id . "'>" . $res1->name . "</option>";
+                                                         $selected = ($res1->country == $country) ? 'selected' : '';
+                                                         echo "<option $selected value='" . $res1->country . "'>" . $res1->country . "</option>";
                                                       }
                                                    } else {
                                                    ?>

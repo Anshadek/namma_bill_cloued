@@ -103,6 +103,7 @@
 																'<?= $res1->amount ?>',
 																'<?= $res1->validity ?>',
 																'<?= $res1->user_count ?>',
+																'<?= $res1->is_unlimited ?>',
 																'<?= $res1->warehouse_count ?>'
 																)">
 																Edit
@@ -190,6 +191,21 @@
 							<div class="col-md-6">
 								<div class="box-body">
 									<div class="form-group">
+									<label id="is_unlimited_msg" class="text-danger text-right pull-right"></label>
+										<label for="is_unlimited">Type *</label>
+										<select class="form-control" id="is_unlimited" onchange="isUnlimited(this.value)" name="is_unlimited" style="width: 100%;">
+											<option value="">-Select-</option>
+											<option value="1">Unlimited</option>
+											<option value="0">Limited </option>
+										</select>
+									</div>
+								</div>
+							</div>
+							
+							<div id="limited_div">
+							<div class="col-md-6">
+								<div class="box-body">
+									<div class="form-group">
 										<label for="user_count">User Count *</label>
 										<label id="user_count_msg" class="text-danger text-right pull-right"></label>
 										<input type="number" class="form-control" id="user_count" name="user_count" placeholder="User Count">
@@ -206,6 +222,7 @@
 								</div>
 							</div>
 							
+							</div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -223,7 +240,7 @@
 		<?php $this->load->view('admin_common/code_js_sound.php');?>
 		<!-- TABLES CODE -->
 		<?php $this->load->view('admin_common/code_js.php');?>
-		<script src="<?php echo $theme_link; ?>js/super_admin_subscription.js?v=1"></script>
+		<script src="<?php echo $theme_link; ?>js/super_admin_subscription.js?v=2"></script>
 		<script type="text/javascript">
 			function deleteRow(id) {
 				var base_url = $("#base_url").val();
@@ -339,14 +356,16 @@
 				new $.fn.dataTable.FixedHeader(table);
 			});
 
-			function editRow(id,name,amount,validity,user_count,warehouse_count) {
+			function editRow(id,name,amount,validity,user_count,is_unlimited,warehouse_count) {
 				$('#trial-pack-modal').modal('show');
+				isUnlimited(is_unlimited);
 				$('#id').val(id);
 				$('#name').val(name);
 				$('#amount').val(amount);
 				$('#validity').val(validity);
 				$('#user_count').val(user_count);
 				$('#warehouse_count').val(warehouse_count);
+				$('#is_unlimited').val(is_unlimited);
 			}
 
 			function addRow(params) {
@@ -354,7 +373,14 @@
 				$('#id').val(0);
 				$('#trial-pack-modal').modal('show');
 			}
-
+			function isUnlimited(id){
+				if(id==1){
+					$('#limited_div').hide();
+				}else{
+					$('#limited_div').show();
+				}
+				
+			}
 		</script>
 		<script>
 			$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");

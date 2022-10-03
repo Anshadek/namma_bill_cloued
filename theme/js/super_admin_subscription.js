@@ -31,8 +31,11 @@ $('#save,#update').on("click", function (e) {
   check_field("name");
 	check_field("amount");
 	check_field("validity");
+	if ($('#is_unlimited').val() == 0){
 	check_field("user_count");
 	check_field("warehouse_count");
+	}
+	check_field("is_unlimited");
   if (flag == false) {
     toastr["warning"]("You have Missed Something to Fillup!")
     return;

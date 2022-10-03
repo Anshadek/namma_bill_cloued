@@ -84,6 +84,16 @@ class Super_admin extends MY_Controller
 		$data['page_title'] = 'Add/  Store';
 		$this->load->view('super_admin/add-store', $data);
 	}
+	public function view_store($id)
+	{
+		//print_r($id);
+		//die();
+		//$this->belong_to('db_warehouse',$id);
+
+		$data = $this->warehouse->get_details($id);
+		$data['page_title'] = 'View Store';
+		$this->load->view('super_admin/view-store', $data);
+	}
 	public function create_store()
 	{
 
@@ -384,6 +394,7 @@ class Super_admin extends MY_Controller
 			'name'	=> $name,
 			'amount'	=> $amount,
 			'validity'		=> $validity,
+			'is_unlimited'	=> $is_unlimited,
 			'user_count'	=> $user_count,
 			'warehouse_count'	=> $warehouse_count,
 			'status'			=> 1,
@@ -401,11 +412,16 @@ class Super_admin extends MY_Controller
 	{
 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
+		if ($is_unlimited == 1){
+			$user_count = 0;
+			$warehouse_count = 0;
+		}
 		$data = array(
 			'name'	=> $name,
 			'amount'	=> $amount,
 			'validity'		=> $validity,
 			'user_count'	=> $user_count,
+			'is_unlimited'	=> $is_unlimited,
 			'warehouse_count'	=> $warehouse_count,
 			
 		);

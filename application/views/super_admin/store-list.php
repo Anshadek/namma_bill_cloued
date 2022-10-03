@@ -216,6 +216,11 @@
 																		Edit
 																	</a>
 																</li>
+																<li>
+																	<a title="Update Record ?" href="<?= base_url() ?>super_admin/view_store/<?= $res1->id; ?>">
+																		View
+																	</a>
+																</li>
 
 
 																<li>
