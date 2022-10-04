@@ -33,31 +33,29 @@ class Super_admin extends MY_Controller
 		$status = "";
 		$date = "";
 		$data = $this->data; //My_Controller constructor data accessed here
-	
+
 		if ($this->input->post()) {
-			$this->db->select('db_warehouse.*','profile_picture as prof');
+			$this->db->select('db_warehouse.*', 'profile_picture as prof');
 			$this->db->from('db_warehouse');
 			$pay_status = $this->input->post('filter_pay_status');
 			$status = $this->input->post('filter_status');
 			$date = $this->input->post('filter_date');
-			if(!empty($pay_status)){
-				$this->db->where('pay_status',$pay_status);
-				
+			if (!empty($pay_status)) {
+				$this->db->where('pay_status', $pay_status);
 			}
-			if(!empty($status)){
-				$this->db->where('status',$status);
-				
+			if ($status == 0 || $status == 1) {
+
+				$this->db->where('status', $status);
 			}
-			if(!empty($date)){
-			
-				$this->db->where('created_date',$date);
-			
+			if (!empty($date)) {
+
+				$this->db->where('created_date', $date);
 			}
 			$res = $this->db->get();
 			$data['warehouses'] = $res->result();
-		}else{
-			
-			$q1= $this->db->select("*")->where('warehouse_type','System')->get("db_warehouse");
+		} else {
+
+			$q1 = $this->db->select("*")->where('warehouse_type', 'System')->get("db_warehouse");
 			$data['warehouses'] = $q1->result();
 		}
 		$data['page_title'] = 'Warehouse List';
@@ -105,7 +103,7 @@ class Super_admin extends MY_Controller
 		//=======================================================================================
 		if (!empty($mobile)) {
 			$query = $this->db->query("select * from db_users where mobile='$mobile'")->num_rows();
-			
+
 			if ($query > 0) {
 
 				echo 'This Moble Number already exist.';
@@ -129,18 +127,17 @@ class Super_admin extends MY_Controller
 		$this->form_validation->set_rules("pan_no", "Pan No", "trim|required");
 		$this->form_validation->set_rules("state", "State", "trim|required");
 		$this->form_validation->set_rules("country", "State", "trim|required");
-	   $this->form_validation->set_rules("city", "City", "trim|required");
-	   $this->form_validation->set_rules("postcode", "Postcode", "trim|required");
-	   if($this->form_validation->run() == false) { 
-		echo validation_errors();
-		
-	}else{
-		$result = $this->store->create_store();
+		$this->form_validation->set_rules("city", "City", "trim|required");
+		$this->form_validation->set_rules("postcode", "Postcode", "trim|required");
+		if ($this->form_validation->run() == false) {
+			echo validation_errors();
+		} else {
+			$result = $this->store->create_store();
 
-		$this->session->set_flashdata('success', 'Succesfully Saved.');
-		echo 'success';
-		return 0;
-	}
+			$this->session->set_flashdata('success', 'Succesfully Saved.');
+			echo 'success';
+			return 0;
+		}
 	}
 	public function warehouse_status_update()
 	{
@@ -318,7 +315,7 @@ class Super_admin extends MY_Controller
 			'name'				=> $name,
 			'day_or_month'		=> $day_or_month,
 			'days'				=> $days,
-			
+
 		);
 		$q1 = $this->db
 			->where('id', $id)
@@ -354,7 +351,8 @@ class Super_admin extends MY_Controller
 			return 1;
 		}
 	}
-	public function trial_package_primary_status_update(){
+	public function trial_package_primary_status_update()
+	{
 
 		$id = $this->input->post('id');
 		$cat_id = $this->input->post('cat_id');
@@ -362,16 +360,15 @@ class Super_admin extends MY_Controller
 		if ($this->db->simple_query($query1)) {
 			$query1 = "update db_trialpackage set is_primary=1 where id=$id";
 			if ($this->db->simple_query($query1)) {
-			echo "success";
-			}else{
-			echo "failed";
+				echo "success";
+			} else {
+				echo "failed";
 			}
 		} else {
 			echo "failed";
 		}
-
 	}
-//==========subscription area==============
+	//==========subscription area==============
 	public function subscription()
 	{
 
@@ -412,7 +409,7 @@ class Super_admin extends MY_Controller
 	{
 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
-		if ($is_unlimited == 1){
+		if ($is_unlimited == 1) {
 			$user_count = 0;
 			$warehouse_count = 0;
 		}
@@ -423,7 +420,7 @@ class Super_admin extends MY_Controller
 			'user_count'	=> $user_count,
 			'is_unlimited'	=> $is_unlimited,
 			'warehouse_count'	=> $warehouse_count,
-			
+
 		);
 		$q1 = $this->db
 			->where('id', $id)
@@ -459,10 +456,89 @@ class Super_admin extends MY_Controller
 			return 1;
 		}
 	}
+	public function store_subscription()
+	{
 
+		$data = $this->data; //My_Controller constructor data accessed here
+		$data['page_title'] = 'Create Subscription List';
+		$this->load->view('super_admin/store-subscription-list', $data);
+	}
+	public function assing_store_subscription()
+	{
+		
+
+		//============update section =================
+		if ($_POST['id'] > 0) {
+			
+			$res = $this->update_assign_store_subscription($_POST);
+			echo $res;
+			return 0;
+		}
+		//=========================================
+		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
+		$data = array(
+			'store_id'	=> 0,
+			'warehouse_id'	=> $warehouse_id,
+			'package_id'		=> $package_id,
+			'created_date'	=> $date,
+			'status'	=> $status,
+			'created_by'	=> 'super_admin',
+			'type'	=> 'subscription',
+
+		);
+		$q1 = $this->db->insert('db_store_purchased_packages', $data);
+		if (!$q1) {
+			echo "failed";
+			return 0;
+		} else {
+			echo "success";
+			return 1;
+		}
+	}
+
+	public function update_assign_store_subscription()
+	{
+		
+		
+		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
+		
+		$data = array(
+			'store_id'	=> 0,
+			'warehouse_id'	=> $warehouse_id,
+			'package_id'		=> $package_id,
+			'created_date'	=> $date,
+			'status'	=> $status,
+			'created_by'	=> 'super_admin',
+			'type'	=> 'subscription',
+
+		);
+		$q1 = $this->db
+			->where('id', $id)
+			->update('db_store_purchased_packages', $data);
+			
+		if (!$q1) {
+			return "failed";
+		} else {
+			return "success";
+		}
+	}
+
+	public function delete_assign_store_subscription()
+	{
+		$id = $this->input->post('id');
+		$q1 = $this->db->query("delete from db_store_purchased_packages where id=" . $id);
+		if ($q1 != 1) {
+			echo "failed";
+			return 0;
+		} else {
+			//$this->db->trans_commit();
+			echo "success";
+			return 1;
+		}
+	}
 	
-//==========reports============
-public function newly_created_pos_report()
+	//==========reports============
+	public function newly_created_pos_report()
 	{
 		$data = $this->data; //My_Controller constructor data accessed here
 		$data['page_title'] = 'Warehouse List';
@@ -474,5 +550,4 @@ public function newly_created_pos_report()
 		$data['page_title'] = 'Warehouse List';
 		$this->load->view('super_admin/expired-pos-list', $data);
 	}
-	
 }
