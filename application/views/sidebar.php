@@ -856,6 +856,23 @@
        </ul>
         </li>
         <?php } ?>
+				<li class=" site-settings-active-li  change-pass-active-li dbbackup-active-li  tax-active-li currency-view-active-li  store_profile-active-li currency-active-li  database_updater-active-li tax-list-active-li units-list-active-li unit-active-li payment_types_list-active-li payment_types-active-li gateways-active-li package-active-li subscription-active-li  subscription-list-active-li  package-list-active-li sms-api-active-li smtp-active-li treeview">
+          <a href="#">
+            <i class="fa fa-gears text-aqua"></i> <span><?= $this->lang->line('subscription'); ?></span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <?php if(!is_user()){?>
+            
+            <li class="store_profile-active-li"><a href="<?php echo $base_url; ?>subscription"><i class="fa fa-suitcase"></i> <span>Buy</span></a></li>
+            <li class="site-settings-active-li"><a href="<?php echo $base_url; ?>subscription/your_subscription"><i class="fa fa-shield"></i> <span>Your Subscription</span></a></li>
+            <?php } ?><!-- is_user() -->
+            
+            
+       </ul>
+        </li>
 
         <?php if($CI->permissions('help_link')) { ?>
         <li><a href="<?php echo $base_url; ?>help/" target="_blank"  ><i class="fa fa-book text-green"></i> <span><?= $this->lang->line('help'); ?></span></a></li>
