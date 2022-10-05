@@ -328,6 +328,7 @@
 	}
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 		<?php include "sidebar.php"; ?>
@@ -336,12 +337,12 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-					<?= $this->lang->line('site_settings'); ?>
-					<small><?= $this->lang->line('add_or_update'); ?> <?= $this->lang->line('site_settings'); ?></small>
+					Package Lists
+
 				</h1>
 				<ol class="breadcrumb">
 					<li><a href="<?php echo $base_url; ?>dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-					<li class="active">Site Settings</li>
+					<li class="active">Package Lists</li>
 				</ol>
 			</section>
 
@@ -368,32 +369,34 @@
 												<div class="row">
 													<h1 style="text-align:center;">Package Lists</h1>
 													<?php
-													$q1= $this->db->select("*")
-										 ->get("db_package_subscription");
-                                    if($q1->num_rows()>0){
-                                           foreach ($q1->result() as $res1){
-                                        ?>
-													<div class="pricing-block col-lg-4 col-md-6 col-sm-12 wow fadeInUp">
-														<div class="inner-box">
-															<div class="icon-box">
-																<div class="icon-outer"><i class="fas fa-paper-plane"></i></div>
+													$warehouse_id = get_store_warehouse_id();
+													$q1 = $this->db->select("*")
+														->get("db_package_subscription");
+													if ($q1->num_rows() > 0) {
+														foreach ($q1->result() as $res1) {
+													?>
+															<div class="pricing-block col-lg-4 col-md-6 col-sm-12 wow fadeInUp">
+																<div class="inner-box">
+																	<div class="icon-box">
+																		<div class="icon-outer"><i class="fas fa-paper-plane"></i></div>
+																	</div>
+																	<div class="price-box">
+																		<div class="title"><?= $res1->name ?></div>
+																		<h4 class="price">₹ <?= $res1->amount ?></h4>
+																	</div>
+																	<ul class="features">
+																		<li class="true">Validity : <b><?= $res1->validity ?></b></li>
+																		<li class="true">User Count : <b><?= $res1->user_count ?></b></li>
+																		<li class="true">Warehouse Count : <b><?= $res1->warehouse_count ?></b></li>
+																	</ul>
+																	<div class="btn-box">
+																		<a onclick="purchasePacakage('<?= $res1->id ?>','<?= $res1->amount ?>','<?= $warehouse_id ?>')" class="theme-btn">BUY plan</a>
+																	</div>
+																</div>
 															</div>
-															<div class="price-box">
-																<div class="title"><?= $res1->name ?></div>
-																<h4 class="price">₹ <?= $res1->amount ?></h4>
-															</div>
-															<ul class="features">
-																<li class="true">Validity : <b><?= $res1->validity ?></b></li>
-																<li class="true">User Count : <b><?= $res1->user_count ?></b></li>
-																<li class="true">Warehouse Count : <b><?= $res1->warehouse_count ?></b></li>
-															</ul>
-															<div class="btn-box">
-																<a href="https://codepen.io/anupkumar92" class="theme-btn">BUY plan</a>
-															</div>
-														</div>
-													</div>
-													<?php } } ?>
-													
+													<?php }
+													} ?>
+
 												</div>
 											</div>
 											<!-- /.box-body -->
@@ -442,6 +445,37 @@
 				$("#update").trigger('click');
 			}
 		});
+
+		function purchasePacakage(id, amount, warehouse_id) {
+			if (confirm('Are you sure you want to purchase this package?')) {
+				$.post(base_url + "subscription/purchase_pacakage", {
+					id: id,
+					amount: amount,
+					warehouse_id: warehouse_id
+				}, function(result) {
+					if (result == "success") {
+						toastr["success"]("Package Purchased Successfully!");
+
+						success.currentTime = 0;
+						success.play();
+
+					} else if (result == "failed") {
+						toastr["error"]("Failed to Package Purchase.Try again!");
+						failed.currentTime = 0;
+						failed.play();
+
+						return false;
+					} else {
+						toastr["error"](result);
+						return false;
+					}
+				});
+
+			} else {
+				return 0;
+			}
+
+		}
 	</script>
 	<script src="<?php echo $theme_link; ?>js/site-settings.js"></script>
 

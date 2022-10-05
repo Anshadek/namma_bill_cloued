@@ -57,6 +57,7 @@
 											<th>Package</th>
 											<th>Start date</th>
 											<th>End Date</th>
+											<th>Created By</th>
 											<th><?= $CI->lang->line('status'); ?></th>
 											<th><?= $CI->lang->line('action'); ?></th>
 										</tr>
@@ -87,8 +88,9 @@
 											<td><?php echo $res1->store_name;?> </td>
 											<td><?php echo $res1->package_name;?> </td>
 											<td><?php echo $res1->created_date;?> </td>
-											<td><span style="color:red;"><?php echo  date('Y-m-d', strtotime($res1->created_date. ' + '.$res1->validity.' days')); ?></span> </td>
 											
+											<td><span style="color:red;"><?php echo  date('Y-m-d', strtotime($res1->created_date. ' + '.$res1->validity.' days')); ?></span> </td>
+											<td><?php echo str_replace("_"," ",$res1->created_by);?> </td>
 											
 											<td>
 												<?php

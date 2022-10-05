@@ -337,12 +337,12 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-					<?= $this->lang->line('site_settings'); ?>
-					<small><?= $this->lang->line('add_or_update'); ?> <?= $this->lang->line('site_settings'); ?></small>
+				Your Subscription
+					
 				</h1>
 				<ol class="breadcrumb">
 					<li><a href="<?php echo $base_url; ?>dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-					<li class="active">Site Settings</li>
+					<li class="active">Your Subscription</li>
 				</ol>
 			</section>
 
@@ -452,10 +452,11 @@
 
 												</div><hr>
 												<div class="row">
-													<h1 style="text-align:center;color: red;">Expired  Package </h1>
+													<h1 style="text-align:center;">All Purchased  Package </h1>
 													<?php
 													$package = array();
 													$warehouse_id = get_store_warehouse_id();
+													if (!empty($q1)) {
 														if ($q1->type == 'trial') {
 
 															$q2 = $this->db->select("db_trialpackage.name,
@@ -497,7 +498,7 @@
 														</div>
 													</div>
 													
-													<?php } 
+													<?php } }
 													
 															$q2 = $this->db->select("db_package_subscription.name,
 																	db_package_subscription.validity,
@@ -511,17 +512,20 @@
 																	'db_package_subscription.id = db_store_purchased_packages.package_id',
 																	'left'
 																)
-																->limit(1)
+															
 																->get("db_store_purchased_packages");
 															
 														
 													
 													?>
 														<?php if ($q2->num_rows()>0) { 
+															$count = $q2->num_rows();
+															$i = 1;
+															
 															  foreach ($q2->result() as $res1){
 															?>
 															
-														<div class="pricing-block col-lg-6 col-md-6 col-sm-12 wow fadeInUp text-center">
+														<div class="pricing-block col-lg-3 col-md-6 col-sm-12 wow fadeInUp text-center">
 														<div class="inner-box">
 															<div class="icon-box">
 																<div class="icon-outer"><i class="fas fa-paper-plane"></i></div>
