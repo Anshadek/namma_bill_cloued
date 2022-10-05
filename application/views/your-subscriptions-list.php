@@ -443,9 +443,7 @@
 																<li class="true">Warehouse Count : <b>Un limited</b></li>
 																<?php } ?>
 															</ul>
-															<div class="btn-box">
-																<a href="https://codepen.io/anupkumar92" class="theme-btn">BUY plan</a>
-															</div>
+															
 														</div>
 													</div>
 													<div class="col-md-3"></div>
@@ -458,13 +456,6 @@
 													<?php
 													$package = array();
 													$warehouse_id = get_store_warehouse_id();
-													
-													$q1 = $this->db->select("type")
-														->where('warehouse_id',$warehouse_id )->limit(1)
-														->get("db_store_purchased_packages")->row();
-														
-													if (!empty($q1)) {
-
 														if ($q1->type == 'trial') {
 
 															$q2 = $this->db->select("db_trialpackage.name,
@@ -481,8 +472,33 @@
 
 															$package  = $q2;
 															$package->type = 'trial';
-														} else {
 
+														
+														
+														?>
+														<div class="pricing-block col-lg-6 col-md-6 col-sm-12 wow fadeInUp text-center">
+														<div class="inner-box">
+															<div class="icon-box">
+																<div class="icon-outer"><i class="fas fa-paper-plane"></i></div>
+															</div>
+															<div class="price-box">
+																<div class="title"><?= $package->name ?></div>
+																<h4 class="price">₹ 0 </h4>
+															</div>
+															<ul class="features">
+															
+																<li class="true">Type : <b>Trial</b></li>
+																<li class="true">Validity : <b><?= $package->validity ?> - <?= $package->day_or_month ?></b></li>
+																<li class="true">User Count : <b>Un Limited</b></li>
+																<li class="true">Warehouse Count : <b>Un limited</b></li>
+																
+															</ul>
+															
+														</div>
+													</div>
+													
+													<?php } 
+													
 															$q2 = $this->db->select("db_package_subscription.name,
 																	db_package_subscription.validity,
 																	db_package_subscription.user_count,
@@ -497,12 +513,13 @@
 																)
 																->limit(1)
 																->get("db_store_purchased_packages");
-															$package  = $q2;
-															$package->type = 'subscription';
-														}
-													}
+															
+														
+													
 													?>
-														<?php if (!empty($package) == true) { ?>
+														<?php if ($q2->num_rows()>0) { 
+															  foreach ($q2->result() as $res1){
+															?>
 															
 														<div class="pricing-block col-lg-6 col-md-6 col-sm-12 wow fadeInUp text-center">
 														<div class="inner-box">
@@ -510,33 +527,21 @@
 																<div class="icon-outer"><i class="fas fa-paper-plane"></i></div>
 															</div>
 															<div class="price-box">
-																<div class="title"><?= $package->name ?></div>
-																<?php if($package->type == "subscription") { ?>
-																<h4 class="price">₹ <?= $package->amount ?></h4>
-																<?php }else { ?>
-																<h4 class="price">₹ 0 </h4>
-																<?php } ?>
+																<div class="title"><?= $res1->name ?></div>
+																<h4 class="price">₹ <?= $res1->amount ?></h4>
 															</div>
 															<ul class="features">
-															<?php if($package->type == "subscription") { ?>
 																<li class="true">Type : <b>Subscription</b></li>
-																<li class="true">Validity : <b><?= $package->validity ?> -  Days</b></li>
-																<li class="true">User Count : <b><?= ($package->is_unlimited == 0) ?  $package->user_count :  'Unlimited' ?></b></li>
-																<li class="true">Warehouse Count : <b><?= ($package->is_unlimited == 0) ?  $package->warehouse_count :  'Unlimited' ?></b></li>
-															<?php } else { ?>
-																<li class="true">Type : <b>Trial</b></li>
-																<li class="true">Validity : <b><?= $package->validity ?> - <?= $package->day_or_month ?></b></li>
-																<li class="true">User Count : <b>Un Limited</b></li>
-																<li class="true">Warehouse Count : <b>Un limited</b></li>
-																<?php } ?>
+																<li class="true">Validity : <b><?= $res1->validity ?> -  Days</b></li>
+																<li class="true">User Count : <b><?= ($res1->is_unlimited == 0) ?  $res1->user_count :  'Unlimited' ?></b></li>
+																<li class="true">Warehouse Count : <b><?= ($res1->is_unlimited == 0) ?  $res1->warehouse_count :  'Unlimited' ?></b></li>
+															
 															</ul>
-															<div class="btn-box">
-																<a href="https://codepen.io/anupkumar92" class="theme-btn">BUY plan</a>
-															</div>
+															
 														</div>
 													</div>
 													
-													<?php } ?>
+													<?php } } ?>
 
 
 												</div>
