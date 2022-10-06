@@ -242,9 +242,9 @@
                                              </div>
                                           </div>
 														<div class="form-group">
-                                             <label for="country" class="col-sm-4 control-label">Trial Package</label>
+                                             <label for="trialpackage" class="col-sm-4 control-label">Trial Package</label>
                                              <div class="col-sm-8">
-                                                <select class="form-control select2" id="country" name="country" onchange="get_states(this.value)" style="width: 100%;">
+                                                <select class="form-control select2" id="trialpackage" name="trialpackage" onchange="get_states(this.value)" style="width: 100%;">
                                                    <?php
                                                    $query1 = "select * from db_trialpackage where status=1";
                                                    $q1 = $this->db->query($query1);

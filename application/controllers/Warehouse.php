@@ -40,6 +40,35 @@
 		// }
 		public function new_warehouse(){
 			//$result=$this->store->verify_and_save();
+
+			//check package limit
+			$warehouse_id = get_store_warehouse_id();
+			$store_id 	= get_current_store_id();
+			$q1 = $this->db->select("*")
+			->where('warehouse_id',$warehouse_id )->limit(1)
+			->get("db_store_purchased_packages")->row();
+			
+			if (!empty($q1)) {
+				if ($q1->type == 'subscription') { 	
+
+				$q2 = $this->db->select("*")
+			->where('store_id',$store_id)
+			->get("db_users");
+
+			$q3 = $this->db->select("*")
+			->where('id',$q1->package_id)
+			->limit(1)
+			->get("db_package_subscription")
+			->row();
+			if($q2->num_rows() >= $q3->warehouse_count ){
+				echo "Your package limit is expired";
+				return 0;
+			}
+
+				}
+			}
+			//==================================
+
 			$result=$this->warehouse->verify_and_save();
 			echo $result;	
 		}

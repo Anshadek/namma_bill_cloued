@@ -25,6 +25,33 @@
 				$this->form_validation->set_rules('pass', 'Password', 'required|trim|min_length[2]|max_length[50]');
 			}
 
+			//check package limit
+			$warehouse_id = get_store_warehouse_id();
+			$store_id 	= get_current_store_id();
+			$q1 = $this->db->select("*")
+			->where('warehouse_id',$warehouse_id )->limit(1)
+			->get("db_store_purchased_packages")->row();
+			
+			if (!empty($q1)) {
+				if ($q1->type == 'subscription') { 	
+
+				$q2 = $this->db->select("*")
+			->where('store_id',$store_id)
+			->get("db_users");
+
+			$q3 = $this->db->select("*")
+			->where('id',$q1->package_id)
+			->limit(1)
+			->get("db_package_subscription")
+			->row();
+			if($q2->num_rows() >= $q3->user_count ){
+				echo "Your package limit is expired";
+				return 0;
+			}
+
+				}
+			}
+			//==================================
 			if ($this->form_validation->run() == TRUE) {
 				$this->load->model('users_model');
 				
