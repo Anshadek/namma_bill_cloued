@@ -58,6 +58,7 @@
 											<th>Validity</th>
 											<th>User Count</th>
 											<th>Warehouse Count</th>
+											<th>Active User</th>
 											<th><?= $CI->lang->line('status'); ?></th>
 											<th><?= $CI->lang->line('action'); ?></th>
 										</tr>
@@ -78,7 +79,21 @@
 											<td><?php echo $res1->validity;?> </td>
 											<td><?php echo $res1->user_count;?> </td>
 											<td><?php echo $res1->warehouse_count;?> </td>
-											
+											<td>
+											<?php 
+											$validity = $this->input->post('validity');
+											$end_date  =  date('Y-m-d');
+											$start_date = date('Y-m-d', strtotime('-' . $validity . ' day'));
+
+											$this->db->select();
+											$this->db->from('db_store_purchased_packages');
+											$this->db->where('package_id', $res1->id);
+											$this->db->where('type','subscription');
+											$this->db->where('created_date >= date("' . $start_date . '")');
+											$this->db->where('created_date <= date("' . $end_date . '")');
+											?>
+											<?=  $this->db->get()->num_rows() ?>
+											</td>
 											<td>
 												<?php
                                         if($res1->status==1)                   //1=Active, 0=Inactive
@@ -113,7 +128,7 @@
 
 														<li>
 															<a style="cursor:pointer" title="Delete Record ?"
-																onclick="deleteRow('<?=$res1->id;?>')">
+																onclick="deleteRow('<?=$res1->id;?>','<?= $res1->validity ?>')">
 																Delete
 															</a>
 														</li>
@@ -242,12 +257,13 @@
 		<?php $this->load->view('admin_common/code_js.php');?>
 		<script src="<?php echo $theme_link; ?>js/super_admin_subscription.js?v=2"></script>
 		<script type="text/javascript">
-			function deleteRow(id) {
+			function deleteRow(id,validity) {
 				var base_url = $("#base_url").val();
 				if (confirm("Do You Wants to Delete Record ?")) {
 					$(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
 					$.post(base_url + "super_admin/delete_subscription", {
-						id: id
+						id: id,
+						validity: validity
 					}, function (result) {
 						//alert(result);return;
 						if (result == "success") {

@@ -66,9 +66,9 @@
                                           
                                           
                                           
-                                          if(!is_admin()){
+                                         // if(!is_admin()){
                                             $this->db->where("store_id",get_current_store_id());
-                                          }
+                                          //}
                                          $q1= $this->db->select("*")->get("db_warehouse");
                                     if($q1->num_rows()>0){
                                            foreach ($q1->result() as $res1){

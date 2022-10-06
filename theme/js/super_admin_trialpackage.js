@@ -117,7 +117,7 @@ function update_status(id, status) {
       failed.play();
     }
     else {
-      toastr["error"]("Error! Something Went Wrong!");
+      toastr["error"](result);
       failed.currentTime = 0;
       failed.play();
     }
@@ -141,7 +141,7 @@ function update_primary_status(id,cat_id,status) {
       failed.play();
     }
     else {
-      toastr["error"]("Error! Something Went Wrong!");
+      toastr["error"](result);
       failed.currentTime = 0;
       failed.play();
     }

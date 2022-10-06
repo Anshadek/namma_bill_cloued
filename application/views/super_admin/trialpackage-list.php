@@ -35,8 +35,7 @@
 						<div class="box box-primary">
 							<div class="box-header with-border">
 								<h3 class="box-title">Trial package List</h3>
-
-
+	
 								<button onclick="addRow()" title="New Trial Package?" class="btn btn-primary pull-right"> Add
 									Trial Package </button> <?php if($CI->permissions('warehouse_add')) { ?>
 								<div class="box-tools">
@@ -57,6 +56,7 @@
 											<th>Name</th>
 											<th>Month/Days</th>
 											<th>Duration</th>
+											<th>Active User</th>
 											<th>Is Primary</th>
 											<th><?= $CI->lang->line('status'); ?></th>
 											<th><?= $CI->lang->line('action'); ?></th>
@@ -80,6 +80,24 @@
 											<td><?php echo $res1->name;?> </td>
 											<td><?php echo $res1->day_or_month;?> </td>
 											<td><?php echo $res1->days;?> </td>
+
+											<td>
+											<?php 
+											$validity = $this->input->post('validity');
+											$end_date  =  date('Y-m-d');
+											$start_date = date('Y-m-d', strtotime('-' . $validity . ' day'));
+
+											$this->db->select();
+											$this->db->from('db_store_purchased_packages');
+											$this->db->where('package_id', $res1->id);
+											$this->db->where('type','trial');
+											$this->db->where('created_date >= date("' . $start_date . '")');
+											$this->db->where('created_date <= date("' . $end_date . '")');
+											?>
+											<?=  $this->db->get()->num_rows() ?>
+											</td>
+
+
 											<td>
 												<?php
                                         if($res1->is_primary==1)                   //1=primary, 0=notprimary
@@ -244,7 +262,7 @@
 		<?php $this->load->view('admin_common/code_js_sound.php');?>
 		<!-- TABLES CODE -->
 		<?php $this->load->view('admin_common/code_js.php');?>
-		<script src="<?php echo $theme_link; ?>js/super_admin_trialpackage.js?v=5"></script>
+		<script src="<?php echo $theme_link; ?>js/super_admin_trialpackage.js?v=6"></script>
 		<script type="text/javascript">
 			function deleteRow(id) {
 				var base_url = $("#base_url").val();

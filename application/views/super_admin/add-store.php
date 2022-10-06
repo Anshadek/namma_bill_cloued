@@ -246,13 +246,13 @@
                                              <div class="col-sm-8">
                                                 <select class="form-control select2" id="country" name="country" onchange="get_states(this.value)" style="width: 100%;">
                                                    <?php
-                                                   $query1 = "select * from db_country where status=1";
+                                                   $query1 = "select * from db_trialpackage where status=1";
                                                    $q1 = $this->db->query($query1);
                                                    if ($q1->num_rows($q1) > 0) {
                                                       //echo '<option value="">-Select-</option>'; 
                                                       foreach ($q1->result() as $res1) {
-                                                         $selected = ($res1->country == $country) ? 'selected' : '';
-                                                         echo "<option $selected value='" . $res1->country . "'>" . $res1->country . "</option>";
+                                                         $selected = ($res1->is_primary == 1) ? 'selected' : '';
+                                                         echo "<option $selected value='" . $res1->id . "'>" . $res1->name . "</option>";
                                                       }
                                                    } else {
                                                    ?>
@@ -328,7 +328,7 @@
    <!-- TABLES CODE -->
    <?php $this->load->view('admin_common/code_js.php'); ?>
    <script src="<?php echo $theme_link; ?>js/state_filter.js?v=7"></script>
-   <script src="<?php echo $theme_link; ?>js/warehouse/super_admin_warehouse.js?v=6"></script>
+   <script src="<?php echo $theme_link; ?>js/warehouse/super_admin_warehouse.js?v=5"></script>
    <!-- Bootstrap WYSIHTML5 -->
    <script src="<?php echo $theme_link; ?>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
    <!-- Make sidebar menu hughlighter/selector -->

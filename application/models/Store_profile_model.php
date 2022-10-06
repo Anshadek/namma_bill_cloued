@@ -648,7 +648,7 @@ class Store_profile_model extends CI_Model
 		$this->db->trans_begin();
 		$data = array(
 			'warehouse_name'			=> $store_name,
-			'warehouse_website'			=> $warehouse_website,
+			'warehouse_website'			=> $store_website,
 			'gst_no'					=> $gst_no,
 			'vat_no'					=> $vat_no,
 			'pan_no'					=> $pan_no,

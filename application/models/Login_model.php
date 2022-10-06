@@ -29,11 +29,11 @@ class Login_model extends CI_Model
 				
 				$logdata = array(
 					'inv_username'  => $query->row()->username,
-					'user_lname'  => $query->row()->last_name,
+					'user_lname'  => (isset($query->row()->last_name))?$query->row()->last_name:"",
 					 'inv_userid'  => $query->row()->id,
 					 'logged_in' => TRUE,
 					 'role_id' => $query->row()->role_id,
-					 'role_name' => trim($query->row()->role_name),
+					 'role_name' => (isset($query->row()->role_name))?$query->row()->role_name:"",
 					 'store_id' => trim($query->row()->store_id),
 					 'email' => trim($query->row()->email),
 					

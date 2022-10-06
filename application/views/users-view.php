@@ -65,15 +65,15 @@
 					<?php
 					$i=1;
 
-          if(!is_admin() && !is_store_admin()){
-            $this->db->where(" role_id not in (2)");
-          }
+          // if(!is_admin() && !is_store_admin()){
+          //   $this->db->where(" role_id not in (2)");
+          // }
           $this->db->select("a.*,b.role_name");
           $this->db->where("b.id=a.role_id");
           //if not admin
-          if(!is_admin()){
+          //if(!is_admin()){
             $this->db->where("a.store_id",get_current_store_id());
-          }
+          //}
 
           $q1=$this->db->from('db_users as a, db_roles as b')->order_by('id','desc')->get();
 

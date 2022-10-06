@@ -258,6 +258,11 @@ class Super_admin extends MY_Controller
 	public function delete_trial_pack_category()
 	{
 		$id = $this->input->post('id');
+		$is_cat_exists = $this->db->query("select * from db_trialpackage where trial_pack_catid=" . $id);
+		if ($is_cat_exists->num_rows() > 0) {
+			echo "trialpcak is already exists on this category";
+			return 0;
+		}
 		$q1 = $this->db->query("delete from db_trialpack_category where id=" . $id);
 		if ($q1 != 1) {
 			echo "failed";
@@ -330,6 +335,13 @@ class Super_admin extends MY_Controller
 	{
 		$id = $this->input->post('id');
 		$status = $this->input->post('status');
+		if ($status == 0) {
+			$is_primary = $this->db->query("select * from db_trialpackage where is_primary=1 and  id=" . $id);
+			if ($is_primary->num_rows() > 0) {
+				echo "This trialpack is primary can't inactive now";
+				return 0;
+			}
+		}
 		$query1 = "update db_trialpackage set status='$status' where id=$id";
 		if ($this->db->simple_query($query1)) {
 			echo "success";
@@ -341,6 +353,13 @@ class Super_admin extends MY_Controller
 	public function delete_trial_package()
 	{
 		$id = $this->input->post('id');
+
+		$is_primary = $this->db->query("select * from db_trialpackage where is_primary=1 and  id=" . $id);
+		if ($is_primary->num_rows() > 0) {
+			echo "This trialpack is primary can't delete now";
+			return 0;
+		}
+
 		$q1 = $this->db->query("delete from db_trialpackage where id=" . $id);
 		if ($q1 != 1) {
 			echo "failed";
@@ -353,9 +372,18 @@ class Super_admin extends MY_Controller
 	}
 	public function trial_package_primary_status_update()
 	{
-
 		$id = $this->input->post('id');
 		$cat_id = $this->input->post('cat_id');
+
+		$is_inactive = $this->db->query("select * from db_trialpackage where status=0 and  id=" . $id);
+		if ($is_inactive->num_rows() > 0) {
+			echo "This trialpack is inactive now";
+			return 0;
+		}
+
+
+
+
 		$query1 = "update db_trialpackage set is_primary=0";
 		if ($this->db->simple_query($query1)) {
 			$query1 = "update db_trialpackage set is_primary=1 where id=$id";
@@ -446,6 +474,20 @@ class Super_admin extends MY_Controller
 	public function delete_subscription()
 	{
 		$id = $this->input->post('id');
+		$validity = $this->input->post('validity');
+		$end_date  =  date('Y-m-d');
+		$start_date = date('Y-m-d', strtotime('-' . $validity . ' day'));
+
+		$this->db->select();
+		$this->db->from('db_store_purchased_packages');
+		$this->db->where('package_id', $id);
+		$this->db->where('type','subscription');
+		$this->db->where('created_date >= date("' . $start_date . '")');
+		$this->db->where('created_date <= date("' . $end_date . '")');
+		if ($this->db->get()->num_rows() > 0) {
+			echo "Subscription user still exists";
+			return 0;
+		}
 		$q1 = $this->db->query("delete from db_package_subscription where id=" . $id);
 		if ($q1 != 1) {
 			echo "failed";
@@ -465,11 +507,11 @@ class Super_admin extends MY_Controller
 	}
 	public function assing_store_subscription()
 	{
-		
+
 
 		//============update section =================
 		if ($_POST['id'] > 0) {
-			
+
 			$res = $this->update_assign_store_subscription($_POST);
 			echo $res;
 			return 0;
@@ -498,10 +540,10 @@ class Super_admin extends MY_Controller
 
 	public function update_assign_store_subscription()
 	{
-		
-		
+
+
 		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
-		
+
 		$data = array(
 			'store_id'	=> 0,
 			'warehouse_id'	=> $warehouse_id,
@@ -515,7 +557,7 @@ class Super_admin extends MY_Controller
 		$q1 = $this->db
 			->where('id', $id)
 			->update('db_store_purchased_packages', $data);
-			
+
 		if (!$q1) {
 			return "failed";
 		} else {
@@ -536,7 +578,7 @@ class Super_admin extends MY_Controller
 			return 1;
 		}
 	}
-	
+
 	//==========reports============
 	public function newly_created_pos_report()
 	{
