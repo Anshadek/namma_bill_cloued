@@ -1055,7 +1055,7 @@
 
     $expire_date = get_subscription_rec($subscription_id)->expire_date;
     if($expire_date<date('Y-m-d')){
-      echo "Store Subscription expired!!";exit;
+      //echo "Store Subscription expired!!";exit;
     }
     return true;
 

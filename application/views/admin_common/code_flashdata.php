@@ -27,7 +27,7 @@
 
             $expire_date = get_subscription_rec($subscription_id)->expire_date;
             if($expire_date<date('Y-m-d')){
-              $message = "Store Subscription expired!!";
+              $message = "";
             }
 
             if(!empty($message)){ ?>

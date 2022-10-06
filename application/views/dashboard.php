@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <?php if(!is_user() && $CI->permissions('dashboard_info_box_1')){ ?> 
+      <?php if($CI->permissions('dashboard_info_box_1')){ ?> 
         <div class="row">
           <div class="box-header">
               <div class="btn-group pull-right">
@@ -105,7 +105,7 @@
       
 
       <!-- Info boxes -->
-      <?php if(!is_user() && $CI->permissions('dashboard_info_box_2')){ ?> 
+      <?php if($CI->permissions('dashboard_info_box_2')){ ?> 
          <div class="row">
        
         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -168,75 +168,10 @@
       <?php } ?>
        
       <!-- ############################# GRAPHS ############################## -->
-      <?php if(is_admin() && store_module()){ ?>
-      <div class="row">
-        <div class="col-md-6 animated">
-          <div class="box box-primary" >
-
-            <div class="box-header ">
-              <h3 class="box-title"><?= $this->lang->line('stores_details'); ?></h3>
-              <div class="btn-group pull-right hide">
-                <button type="button" title="Today" class="btn btn-default btn-info get_storewise_details ">Today</button>
-                <button type="button" title="Current Week" class="btn btn-default btn-info get_storewise_details">Weekly</button>
-                <button type="button" title="Current Month" class="btn btn-default btn-info get_storewise_details ">Monthly</button>
-                <button type="button" title="Current Year" class="btn btn-default btn-info get_storewise_details">Yearly</button>
-                <button type="button" title="All Years" class="btn btn-default btn-info get_storewise_details active">All</button>
-              </div>
-            </div>
-
-            <!-- /.box-header -->
-            <div class="box-body table-responsive">
-              <table id="stores_details" class="table">
-                <thead>
-                <tr class=''>
-                  <th>#</th>
-                  <th><?= $this->lang->line('store_name'); ?></th>
-                  <th><?= $this->lang->line('total_sales'); ?></th>
-                  <th><?= $this->lang->line('total_expense'); ?></th>
-                  <th><?= $this->lang->line('sales_due'); ?></th>
-                </tr>
-                </thead>
-                <tbody>
-                  <?= $CI->get_storewise_details(); ?>
-                </tbody>
-                
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-
-        </div>
-        <!-- /.col (RIGHT) -->
-
-        <div class="col-md-6 animated">
-             <!-- PRODUCT LIST -->
-             <div class="box box-primary">
-                <div class="box-header with-border">
-                  <h3 class="box-title"><?= $this->lang->line('subcriptions'); ?></h3>
-
-                  <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                  </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body ">
-                   <div class="subscription_chart" ></div>
-                </div>
-                <!-- /.box-body -->
-             </div>
-             <!-- /.box -->
-        </div>
-
-        </div>
-
-        <?php } ?>
-        
+    
       
       <div class="row">
-      <?php if(!is_user() && $CI->permissions('dashboard_pur_sal_chart')){ ?> 
+      <?php if( $CI->permissions('dashboard_pur_sal_chart')){ ?> 
      <div class="col-md-8 animated">
       <!-- BAR CHART -->
           <div class="box box-primary">
@@ -311,7 +246,7 @@
         <!-- /.col -->
      </div>
       <div class="row">
-        <?php if($CI->permissions('dashboard_stock_alert') && !is_user()) { ?> 
+        <?php if($CI->permissions('dashboard_stock_alert') ) { ?> 
         <div class="col-md-12">
           <div class="box box-primary">
             <div class="box-header">
@@ -342,7 +277,7 @@
         <!-- /.col (RIGHT) -->
       <?php } ?>
       </div>
-     <?php if(!is_user()){ ?>
+     
         <div class="row">
         <div class="col-md-6 ">
           <?php if($CI->permissions('dashboard_trending_items_chart')){ ?> 
@@ -474,7 +409,7 @@
           <!-- /.box -->
         </div>
       </div>
-      <?php } ?>
+      
 
       
       <!-- ############################# GRAPHS END############################## -->

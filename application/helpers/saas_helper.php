@@ -1,7 +1,7 @@
 <?php
 
 function store_module(){
-    return false;
+    return true;
   }
 
 function special_access(){

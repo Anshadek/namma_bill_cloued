@@ -214,7 +214,8 @@
         <?php } ?>
 
     <!-- STORE MANAGEMENT -->
-    <?php if($CI->permissions('store_view') && store_module() && is_admin()) { ?>
+    <?php if($CI->permissions('store_view') && store_module() 
+		) { ?>
 
         <li class="store_list-active-li store-active-li subscribers-active-li subscribers_list-active-li treeview">
           <a href="#">
@@ -238,7 +239,7 @@
         <?php } ?>
 
     
-    <?php if(!is_user()){?>
+    
     <?php if($CI->permissions('sales_add')  || $CI->permissions('sales_view') || $CI->permissions('sales_return_view') || $CI->permissions('sales_return_add')) { ?>
     <!-- <li class="header">SALES</li> -->
     <li class="pos-active-li sales-list-active-li sales-active-li sales-return-active-li sales-return-list-active-li sales-payments-list-active-li treeview">
@@ -274,10 +275,10 @@
           </ul>
         </li>
     <?php } ?>
-    <?php } ?><!-- is_user() -->
+  
 
     
-    <?php if(!is_user()){?>
+   
     <!--<li class="header">CUSTOMERS</li>-->
     <?php if($CI->permissions('customers_add') || $CI->permissions('customers_view') || $CI->permissions('import_customers') || $CI->permissions('suppliers_add') || $CI->permissions('suppliers_view') || $CI->permissions('import_suppliers')) { ?>
     <li class="customers-view-active-li customers-active-li import_customers-active-li suppliers-list-active-li suppliers-active-li import_suppliers-active-li treeview">
@@ -317,9 +318,9 @@
           </ul>
         </li>    
     <?php } ?>
-    <?php } ?><!-- is_user() -->
 
-    <?php if(!is_user()){?>
+
+  
     <?php if($CI->permissions('cust_adv_payments_add')  || $CI->permissions('cust_adv_payments_view')) { ?>
     <!-- <li class="header">QUOTATION</li> -->
     <li class="list-active-li create-active-li treeview">
@@ -342,11 +343,11 @@
           </ul>
         </li>
     <?php } ?>
-    <?php } ?><!-- is_user() -->
+    
     
 
 
-    <?php if(($CI->permissions('discountCouponView') || $CI->permissions('customerCouponView')) && !is_admin()) { ?>
+    <?php if(($CI->permissions('discountCouponView') || $CI->permissions('customerCouponView')) ) { ?>
     <!-- <li class="header">QUOTATION</li> -->
     <li class="coupon-active-li treeview">
           <a href="#">
@@ -379,7 +380,7 @@
     <?php } ?>
 
 
-    <?php if(!is_user()){?>
+   
     <?php if($CI->permissions('quotation_add')  || $CI->permissions('quotation_view')) { ?>
     <!-- <li class="header">QUOTATION</li> -->
     <li class="pos-active-li quotation_list-active-li quotation-active-li quotation-return-active-li quotation-return-list-active-li treeview">
@@ -402,11 +403,11 @@
           </ul>
         </li>
     <?php } ?>
-    <?php } ?><!-- is_user() -->
+   
 
     
 
-    <?php if(!is_user()){?>
+  
     <?php if($CI->permissions('purchase_add') || $CI->permissions('purchase_view') || $CI->permissions('purchase_return_view')|| $CI->permissions('new_purchase_return')) { ?>
     <!-- <li class="header">PURCHASE</li> -->
     <li class="purchase-list-active-li purchase-active-li purchase-returns-active-li purchase-returns-list-active-li treeview treeview2 ">
@@ -434,9 +435,9 @@
           </ul>
         </li>
         <?php } ?>
-        <?php } ?><!-- is_user() -->
+      
        
-       <?php if(!is_user()){?> 
+      
       <?php if(($CI->permissions('accounts_add') || $CI->permissions('accounts_view') || $CI->permissions('journal_add') || $CI->permissions('journal_view')) && accounts_module() ) { ?>
     <!-- <li class="header">ACCOUNTING</li> -->
     <li class="accounts_list-active-li accounts-active-li journal-active-li journal_list-active-li money_transfer-active-li money_transfer_list-active-li money_deposit-active-li money_deposit_list-active-li cash_transactions-active-li treeview">
@@ -475,9 +476,9 @@
           </ul>
         </li>
         <?php } ?>
-        <?php } ?><!-- is_user() -->
+      
 
-        <?php if(!is_user()){?>
+       
         <?php if($CI->permissions('services_add') || $CI->permissions('services_view') || $CI->permissions('items_add') || $CI->permissions('items_view') || $CI->permissions('items_category_add') || $CI->permissions('items_category_view') || $CI->permissions('brand_add') || $CI->permissions('brand_view') || $CI->permissions('print_labels') || $CI->permissions('import_items') || $CI->permissions('import_services') || $CI->permissions('variant_view') || $CI->permissions('services_view') ) { ?>
           <!-- <li class="header">MAIN</li> -->
         <li class="items-list-active-li items-active-li  category-view-active-li category-active-li brand-active-li brand-view-active-li labels-active-li import_items-active-li services-active-li import_services-active-li variants-active-li variants_list-active-li services-active-li treeview">
@@ -531,10 +532,10 @@
           </ul>
         </li>
         <?php } ?>
-        <?php } ?><!-- is_user() -->
+       
 
 
-        <?php if(!is_user()){?>
+        
         <?php if($CI->permissions('stock_adjustment_add')  || $CI->permissions('stock_adjustment_view') || $CI->permissions('stock_transfer_add') || $CI->permissions('stock_transfer_view')) { ?>
     <!-- <li class="header">STOCK ADJUSTMENT</li> -->
     <li class="pos-active-li stock_adjustment_list-active-li stock_adjustment-active-li stock_adjustment-return-active-li stock_adjustment-return-list-active-li stock_transfer-active-li stock_transfer_list-active-li treeview">
@@ -558,9 +559,9 @@
           </ul>
         </li>
     <?php } ?>
-    <?php } ?><!-- is_user() -->
+  
         
-    <?php if(!is_user()){?>
+    
         <?php if($CI->permissions('expense_add') || $CI->permissions('expense_view') || $CI->permissions('expense_category_add') || $CI->permissions('expense_category_view')) { ?>
        <li class="expense-list-active-li expense-active-li expense-category-active-li expense-category-list-active-li treeview">
           <a href="#">
@@ -582,7 +583,7 @@
           </ul>
         </li>
         <?php } ?>
-    <?php } ?><!-- is_user() -->
+ 
 
         
     
@@ -754,7 +755,8 @@
     
     
 
-        <?php if(!is_user()){?>
+      
+			
     <!-- WAREHOUSE MANAGEMENT -->
     <?php if(($CI->permissions('warehouse_view') || $CI->permissions('warehouse_add')) && warehouse_module()) { ?>
 
@@ -777,7 +779,8 @@
         </li>
         
         <?php } ?>
-        <?php } ?><!-- is_user() -->
+      
+				
 
     <!--<li class="header">SETTINGS</li>-->
     <?php if($change_password=true) { ?>
@@ -789,11 +792,13 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <?php if(!is_user()){?>
+          
+					
             <?php if($CI->permissions('store_edit')) { ?>
             <li class="store_profile-active-li"><a href="<?php echo $base_url; ?>store_profile/update/<?= $this->session->userdata('store_id'); ?>"><i class="fa fa-suitcase "></i> <span><?= $this->lang->line('store'); ?></span></a></li>
             <?php } ?>
-            <?php } ?><!-- is_user() -->
+          
+						
             <?php if(special_access()) { ?>
             <li class="site-settings-active-li"><a href="<?php echo $base_url; ?>site"><i class="fa fa-shield  "></i> <span><?= $this->lang->line('site_settings'); ?></span></a></li>
             <?php } ?>
@@ -806,17 +811,20 @@
             <li class="smtp-active-li"><a href="<?php echo $base_url; ?>smtp/"><i class="fa fa-envelope-square "></i> <span><?= $this->lang->line('smtp'); ?></span></a></li>
             <?php } ?>
 
-            <?php if($CI->permissions('gateway_view') && is_admin() && store_module()) { ?>
+            <?php if($CI->permissions('gateway_view') 
+						&& store_module()) { ?>
             <li class="gateways-active-li"><a href="<?php echo $base_url; ?>gateways"><i class="fa fa- fa-credit-card  "></i> <span><?= $this->lang->line('payment_gateways'); ?></span>
               </a></li>
             <?php } ?>
 
-            <?php if($CI->permissions('package_view') && is_admin() && store_module()) { ?>
+            <?php if($CI->permissions('package_view') 
+						 && store_module()) { ?>
             <li class="package-active-li  package-list-active-li"><a href="<?php echo $base_url; ?>package"><i class="fa fa-get-pocket  "></i> <span><?= $this->lang->line('package_list'); ?></span>
               </a></li>
             <?php } ?>
 
-            <?php if(!is_user()){?>
+          
+						
 
                 <?php if($CI->permissions('subscription') && store_module()) { ?>
                 <li class="subscription-active-li  subscription-list-active-li"><a href="<?php echo $base_url; ?>subscription"><i class="fa fa-calendar  "></i> <span><?= $this->lang->line('subscription'); ?></span>
@@ -836,7 +844,8 @@
                 <li class="payment_types_list-active-li payment_types-active-li"><a href="<?php echo $base_url; ?>payment_types/"><i class="fa fa-list "></i> <span><?= $this->lang->line('payment_types'); ?></span>
                   </a></li>
                 <?php } ?>
-            <?php } ?><!-- is_user() -->
+          
+								
 
 
             <?php if(special_access()) { ?>
@@ -864,11 +873,13 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <?php if(!is_user()){?>
+        
+					
             
             <li class="store_profile-active-li"><a href="<?php echo $base_url; ?>subscription"><i class="fa fa-suitcase"></i> <span>Buy</span></a></li>
             <li class="site-settings-active-li"><a href="<?php echo $base_url; ?>subscription/your_subscription"><i class="fa fa-shield"></i> <span>Your Subscription</span></a></li>
-            <?php } ?><!-- is_user() -->
+        
+						
             
             
        </ul>
