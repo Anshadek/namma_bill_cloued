@@ -438,7 +438,7 @@
 																<li class="true">Warehouse Count : <b><?= ($package->is_unlimited == 0) ?  $package->warehouse_count :  'Unlimited' ?></b></li>
 															<?php } else { ?>
 																<li class="true">Type : <b>Trial</b></li>
-																<li class="true">Validity : <b><?= $package->validity ?> - <?= $package->day_or_month ?></b></li>
+																<li class="true">Validity : <b><?= $package->days ?> - <?= $package->day_or_month ?></b></li>
 																<li class="true">User Count : <b>Un Limited</b></li>
 																<li class="true">Warehouse Count : <b>Un limited</b></li>
 																<?php } ?>
@@ -463,13 +463,14 @@
 																	db_trialpackage.day_or_month
 																	,db_trialpackage.days")
 																->where('warehouse_id', $warehouse_id)
+																->where('type','trial')
 																->join(
 																	'db_trialpackage',
 																	'db_trialpackage.id = db_store_purchased_packages.package_id',
 																	'left'
 																)
 																->limit(1)
-																->get("db_store_purchased_packages");
+																->get("db_store_purchased_packages")->row();
 
 															$package  = $q2;
 															$package->type = 'trial';
@@ -489,7 +490,7 @@
 															<ul class="features">
 															
 																<li class="true">Type : <b>Trial</b></li>
-																<li class="true">Validity : <b><?= $package->validity ?> - <?= $package->day_or_month ?></b></li>
+																<li class="true">Validity : <b><?= $package->days ?> - <?= $package->day_or_month ?></b></li>
 																<li class="true">User Count : <b>Un Limited</b></li>
 																<li class="true">Warehouse Count : <b>Un limited</b></li>
 																
@@ -507,6 +508,7 @@
 																	db_package_subscription.is_unlimited,
 																	db_package_subscription.amount")
 																->where('warehouse_id',$warehouse_id)
+																->where('type','subscription')
 																->join(
 																	'db_package_subscription',
 																	'db_package_subscription.id = db_store_purchased_packages.package_id',
@@ -518,7 +520,7 @@
 														
 													
 													?>
-														<?php if ($q2->num_rows()>0) { 
+														<?php if ($q2->num_rows() > 0) { 
 															$count = $q2->num_rows();
 															$i = 1;
 															

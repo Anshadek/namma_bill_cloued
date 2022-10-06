@@ -48,7 +48,7 @@ class Login_model extends CI_Model
 		}
 		//============================================================================================
 
-		$this->db->select("a.email,a.store_id,a.id,a.username,a.role_id,b.role_name,a.status,a.last_name");
+		$this->db->select("a.email,a.mail_verified,a.store_id,a.id,a.username,a.role_id,b.role_name,a.status,a.last_name");
 		$this->db->from("db_users a");
 		$this->db->from("db_roles b");
 		$this->db->where("b.id=a.role_id");
@@ -66,6 +66,21 @@ class Login_model extends CI_Model
 			// 		redirect('login');exit;
 			// 	}
 			// }
+
+
+			//email verifed or not 
+			
+			if($query->row()->mail_verified == 0 ){
+
+				$this->session->set_flashdata('failed', 'Your mail not verified!');
+				redirect('login');
+
+			}
+			
+
+
+
+
 
 			$store_rec = get_store_details_login($query->row()->store_id);
 			//STORE ACTIVE OR NOT

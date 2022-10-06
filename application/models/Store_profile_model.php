@@ -608,11 +608,13 @@ class Store_profile_model extends CI_Model
 		//========================assign package store=========================================
 		if (!isset($trialpackage)){
 			$query1 = $this->db->query("select db_trialpackage.id
+		from db_trialpackage
 		 where 
 		 is_primary
 		 =1
 		 ");
 		 $trialpackage = $query1->row()->id;
+		
 		}
 		$data = array(
 			'store_id'			=>  $store_id,

@@ -16,26 +16,7 @@ class Sign_up extends MY_Controller {
 		$this->load->view('signup');
 			
 	}
-	public function pricing_plan()
-
-	{	
-		
-		$data = array();
-		$query_1=$this->db->query("select * from db_trialpackage where is_primary = 1");
-
-		$query_2=$this->db->query("select * from db_package_subscription where status = 1");
-
-		
-		
-			$trial_pack = $query_1->row();
-			//$subscription_plan = $query_2->get();
-			$subscription_plan = $query_2->result_array();
-			$data['trial_pack']  = $trial_pack;
-			$data['subscription_plan']  = $subscription_plan;
-		
-		$this->load->view('pricing_plan',$data);
-			
-	}
+	
 
 	public function add_customer(){
 		
@@ -50,7 +31,9 @@ class Sign_up extends MY_Controller {
 		if($this->form_validation->run() == false) { 
 			return $this->load->view('signup');
 		}else{
+			
 		$result=$this->store->create_store();
+		$this->sendmail($_POST['email']);
 		$this->session->set_flashdata('success', 'Please Login Here!');
 		redirect('login');
 		}
@@ -81,6 +64,53 @@ class Sign_up extends MY_Controller {
 		  }
 		  echo $str;
    }
+
+
+ public function sendmail($to_email){
+	$this->load->library('email');
+		//$to_email = 'josephlukose3@gmail.com';
+        $from_email = 'anshadaliek@gmail.com'; //change this to yours
+        $subject = 'Verify Your Email Address';
+        $message = 'Dear User,<br /><br />Please click on the below activation link to verify your email address.<br /><br /> '.base_url().'sign_up/verify_emailid/'. md5($to_email) . '<br /><br /><br />Thanks<br />Namma bill Team';
+        
+        //configure email settings
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'ssl://smtp.gmail.com'; //smtp host name
+        $config['smtp_port'] = '465'; //smtp port number
+        $config['smtp_user'] = 'nammabillings@gmail.com';
+        $config['smtp_pass'] = 'izyfidydjidmgcfn'; //$from_email password
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = TRUE;
+        $config['newline'] = "\r\n"; //use double quotes
+        $this->email->initialize($config);
+        
+        //send mail
+        $this->email->from($from_email, 'Nammabill');
+        $this->email->to($to_email);
+        $this->email->subject($subject);
+        $this->email->message($message);
+        // $this->email->send();
+    if (!$this->email->send()) {
+    show_error($this->email->print_debugger()); }
+  else {
+    echo 'Your e-mail has been sent!';
+  }
+ }
+
+ function verify_emailid($key)
+ {
+	 $data = array('mail_verified' => 1);
+	 $this->db->where('md5(email)', $key);
+	$res =  $this->db->update('db_users', $data);
+	if($res){
+		$login_url = base_url();
+		echo 'your mail is verified..you can login now <a href="' . $login_url . '">Login nammabill</a>';
+	}else{
+		echo 'something went wrong..!!';
+	}
+
+ }
 	
 
 }
