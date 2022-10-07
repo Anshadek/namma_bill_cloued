@@ -116,7 +116,9 @@ $("#item_search").bind("paste", function(e){
 } );
 
 $("#item_search").autocomplete({
+	
     source: function(data, cb){
+			
         $.ajax({
           autoFocus:true,
             url: $("#base_url").val()+'items/get_json_items_details',
@@ -130,11 +132,11 @@ $("#item_search").autocomplete({
             data: {
                 name: data.term,
                 store_id:$("#store_id").val(),
-                warehouse_id:$("#warehouse_id").val(),
+                warehouse_id:$(".warehouse_id").val(),
                 search_for:"purchase",
             },
             beforeSend: function() {
-                if($("#warehouse_id").val()==''){
+                if($(".warehouse_id").val()==''){
                   toastr['warning']("Please Select Wareshouse!");
                   $("#warehouse_id").select2('open');
                   $("#item_search").removeClass('ui-autocomplete-loading');

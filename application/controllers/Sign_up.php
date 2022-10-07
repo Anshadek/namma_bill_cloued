@@ -78,7 +78,7 @@ class Sign_up extends MY_Controller {
         $config['smtp_host'] = 'ssl://smtp.gmail.com'; //smtp host name
         $config['smtp_port'] = '465'; //smtp port number
         $config['smtp_user'] = 'nammabillings@gmail.com';
-        $config['smtp_pass'] = 'izyfidydjidmgcfn'; //$from_email password
+        $config['smtp_pass'] = 'tkjgjzdevrovqrsa'; //$from_email password
         $config['mailtype'] = 'html';
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = TRUE;

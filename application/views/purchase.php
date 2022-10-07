@@ -117,7 +117,7 @@
                               <!-- Warehouse Code -->
                               <?php 
                                if(warehouse_module() && warehouse_count()>1) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'warehouse_id'=>$warehouse_id,'div_length'=>'col-sm-3','show_select_option'=>false)); }else{
-                                echo "<input type='hidden' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
+                                echo "<input type='hidden' class='warehouse_id' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
                                }
                               ?>
                               <!-- Warehouse Code end -->
@@ -139,7 +139,7 @@
                                        <div class="input-group-addon">
                                           <i class="fa fa-calendar"></i>
                                        </div>
-                                       <input type="text" class="form-control pull-right datepicker"  id="pur_date" name="pur_date" readonly onkeyup="shift_cursor(event,'purchase_status')" value="<?= $pur_date;?>">
+                                       <input type="text" class="form-control pull-right"  id="pur_date" name="pur_date" readonly onkeyup="shift_cursor(event,'purchase_status')" value="<?= $pur_date;?>">
                                     </div>
                                     <span id="pur_date_msg" style="display:none" class="text-danger"></span>
                                  </div>
@@ -504,7 +504,7 @@
 </div>
 <!-- ./wrapper -->
 
-<script src="<?php echo $theme_link; ?>js/purchase.js"></script>  
+<script src="<?php echo $theme_link; ?>js/purchase.js?v=1"></script>  
 
 <script>
 

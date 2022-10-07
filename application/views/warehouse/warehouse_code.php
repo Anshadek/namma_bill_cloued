@@ -32,7 +32,7 @@
 		   	<span class="text-danger"></span> </label>
 			<?php } ?>
 		   <div class="<?= $div_length;?>">
-		      <select class="form-control select2" id="<?=$selection_box_id;?>" <?=$multiple;?> <?=$data_placeholder;?> title="Select Warehouse" name="<?=$selection_box_name;?>"  style="width: 100%;">
+		      <select class="form-control select2 warehouse_id" id="<?=$selection_box_id;?>" <?=$multiple;?> <?=$data_placeholder;?> title="Select Warehouse" name="<?=$selection_box_name;?>"  style="width: 100%;">
 		         <?php
 		         	//Only Allowed Warehouse show to loged in user
 		         	if(!is_admin() && !is_store_admin()){
@@ -100,7 +100,7 @@
 	<?php if($show_warehouse_select_box_1){ ?>
 		<div class="form-group col-md-4">
          <label for="warehouse_id"><?= $this->lang->line('warehouse'); ?></label>
-         <select class="form-control select2" id="warehouse_id" name="warehouse_id"  style="width: 100%;" >
+         <select class="form-control select2" id="warehouse_id" class="warehouse_id" name="warehouse_id"  style="width: 100%;" >
             <?php
 		            //Only Allowed Warehouse show to loged in user
 		         	if(!is_admin() && !is_store_admin()){
@@ -147,7 +147,7 @@
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-addon" title="Warehouse"><i class="fa fa-building text-red"></i></span>
-                    <select class="form-control select2" id="warehouse_id_1" name="warehouse_id"  style="width: 100%;" >
+                    <select class="form-control select2" id="warehouse_id_1" class='warehouse_id' name="warehouse_id"  style="width: 100%;" >
 		            <?php
 				            //Only Allowed Warehouse show to loged in user
 				         	if(!is_admin() && !is_store_admin()){

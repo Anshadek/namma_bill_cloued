@@ -80,7 +80,7 @@ class Units_model extends CI_Model {
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST))));
 		$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();  	
 		//Validate This units already exist or not
-		$query=$this->db->query("select * from db_units where upper(unit_name)=upper('$unit_name') and store_id=$store_id");
+		$query=$this->db->query("select * from db_units where upper(unit_name)=upper('$unit_name') and store_id=$store_id and warehouse_id=$warehouse_id");
 		if($query->num_rows()>0){
 			return "This Units Name Already Exist.";
 			
