@@ -77,7 +77,7 @@
                               <div class="form-group">
                                  <label for="mobile" class="col-sm-4 control-label"><?= $this->lang->line('mobile'); ?><label class="text-danger">*</label></label>
                                  <div class="col-sm-8">
-                                    <input type="text" class="form-control input-sm no_special_char_no_space"  id="mobile" name="mobile" autocomplete='off' placeholder="" value="<?php print $mobile; ?>">
+                                    <input type="text" class="form-control input-sm no_special_char_no_space" onkeyup="checkMobNoLength()"  id="mobile" name="mobile" autocomplete='off' placeholder="" value="<?php print $mobile; ?>">
                                     <span id="mobile_msg" style="display:none" class="text-danger"></span>
                                  </div>
                               </div>
@@ -242,7 +242,7 @@
                                               ?>
                                  <input type="hidden" name="q_id" id="q_id" value="<?php echo $q_id;?>"/>
                                  <div class="col-md-3 col-md-offset-3">
-                                    <button type="button" id="<?php echo $btn_id;?>" class=" btn btn-block btn-success" title="Save Data"><?php echo $btn_name;?></button>
+                                    <button type="button" id="<?php echo $btn_id;?>" class=" btn btn-block btn-success save_button" title="Save Data"><?php echo $btn_name;?></button>
                                  </div>
                                  <div class="col-sm-3">
                                     <a href="<?=base_url('dashboard');?>">
@@ -284,6 +284,21 @@
         <?php }?>
       </script>
       <script type="text/javascript">
+			function checkMobNoLength(){
+				
+				mob = $('#mobile').val();
+				if(mob.length != 10){
+					
+					$('#mobile_msg').show();
+					$('#mobile_msg').text('Enter valid number..!');
+					$('.save_button').hide();
+
+				}else{
+					$('#mobile_msg').text('');
+					$('.save_button').show();
+				}
+				
+			}
         var base_url=$("#base_url").val();
         $("#store_id").on("change",function(){
           var store_id=$(this).val();

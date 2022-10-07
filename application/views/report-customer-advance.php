@@ -78,7 +78,7 @@
                                        <div class="input-group-addon">
                                           <i class="fa fa-calendar"></i>
                                        </div>
-                                       <input type="text" class="form-control pull-right datepicker" id="within_date" name="within_date">
+                                       <input type="date" class="form-control pull-right" id="within_date" name="within_date">
                                     </div>
                                     <span id="within_date_msg" style="display:none" class="text-danger"></span>
                                  </div>
@@ -187,7 +187,7 @@
         else{
           var view_all='no';
         }
-      
+     
         $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
         $.post($("#base_url").val()+"reports/show_customer_advance",{warehouse_id:warehouse_id,customer_id:customer_id,view_all:view_all,within_date:within_date,store_id:$("#store_id").val()},function(result){
           //alert(result);

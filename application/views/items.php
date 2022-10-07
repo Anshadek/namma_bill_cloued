@@ -86,7 +86,7 @@
                               <span id="item_name_msg" style="display:none" class="text-danger"></span>
                            </div>
                            <div class="form-group col-md-4">
-                              <label for="warehouse_id"><?= $this->lang->line('warehouse'); ?></label>
+                              <label for="warehouse_id"><?= $this->lang->line('warehouse'); ?><span class="text-danger">*</span></label>
                               <select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_data(this)" style="width: 100%;">
                                  <?= get_warehouse_select_list($warehouse_id); ?>
                               </select>
@@ -422,7 +422,7 @@
    <?php include "comman/code_js.php"; ?>
 
 
-   <script src="<?php echo $theme_link; ?>js/items.js?ver=10"></script>
+   <script src="<?php echo $theme_link; ?>js/items.js?ver=11"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
    <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=5"></script>
    <script type="text/javascript">
@@ -479,6 +479,7 @@
       function get_warehouse_data(data) {
          get_warehouse_brand(data);
          get_warehouse_category(data)
+			get_warehouse_unit(data)
       }
    </script>
    <!-- Make sidebar menu hughlighter/selector -->

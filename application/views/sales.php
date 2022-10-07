@@ -95,7 +95,8 @@
 			$count_id = get_last_count_id('db_sales');
 
 			$store_details = get_store_details();
-			$invoice_terms = $store_details->invoice_terms;
+			$invoice_terms = "";
+			// $invoice_terms = $store_details->invoice_terms;
 		}
 
 		?>

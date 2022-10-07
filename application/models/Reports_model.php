@@ -2785,7 +2785,7 @@ class Reports_model extends CI_Model
 		extract($_POST);
 		
 		$within_date = (!empty($within_date)) ? system_fromatted_date($within_date) : '';
-
+		
 		$this->db->select("a.id,a.customer_name,b.created_date");
 		$this->db->from("db_customers as a");
 		$this->db->join('db_custadvance as b', 'a.id = b.customer_id', 'left');
@@ -2799,13 +2799,14 @@ class Reports_model extends CI_Model
 		if ($warehouse_id != '') {
 			$this->db->where("a.warehouse_id=$warehouse_id");
 		}
+		
 		if ($within_date != ''){
-			$this->db->where("b.created_date=$within_date");
+			$this->db->where("DATE(b.created_date)=",$within_date);
 		}
-		if (!empty($within_date)) {
-			$this->db->where("b.created_date='$within_date'");
-		}
+		
+		
 		$q1 = $this->db->get();
+		
 		$total_columns_count = 5;
 		if ($q1->num_rows() > 0) {
 

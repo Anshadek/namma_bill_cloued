@@ -122,7 +122,7 @@
                   <tr>
                     <td><?=$i++;?></td>
                     <td><?= $this->lang->line('mobile'); ?></td>
-                    <td style="font-style: italic;"><span class="label label-default"><?= $this->lang->line('optional'); ?></td>
+                    <td style="font-style: italic;"><span class="label label-success"><?= $this->lang->line('required'); ?></td>
                     <td></td>
                   </tr>
                   <tr>

@@ -26,6 +26,7 @@ $('#update').on("click",function (e) {
 	check_field("email");	if(flag==false){$("#tab_4_btn").trigger('click');}
 	check_field("city");	if(flag==false){$("#tab_4_btn").trigger('click');}
 	check_field("address");	if(flag==false){$("#tab_4_btn").trigger('click');}
+	check_field("pan_no");	if(flag==false){$("#tab_4_btn").trigger('click');}
 	if(flag==false){
 		toastr["warning"]("You have Missed Something to Fillup!")
 		return;

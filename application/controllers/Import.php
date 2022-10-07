@@ -21,6 +21,7 @@ class Import extends MY_Controller {
 
 	public function import_customers_csv() {
 		
+		
                 extract($this->xss_html_filter(array_merge($this->data)));
 
                 $store_id=(store_module() && is_admin() && isset($store_id) && !empty($store_id)) ? $store_id : get_current_store_id();   
@@ -33,7 +34,7 @@ class Import extends MY_Controller {
                 	$config['upload_path']          = './uploads/csv/customers';
 	                $config['allowed_types']        = 'csv';
 	                $this->load->library('upload', $config);
-
+					
 	                if ( ! $this->upload->do_upload('import_file')){
 			                $error = array('error' => $this->upload->display_errors());
 			                print($error['error']);
@@ -49,6 +50,7 @@ class Import extends MY_Controller {
                     $flag='true';
                     $this->db->trans_begin();
                     $i=1;
+					
                     while(($importdata = fgetcsv($file, NULL, ",")) !== FALSE){
                         if($i++==1){ continue; }
                         
@@ -66,7 +68,7 @@ class Import extends MY_Controller {
                             echo "Import Failed!<br>'".$mobile."' Mobile Number already Exist.<br>Row Number:".$i++;
                             exit();
                         }
-
+						
                         $country_name=trim($importdata[8]);
                         $state_name=trim($importdata[9]);
 
@@ -87,11 +89,10 @@ class Import extends MY_Controller {
                         //if not exist country create it and return id, else just return id if exist
                         $shipping_state_id=(!empty($shipping_state_name)) ? $this->get_state_id($shipping_state_name,$shipping_country_name,$shipping_country_id,$store_id) : null;
 
-
-                        
+						
                         $row = array(
-                            'store_id'    	=>  $store_id,
-							'warehouse_id' => $warehouse_id,
+                            'store_id'    	=> $_POST['store_id'],
+							'warehouse_id' => $_POST['warehouse_id'],
                             'count_id'              => get_count_id('db_customers'), 
                             'customer_code'     =>  get_init_code('customer'), 
                             'customer_name'     =>  $customer_name,
@@ -120,7 +121,7 @@ class Import extends MY_Controller {
                             'system_name'               => $SYSTEM_NAME,
                             'status'                    => 1,
                         );
-                        
+                      
                         //If any record failed to save flag will be set false,then all records rolled back
                         if(!$this->db->insert('db_customers',$row)){
                             $flag='false';
@@ -152,7 +153,7 @@ class Import extends MY_Controller {
 
                     }
                     
-                    
+                   
                     if(!$flag){
                         $this->db->trans_rollback();
                         echo 'failed';
@@ -255,7 +256,8 @@ class Import extends MY_Controller {
 
                         
                         $row = array(
-                            'store_id'      =>  $store_id,
+                            'store_id'      =>  $_POST['store_id'],
+							'warehouse_id'      =>  $_POST['warehouse_id'],
                             'count_id'           => get_count_id('db_suppliers'), 
                             'supplier_code'     =>  get_init_code('supplier'), 
                             'supplier_name'     =>  $supplier_name,

@@ -124,7 +124,7 @@
       <?php include"comman/code_js_sound.php"; ?>
       <!-- TABLES CODE -->
       <?php include"comman/code_js.php"; ?>
-      <script src="<?php echo $theme_link; ?>js/units.js"></script>
+      <script src="<?php echo $theme_link; ?>js/units.js?v=1"></script>
       <script type="text/javascript">
         <?php if(isset($q_id)){ ?>
           $("#store_id").attr('readonly',true);

@@ -131,10 +131,10 @@
                                                 <?php } ?>
                                                 <?php if(pan_number()){ ?>
                                                 <div class="form-group">
-                                                   <label for="pan_no" class="col-sm-4 control-label"><?= $this->lang->line('pan_number'); ?></label>
+                                                   <label for="pan_no" class="col-sm-4 control-label"><?= $this->lang->line('pan_number'); ?><label class="text-danger">*</label></label>
                                                    <div class="col-sm-8">
                                                       <input type="text" class="form-control" id="pan_no" name="pan_no" placeholder="" value="<?php print $pan_no; ?>" onkeyup="shift_cursor(event,'warehouse_website')">
-                                                      <span id="pan_msg" style="display:none" class="text-danger"></span>
+                                                      <span id="pan_no_msg" style="display:none" class="text-danger"></span>
                                                    </div>
                                                 </div>
                                                 <?php } ?>
@@ -794,7 +794,7 @@
            }
          });
       </script>
-      <script src="<?php echo $theme_link; ?>js/store_profile.js?v=1"></script>
+      <script src="<?php echo $theme_link; ?>js/store_profile.js?v=2"></script>
       <script src="<?php echo $theme_link; ?>js/store/store.js?v=1"></script>
       <script src="<?php echo $theme_link; ?>js/state_filter.js?v=3"></script>
      

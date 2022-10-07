@@ -29,6 +29,8 @@ $('#save,#update').on("click",function (e) {
 	//check_field("alert_qty");
 	check_field("tax_id");
 	check_field("tax_type");
+	check_field("warehouse_id");
+	
 	//check_field("profit_margin");
 	var this_id=this.id;
 	if(item_group=='Single'){

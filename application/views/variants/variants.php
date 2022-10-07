@@ -125,7 +125,7 @@
       <?php $this->load->view('comman/code_js_sound');?>
       <!-- TABLES CODE -->
       <?php $this->load->view('comman/code_js');?>
-      <script src="<?php echo $theme_link; ?>js/variants/variants.js"></script>
+      <script src="<?php echo $theme_link; ?>js/variants/variants.js?v=1"></script>
       <script type="text/javascript">
         <?php if(isset($q_id)){ ?>
           $("#store_id").attr('readonly',true);

@@ -217,7 +217,7 @@
     <?php if($CI->permissions('store_view') && store_module() 
 		) { ?>
 
-        <li class="store_list-active-li store-active-li subscribers-active-li subscribers_list-active-li treeview">
+        <!-- <li class="store_list-active-li store-active-li subscribers-active-li subscribers_list-active-li treeview">
           <a href="#">
             <i class="fa fa-home text-aqua"></i> <span><?= $this->lang->line('stores'); ?></span>
             <span class="pull-right-container">
@@ -234,7 +234,7 @@
             
            
           </ul>
-        </li>
+        </li> -->
         
         <?php } ?>
 
@@ -607,7 +607,7 @@
 
     <!-- SMS -->
      <?php if($CI->permissions('send_sms') || $CI->permissions('send_email') || $CI->permissions('email_template_view') || $CI->permissions('sms_template_view') ) { ?>
-     <li class="sms-active-li sms-templates-list-active-li email-active-li email-templates-list-active-li treeview">
+     <!-- <li class="sms-active-li sms-templates-list-active-li email-active-li email-templates-list-active-li treeview">
           <a href="#">
             <i class="fa fa-envelope text-aqua"></i> <span><?= $this->lang->line('messaging'); ?></span>
             <span class="pull-right-container">
@@ -630,7 +630,7 @@
             <?php } ?>
             
           </ul>
-        </li>
+        </li> -->
         <?php } ?>
    
     <!--<li class="header">REPORTS</li>-->
@@ -859,7 +859,7 @@
             
 
             <?php if(special_access()) { ?>
-            <li class="dbbackup-active-li"><a href="<?php echo $base_url; ?>users/dbbackup"><i class="fa fa-database "></i> <span><?= $this->lang->line('database_backup'); ?></span></a></li>
+            <!-- <li class="dbbackup-active-li"><a href="<?php echo $base_url; ?>users/dbbackup"><i class="fa fa-database "></i> <span><?= $this->lang->line('database_backup'); ?></span></a></li> -->
             <?php } ?>
             
        </ul>

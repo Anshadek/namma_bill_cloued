@@ -33,6 +33,7 @@ class Units extends MY_Controller {
 		$result=$this->units->get_details($id,$data);
 		$data=array_merge($data,$result);
 		$data['page_title']=$this->lang->line('units');
+		
 		$this->load->view('unit', $data);
 	}
 	public function update_Unit(){
@@ -123,7 +124,7 @@ class Units extends MY_Controller {
 		return $result;
 	}
 	function get_unit_select_list(){
- 
+		
 		$store_id = (!empty($store_id)) ? $store_id : get_current_store_id();
  
 		$this->db->where("store_id",$store_id);
@@ -131,8 +132,9 @@ class Units extends MY_Controller {
 	   $q1=$this->db->select("*")->where("status=1")->from("db_units")->get();
 	   $str='';
 	   $select_id= "";
+	  
 		if($q1->num_rows($q1)>0)
-		 {  //$str.='<option value="">-Select-</option>'; 
+		 {  $str.='<option value="">-Select-</option>'; 
 			 foreach($q1->result() as $res1)
 		   { 
 			 $selected = ($select_id==$res1->id)? 'selected' : '';

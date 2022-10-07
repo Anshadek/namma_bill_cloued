@@ -168,7 +168,7 @@
                                     <div class="form-group">
                                        <label for="country" class="col-sm-2 control-label"><?= $this->lang->line('country'); ?></label>
                                        <div class="col-sm-4">
-                                          <select class="form-control select2" id="country"  onchange="get_states(this)" name="country"  style="width: 100%;"  >
+                                          <select class="form-control select2" id="country"  onchange="get_states(this.value)" name="country"  style="width: 100%;"  >
                                              <?= get_country_select_list($country_id,true); ?>
                                           </select>
                                           <span id="country_msg" style="display:none" class="text-danger"></span>

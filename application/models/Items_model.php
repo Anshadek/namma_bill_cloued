@@ -170,11 +170,12 @@ class Items_model extends CI_Model {
 	
 	//Save Record
 	public function save_record($modal_post=array()){
+		
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET,$modal_post))));
 		
 		//varify max sales usage of the package subscription
-		validate_package_offers('max_items','db_items');
+		//validate_package_offers('max_items','db_items');
 		//END
 
 		$this->db->trans_begin();
@@ -232,7 +233,7 @@ class Items_model extends CI_Model {
 
 		
 		//$stock = $current_opening_stock + $new_opening_stock;
-
+		
 		$alert_qty = empty(trim($alert_qty)) ? '0' : $alert_qty;
 	
 		if($item_group=='Single' || $command == 'update'){

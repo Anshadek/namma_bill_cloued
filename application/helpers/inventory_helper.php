@@ -193,7 +193,7 @@
 	        foreach($q1->result() as $res1)
 	      { 
 	        $selected = ($select_id==$res1->id)? 'selected' : '';
-	        $str.="<option $selected value='".$res1->id."'>".$res1->country."</option>";
+	        $str.="<option $selected value='".$res1->country."'>".$res1->country."</option>";
 	      }
 	    }
 	    else

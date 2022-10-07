@@ -292,7 +292,7 @@ class Reports extends MY_Controller {
 		echo $this->reports->show_customer_orders();
 	}
 	public function show_customer_advance(){
-		
+	
 		echo $this->reports->show_customer_advance();
 	}
 

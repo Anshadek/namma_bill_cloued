@@ -35,7 +35,14 @@ class Money_deposit_model extends CI_Model {
 
 	private function _get_datatables_query()
 	{
-		
+		$this->db->select('a.id,
+		a.deposit_date,
+		a.reference_no,
+		a.debit_account_id,
+		a.credit_account_id,
+		a.amount,
+		w.warehouse_name,
+		a.created_by');
 		$this->db->from($this->table);
 		//if(!is_admin()){
 			$this->db->where("a.store_id",get_current_store_id());

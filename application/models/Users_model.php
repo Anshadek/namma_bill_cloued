@@ -151,6 +151,7 @@ class Users_model extends CI_Model {
 		    				'last_name' 			=> $last_name, 
 		    				'mobile' 				=> $mobile,
 		    				'email' 				=> $email,
+							'mail_verified' 				=> 1,
 		    			);
 		if(isset($role_id)){
 			$user_data['role_id'] = $role_id;

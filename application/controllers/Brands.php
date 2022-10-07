@@ -143,7 +143,7 @@ class Brands extends MY_Controller {
 	   $str='';
 	   $select_id= "";
 		if($q1->num_rows($q1)>0)
-		 {  //$str.='<option value="">-Select-</option>'; 
+		 {  $str.='<option value="">-Select-</option>'; 
 			 foreach($q1->result() as $res1)
 		   { 
 			 $selected = ($select_id==$res1->id)? 'selected' : '';

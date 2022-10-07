@@ -118,6 +118,8 @@ class Units_model extends CI_Model {
 			$data['unit_name']=$query->unit_name;
 			$data['description']=$query->description;
 			$data['store_id']=$query->store_id;
+			$data['warehouse_id']=$query->warehouse_id;
+			
 			return $data;
 		}
 	}
