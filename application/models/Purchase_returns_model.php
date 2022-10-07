@@ -139,7 +139,7 @@ class Purchase_returns_model extends CI_Model {
 		//echo "<pre>";print_r($this->xss_html_filter(array_merge($this->data,$_POST,$_GET)));exit();
 		
 		//varify max sales usage of the package subscription
-		validate_package_offers('max_invoices','db_purchasereturn');
+		//validate_package_offers('max_invoices','db_purchasereturn');
 		//END
 
 		$this->db->trans_begin();
