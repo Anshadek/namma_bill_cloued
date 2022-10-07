@@ -141,7 +141,7 @@ class Brands extends MY_Controller {
 		$this->db->where("warehouse_id",$_POST['warehouse_id']);
 	   $q1=$this->db->select("*")->where("status=1")->from("db_brands")->get();
 	   $str='';
-	   $select_id= "";
+	   $select_id= $_POST['selected'];
 		if($q1->num_rows($q1)>0)
 		 {  $str.='<option value="">-Select-</option>'; 
 			 foreach($q1->result() as $res1)

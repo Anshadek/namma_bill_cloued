@@ -201,7 +201,7 @@ function get_warehouse_expense_category(datas){
 
 function get_warehouse_category(datas){
 	var warehouse_id = 0;
-	var selected = $('#selected_warehouse').val();
+	var selected = $('#selected_category').val();
 	if (selected > 0){
 
 	}else{
@@ -237,7 +237,7 @@ function get_warehouse_category(datas){
 }
 function get_warehouse_brand(datas){
 	var warehouse_id = 0;
-	var selected = $('#selected_warehouse').val();
+	var selected = $('#selected_brand').val();
 	if (selected > 0){
 
 	}else{
@@ -274,7 +274,7 @@ function get_warehouse_brand(datas){
 function get_warehouse_unit(datas){
 	
 	var warehouse_id = 0;
-	var selected = $('#selected_warehouse').val();
+	var selected = $('#selected_unit').val();
 	if (selected > 0){
 
 	}else{

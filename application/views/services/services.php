@@ -80,6 +80,7 @@
                                     <option value="">-Select-</option>
                                   <?= get_categories_select_list($category_id);  ?>
                                  </select>
+											<input type="hidden" id="selected_category" value="<?=$category_id ?>">
                                  <span id="category_id_msg" style="display:none" class="text-danger"></span>
                               </div>
                               <div class="form-group col-md-4">
@@ -243,7 +244,7 @@
       </script>
       <!-- Make sidebar menu hughlighter/selector -->
       <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>
-      <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=3"></script>
+      <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=6"></script>
      
    </body>
 </html>

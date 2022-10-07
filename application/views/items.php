@@ -98,6 +98,7 @@
                                  <option value="">-Select-</option>
                                  <?= get_brands_select_list($brand_id);  ?>
                               </select>
+										<input type="hidden" id="selected_brand" value="<?=$brand_id ?>">
                               <span id="brand_id_msg" style="display:none" class="text-danger"></span>
                            </div>
                            <div class="form-group col-md-4">
@@ -106,6 +107,7 @@
                                  <option value="">-Select-</option>
                                  <?= get_categories_select_list($category_id);  ?>
                               </select>
+										<input type="hidden" id="selected_category" value="<?=$category_id ?>">
                               <span id="category_id_msg" style="display:none" class="text-danger"></span>
                            </div>
                            <div class="form-group col-md-4">
@@ -123,6 +125,7 @@
                               <select class="form-control select2" id="unit_id" name="unit_id" style="width: 100%;">
                                  <?= get_units_select_list($unit_id);  ?>
                               </select>
+										<input type="hidden" id="selected_unit" value="<?=$unit_id ?>">
                               <span id="unit_id_msg" style="display:none" class="text-danger"></span>
                            </div>
                            <div class="form-group col-md-4">
@@ -424,7 +427,7 @@
 
    <script src="<?php echo $theme_link; ?>js/items.js?ver=11"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
-   <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=5"></script>
+   <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=10"></script>
    <script type="text/javascript">
       $(document).ready(function() {
          warehouse_id = $('#warehouse_id').val();

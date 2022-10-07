@@ -144,7 +144,7 @@ class Category extends MY_Controller {
 	   
 	   $q1=$this->db->select("*")->where("status=1")->from("db_category")->get();
 	   $str='';
-	   $select_id = "";
+	   $select_id= $_POST['selected'];
 		if($q1->num_rows($q1)>0)
 		 {  
  
