@@ -345,9 +345,10 @@
 					<li class="active">Package Lists</li>
 				</ol>
 			</section>
-
+	
 			<!-- Main content -->
-			<?= form_open('#', array('class' => 'form-horizontal', 'id' => 'site-form', 'enctype' => 'multipart/form-data', 'method' => 'POST')); ?>
+		
+   
 			<section class="content">
 				<div class="row">
 					<!-- ********** ALERT MESSAGE START******* -->
@@ -357,7 +358,7 @@
 					<div class="col-md-12">
 						<!-- Custom Tabs -->
 						<div class="nav-tabs-custom">
-
+			
 							<div class="tab-content">
 								<div class="tab-pane active" id="tab_1">
 									<div class="row">
@@ -390,7 +391,14 @@
 																		<li class="true">Warehouse Count : <b><?= $res1->warehouse_count ?></b></li>
 																	</ul>
 																	<div class="btn-box">
-																		<a onclick="purchasePacakage('<?= $res1->id ?>','<?= $res1->amount ?>','<?= $warehouse_id ?>')" class="theme-btn">BUY plan</a>
+																	<form id="" method="post" action='<?=base_url('subscription/pay')?>'>
+    																	<input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+																		<input type="hidden" name="id" value="<?= $res1->id ?>">
+																		<input type="hidden" name="amount" value="<?= $res1->amount ?>">
+																		<input type="hidden" name="warehouse_id" value="<?= $warehouse_id?>">
+																		<button class="btn btn-success" type="submit">Buy Now</button>
+																		<!-- <a onclick="purchasePacakage('<?= $res1->id ?>','<?= $res1->amount ?>','<?= $warehouse_id ?>')" class="theme-btn">BUY plan</a> -->
+																	</form>
 																	</div>
 																</div>
 															</div>
@@ -419,10 +427,12 @@
 					<!-- /.col -->
 				</div>
 				<!-- /.row -->
+				
 			</section>
 			<!-- /.content -->
-			<?= form_close(); ?>
+			
 		</div>
+		
 		<!-- /.content-wrapper -->
 		<?php include "footer.php"; ?>
 		<!-- Add the sidebar's background. This div must be placed
@@ -439,12 +449,7 @@
 	<?php include "comman/code_js.php"; ?>
 
 	<script type="text/javascript">
-		$(document).submit(function(event) {
-			event.preventDefault();
-			if ($("#update").length) {
-				$("#update").trigger('click');
-			}
-		});
+		
 
 		function purchasePacakage(id, amount, warehouse_id) {
 			if (confirm('Are you sure you want to purchase this package?')) {
@@ -477,7 +482,7 @@
 
 		}
 	</script>
-	<script src="<?php echo $theme_link; ?>js/site-settings.js"></script>
+	
 
 
 	<!-- Make sidebar menu hughlighter/selector -->

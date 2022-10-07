@@ -1,7 +1,8 @@
 <button id="rzp-button1" style="display:none;">Pay with Razorpay</button>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
-<form name='razorpayform' action="<?php echo base_url().'register/verify';?>" method="POST">
+<form name='razorpayform' action="<?php echo base_url().'subscription/verify';?>" method="POST">
+<input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
     <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
     <input type="hidden" name="razorpay_signature"  id="razorpay_signature" >
 </form>

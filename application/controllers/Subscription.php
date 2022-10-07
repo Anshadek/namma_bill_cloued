@@ -26,50 +26,50 @@ class Subscription extends MY_Controller {
 		$data['page_title']=$this->lang->line('store_list');
 		$this->load->view('your-subscriptions-list', $data);
 	}
-	public function purchase_pacakage(){
-		echo $this->pay();
-		
-		$pacakage_id = $this->input->post('id');
-		$warehouse_id = $this->input->post('warehouse_id');
-
+	public function purchase_package($data_arr){
 		$data = array(
-			'package_id'		=> $pacakage_id,
-			'warehouse_id'		=> $warehouse_id,
+			'package_id'		=> $data_arr['package_id'],
+			'warehouse_id'		=> $data_arr['warehouse_id'],
+			'razorpay_payment_id'		=> $data_arr['razorpay_payment_id'],
+			'razorpay_signature'		=> $data_arr['razorpay_signature'],
 			'created_date'		=>  date("Y/m/d"),
 			'created_by'		=> 'store',
 			'status'			=> 'active',
 			'type'			=> 'subscription',
 
-				
-
 		);
 		$q1 = $this->db->insert('db_store_purchased_packages', $data);
 		if (!$q1) {
-			echo "failed";
+			return "failed";
 		} else {
-			echo "success";
+			return "success";
 		}
 	}
 
 	public function pay()
   {
-	
+		$amount = $this->input->post('amount');
+		$pacakage_id = $this->input->post('id');
+		$warehouse_id = $this->input->post('warehouse_id');
     $api = new Api(RAZOR_KEY_ID, RAZOR_KEY_SECRET);
     /**
      * You can calculate payment amount as per your logic
      * Always set the amount from backend for security reasons
      */
-    $_SESSION['payable_amount'] = 10;
+		$_SESSION['package_id'] = $pacakage_id;
+		$_SESSION['warehouse_id'] = $warehouse_id;
+    $_SESSION['payable_amount'] = $amount;
     $razorpayOrder = $api->order->create(array(
       'receipt'         => rand(),
-      'amount'          =>10 * 100, // 2000 rupees in paise
+      'amount'          =>$amount * 100, // 2000 rupees in paise
       'currency'        => 'INR',
       'payment_capture' => 1 // auto capture
     ));
     $amount = $razorpayOrder['amount'];
     $razorpayOrderId = $razorpayOrder['id'];
     $_SESSION['razorpay_order_id'] = $razorpayOrderId;
-    $data = $this->prepareData($amount,$razorpayOrderId);
+    $data = $this->prepareData($amount,$razorpayOrderId,$warehouse_id,$pacakage_id);
+
     return $this->load->view('rezorpay',array('data' => $data));
 	//die();
   }
@@ -97,11 +97,23 @@ class Subscription extends MY_Controller {
        * Call this function from where ever you want
        * to save save data before of after the payment
        */
-      $this->setRegistrationData();
-      redirect(base_url().'register/success');
+     $data['razorpay_payment_id'] = $_POST['razorpay_payment_id'];
+		 $data['razorpay_signature'] = $_POST['razorpay_signature'];
+		 $data['warehouse_id'] = $_SESSION['warehouse_id'];
+		 $data['package_id'] = $_SESSION['package_id'];
+		 $res = $this->purchase_package($data);
+		 if($res == 'success'){
+			$this->session->set_flashdata('success', 'your subscription has been successfully completed');
+			redirect(base_url().'subscription/your_subscription');
+		 }else{
+			$this->session->set_flashdata('success', 'something went wrong');
+			redirect(base_url().'subscription/your_subscription');
+		 }
+     
     }
     else {
-      redirect(base_url().'register/paymentFailed');
+			$this->session->set_flashdata('success', 'something went wrong');
+			redirect(base_url().'subscription');
     }
   }
 

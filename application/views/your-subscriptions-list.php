@@ -345,6 +345,7 @@
 					<li class="active">Your Subscription</li>
 				</ol>
 			</section>
+			
 
 			<!-- Main content -->
 			<?= form_open('#', array('class' => 'form-horizontal', 'id' => 'site-form', 'enctype' => 'multipart/form-data', 'method' => 'POST')); ?>
@@ -373,7 +374,9 @@
 													$warehouse_id = get_store_warehouse_id();
 													
 													$q1 = $this->db->select("type")
-														->where('warehouse_id',$warehouse_id )->limit(1)
+														->where('warehouse_id',$warehouse_id )
+														->order_by("id", "desc")
+														->limit(1)
 														->get("db_store_purchased_packages")->row();
 														
 													if (!empty($q1)) {
@@ -389,6 +392,7 @@
 																	'db_trialpackage.id = db_store_purchased_packages.package_id',
 																	'left'
 																)
+																->order_by("db_store_purchased_packages.id", "desc")
 																->limit(1)
 																->get("db_store_purchased_packages")->row();
 
@@ -408,6 +412,7 @@
 																	'db_package_subscription.id = db_store_purchased_packages.package_id',
 																	'left'
 																)
+																->order_by("db_store_purchased_packages.id", "desc")
 																->limit(1)
 																->get("db_store_purchased_packages")->row();
 															$package  = $q2;
