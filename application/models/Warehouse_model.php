@@ -298,7 +298,7 @@ class Warehouse_model extends CI_Model {
 		$users = $this->db->get('db_users')->row();
 			/* QUERY 1*/
 			$data['q_id']=$query1->row()->id;
-			$data['password'] = $users->password;
+			$data['password'] = (isset($users->password))  ? $users->password : "";
 
 			return array_merge($data,$query1->row_array());
 			return $data;

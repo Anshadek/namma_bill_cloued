@@ -1,11 +1,13 @@
 
 $('#update').on("click",function (e) {
+	
 	var base_url=$("#base_url").val();
     //Initially flag set true
     var flag=true;
 
     function check_field(id)
     {
+		
       if(!$("#"+id).val() ) //Also check Others????
         {
             $('#'+id+'_msg').fadeIn(200).show().html('Required Field').addClass('required');
