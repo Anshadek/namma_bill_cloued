@@ -382,7 +382,7 @@
 												</select>
 
 											</div>
-
+											<input type="hidden" id="selected_warehouse_id" value="<?= (isset($warehouse_id)) ? $warehouse_id : '' ?>">
 										</div>
 										<div class="col-md-4">
 											<div class="input-group" data-toggle="tooltip" title="Invoice Initial Code">
@@ -402,9 +402,10 @@
 											<div class="input-group" data-toggle="tooltip" title="Customer">
 												<span class="input-group-addon"><i class="fa fa-user"></i></span>
 												<select class="form-control select2" id="customer_id" name="customer_id" style="width: 100%;">
-													<?php $customer_id = (isset($customer_id)) ? $customer_id : ''; ?>
-													<?= get_customers_select_list_pos($customer_id, get_current_store_id()); ?>
+													 <!-- $customer_id = (isset($customer_id)) ? $customer_id : '';
+												 get_customers_select_list_pos($customer_id, get_current_store_id()); -->
 												</select>
+												<input type="hidden" id="selected_cust" value="<?=(isset($customer_id)) ? $customer_id : '0' ?>">
 												<span class="input-group-addon pointer" data-toggle="modal" data-target="#customer-modal" title="New Customer?"><i class="fa fa-user-plus text-primary fa-lg"></i></span>
 											</div>
 											<input id="old_warehouse_selected_id" type="hidden">
@@ -431,6 +432,7 @@
 									<lable  style=""><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable><label style="margin-left:10px;" class="btn-sm btn-success" onclick="pay_previews_due_amount()">Pay Now</label><br>
 											
 									</div>
+									<input type="hidden" id="sales_id" value="<?= (isset($sales_id)) ?  $sales_id  : 0 ?>" >
 									</div>
 
 									<div class="row">
@@ -679,7 +681,7 @@
 	<script src="<?php echo $theme_link; ?>js/fullscreen.js"></script>
 	<script src="<?php echo $theme_link; ?>js/modals.js?ver=2"></script>
 	<script src="<?php echo $theme_link; ?>js/modals/modal_item.js"></script>
-	<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=4"></script>
+	<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=6"></script>
 
 	<!-- DROP DOWN -->
 	<script src="<?php echo $theme_link; ?>dist/js/bootstrap3-typeahead.min.js"></script>
@@ -696,7 +698,7 @@
 			store_module = true;
 		<?php } ?>
 	</script>
-	<script src="<?php echo $theme_link; ?>js/pos.js?v=5"></script>
+	<script src="<?php echo $theme_link; ?>js/pos.js?v=2"></script>
 	<script>
 		var base_url = $("#base_url").val();
 		/*$("#store_id").on("change",function(){
@@ -720,10 +722,12 @@
 		/*Warehouse*/
 		// $("#warehouse_id").on("change",function(){
 		function get_warehouse_details(res) {
-			warehouse_id = $('#warehouse_id').val(res.value);
+			var warehouse_id = $('#warehouse_id').val(res.value);
 			//alert(warehouse_id.value);
 			$(".items_table > tbody").empty();
-			get_warehouse_customers_pos(res);
+			
+				get_warehouse_customers_pos("",res.value);
+			
 			get_categories_select_list();
 			get_brand_select_list();
 			get_account();
@@ -1169,7 +1173,10 @@
 			$("#store_id").trigger('change');
 			//FIRST TIME: LOAD
 			get_details();
-			get_warehouse_customers_pos(warehouse_id)
+			if ($('#sales_id').val() > 0){
+				get_warehouse_customers_pos($('#selected_cust').val(),$('#selected_warehouse_id').val());
+			}
+			
 
 			var first_div = parseFloat($(".content-wrapper").height());
 			var second_div = parseFloat($("section").height());
@@ -1546,7 +1553,7 @@
 			}
 			var tot_grand = $(".tot_grand ").text();
 			tot_grand = parseFloat(tot_grand) + parseFloat(due_amt);
-			alert(tot_grand);
+			
 			$(".tot_grand ").html(to_Fixed(round_off(tot_grand)));
 		}
 

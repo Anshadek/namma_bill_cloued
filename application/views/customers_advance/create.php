@@ -11,7 +11,7 @@
          <?php
             if(!isset($q_id)){
                  $payment_type=$amount=$note="";
-                 $customer_id='';
+                 $customer_id= 0 ;
                  $warehouse_id = "";
                  $payment_date =show_date(date("d-m-Y"));
             }
@@ -87,6 +87,7 @@
                                         <option value="">Select</option>
                                           <?= get_customers_select_list($customer_id,get_current_store_id()); ?>
                                        </select>
+                                       <input type="hidden" value="<?= $customer_id ?>" id="selected_customer">
                                        <span class="input-group-addon pointer" data-toggle="modal" data-target="#customer-modal" title="New Customer?"><i class="fa fa-user-plus text-primary fa-lg"></i></span>
                                     </div>
                                     <span id="customer_id_msg" style="display:none" class="text-danger"></span>
@@ -182,9 +183,9 @@
       <!-- TABLES CODE -->
       <?php $this->load->view('comman/code_js.php');?>
       
-      <script src="<?php echo $theme_link; ?>js/customers_advance/advance.js"></script>
-      <script src="<?php echo $theme_link; ?>js/modals.js"></script>
-		<script src="<?php echo $theme_link; ?>js/warehouse_filter.js"></script>
+      <script src="<?php echo $theme_link; ?>js/customers_advance/advance.js?v=10"></script>
+      <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
+		<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=1"></script>
 		
       <script type="text/javascript">
         <?php if(isset($q_id)){ ?>

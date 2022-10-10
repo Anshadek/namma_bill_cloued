@@ -110,7 +110,7 @@
                          <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                          </div>
-                         <input type="text" class="form-control pull-right datepicker"  id="from_date" name="from_date">
+                         <input type="date" class="form-control pull-right "  id="from_date" name="from_date">
                       </div>
                        <span id="transfer_date_msg" style="display:none" class="text-danger"></span>
                     </div>
@@ -122,7 +122,7 @@
                          <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                          </div>
-                         <input type="text" class="form-control pull-right datepicker"  id="to_date" name="to_date">
+                         <input type="date" class="form-control pull-right "  id="to_date" name="to_date">
                       </div>
                        <span id="transfer_date_msg" style="display:none" class="text-danger"></span>
                     </div>
@@ -157,7 +157,7 @@
                   <th><?= $this->lang->line('balance'); ?></th>
                   <th><?= $this->lang->line('note'); ?></th>
                   <th><?= $this->lang->line('created_by'); ?></th>
-                  <th><?= $this->lang->line('action'); ?></th>
+                  <!-- <th><?= $this->lang->line('action'); ?></th> -->
                 </tr>
                 </thead>
                 <tbody>

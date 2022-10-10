@@ -6,8 +6,10 @@ $('#save,#update').on("click",function (e) {
 
     function check_field(id)
     {
+		
       if(!$("#"+id).val() ) //Also check Others????
         {
+			
             $('#'+id+'_msg').fadeIn(200).show().html('Required Field').addClass('required');
            // $('#'+id).css({'background-color' : '#E8E2E9'});
             flag=false;
@@ -20,9 +22,11 @@ $('#save,#update').on("click",function (e) {
     }
 
     //Validate Input box or selection box should not be blank or empty	
+	alert($('#warehouse_id').val());
 	check_field("payment_date");	
 	check_field("customer_id");	
-	check_field("amount");	
+	check_field("amount");
+	check_field("warehouse_id");	
 	check_field("payment_type");	
 	console.log("payment_type="+$("#payment_type").val());
 	

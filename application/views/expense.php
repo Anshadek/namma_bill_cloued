@@ -74,6 +74,7 @@
 									<select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_data(this)" style="width: 100%;">
                                  <?= get_warehouse_select_list($warehouse_id); ?>
                               </select>
+                              <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
                   </div>
                   </div>
 
@@ -118,6 +119,7 @@
                               </select>
                       <span id="category_id_msg" style="display:none" class="text-danger"></span>
                               </div>
+                              <input type="hidden" id="selected_exp_cat" value="<?= $category_id ?>">
                               </div>
 
                   <div class="form-group">
@@ -163,6 +165,7 @@
                                                     </select>
                       <span id="account_id_msg" style="display:none" class="text-danger"></span>
                               </div>
+                              <input  type="hidden" id="selected_exp_account" value="<?= $account_id ?>">
                               </div>
 
                   <div class="form-group">
@@ -259,11 +262,12 @@
 <!-- TABLES CODE -->
 <?php include"comman/code_js.php"; ?>
 
-<script src="<?php echo $theme_link; ?>js/expense.js"></script>
-<script src="<?php echo $theme_link; ?>js/warehouse_filter.js"></script>
+<script src="<?php echo $theme_link; ?>js/expense.js?v=1"></script>
+<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=1"></script>
 <script type="text/javascript">
 		$(document).ready(function() {
 			warehouse_id = $('#warehouse_id').val();
+    
 			var selected = $('#selected_warehouse').val();
 			if (selected > 0) {
 				warehouse_id = selected;

@@ -29,6 +29,7 @@ $('#save,#update').on("click",function (e) {
 	check_field("expense_for");
 	check_field("expense_amt");
 	check_field("payment_type");
+	check_field("warehouse_id");
 
     
 	if(flag==false)

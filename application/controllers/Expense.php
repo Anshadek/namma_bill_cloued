@@ -18,6 +18,7 @@ class Expense extends MY_Controller {
 	}
 	public function add()
 	{
+		
 		$this->permission_check('expense_add');
 		$data=$this->data;
 		$data['page_title']=$this->lang->line('expenses');
@@ -47,6 +48,7 @@ class Expense extends MY_Controller {
 		$result=$this->expense->get_details($id,$data);
 		$data=array_merge($data,$result);
 		$data['page_title']=$this->lang->line('expenses');
+		
 		$this->load->view('expense', $data);
 	}
 	public function update_expense(){
@@ -268,6 +270,8 @@ class Expense extends MY_Controller {
 		echo get_expense_category_select_list(null,$_POST['store_id']);
 	}
 	public function get_warehouse_expense_category(){
+		$str = "";
+		if (isset($_POST['warehouse_id'])){
 		$query1="select * from db_expense_category where 
 		status=1
 		 and 
@@ -276,8 +280,8 @@ class Expense extends MY_Controller {
 		 warehouse_id=".$_POST['warehouse_id'];
 
 		 $q1=$this->db->query($query1);
-		 $category_id = "";
-		 $str = "";
+		 $category_id =  $_POST['selected'];
+		
 		 if($q1->num_rows($q1)>0)
 		  {  echo '<option value="">-Select-</option>'; 
 			  foreach($q1->result() as $res1)
@@ -292,8 +296,11 @@ class Expense extends MY_Controller {
 			 $str .= '<option value="">No Records Found</option>';
 			
 		  }
-		  echo $str;
-		
+		 
+		}else{
+			$str .= '<option value="">No Records Found</option>';
+		}
+		echo $str;
 	}
 	/* ######################################## EXPENSE CATEGORY END############################# */
 

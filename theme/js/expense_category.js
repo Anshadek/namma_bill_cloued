@@ -21,6 +21,7 @@ $('#save,#update').on("click",function (e) {
 
     //Validate Input box or selection box should not be blank or empty	
 	check_field("category");	
+	check_field("warehouse_id");	
 	
     if(flag==false)
     {

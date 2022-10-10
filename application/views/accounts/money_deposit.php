@@ -203,7 +203,7 @@ immediately after the control sidebar -->
     <?php $this->load->view('comman/code_js_sound.php');?>
     <!-- TABLES CODE -->
     <?php $this->load->view('comman/code_js.php');?>
-    <script src="<?php echo $theme_link; ?>js/accounts/money_deposit.js">
+    <script src="<?php echo $theme_link; ?>js/accounts/money_deposit.js?v=1">
 		
     </script>
 		<script src="<?php echo $theme_link; ?>js/warehouse_filter.js"></script>

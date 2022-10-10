@@ -164,7 +164,7 @@
       <?php $this->load->view('comman/code_js_sound.php');?>
       <!-- TABLES CODE -->
       <?php $this->load->view('comman/code_js.php');?>
-      <script src="<?php echo $theme_link; ?>js/accounts/accounts.js"></script>
+      <script src="<?php echo $theme_link; ?>js/accounts/accounts.js?v=1"></script>
       <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=1"></script>
       <script type="text/javascript">
          <?php if(isset($q_id)){ ?>

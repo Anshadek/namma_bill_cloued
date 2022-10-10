@@ -2,7 +2,7 @@
 
 function get_warehouse_customers(datas){
 			var warehouse_id = 0;
-			var selected = $('#selected_warehouse').val();
+			var selected = $('#selected_customer').val();
 			if (selected > 0){
 
 			}else{
@@ -38,22 +38,24 @@ function get_warehouse_customers(datas){
 			});
 }
 
-function get_warehouse_customers_pos(datas){
-	var warehouse_id = 0;
-	var selected = $('#selected_warehouse').val();
-	if (selected > 0){
+function get_warehouse_customers_pos(selected,warehouse_id){
+	
+	// var warehouse_id = 0;
+	// var selected = $('#selected_warehouse').val();
+	// if (selected > 0){
 
-	}else{
-		selected = 0;
-	}
+	// }else{
+	// 	selected = 0;
+	// }
 	
-	if (datas > 0){
-		warehouse_id = datas;
-	}else{
-		warehouse_id = datas.value;
-	}
-	
-	
+	// if (datas > 0){
+	// 	warehouse_id = datas;
+	// }else{
+	// 	warehouse_id = datas.value;
+	// }
+	var selected = selected;
+	var warehouse_id = warehouse_id;
+
 	var base_url = $('#base_url').val();
 	$.ajax({
 		url: base_url+'customers/get_warehouse_customers_select_list',
@@ -109,7 +111,7 @@ function get_warehouse_accounts(datas){
 
 function get_warehouse_accounts_expense(datas){
 	var warehouse_id = 0;
-	var selected = $('#selected_warehouse').val();
+	var selected = $('#selected_exp_account').val();
 	if (datas > 0){
 		warehouse_id = datas;
 	}else{
@@ -169,7 +171,8 @@ function get_warehouse_accounts_select_list(datas){
 }
 function get_warehouse_expense_category(datas){
 	var warehouse_id = 0;
-	var selected = $('#selected_warehouse').val();
+	var selected = $('#selected_exp_cat').val();
+	
 	if (datas > 0){
 		warehouse_id = datas;
 	}else{

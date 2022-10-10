@@ -28,6 +28,7 @@ $('#save,#update').on("click",function (e) {
 	//check_field("debit_account_id");
 	check_field("credit_account_id");
 	check_field("amount");
+	check_field("warehouse_id");
     
 
 

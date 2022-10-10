@@ -63,7 +63,7 @@
                          <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                          </div>
-                         <input type="text" class="form-control pull-right datepicker"  id="deposit_date" name="deposit_date">
+                         <input type="date" class="form-control pull-right "  id="deposit_date" name="deposit_date">
                       </div>
                        <span id="deposit_date_msg" style="display:none" class="text-danger"></span>
                     </div>

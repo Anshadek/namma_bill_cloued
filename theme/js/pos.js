@@ -615,6 +615,7 @@ $("#customer_id").on("change",function(){
 });
 function set_previous_due(){
   
+  
   $(".customer_previous_due").html($('option:selected', "#customer_id").attr('data-previous_due'));
   $(".customer_purchase_due").html($('option:selected', "#customer_id").attr('data-customer-purchase-due'));
   $(".customer_tot_advance").html($('option:selected', "#customer_id").attr('data-tot_advance'));

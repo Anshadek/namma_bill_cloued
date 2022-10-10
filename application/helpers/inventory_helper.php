@@ -298,6 +298,7 @@
    }
 
    $q1=$CI->db->select("*")->where("status=1")->from("db_customers")->get();
+  
    $str='';
 	if($q1->num_rows($q1)>0)
 	 {  

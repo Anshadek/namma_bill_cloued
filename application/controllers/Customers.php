@@ -231,14 +231,22 @@ class Customers extends MY_Controller {
 	}
 
 	function get_warehouse_customers_select_list(){
+		
+		$str='';
 	   $select_id = isset($_POST['selected']) ? $_POST['selected'] : 0;
 	   $q1=$this->db->select("*")
-	   ->where("status=1")
-	   ->where('warehouse_id',$_POST['warehouse_id'])
-	   ->or_where('delete_bit',1)
-	   ->from("db_customers")->get();
+	   ->where("status=1");
+	   if (isset($_POST['warehouse_id'])){
+		$q1 = $this->db->where('warehouse_id',$_POST['warehouse_id'])
+		->or_where('delete_bit',1)
+		->from("db_customers")->get();
+	   }else{
+		echo $str.='<option value="">No Records Found</option>'; 
+		return;
+	   }
+	   
 
-	   $str='';
+	 
 		if($q1->num_rows($q1)>0)
 		 {  
 			 $str='';
@@ -248,6 +256,7 @@ class Customers extends MY_Controller {
 		
 			 foreach($q1->result() as $res1)
 		   { 
+			
 			   //$customer_previous_due = $res1->sales_due +$res1->opening_balance;
 			   //$customer_previous_due = store_number_format($customer_previous_due,0);
 			   $customer_purchase_due = store_number_format($res1->sales_due,0);
@@ -267,6 +276,8 @@ class Customers extends MY_Controller {
 		 {
 			 $str.='<option value="">No Records Found</option>'; 
 		 }
+		
+		
 		 echo $str;
   }
 

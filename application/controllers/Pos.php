@@ -84,10 +84,12 @@ class Pos extends MY_Controller {
 	    //Get sales details
 	    $sales_details = get_sales_details($sales_id);
 	    $customer_id = $sales_details->customer_id;
+		$warehouse_id = $sales_details->warehouse_id;
 	    $init_code = $sales_details->init_code;
 	    $count_id = $sales_details->count_id;
 
 	    $data['customer_id']=$customer_id;
+		$data['warehouse_id']=$warehouse_id;
 	    $data['init_code']=$init_code;
 	    $data['count_id']=$count_id;
 	    $data['result'] = $this->get_hold_invoice_list();

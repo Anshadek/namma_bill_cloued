@@ -144,7 +144,7 @@
 <?php include"comman/code_js.php"; ?>
 
 
-<script src="<?php echo $theme_link; ?>js/expense_category.js"></script>
+<script src="<?php echo $theme_link; ?>js/expense_category.js?v=1"></script>
 <script type="text/javascript">
         <?php if(isset($q_id)){ ?>
           $("#store_id").attr('readonly',true);

@@ -27,6 +27,7 @@ $('#save,#update').on("click",function (e) {
 	check_field("account_code");
 	check_field("account_name");
 	check_field("opening_balance");
+	check_field("warehouse_id");
     
 	if(flag==false)
     {

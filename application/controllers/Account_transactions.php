@@ -227,30 +227,30 @@ class Account_transactions extends MY_Controller {
 					}
 
 
-				     $str2 = '<div class="btn-group" title="View Account">
-										<a class="btn btn-primary btn-o dropdown-toggle" data-toggle="dropdown" href="#">
-											Action <span class="caret"></span>
-										</a>
-										<ul role="menu" class="dropdown-menu dropdown-light pull-right">';
+				    //  $str2 = '<div class="btn-group" title="View Account">
+					// 					<a class="btn btn-primary btn-o dropdown-toggle" data-toggle="dropdown" href="#">
+					// 						Action <span class="caret"></span>
+					// 					</a>
+					// 					<ul role="menu" class="dropdown-menu dropdown-light pull-right">';
 
 
-											/*if($this->permissions('accounts_edit'))
-											$str2.='<li>
-												<a data-toggle="tooltip" title="Edit Record ?" href="'.base_url().$link.'">
-													<i class="fa fa-fw fa-edit text-blue"></i>'.$title.'
-												</a>
-											</li>';*/
+					// 						/*if($this->permissions('accounts_edit'))
+					// 						$str2.='<li>
+					// 							<a data-toggle="tooltip" title="Edit Record ?" href="'.base_url().$link.'">
+					// 								<i class="fa fa-fw fa-edit text-blue"></i>'.$title.'
+					// 							</a>
+					// 						</li>';*/
 
-											if($this->permissions('accounts_delete'))
-											$str2.='<li>
-												<a style="cursor:pointer" title="Delete Record ?" onclick="delete_transaction('.$record_id.','.$entry_of.')">
-													<i class="fa fa-fw fa-trash text-red"></i>Delete
-												</a>
-											</li>
+					// 						if($this->permissions('accounts_delete'))
+					// 						$str2.='<li>
+					// 							<a style="cursor:pointer" title="Delete Record ?" onclick="delete_transaction('.$record_id.','.$entry_of.')">
+					// 								<i class="fa fa-fw fa-trash text-red"></i>Delete
+					// 							</a>
+					// 						</li>
 											
-										</ul>
-									</div>';			
-			$row[] = ($accounts->transaction_type!='OPENING BALANCE') ? $str2 : '';
+					// 					</ul>
+					// 				</div>';			
+			// $row[] = ($accounts->transaction_type!='OPENING BALANCE') ? $str2 : '';
 
 			$data[] = $row;
 		}

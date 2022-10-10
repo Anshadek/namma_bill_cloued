@@ -31,6 +31,8 @@ $(".add_customer").on("click",function(e){
     //Validate Input box or selection box should not be blank or empty
 	check_field("customer_name");
 	check_field("mobile");
+	check_field("cust_warehouse_id");
+	
 	
 	
     if(flag==false)
