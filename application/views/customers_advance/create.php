@@ -12,6 +12,7 @@
             if(!isset($q_id)){
                  $payment_type=$amount=$note="";
                  $customer_id='';
+                 $warehouse_id = "";
                  $payment_date =show_date(date("d-m-Y"));
             }
             ?>

@@ -817,19 +817,12 @@
               </a></li>
             <?php } ?>
 
-            <?php if($CI->permissions('package_view') 
-						 && store_module()) { ?>
-            <li class="package-active-li  package-list-active-li"><a href="<?php echo $base_url; ?>package"><i class="fa fa-get-pocket  "></i> <span><?= $this->lang->line('package_list'); ?></span>
-              </a></li>
-            <?php } ?>
+            
 
           
 						
 
-                <?php if($CI->permissions('subscription') && store_module()) { ?>
-                <li class="subscription-active-li  subscription-list-active-li"><a href="<?php echo $base_url; ?>subscription"><i class="fa fa-calendar  "></i> <span><?= $this->lang->line('subscription'); ?></span>
-                  </a></li>
-                <?php } ?>
+               
                 
 
                 <?php if($CI->permissions('tax_view')) { ?>

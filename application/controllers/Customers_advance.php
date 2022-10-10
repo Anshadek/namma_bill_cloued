@@ -43,6 +43,7 @@ class Customers_advance extends MY_Controller {
 		$result = $this->advance->get_details($id, $data);
 		$data = array_merge($data, $result);
 		$data['page_title'] = $this->lang->line('edit_advance');
+		
 		$this->load->view('customers_advance/create', $data);
 	}
 	public function update_advance() {

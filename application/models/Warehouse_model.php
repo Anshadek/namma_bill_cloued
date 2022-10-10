@@ -17,7 +17,8 @@ class Warehouse_model extends CI_Model {
 
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET))));
-		$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();
+		//$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();
+		$store_id= get_current_store_id();
 		if(!empty($mobile)){
 			$query=$this->db->query("select * from db_warehouse where mobile='$mobile' and  store_id=$store_id")->num_rows();
 			if($query>0){ return "This Moble Number already exist.";}

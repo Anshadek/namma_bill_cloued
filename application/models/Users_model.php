@@ -63,6 +63,7 @@ class Users_model extends CI_Model {
 		    				'system_ip' 			=> $SYSTEM_IP,
 		    				'system_name' 			=> $SYSTEM_NAME,
 		    				'status' 				=> 1,
+							'mail_verified' 				=> 1,
 		    			);
 		if(!empty($profile_picture)){
 			$info['profile_picture'] = $profile_picture;
@@ -151,7 +152,7 @@ class Users_model extends CI_Model {
 		    				'last_name' 			=> $last_name, 
 		    				'mobile' 				=> $mobile,
 		    				'email' 				=> $email,
-							'mail_verified' 				=> 1,
+							'mail_verified' 		=> 1,
 		    			);
 		if(isset($role_id)){
 			$user_data['role_id'] = $role_id;

@@ -54,10 +54,11 @@
                            <div class="box-body">
                             <div class="row">
                               <div class="col-md-6">
-                                <!-- Store Code -->
-                               <?php if(store_module() && is_admin()) {$this->load->view('store/store_code',array('show_store_select_box'=>true,'store_id'=>$store_id,'label_length'=>'col-sm-4','div_length'=>'col-sm-8')); }else{
-                                echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
-                              }?>
+                                <!-- Store Code
+                              php if(store_module() && is_admin()) {$this->load->view('store/store_code',array('show_store_select_box'=>true,'store_id'=>$store_id,'label_length'=>'col-sm-4','div_length'=>'col-sm-8')); }else{
+                               echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>"; -->
+                              
+                              <input type='hidden' name='store_id' id='store_id' value='<?=get_current_store_id() ?>>'>
                               <!-- Store Code end -->
 
                               <div class="form-group">

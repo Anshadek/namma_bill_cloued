@@ -47,6 +47,7 @@ $('#save,#update').on("click",function (e) {
     //Validate Input box or selection box should not be blank or empty
 	check_field("customer_name");
 	check_field("mobile");
+  check_field("warehouse_id");
 	//check_field("state");
 
     var email=$("#email").val();

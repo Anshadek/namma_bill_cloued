@@ -420,7 +420,7 @@
       <?php include"comman/code_js_sound.php"; ?>
       <!-- TABLES CODE -->
       <?php include"comman/code_js.php"; ?>
-      <script src="<?php echo $theme_link; ?>js/customers.js"></script>
+      <script src="<?php echo $theme_link; ?>js/customers.js?v=1"></script>
       <script src="<?php echo $theme_link; ?>js/state_filter.js?v=3"></script>
       <!-- Make sidebar menu hughlighter/selector -->
       <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>
