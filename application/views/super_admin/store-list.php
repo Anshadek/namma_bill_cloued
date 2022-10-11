@@ -302,6 +302,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//datatables
+			
 			var table = $('#example2').DataTable({
 
 				/* FOR EXPORT BUTTONS START*/

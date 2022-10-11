@@ -706,6 +706,7 @@
 
 		$(document).ready(function() {
 			//datatables
+			
 			var table = $('#example2').DataTable({
 
 				/* FOR EXPORT BUTTONS START*/
@@ -795,7 +796,9 @@
 			new $.fn.dataTable.FixedHeader(table);
 		});
 	</script>
-
+<script>
+      $(".<?php echo basename(__FILE__, '.php'); ?>-active-li").addClass("active");
+   </script>
 </body>
 
 </html>

@@ -146,6 +146,11 @@
       <?php $this->load->view('comman/code_js.php');?>
       <script src="<?php echo $theme_link; ?>js/coupons/coupon.js"></script>
       <script type="text/javascript">
+         $('.datepicker').datepicker({
+			autoclose: true,
+			format: 'dd-mm-yyyy',
+			todayHighlight: true
+		});
         <?php if(isset($q_id)){ ?>
           $("#store_id").attr('readonly',true);
         <?php }?>

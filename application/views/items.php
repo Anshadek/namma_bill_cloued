@@ -185,7 +185,7 @@
                            <div class="form-group col-md-4">
                               <div id="expiry_date_div">
                                  <label for="expiry_date"> Expiry Date </label>
-                                 <input type="date" class="form-control only_currency" id="expiry_date" name="expiry_date" value="<?php print isset($expire_date) ? $expire_date : '' ?>">
+                                 <input type="text" class="form-control only_currency datepicker" id="expiry_date" name="expiry_date" value="<?php print isset($expire_date) ? $expire_date : '' ?>">
                                  <span style="display:none" class="text-danger"></span>
                               </div>
                            </div>
@@ -429,6 +429,11 @@
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
    <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=10"></script>
    <script type="text/javascript">
+      $('.datepicker').datepicker({
+			autoclose: true,
+			format: 'dd-mm-yyyy',
+			todayHighlight: true
+		});
       $(document).ready(function() {
          warehouse_id = $('#warehouse_id').val();
          var selected = $('#selected_warehouse').val();

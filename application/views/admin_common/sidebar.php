@@ -199,9 +199,9 @@ $CI = &get_instance();
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul class="sidebar-menu">
 			<!--<li class="header">MAIN NAVIGATION</li>-->
-			<li class="dashboard-active-li "><a href="<?php echo $base_url; ?>super_admin/dashboard"><i class="fa fa-dashboard text-aqua"></i> <span><?= $this->lang->line('dashboard'); ?></span></a></li>
+			<li class="super-admin-dashboard-active-li "><a href="<?php echo $base_url; ?>super_admin/dashboard"><i class="fa fa-dashboard text-aqua"></i> <span><?= $this->lang->line('dashboard'); ?></span></a></li>
 
-			<li class="dashboard-active-li "><a href="<?php echo $base_url; ?>super_admin/stores"><i class="fa fa-user-plus text-aqua"></i> <span><?= $this->lang->line('store'); ?></span></a></li>
+			<li class="store-list-active-li add-store-active-li"><a href="<?php echo $base_url; ?>super_admin/stores"><i class="fa fa-user-plus text-aqua"></i> <span><?= $this->lang->line('store'); ?></span></a></li>
 			<li class="users-view-active-li users-active-li roles-list-active-li role-active-li treeview animate__animated animate__slideInUp">
 				<a href="#">
 					<i class="fa fa-user-plus text-aqua"></i> <span>Trial Pack</span>

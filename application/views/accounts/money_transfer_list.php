@@ -63,7 +63,7 @@
                          <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                          </div>
-                         <input type="date" class="form-control pull-right "  id="transfer_date" name="transfer_date">
+                         <input type="text" class="form-control pull-right datepicker"  id="transfer_date" name="transfer_date">
                       </div>
                        <span id="transfer_date_msg" style="display:none" class="text-danger"></span>
                     </div>
@@ -174,6 +174,11 @@
       <?php $this->load->view('comman/code_js.php');?>
 
 <script type="text/javascript">
+  $('.datepicker').datepicker({
+			autoclose: true,
+			format: 'dd-mm-yyyy',
+			todayHighlight: true
+		});
   function load_datatable(){
     //datatables
    var table = $('#example2').DataTable({ 

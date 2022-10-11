@@ -78,7 +78,7 @@
                                        <div class="input-group-addon">
                                           <i class="fa fa-calendar"></i>
                                        </div>
-                                       <input type="date" class="form-control pull-right" id="within_date" name="within_date">
+                                       <input type="text" class="form-control pull-right datepicker" id="within_date" name="within_date">
                                     </div>
                                     <span id="within_date_msg" style="display:none" class="text-danger"></span>
                                  </div>
@@ -162,6 +162,11 @@
       <script src="<?php echo $theme_link; ?>js/sheetjs.js" type="text/javascript"></script>
       <script src="<?php echo $theme_link; ?>js/warehouse_filter.js"></script>
       <script type="text/javascript">
+          $('.datepicker').datepicker({
+			autoclose: true,
+			format: 'dd-mm-yyyy',
+			todayHighlight: true
+		});
         var base_url=$("#base_url").val();
         $("#store_id").on("change",function(){
           var store_id=$(this).val();
