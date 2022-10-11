@@ -27,9 +27,9 @@
                   <div class="col-md-12">
                      <div class="col-md-3">
                         <!-- Store Code -->
-                        <?php if(store_module() && is_admin()) {$this->load->view('store/store_code',array('show_store_select_box'=>true,'store_id'=>get_current_store_id(),'div_length'=>'','label_length'=>'','show_all'=>'true')); }else{
-                           echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
-                           }?>
+                       
+                        <input type='hidden' name='store_id' id='store_id' value='<?=get_current_store_id()?>'>
+                          
                         <!-- Store Code end -->
                      </div>
                   </div>

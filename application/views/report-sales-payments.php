@@ -39,10 +39,10 @@
                            <div class="box-body">
                               <div class="form-group">
                                  <!-- Store Code -->
-                                 <?php if(store_module() && is_admin()) {$this->load->view('store/store_code',array('show_store_select_box'=>true,'store_id'=>get_current_store_id(),'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true')); }else{
-                                    echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
-                                    }?>
-                                 <!-- Store Code end -->
+                                  
+                                 <input type='hidden' name='store_id' id='store_id' value='<?= get_current_store_id() ?>'>
+                                    
+                                    <!-- Store Code end -->
                                  <label for="customer_id" class="col-sm-2 control-label"><?= $this->lang->line('customer_name'); ?></label>
                                  <div class="col-sm-3">
                                     <select class="form-control select2 " id="customer_id" name="customer_id" ">
@@ -174,6 +174,11 @@
       <script src="<?php echo $theme_link; ?>js/sheetjs.js" type="text/javascript"></script>
       
       <script type="text/javascript">
+         $('.datepicker').datepicker({
+			autoclose: true,
+			format: 'dd-mm-yyyy',
+			todayHighlight: true
+		});
          $("#view").on("click",function(){
          
          

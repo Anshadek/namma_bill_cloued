@@ -39,10 +39,10 @@
                            <div class="box-body">
                               <div class="form-group">
                                  <!-- Store Code -->
-                                  <?php if(store_module() && is_admin()) {$this->load->view('store/store_code',array('show_store_select_box'=>true,'store_id'=>get_current_store_id(),'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true')); }else{
-                                     echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
-                                     }?>
-                                  <!-- Store Code end -->
+                                  
+                               <input type='hidden' name='store_id' id='store_id' value='<?= get_current_store_id() ?>'>
+                                    
+                                    <!-- Store Code end -->
                                 </div>
 										  <div class="form-group">
                                <!-- Warehouse Code -->
@@ -176,6 +176,12 @@
       
       <script src="<?php echo $theme_link; ?>js/sheetjs.js" type="text/javascript"></script>
       <script>
+          $('.datepicker').datepicker({
+			autoclose: true,
+			format: 'dd-mm-yyyy',
+			todayHighlight: true
+		});
+
          function convert_excel(type, fn, dl) {
              var elt = document.getElementById('report-data');
              var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet JS"});
