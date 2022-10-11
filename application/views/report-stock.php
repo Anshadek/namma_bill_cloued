@@ -42,9 +42,7 @@
                            <div class="box-body">
                             <div class="form-group">
                                  <!-- Store Code -->
-                                  <?php if(store_module() && is_admin()) {$this->load->view('store/store_code',array('show_store_select_box'=>true,'store_id'=>get_current_store_id(),'div_length'=>'col-sm-3','show_all'=>'true','form_group_remove' => 'true')); }else{
-                                     echo "<input type='hidden' name='store_id' id='store_id' value='".get_current_store_id()."'>";
-                                     }?>
+                                 <input type='hidden' name='store_id' id='store_id' value='<?= get_current_store_id() ?>'>
                                   <!-- Store Code end -->
 
                                   <!-- Warehouse Code -->
@@ -219,7 +217,15 @@
 
 
 </script>
+<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=10"></script>
 <script type="text/javascript">
+   $( document ).ready(function() {
+      get_warehouse_brand($('#warehouse_id').val());
+         get_warehouse_category($('#warehouse_id').val());
+});
+$("#warehouse_id").change(function(){
+   getWarehouseData($('#warehouse_id').val());
+});
   function load_reports(){
 	
    var store_id=$("#store_id").val();
@@ -247,6 +253,10 @@
            });
 
     }//function end
+    function getWarehouseData(warehouse_id){
+      get_warehouse_brand(warehouse_id);
+         get_warehouse_category(warehouse_id);
+    }
 </script>
 <script>
     $("#view").on("click",function(){

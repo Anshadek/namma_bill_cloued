@@ -811,11 +811,10 @@
             <li class="smtp-active-li"><a href="<?php echo $base_url; ?>smtp/"><i class="fa fa-envelope-square "></i> <span><?= $this->lang->line('smtp'); ?></span></a></li>
             <?php } ?>
 
-            <?php if($CI->permissions('gateway_view') 
-						&& store_module()) { ?>
-            <li class="gateways-active-li"><a href="<?php echo $base_url; ?>gateways"><i class="fa fa- fa-credit-card  "></i> <span><?= $this->lang->line('payment_gateways'); ?></span>
-              </a></li>
-            <?php } ?>
+           
+            <!-- <li class="gateways-active-li"><a href="<?php echo $base_url; ?>gateways"><i class="fa fa- fa-credit-card  "></i> <span><?= $this->lang->line('payment_gateways'); ?></span>
+              </a></li> -->
+           
 
             
 

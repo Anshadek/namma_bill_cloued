@@ -66,7 +66,9 @@ function save(print=false,pay_all=false){
     	toastr["warning"]("Walk-in Customer Should Pay Complete Amount!!");
 		return;
     }
-    if(document.getElementById("sales_id")){
+    var sales_id =  $("#sales_id").val();
+   
+    if(sales_id > 0){
     	var command = 'update';
     }
     else{
