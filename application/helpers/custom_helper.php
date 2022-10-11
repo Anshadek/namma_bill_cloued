@@ -803,7 +803,9 @@
   function get_account_name($id){
     if(empty($id)) {return "";}
     $CI =& get_instance();
-    return $CI->db->select("account_name")->where("store_id",get_current_store_id())->where("id",$id)->get("ac_accounts")->row()->account_name;
+    $res = $CI->db->select("account_name")->where("store_id",get_current_store_id())->where("id",$id)->get("ac_accounts")->row();
+    $acc_name  = (isset($res->account_name) ? $res->account_name :  "");
+    return  $acc_name;
   }
   function get_seller_points($item_id){
     $CI =& get_instance();
