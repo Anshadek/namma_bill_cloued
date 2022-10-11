@@ -791,7 +791,7 @@
         
       </script>
       <script src="<?php echo $theme_link; ?>js/store_profile.js?v=20"></script>
-
+      <script src="<?php echo $theme_link; ?>js/store/store.js?v=1"></script>
       <script src="<?php echo $theme_link; ?>js/state_filter.js?v=5"></script>
      
 
