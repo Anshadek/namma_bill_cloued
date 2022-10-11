@@ -201,30 +201,30 @@ $CI = &get_instance();
 			<!--<li class="header">MAIN NAVIGATION</li>-->
 			<li class="super-admin-dashboard-active-li "><a href="<?php echo $base_url; ?>super_admin/dashboard"><i class="fa fa-dashboard text-aqua"></i> <span><?= $this->lang->line('dashboard'); ?></span></a></li>
 
-			<li class="store-list-active-li add-store-active-li"><a href="<?php echo $base_url; ?>super_admin/stores"><i class="fa fa-user-plus text-aqua"></i> <span><?= $this->lang->line('store'); ?></span></a></li>
-			<li class="users-view-active-li users-active-li roles-list-active-li role-active-li treeview animate__animated animate__slideInUp">
+			<li class="store-list-active-li add-store-active-li"><a href="<?php echo $base_url; ?>super_admin/stores"><i class="fa fa-home text-aqua"></i> <span><?= $this->lang->line('store'); ?></span></a></li>
+			<li class="trialpackage-list-active-li trialpack-category-list-active-li treeview">
 				<a href="#">
-					<i class="fa fa-user-plus text-aqua"></i> <span>Trial Pack</span>
+					<i class="fa fa-th-large text-aqua"></i> <span>Trial Pack</span>
 					<span class="pull-right-container">
 						<i class="fa fa-angle-left pull-right"></i>
 					</span>
 				</a>
-				<ul class="treeview-menu" style="display: none;">
-					<li class="country-list-active-li "><a href="<?php echo $base_url; ?>super_admin/trial_pack_category"><i class="fa fa-list "></i> <span>Trial Pack Category</span></a></li>
-					<li class="country-list-active-li "><a href="<?php echo $base_url; ?>super_admin/trial_package"><i class="fa fa-list "></i> <span>Trial Package</span></a></li>
+				<ul class="treeview-menu">
+					<li class="trialpack-category-list-active-li"><a href="<?php echo $base_url; ?>super_admin/trial_pack_category"><i class="fa fa-list "></i> <span>Trial Pack Category</span></a></li>
+					<li class="trialpackage-list-active-li"><a href="<?php echo $base_url; ?>super_admin/trial_package"><i class="fa fa-list "></i> <span>Trial Package</span></a></li>
 				</ul>
 			</li>
 
-			<li class="users-view-active-li users-active-li roles-list-active-li role-active-li treeview animate__animated animate__slideInUp">
+			<li class="subscription-list-active-li store-subscription-list-active-li  treeview ">
 				<a href="#">
-					<i class="fa fa-user-plus text-aqua"></i> <span><?= $this->lang->line('subscription'); ?></span>
+					<i class="fa fa-bookmark text-aqua"></i> <span><?= $this->lang->line('subscription'); ?></span>
 					<span class="pull-right-container">
 						<i class="fa fa-angle-left pull-right"></i>
 					</span>
 				</a>
-				<ul class="treeview-menu" style="display: none;">
-					<li class="country-list-active-li "><a href="<?php echo $base_url; ?>super_admin/subscription"><i class="fa fa-list "></i> <span>Create Subscription</span></a></li>
-					<li class="country-list-active-li "><a href="<?php echo $base_url; ?>super_admin/store_subscription"><i class="fa fa-list "></i> <span>Create Store Subscription</span></a></li>
+				<ul class="treeview-menu">
+					<li class="subscription-list-active-li"><a href="<?php echo $base_url; ?>super_admin/subscription"><i class="fa fa-list "></i> <span>Create Subscription</span></a></li>
+					<li class="store-subscription-list-active-li"><a href="<?php echo $base_url; ?>super_admin/store_subscription"><i class="fa fa-list "></i> <span>Create Store Subscription</span></a></li>
 				</ul>
 			</li>
 
@@ -258,16 +258,16 @@ $CI = &get_instance();
 
 				</ul>
 			</li>
-			<li class="users-view-active-li users-active-li roles-list-active-li role-active-li treeview animate__animated animate__slideInUp">
+			<li class="newly-created-pos-list-active-li expired-pos-list-active-li treeview ">
 				<a href="#">
-					<i class="fa fa-user-plus text-aqua"></i> <span>Reports</span>
+					<i class="fa fa-bar-chart"></i> <span>Reports</span>
 					<span class="pull-right-container">
 						<i class="fa fa-angle-left pull-right"></i>
 					</span>
 				</a>
-				<ul class="treeview-menu" style="display: none;">
-					<li class="country-list-active-li "><a href="<?php echo $base_url; ?>super_admin/newly_created_pos_report"><i class="fa fa-list "></i> <span>New Pos</span></a></li>
-					<li class="country-list-active-li "><a href="<?php echo $base_url; ?>super_admin/expiring_pos_report"><i class="fa fa-list "></i> <span>Expiring Pos</span></a></li>
+				<ul class="treeview-menu">
+					<li class="newly-created-pos-list-active-li"><a href="<?php echo $base_url; ?>super_admin/newly_created_pos_report"><i class="fa fa-list "></i> <span>New Pos</span></a></li>
+					<li class="expired-pos-list-active-li"><a href="<?php echo $base_url; ?>super_admin/expiring_pos_report"><i class="fa fa-list "></i> <span>Expiring Pos</span></a></li>
 				</ul>
 			</li>
 		</ul>
