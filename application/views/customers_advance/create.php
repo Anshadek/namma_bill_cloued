@@ -183,7 +183,7 @@
       <!-- TABLES CODE -->
       <?php $this->load->view('comman/code_js.php');?>
       
-      <script src="<?php echo $theme_link; ?>js/customers_advance/advance.js?v=10"></script>
+      <script src="<?php echo $theme_link; ?>js/customers_advance/advance.js?v=11"></script>
       <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
 		<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=1"></script>
 		

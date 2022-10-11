@@ -22,7 +22,7 @@ $('#save,#update').on("click",function (e) {
     }
 
     //Validate Input box or selection box should not be blank or empty	
-	alert($('#warehouse_id').val());
+	
 	check_field("payment_date");	
 	check_field("customer_id");	
 	check_field("amount");

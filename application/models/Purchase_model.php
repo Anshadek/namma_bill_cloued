@@ -807,7 +807,8 @@ class Purchase_model extends CI_Model {
 	    $paid_amount=$res1->paid_amount;
 	    $due_amount =$grand_total - $paid_amount;
 
-	    $supplier_country = $this->db->query("select country from db_country where id=".$res2->country_id)->row()->country;
+	    $res = $this->db->query("select country from db_country where id=".$res2->country_id)->row();
+		$supplier_country = isset($res->country) ? $res->country : "";
 	    if(!empty($supplier_state)){
     		$supplier_state = $this->db->query("select state from db_states where id=".$res2->state_id)->row()->state;
     	}
@@ -1036,7 +1037,8 @@ class Purchase_model extends CI_Model {
 	    $paid_amount=$res1->paid_amount;
 	    $due_amount =$grand_total - $paid_amount;
 
-	    $supplier_country = $this->db->query("select country from db_country where id=".$res2->country_id)->row()->country;
+	    $res = $this->db->query("select country from db_country where id=".$res2->country_id)->row();
+		$supplier_country = isset($res->country) ? $res->country : "";
 	    $supplier_state=(!empty($supplier_state)) ? $this->db->query("select state from db_states where id=".$res2->state_id)->row()->state : '';
 	    
 
