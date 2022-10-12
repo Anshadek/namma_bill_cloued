@@ -162,7 +162,7 @@ class Items extends MY_Controller {
 	public function ajax_list()
 	{
 		$warehouse_id = $_REQUEST['warehouse_id'];
-
+		
 		$list = $this->items->get_datatables();
 		
 		$data = array();
@@ -198,7 +198,7 @@ class Items extends MY_Controller {
 			$warehouse_ids  = (!empty($warehouse_id)) ? $warehouse_id : get_privileged_warehouses_ids();
 
 			
-			$row[] = total_available_qty_items_of_warehouse($warehouse_ids,null,$items->id)." $str";
+			$row[] = total_available_qty_items_of_warehouse($warehouse_id,null,$items->id)." $str";
 
 			$row[] = $items->alert_qty;
 			$row[] = store_number_format($items->sales_price);

@@ -368,7 +368,7 @@ class Import extends MY_Controller {
                         $tax_name =$this->xss_html_filter($importdata[10]);
                         $tax_per =$this->xss_html_filter($importdata[11]);
                         $category_id=(!empty($category_name)) ? $this->get_category_id($category_name,$store_id) : null;
-                        $unit_id=(!empty($unit_name)) ? $this->get_unit_id($unit_name,$store_id) : null;
+                        $unit_id=(!empty($unit_name)) ? $this->get_unit_id($unit_name,$store_id,$_POST['warehouse_id']) : null;
                         $brand_id=(!empty($brand_name)) ? $this->get_brand_id($brand_name,$store_id) : null;
                         $tax_id=(!empty($tax_name)) ? $this->get_tax_id($tax_name,$tax_per,$store_id) : null;
 
@@ -493,8 +493,8 @@ class Import extends MY_Controller {
                     return $this->db->insert_id();                    
             }
         }
-        public function get_unit_id($unit_name='',$store_id){
-            $q2=$this->db->query("select id from db_units where upper(unit_name)=upper('$unit_name') and store_id=$store_id");
+        public function get_unit_id($unit_name='',$store_id,$warehouse_id){
+            $q2=$this->db->query("select id from db_units where upper(unit_name)=upper('$unit_name') and store_id=$store_id and warehouse_id=$warehouse_id");
             if($q2->num_rows()>0){
                 return $q2->row()->id;
             }
@@ -502,6 +502,7 @@ class Import extends MY_Controller {
                     //If category name not found in destination, then create category
                     $info = array(
                             'store_id'                  => $store_id, 
+                            'warehouse_id'              => $warehouse_id, 
                             'unit_name'                 => $unit_name, 
                             'description'               => '',
                             'status'                    => 1,

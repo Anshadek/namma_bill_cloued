@@ -427,7 +427,7 @@
 
    <script src="<?php echo $theme_link; ?>js/items.js?ver=12"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
-   <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=10"></script>
+   <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=11"></script>
    <script type="text/javascript">
       $('.datepicker').datepicker({
 			autoclose: true,

@@ -132,6 +132,7 @@ class Units extends MY_Controller {
 	   $q1=$this->db->select("*")->where("status=1")->from("db_units")->get();
 	   $str='';
 	   $select_id= $_POST['selected'];
+	   
 	  
 		if($q1->num_rows($q1)>0)
 		 {  $str.='<option value="">-Select-</option>'; 

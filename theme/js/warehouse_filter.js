@@ -278,6 +278,7 @@ function get_warehouse_unit(datas){
 	
 	var warehouse_id = 0;
 	var selected = $('#selected_unit').val();
+	
 	if (selected > 0){
 
 	}else{
