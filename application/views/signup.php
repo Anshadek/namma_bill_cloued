@@ -10,8 +10,8 @@
     <meta name="keywords" content="">
     <title><?php print $SITE_TITLE; ?> | Sign Up</title>
     <?php
-       $theme_link =  base_url().'theme/';
-     ?>
+    $theme_link =  base_url() . 'theme/';
+    ?>
 
     <link rel="apple-touch-icon" href="<?php echo $theme_link; ?>sign_up/app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo $theme_link; ?>sign_up/app-assets/images/ico/favicon.ico">
@@ -47,7 +47,16 @@
 <!-- END: Head-->
 
 <!-- BEGIN: Body-->
-
+<style>
+     .error:not(input) {
+    color: #ea5455;
+    
+}
+ span.error {
+    width: 100%;
+    font-size: 0.857rem;
+}
+</style>
 <body class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="blank-page">
     <!-- BEGIN: Content-->
     <div class="app-content content ">
@@ -60,7 +69,7 @@
                 <div class="auth-wrapper auth-cover">
                     <div class="auth-inner row m-0">
                         <!-- Brand logo-->
-                        <a class="brand-logo" href="https://nammabilling.com/" target="_blank">                           
+                        <a class="brand-logo" href="https://nammabilling.com/" target="_blank">
                             <img src="https://nammabilling.com/anshad/uploads/site/download.png">
                             <!-- <h2 class="brand-text text-primary ms-1">Namma Billing</h2> -->
                         </a>
@@ -115,40 +124,43 @@
                                                 <h2 class="fw-bolder mb-75">Account Information</h2>
                                                 <span>Enter your username password details</span>
                                             </div>
-                                            <form>
-                                                <div class="row">
-                                                    <div class="col-md-12 mb-1">
-                                                        <label class="form-label" for="username">Username<span class="req_star">*</span></label>
-                                                        <input type="text" name="username" id="username" class="form-control" placeholder="johndoe" />
-                                                    </div>
-                                                </div>
-
+                                            <input type="hidden" id="base_url" value="<?php echo base_url(); ?>">
+                                            <form id="sign-up-form">
+                                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                                            <input type="hidden" name="mail_verified" value="0">
+                                            <input type="hidden" name="phone" value="">
+                                            <input type="hidden" name="bank_details" value="">
                                                 <div class="row">
                                                     <div class="col-md-6 mb-1">
                                                         <label class="form-label" for="email">Email<span class="req_star">*</span></label>
                                                         <input type="email" name="email" id="email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+                                                        <span id="email_msg" class="error"></span>
                                                     </div>
+
                                                     <div class="col-md-6 mb-1">
-                                                        <label class="form-label" for="mobile-number">Mobile number<span class="req_star">*</span></label>
-                                                        <input type="text" name="mobile-number" id="mobile-number" class="form-control mobile-number-mask" placeholder="(987) 654-3210" />
+                                                        <label class="form-label" for="mobile">Mobile number<span class="req_star">*</span></label>
+                                                        <input onkeyup="mobno_length()" type="text" name="mobile" id="mobile" class="form-control mobile-mask" placeholder="(987) 654-3210" />
+                                                        <span id="mobile_msg" class="error"></span>
                                                     </div>
                                                 </div>
 
                                                 <div class="row">
                                                     <div class="col-md-6 mb-1">
-                                                        <label class="form-label" for="password">Password<span class="req_star">*</span></label>
+                                                        <label class="form-label" for="pass">Password<span class="req_star">*</span></label>
                                                         <div class="input-group input-group-merge form-password-toggle">
-                                                            <input type="password" name="password" id="password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                                            <input type="password" name="pass" id="pass" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
                                                             <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                                            <span id="pass_msg" class="error"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 mb-1">
-                                                        <label class="form-label" for="confirm-password">Confirm Password<span class="req_star">*</span></label>
+                                                        <label class="form-label" for="conf_pass">Confirm Password<span class="req_star">*</span></label>
                                                         <div class="input-group input-group-merge form-password-toggle">
-                                                            <input type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                                            <input type="password" onkeyup="checkPassword()" name="conf_pass" id="conf_pass" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
                                                             <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                                            <span id="conf_pass_msg" class="error"></span>
                                                         </div>
-                                                    </div>                                                    
+                                                    </div>
 
                                                     <div class="col-12 mb-1">
                                                         <div class="form-check">
@@ -157,107 +169,134 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
-
+                                            
+                                            
                                             <div class="d-flex justify-content-between mt-2">
                                                 <button class="btn btn-outline-secondary btn-prev" disabled>
                                                     <i data-feather="chevron-left" class="align-middle me-sm-25 me-0"></i>
                                                     <span class="align-middle d-sm-inline-block d-none">Previous</span>
                                                 </button>
-                                                <button class="btn btn-primary btn-next">
+                                                <label style="cursor: pointer;" id="next_btn" onclick="next_form('#account-details','#personal-info')" class="btn btn-primary">
                                                     <span class="align-middle d-sm-inline-block d-none">Next</span>
                                                     <i data-feather="chevron-right" class="align-middle ms-sm-25 ms-0"></i>
-                                                </button>
+                                                </label>
                                             </div>
                                             <p class="text-center mt-2"><span>Already have an account?</span><a href="<?= base_url() ?>"><span>&nbsp;Sign in instead</span></a></p>
                                         </div>
-                                        <div id="personal-info" class="content" role="tabpanel" aria-labelledby="personal-info-trigger">
+                                        <div  id="personal-info" class="content" role="tabpanel" aria-labelledby="personal-info-trigger">
                                             <div class="content-header mb-2">
-                                                <h2 class="fw-bolder mb-75">Sotore Information</h2>
+                                                <h2 class="fw-bolder mb-75">Store Information</h2>
                                                 <span>Enter your Store Information</span>
                                             </div>
-                                            <form>
+
                                                 <div class="row">
                                                     <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="first-name">Store Name<span class="req_star">*</span></label>
-                                                        <input type="text" name="first-name" id="first-name" class="form-control" placeholder="John" />
-                                                    </div>  
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="last-name">Store Website</label>
-                                                        <input type="text" name="" id="last-name" class="form-control" placeholder="Website" />
-                                                    </div>
-                                                    <div class="col-12 mb-1">
-                                                        <label class="form-label" for="home-address">VAT Number</label>
-                                                        <input type="text" name="" id="vat-number" class="form-control" placeholder="VAT Number" />
-                                                    </div>
-                                                    <div class="col-12 mb-1">
-                                                        <label class="form-label" for="home-address">PAN Number<span class="req_star">*</span></label>
-                                                        <input type="text" name="" id="pan-number" class="form-control" placeholder="PAN Number" />
-                                                    </div>
-                                                    <div class="col-12 mb-1">
-                                                        <label class="form-label" for="area-address">Address</label>
-                                                        <input type="text" name="area-address" id="area-address" class="form-control" placeholder="Area, Street, Sector, Village" />
+                                                        <label class="form-label" for="store_name">Store Name<span class="req_star">*</span></label>
+                                                        <input type="text" name="store_name" id="store_name" class="form-control" placeholder="Store Name" />
+                                                        <span id="store_name_msg" class="error"></span>
                                                     </div>
                                                     <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="town-city">Town/City<span class="req_star">*</span></label>
-                                                        <input type="text" name="town-city" id="town-city" class="form-control" placeholder="Town/City" />
+                                                        <label class="form-label" for="store_website">Store Website</label>
+                                                        <input type="text" name="store_website" id="store_website" class="form-control" placeholder="Website" />
+                                                        <span id="store_website_msg" class="error"></span>
                                                     </div>
+                                                    <div class="col-12 mb-1">
+                                                        <label class="form-label" for="vat_no">VAT Number</label>
+                                                        <input type="text" name="vat_no" id="vat_no" class="form-control" placeholder="VAT Number" />
+                                                        <span id="vat_no_msg" class="error"></span>
+                                                    </div>
+                                                    <div class="col-12 mb-1">
+                                                        <label class="form-label" for="pan_no">PAN Number<span class="req_star">*</span></label>
+                                                        <input type="text" name="pan_no" id="pan_no" class="form-control" placeholder="PAN Number" />
+                                                        <span id="pan_no_msg" class="error"></span>
+                                                    </div>
+                                                    <div class="col-12 mb-1">
+                                                        <label class="form-label" for="address">Address</label>
+                                                        <input type="text" name="address" id="address" class="form-control" placeholder="Area, Street, Sector, Village" />
+                                                        <span id="address_msg" class="error"></span>
+                                                    </div>
+                                                   
                                                     <div class="mb-1 col-md-6">
                                                         <label class="form-label" for="country">Country<span class="req_star">*</span></label>
-                                                        <select class="select2 w-100" name="country" id="country">
-                                                            <option value="" label="blank"></option>
-                                                            <option value="AK">Alaska</option>
-                                                            <option value="HI">Hawaii</option>
-                                                            <option value="CA">California</option>
-                                                            <option value="NV">Nevada</option>
-                                                            <option value="OR">Oregon</option>
-                                                            <option value="WA">Washington</option>
-                                                            <option value="AZ">Arizona</option>
-                                                            <option value="CO">Colorado</option>
-                                                            <option value="ID">Idaho</option>
-                                                            <option value="MT">Montana</option>
-                                                            <option value="NE">Nebraska</option>
-                                                            <option value="NM">New Mexico</option>
-                                                            <option value="ND">North Dakota</option>
-                                                            <option value="UT">Utah</option>
-                                                            <option value="WY">Wyoming</option>
-                                                            <option value="AL">Alabama</option>
-                                                            <option value="AR">Arkansas</option>
-                                                            <option value="IL">Illinois</option>
-                                                            <option value="IA">Iowa</option>
-                                                            <option value="KS">Kansas</option>
-                                                            <option value="KY">Kentucky</option>
-                                                            <option value="LA">Louisiana</option>
-                                                            <option value="MN">Minnesota</option>
-                                                            <option value="MS">Mississippi</option>
-                                                            <option value="MO">Missouri</option>
-                                                            <option value="OK">Oklahoma</option>
-                                                            <option value="SD">South Dakota</option>
-                                                            <option value="TX">Texas</option>
+                                                        <select class="select2 w-100 form-control" name="country" id="country">
+                                                        <option class="hidden" selected=""  disabled="">Please select your Country</option>
+											<?php
+                                                            $query1="select * from db_country where status=1";
+                                                            $q1=$this->db->query($query1);
+                                                            if($q1->num_rows($q1)>0)
+                                                             {
+                                                              //echo '<option value="">-Select-</option>'; 
+                                                                 foreach($q1->result() as $res1)
+                                                               {
+                                                                 $selected = ($res1->country ==$country) ? 'selected' : '';
+                                                                 echo "<option $selected   value='".$res1->country."'>".$res1->country."</option>";
+                                                               }
+                                                             }
+                                                             else
+                                                             {
+                                                                ?>
+                                                         <option value="">No Records Found</option>
+                                                         <?php
+                                                            }
+                                                            ?>
 
                                                         </select>
+                                                        <span id="country_msg" class="error"></span>
                                                     </div>
 
+                                                    <div class="mb-1 col-md-6">
+                                                        <label class="form-label" for="state">State<span class="req_star">*</span></label>
+                                                        <select class="select2 w-100 form-control" name="state" id="state">
+                                                        <option class="hidden" selected="" disabled="">Please select your State</option>
+                                                <?php
+                                                            $query2="select * from db_states where status=1";
+                                                            $q2=$this->db->query($query2);
+                                                            if($q2->num_rows()>0)
+                                                             {
+                                                              echo '<option value="">-Select-</option>'; 
+                                                              foreach($q2->result() as $res1)
+                                                               {
+                                                                 $selected = ($res1->state ==$state) ? 'selected' : '';
+                                                                 echo "<option $selected value='".$res1->state."'>".$res1->state."</option>";
+                                                               }
+                                                             }
+                                                             else
+                                                             {
+                                                                ?>
+                                                         <option value="">No Records Found</option>
+                                                         <?php
+                                                            }
+                                                            ?>
+
+                                                        </select>
+                                                        <span id="state_msg" class="error"></span>
+                                                    </div>
+                                                    <div class="mb-1 col-md-6">
+                                                        <label class="form-label" for="city">Town/City<span class="req_star">*</span></label>
+                                                        <input type="text" name="city" id="city" class="form-control" placeholder="Town/City" />
+                                                        <span id="city_msg" class="error"></span>
+                                                    </div>
                                                     <div class="col-md-6 mb-1">
-                                                        <label class="form-label" for="pin-code">PIN code<span class="req_star">*</span></label>
-                                                        <input type="text" name="pin-code" id="pin-code" class="form-control pin-code-mask" placeholder="Code" maxlength="6" />
+                                                        <label class="form-label" for="postcode">PIN code<span class="req_star">*</span></label>
+                                                        <input type="text" name="postcode" id="postcode" class="form-control postcode-mask" placeholder="Code" maxlength="6" />
+                                                        <span id="postcode_msg" class="error"></span>
                                                     </div>
                                                 </div>
                                             </form>
 
                                             <div class="d-flex justify-content-between mt-2">
-                                                <button class="btn btn-primary btn-prev">
+                                                <label style="cursor: pointer;" onclick="next_form('#personal-info','#account-details')" class="btn btn-primary btn-prev">
                                                     <i data-feather="chevron-left" class="align-middle me-sm-25 me-0"></i>
                                                     <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                                </button>
+                                                        </label>
                                                 <!-- <button class="btn btn-primary btn-next">
                                                     <span class="align-middle d-sm-inline-block d-none">Submit</span>
                                                     <i data-feather="chevron-right" class="align-middle ms-sm-25 ms-0"></i>
                                                 </button> -->
-                                                <button class="btn btn-success btn-submit">
+                                                <label style="cursor: pointer;" onclick="register()" class="btn btn-success btn-submit">
                                                     <i data-feather="check" class="align-middle me-sm-25 me-0"></i>
                                                     <span class="align-middle d-sm-inline-block d-none">Register</span>
-                                                </button>
+                                                        </label>
                                             </div>
                                             <p class="text-center mt-2"><span>Already have an account?</span><a href="<?= base_url() ?>"><span>&nbsp;Sign in instead</span></a></p>
                                         </div>
@@ -283,7 +322,7 @@
     <script src="<?php echo $theme_link; ?>sign_up/app-assets/vendors/js/ui/jquery.sticky.js"></script>
     <script src="<?php echo $theme_link; ?>sign_up/app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
     <script src="<?php echo $theme_link; ?>sign_up/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="<?php echo $theme_link; ?>sign_up/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <!-- <script src="<?php echo $theme_link; ?>sign_up/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script> -->
     <script src="<?php echo $theme_link; ?>sign_up/app-assets/vendors/js/forms/cleave/cleave.min.js"></script>
     <script src="<?php echo $theme_link; ?>sign_up/app-assets/vendors/js/forms/cleave/addons/cleave-phone.us.js"></script>
     <!-- END: Page Vendor JS-->
@@ -295,9 +334,14 @@
 
     <!-- BEGIN: Page JS-->
     <script src="<?php echo $theme_link; ?>sign_up/app-assets/js/scripts/pages/auth-register.js"></script>
+    <!--Toastr notification -->
+    <script src="<?php echo $theme_link; ?>toastr/toastr.js"></script>
+    <!--Toastr notification -->
+    <link rel="stylesheet" href="<?php echo $theme_link; ?>toastr/toastr.css">
     <!-- END: Page JS-->
 
     <script>
+        var flag = true;
         $(window).on('load', function() {
             if (feather) {
                 feather.replace({
@@ -306,6 +350,143 @@
                 });
             }
         })
+
+        function next_form(hide_form, show_form) {
+          
+            flag = true;
+            check_field("email");
+            check_field("mobile");
+            check_field("pass");
+            check_field("conf_pass");
+
+            if (flag == false) {
+                toastr["warning"]("You have Missed Something to Fillup!")
+               return;
+            } else {
+                $(hide_form).hide();
+                $(show_form).show();
+            }
+        }
+
+        function register(){
+            flag = true;
+            check_field("store_name");
+            check_field("pan_no");
+            check_field("country");
+            check_field("state");
+            check_field("city");
+            check_field("postcode");
+            if (flag == false) {
+                toastr["warning"]("You have Missed Something to Fillup!")
+               return;
+            }
+
+    if (confirm("Do You Wants To Create New Store ?")) {
+   var base_url = $('#base_url').val();
+    data = new FormData($('#sign-up-form')[0]);//form name
+    /*Check XSS Code*/
+   
+
+    $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+   
+    $.ajax({
+      type: 'POST',
+      url: base_url + 'sign_up/add_customer',
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (result) {
+        //alert(result);return;
+        if (result == "success") {
+          toastr["success"]("Record Updated Successfully!");
+          window.location.replace(base_url+'login');
+        }
+        else if (result == "failed") {
+          toastr["error"]("Sorry! Failed to save Record.Try again!");
+          //	return;
+        }
+        else {
+
+          toastr["error"](result);
+         
+          $('#account-details').show();
+        $('#personal-info').hide();
+					
+        }
+
+
+        $("#" + this_id).attr('disabled', false);  //Enable Save or Update button
+        $(".overlay").remove();
+      }
+    });
+  }
+        }
+
+        function check_field(id) {
+
+            if (!$("#" + id).val()) //Also check Others????
+            {
+               
+                $('#' + id + '_msg').fadeIn(200).show().html('Required Field').addClass('required');
+                // $('#'+id).css({'background-color' : '#E8E2E9'});
+                flag = false;
+            } else {
+                $('#' + id + '_msg').fadeOut(200).hide();
+                //$('#'+id).css({'background-color' : '#FFFFFF'});    //White color
+            }
+        }
+        //check moblength
+        function mobno_length() {
+            number = $('#mobile').val();
+            if (number.length != 10) {
+                $('#mobile_msg').text('mobile number should  10 dgits');
+                $('#next_btn').hide();
+            } else {
+
+                $('#mobile_msg').text('');
+                $('#next_btn').show();
+            }
+        }
+        //check pass and confir is match or not
+        function checkPassword() {
+            var conf_pass = $('#conf_pass').val();
+
+            var pass = $('#pass').val();
+
+            if (conf_pass == pass) {
+                $('#next_btn').show();
+                $('#conf_pass_msg').text("")
+            } else {
+                $('#next_btn').hide();
+                $('#conf_pass_msg').text("New password and confirm password doesn't match..");
+            }
+
+        }
+        //======email validation ========
+        const validateEmail = (email) => {
+            return email.match(
+                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+        };
+
+        const validate = () => {
+            const $result = $('#email_msg');
+            const email = $('#email').val();
+            $result.text('');
+
+            if (validateEmail(email)) {
+                $result.text(email + ' is valid');
+                $result.css('color', 'green');
+                $('#next_btn').show();
+            } else {
+                $result.text(email + ' is not valid');
+                $result.css('color', 'red');
+                $('#next_btn').hide();
+            }
+            return false;
+        }
+        $('#email').on('input', validate);
     </script>
 </body>
 <!-- END: Body-->

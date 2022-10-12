@@ -29,13 +29,14 @@ class Sign_up extends MY_Controller {
 		$this->form_validation->set_rules("city", "City", "trim|required");
 		$this->form_validation->set_rules("postcode", "Postcode", "trim|required");
 		if($this->form_validation->run() == false) { 
-			return $this->load->view('signup');
+			echo validation_errors();
 		}else{
-			
 		$result=$this->store->create_store();
-		$this->sendmail($_POST['email']);
+		
+		//$this->sendmail($_POST['email']);
 		$this->session->set_flashdata('success', 'Please Login Here!');
-		redirect('login');
+		echo "success";
+		//redirect('login');
 		}
 		//echo $result;	
 	}

@@ -223,8 +223,8 @@ $CI = &get_instance();
 					</span>
 				</a>
 				<ul class="treeview-menu">
-					<li class="subscription-list-active-li"><a href="<?php echo $base_url; ?>super_admin/subscription"><i class="fa fa-list "></i> <span>Create Subscription</span></a></li>
-					<li class="store-subscription-list-active-li"><a href="<?php echo $base_url; ?>super_admin/store_subscription"><i class="fa fa-list "></i> <span>Create Store Subscription</span></a></li>
+					<li class="subscription-list-active-li"><a href="<?php echo $base_url; ?>super_admin/subscription"><i class="fa fa-list "></i> <span>Subscription</span></a></li>
+					<li class="store-subscription-list-active-li"><a href="<?php echo $base_url; ?>super_admin/store_subscription"><i class="fa fa-list "></i> <span>Store Subscription</span></a></li>
 				</ul>
 			</li>
 

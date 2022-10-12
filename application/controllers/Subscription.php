@@ -11,10 +11,6 @@ class Subscription extends MY_Controller {
 	}
 
 	public function index(){
-		
-
-
-
 		$data=array_merge($this->data);
 		$data['page_title']=$this->lang->line('subscriptions');
 		$this->load->view('subscriptions-list', $data);

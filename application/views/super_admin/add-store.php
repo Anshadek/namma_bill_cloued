@@ -67,7 +67,7 @@
 											<input type="hidden" name="old_pass" value="<?= $password ?>">
 											<input type="hidden" name="user_id" value="<?= $user_id ?>">
 											<input type="hidden" id="selected_state" value="<?= $state ?>">
-											
+											<input type="hidden" name="mail_verified" value="1">
                                  <div class="box-body">
                                     <div class="row">
                                        <div class="col-md-5">

@@ -857,19 +857,16 @@
        </ul>
         </li>
         <?php } ?>
-				<li class=" site-settings-active-li  change-pass-active-li dbbackup-active-li  tax-active-li currency-view-active-li  store_profile-active-li currency-active-li  database_updater-active-li tax-list-active-li units-list-active-li unit-active-li payment_types_list-active-li payment_types-active-li gateways-active-li package-active-li subscription-active-li  subscription-list-active-li  package-list-active-li sms-api-active-li smtp-active-li treeview">
+				<li class="subscriptions-list-active-li your-subscriptions-list-active-li dbbackup-active-li  tax-active-li currency-view-active-li  store_profile-active-li currency-active-li  database_updater-active-li tax-list-active-li units-list-active-li unit-active-li payment_types_list-active-li payment_types-active-li gateways-active-li package-active-li subscription-active-li  subscription-list-active-li  package-list-active-li sms-api-active-li smtp-active-li treeview">
           <a href="#">
-            <i class="fa fa-gears text-aqua"></i> <span><?= $this->lang->line('subscription'); ?></span>
+          <i class="fa fa-bookmark text-aqua"></i> <span><?= $this->lang->line('subscription'); ?></span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-        
-					
-            
-            <li class="store_profile-active-li"><a href="<?php echo $base_url; ?>subscription"><i class="fa fa-suitcase"></i> <span>Buy</span></a></li>
-            <li class="site-settings-active-li"><a href="<?php echo $base_url; ?>subscription/your_subscription"><i class="fa fa-shield"></i> <span>Your Subscription</span></a></li>
+            <li class="subscriptions-list-active-li"><a href="<?php echo $base_url; ?>subscription"><i class="fa fa-calendar"></i> <span>Buy</span></a></li>
+            <li class="your-subscriptions-list-active-li"><a href="<?php echo $base_url; ?>subscription/your_subscription"><i class="fa fa-th-large text-aqua"></i> <span>Your Subscription</span></a></li>
         
 						
             

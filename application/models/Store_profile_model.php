@@ -475,7 +475,10 @@ class Store_profile_model extends CI_Model
 
 		);
 
+		if($mail_verified == 1){
+			$info['mail_verified'] = 1;
 
+		}
 		$q1 = $this->db->insert('db_users', $info);
 		$user = $this->db->select("*")->limit(1)->order_by('id', "DESC")->get("db_users")->row();
 		$data = array(
