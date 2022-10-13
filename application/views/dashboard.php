@@ -408,6 +408,62 @@
           </div>
           <!-- /.box -->
         </div>
+        <div class="col-md-6">
+          <!-- PRODUCT LIST -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title text-uppercase"> Expired Item</h3>
+							<a href="<?= base_url('reports/item_expired') ?>"><button class="btn btn-success pull-right">View more</button></a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive ">
+                      <table class="table ">
+                        <tr class=''>
+                          <td>Sl.No</td>
+                          <td><?= $this->lang->line('item_name'); ?></td>
+                          <td><?= $this->lang->line('date'); ?></td>
+                          <td><?= $this->lang->line('item_sales_price'); ?></td>
+                         <td>QTY</td>
+                        </tr>
+                        <tbody>
+                <?php
+                    $i=1;
+										$to_date = date('Y-m-d');
+										$from_date = date('Y-m-d', strtotime("-30 days"));
+										$qs5="SELECT id,item_name,sales_price ,expire_date FROM db_items where status=1  and expire_date >='$from_date' and expire_date <='$to_date'"." ORDER BY id desc limit 10";
+									
+                   // $qs5="SELECT id,item_name,sales_price ,expire_date FROM db_items where status=1  and expire_date=".date('Y-m-d')."<=".date('Y-m-d',strtotime('+30 day'))." ORDER BY id desc limit 10";
+                    $q5=$this->db->query($qs5);
+                    if($q5->num_rows() >0){
+                      
+                      foreach($q5->result() as $res5){
+                        ?>
+                        <tr>
+                          <td><?php echo $i++; ?></td>
+                          <td><?php echo $res5->item_name; ?></td>
+                          <td><?php echo $res5->expire_date; ?></td>
+                          <td><?php echo $CI->currency($res5->sales_price,$with_comma=true); ?></td>
+                          <td><?= number_format(get_total_qty_of_warehouse_item($res5->id),2) ?></td>
+                        </tr>
+                        
+                        <?php
+                      }
+                    }
+                    ?>
+                    </tbody>
+                    <?php if($CI->session->userdata('inv_userid')==1){ ?> 
+                      <tfoot>
+                      <tr>
+                        <td colspan="3" class="text-center"><a href="<?php echo $base_url; ?>items" class="uppercase"><?= $this->lang->line('view_all'); ?></a></td>
+                      </tr>
+                    </tfoot>
+                    <?php } ?>
+                  </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
       </div>
       
 

@@ -1072,6 +1072,9 @@ class Reports_model extends CI_Model
 		
 		$store_id = $this->input->post('store_id');
 		$warehouse_id = $this->input->post('warehouse_id');
+		$start_date = $this->input->post('start_date');
+		$end_date = $this->input->post('end_date');
+		
 		$CI = &get_instance();
 		$info = array();
 
@@ -1089,6 +1092,16 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("a.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("a.created_date <=", $end_date);
+		}
+
 
 		$this->db->select("SUM(b.adjustment_qty * a.purchase_price) AS  opening_stock_price");
 		$this->db->from("db_items AS a , db_stockadjustmentitems AS b");
@@ -1097,7 +1110,7 @@ class Reports_model extends CI_Model
 		$opening_stock_price = $this->db->get()->row()->opening_stock_price;
 		$info['opening_stock_price'] = (store_number_format($opening_stock_price));
 
-
+		
 
 		//total purchase amt
 		if (store_module() && is_admin()) {
@@ -1110,6 +1123,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("b.warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("b.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("b.created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(a.tax_amt),0) AS tax_amt");
 		$this->db->from("db_purchaseitems as a,db_purchase as b");
@@ -1133,6 +1155,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(grand_total),0) AS pur_total");
 		$this->db->from("db_purchase");
 		$this->db->where("purchase_status='Received'");
@@ -1154,6 +1185,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(other_charges_amt),0) AS other_charges_amt");
 		$this->db->from("db_purchase");
 		$this->db->where("purchase_status='Received'");
@@ -1173,6 +1213,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("b.warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("b.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("b.created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(a.discount_amt),0) AS discount_amt");
 		$this->db->from("db_purchaseitems as a,db_purchase as b");
@@ -1207,6 +1256,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(paid_amount),0) AS paid_amount");
 		$this->db->from("db_purchase");
 		$purchase_paid_amount = $this->db->get()->row()->paid_amount;
@@ -1223,6 +1281,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("b.warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("b.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("b.created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(tax_amt),0) AS tax_amt");
 		$this->db->join('db_purchasereturn as b','b.id = db_purchaseitemsreturn.return_id','left');
@@ -1241,6 +1308,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(grand_total),0) AS pur_total");
 		$this->db->from("db_purchasereturn");
@@ -1281,6 +1357,15 @@ class Reports_model extends CI_Model
 			
 		 	$this->db->where("b.warehouse_id", $warehouse_id);
 		 }
+		 if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("b.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("b.created_date <=", $end_date);
+		}
 		$this->db->join('db_purchasereturn as b','b.id = db_purchaseitemsreturn.return_id','left');
 		$this->db->select("COALESCE(SUM(discount_amt),0) AS discount_amt");
 		$this->db->from("db_purchaseitemsreturn");
@@ -1318,6 +1403,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(paid_amount),0) AS paid_amount");
 		$this->db->from("db_purchasereturn");
 		$purchase_return_paid_amount = $this->db->get()->row()->paid_amount;
@@ -1337,6 +1431,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("b.warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("b.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("b.created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(a.tax_amt),0) AS tax_amt");
 		$this->db->from("db_salesitems as a,db_sales as b");
@@ -1358,6 +1461,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(other_charges_amt),0) AS other_charges_amt");
 		$this->db->from("db_sales");
 		$this->db->where("sales_status='Final'");
@@ -1378,6 +1490,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("b.warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("b.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("b.created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(a.discount_amt),0) AS discount_amt");
 		$this->db->from("db_salesitems as a,db_sales as b");
@@ -1413,6 +1534,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 		$this->db->where('b.warehouse_id',$warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("b.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("b.created_date <=", $end_date);
+		}
 		$this->db->where("b.sales_status='Final'");
 		$coupon_discount_amt = $this->db->get()->row()->coupon_amt;
 		$info['coupon_discount_amt'] = (store_number_format($coupon_discount_amt));
@@ -1432,6 +1562,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(sum(grand_total),0) AS tot_sal_grand_total");
 		$this->db->from("db_sales");
@@ -1454,6 +1593,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(paid_amount),0) AS paid_amount");
 		$this->db->from("db_sales");
 		$sales_paid_amount = $this->db->get()->row()->paid_amount;
@@ -1472,6 +1620,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(tax_amt),0) AS tax_amt");
 		$this->db->join('db_salesreturn as b','b.id = db_salesitemsreturn.return_id','left');
@@ -1495,6 +1652,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(grand_total),0) AS sal_total");
 		$this->db->from("db_salesreturn");
 		$sal_return_total = $this->db->get()->row()->sal_total;
@@ -1515,6 +1681,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(other_charges_amt),0) AS other_charges_amt");
 		$this->db->from("db_salesreturn");
 		$sal_return_other_charges_amt = $this->db->get()->row()->other_charges_amt;
@@ -1531,6 +1706,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("b.warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("b.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("b.created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(b.coupon_amt),0) AS coupon_amt");
 		$this->db->from("db_salesreturn as b");
@@ -1549,6 +1733,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("b.warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("b.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("b.created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(discount_amt),0) AS discount_amt");
 		$this->db->join('db_salesreturn as b','b.id = db_salesitemsreturn.return_id','left');
 		$this->db->from("db_salesitemsreturn");
@@ -1565,6 +1758,15 @@ class Reports_model extends CI_Model
 			if (!empty($warehouse_id)) {
 			
 				$this->db->where("warehouse_id", $warehouse_id);
+			}
+			if (!empty($start_date)) {
+				$start_date = system_fromatted_date($start_date);
+				$this->db->where("created_date >=", $start_date);
+			}
+	
+			if (!empty($end_date)) {
+				$end_date = system_fromatted_date($end_date);
+				$this->db->where("created_date <=", $end_date);
 			}
 			$this->db->select("COALESCE(SUM(tot_discount_to_all_amt),0) AS tot_discount_to_all_amt");
 			$this->db->from("db_salesreturn");
@@ -1585,6 +1787,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(paid_amount),0) AS paid_amount");
 		$this->db->from("db_salesreturn");
 		$sales_return_paid_amount = $this->db->get()->row()->paid_amount;
@@ -1603,6 +1814,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(expense_amt),0) AS exp_total");
 		$this->db->from("db_expense");
 		$exp_total = $this->db->get()->row()->exp_total;
@@ -1619,6 +1839,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(purchase_due),0) AS purchase_due");
 		$this->db->from("db_suppliers");
@@ -1637,6 +1866,15 @@ class Reports_model extends CI_Model
 			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
+		}
 		$this->db->select("COALESCE(SUM(purchase_return_due),0) AS purchase_due");
 		$this->db->from("db_suppliers");
 		$purchase_return_due_total = $this->db->get()->row()->purchase_due;
@@ -1653,6 +1891,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(sales_due),0) AS sales_due");
 		$this->db->from("db_customers");
@@ -1671,6 +1918,15 @@ class Reports_model extends CI_Model
 		if (!empty($warehouse_id)) {
 			
 			$this->db->where("warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("created_date <=", $end_date);
 		}
 		$this->db->select("COALESCE(SUM(sales_return_due),0) AS return_due");
 		$this->db->from("db_customers");
@@ -1691,7 +1947,15 @@ class Reports_model extends CI_Model
 			$this->db->where("c.warehouse_id", $warehouse_id);
 		}
 
-		
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("c.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("c.created_date <=", $end_date);
+		}
 		//select
 		$this->db->select("a.coupon_amt");
 		$this->db->select("b.item_id, b.tax_amt, b.sales_qty, b.total_cost");
@@ -1888,7 +2152,7 @@ class Reports_model extends CI_Model
 
 		$from_date = system_fromatted_date($from_date);
 		$to_date = system_fromatted_date($to_date);
-
+		
 
 		if (warehouse_module() && warehouse_count() > 0 && !empty($warehouse_id)) {
 			$this->db->where("c.warehouse_id", $warehouse_id);
@@ -2004,8 +2268,7 @@ class Reports_model extends CI_Model
 
 		$from_date = system_fromatted_date($from_date);
 		$to_date = system_fromatted_date($to_date);
-
-
+		
 
 		if (warehouse_module() && warehouse_count() > 0 && !empty($warehouse_id)) {
 			$this->db->where("a.warehouse_id", $warehouse_id);

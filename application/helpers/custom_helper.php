@@ -398,7 +398,7 @@
   }
 
   function get_init_code($value,$store_id='',$only_code_flag=false){
-    $store_id = (!empty($store_id)) ? $store_id : get_current_store_id();
+    $warehouse_id = get_store_warehouse_id();
 
     $CI =& get_instance();
     if($value=='category')
@@ -440,7 +440,8 @@
     if($value=='custadvance')
       $CI->db->select("cust_advance_init");
 
-    $query = $CI->db->where('id',$store_id)->get('db_store')->row();
+    $query = $CI->db->where('id',$warehouse_id)->get('db_warehouse')->row();
+    
     if($value=='category'){
       $maxid=get_count_id('db_category');
       return $query->category_init.str_pad($maxid, 4, '0', STR_PAD_LEFT);
