@@ -387,7 +387,7 @@
                           <td><?php echo $res5->item_name; ?></td>
                           <td><?php echo $res5->expire_date; ?></td>
                           <td><?php echo $CI->currency($res5->sales_price,$with_comma=true); ?></td>
-                          <td><?= number_format(get_total_qty_of_warehouse_item($res5->id),2) ?></td>
+                          <td><?= number_format(total_available_qty_items_of_warehouse(null,null,$res5->id)) ?></td>
                         </tr>
                         
                         <?php
@@ -443,7 +443,8 @@
                           <td><?php echo $res5->item_name; ?></td>
                           <td><?php echo $res5->expire_date; ?></td>
                           <td><?php echo $CI->currency($res5->sales_price,$with_comma=true); ?></td>
-                          <td><?= number_format(get_total_qty_of_warehouse_item($res5->id),2) ?></td>
+                          <td><?= number_format(total_available_qty_items_of_warehouse(null,null,$res5->id)) ?></td>
+                         
                         </tr>
                         
                         <?php
