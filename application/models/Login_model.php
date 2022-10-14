@@ -48,9 +48,11 @@ class Login_model extends CI_Model
 		}
 		//============================================================================================
 
-		$this->db->select("a.email,a.mail_verified,a.store_id,a.id,a.username,a.role_id,b.role_name,a.status,a.last_name");
+		$this->db->select("a.email,a.mail_verified,a.store_id,c.warehouse_id as warehouse_id,a.id,a.username,a.role_id,b.role_name,a.status,a.last_name");
 		$this->db->from("db_users a");
 		$this->db->from("db_roles b");
+		$this->db->join("db_userswarehouses as  c","a.id = c.user_id","left");
+		
 		$this->db->where("b.id=a.role_id");
 		$this->db->where("a.email",$email);
 		$this->db->where("a.password",md5($password));
@@ -77,10 +79,17 @@ class Login_model extends CI_Model
 
 			}
 			
+			$this->db->select("status");
+		$this->db->from("db_warehouse");
+		$this->db->where("id",$query->row()->warehouse_id);
+		$query_1 = $this->db->get();
+		if($query_1->num_rows()==1){
+			if($query_1->row()->status != 1 ){
+				$this->session->set_flashdata('failed', 'Your warehouse is inactive...');
+				redirect('login');
+			}
 
-
-
-
+		}
 
 			$store_rec = get_store_details_login($query->row()->store_id);
 			//STORE ACTIVE OR NOT

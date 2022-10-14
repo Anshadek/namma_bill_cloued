@@ -40,17 +40,19 @@ class Super_admin extends MY_Controller
 			$pay_status = $this->input->post('filter_pay_status');
 			$status = $this->input->post('filter_status');
 			$date = $this->input->post('filter_date');
-			if (!empty($pay_status)) {
+			
+			if ($pay_status == 0 || $pay_status == 1) {
 				$this->db->where('pay_status', $pay_status);
 			}
 			if ($status == 0 || $status == 1) {
-
+				
 				$this->db->where('status', $status);
 			}
 			if (!empty($date)) {
-
+				
 				$this->db->where('created_date', $date);
 			}
+			
 			$res = $this->db->get();
 			$data['warehouses'] = $res->result();
 		} else {

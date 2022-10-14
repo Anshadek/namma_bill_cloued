@@ -104,6 +104,7 @@
 											<th>Pay status</th>
 											<th><?= $CI->lang->line('status'); ?></th>
 											<th>Package</th>
+											<th>Created From</th>
 											<th><?= $CI->lang->line('action'); ?></th>
 										</tr>
 									</thead>
@@ -199,6 +200,13 @@
 
 																	-- 
 																	<?php } ?>
+
+													</td>
+													<td>
+														
+																
+																<?=  $res1->created_from  ?>
+																
 
 													</td>
 													<td>

@@ -59,7 +59,13 @@
 											<?php
 											$CI = &get_instance();
 											$i = 1;
-											$q1 = $this->db->select("*")->where('warehouse_type', 'System')->get("db_warehouse");
+											$to_date = date('Y-m-d');
+											 $from_date = date('Y-m-d', strtotime("-30 days"));
+											$q1 = $this->db->select("*")
+											->where('warehouse_type', 'System')
+											->where('created_date >=',$from_date)
+											->where('created_date <=',$to_date)
+											->get("db_warehouse");
 											if ($q1->num_rows() > 0) {
 												foreach ($q1->result() as $res1) {
 											?>

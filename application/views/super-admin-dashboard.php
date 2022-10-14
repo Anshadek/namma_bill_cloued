@@ -173,7 +173,9 @@
                                  <?php
                                  $CI =& get_instance();
                                     $i=1;
-                                         $q1= $this->db->select("*")->where('warehouse_type','System')->get("db_warehouse");
+                                         $q1= $this->db->select("*")
+										 ->where('warehouse_type','System')
+										 ->get("db_warehouse");
                                     if($q1->num_rows()>0){
                                            foreach ($q1->result() as $res1){
                                         ?>
@@ -185,8 +187,8 @@
                                     <td><?php echo $res1->warehouse_name;?> </td>
                                     <td><?php echo $res1->mobile;?> </td>
                                     <td><?php echo $res1->email;?> </td>
-																		<td><?php echo $res1->created_date;?> </td>
-																		<td><?php echo date('Y-m-d', strtotime("+1 year", strtotime($res1->created_date)));?> </td>
+									<td><?php echo $res1->created_date;?> </td>
+									<td><?php echo date('Y-m-d', strtotime("+1 year", strtotime($res1->created_date)));?> </td>
                                  </tr>
                                  <?php
                                     }
@@ -238,9 +240,15 @@
                               </thead>
                               <tbody>
                                  <?php
+								 	$to_date = date('Y-m-d');
+									 $from_date = date('Y-m-d', strtotime("-30 days"));
                                  $CI =& get_instance();
                                     $i=1;
-                                         $q1= $this->db->select("*")->where('warehouse_type','System')->get("db_warehouse");
+                                         $q1= $this->db->select("*")
+										 ->where('warehouse_type','System')
+										 ->where('created_date >=',$from_date)
+										 ->where('created_date <=',$to_date)
+										 ->get("db_warehouse");
                                     if($q1->num_rows()>0){
                                            foreach ($q1->result() as $res1){
                                         ?>

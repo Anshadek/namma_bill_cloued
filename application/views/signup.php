@@ -130,6 +130,7 @@
                                             <input type="hidden" name="mail_verified" value="0">
                                             <input type="hidden" name="phone" value="">
                                             <input type="hidden" name="bank_details" value="">
+                                            <input type="hidden" name="created_from" value="Web User">
                                                 <div class="row">
                                                     <div class="col-md-6 mb-1">
                                                         <label class="form-label" for="email">Email<span class="req_star">*</span></label>
@@ -183,7 +184,7 @@
                                             </div>
                                             <p class="text-center mt-2"><span>Already have an account?</span><a href="<?= base_url() ?>"><span>&nbsp;Sign in instead</span></a></p>
                                         </div>
-                                        <div  id="personal-info" class="content" role="tabpanel" aria-labelledby="personal-info-trigger">
+                                        <div   id="personal-info" class="content" role="tabpanel" aria-labelledby="personal-info-trigger">
                                             <div class="content-header mb-2">
                                                 <h2 class="fw-bolder mb-75">Store Information</h2>
                                                 <span>Enter your Store Information</span>
@@ -211,7 +212,7 @@
                                                         <span id="pan_no_msg" class="error"></span>
                                                     </div>
                                                     <div class="col-12 mb-1">
-                                                        <label class="form-label" for="address">Address</label>
+                                                        <label class="form-label" for="address">Address <span class="req_star">*</span></label>
                                                         <input type="text" name="address" id="address" class="form-control" placeholder="Area, Street, Sector, Village" />
                                                         <span id="address_msg" class="error"></span>
                                                     </div>
@@ -376,6 +377,8 @@
             check_field("state");
             check_field("city");
             check_field("postcode");
+            check_field("address");
+            
             if (flag == false) {
                 toastr["warning"]("You have Missed Something to Fillup!")
                return;

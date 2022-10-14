@@ -519,6 +519,7 @@ class Store_profile_model extends CI_Model
 			'expense_payment_init'	=> 'EP/2022/',
 			'cust_advance_init'	=> 'CUA/2022/',
 			'status'					=> 1,
+			'created_from'              =>$created_from,
 			'bank_details'				=> $bank_details,
 			'created_date' 				=> $CUR_DATE,
 			'created_time' 				=> $CUR_TIME,
@@ -541,6 +542,7 @@ class Store_profile_model extends CI_Model
 		if (pan_number()) {
 			$data['pan_no'] = $pan_no;
 		}
+		
 		/*end*/
 
 
