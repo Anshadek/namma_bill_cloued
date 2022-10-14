@@ -238,6 +238,42 @@ function get_warehouse_category(datas){
 		alert('server not responding...');
 	});
 }
+function get_modal_warehouse_category(datas){
+	var warehouse_id = 0;
+	var selected = $('#selected_category').val();
+	if (selected > 0){
+
+	}else{
+		selected = 0;
+	}
+	
+	if (datas > 0){
+		warehouse_id = datas;
+	}else{
+		warehouse_id = datas.value;
+	}
+	
+	
+	var base_url = $('#base_url').val();
+	$.ajax({
+		url: base_url+'category/get_categories_select_list',
+		type: "post",
+		data: {
+			//store_id: $("#store_id").val(),
+			warehouse_id : warehouse_id,
+			selected : selected,
+			
+		},
+		beforeSend: function() {
+			$('.ajax-load').show();
+		}
+	}).done(function(data) {
+		$('#m_category_id').html(data);
+
+	}).fail(function(jqXHR, ajaxOptions, thrownError) {
+		alert('server not responding...');
+	});
+}
 function get_warehouse_brand(datas){
 	var warehouse_id = 0;
 	var selected = $('#selected_brand').val();
@@ -269,6 +305,42 @@ function get_warehouse_brand(datas){
 		}
 	}).done(function(data) {
 		$('#brand_id').html(data);
+
+	}).fail(function(jqXHR, ajaxOptions, thrownError) {
+		alert('server not responding...');
+	});
+}
+function get_warehouse_modal_brand(datas){
+	var warehouse_id = 0;
+	var selected = $('#selected_brand').val();
+	if (selected > 0){
+
+	}else{
+		selected = 0;
+	}
+	
+	if (datas > 0){
+		warehouse_id = datas;
+	}else{
+		warehouse_id = datas.value;
+	}
+	
+	
+	var base_url = $('#base_url').val();
+	$.ajax({
+		url: base_url+'brands/get_brands_select_list',
+		type: "post",
+		data: {
+			//store_id: $("#store_id").val(),
+			warehouse_id : warehouse_id,
+			selected : selected,
+			
+		},
+		beforeSend: function() {
+			$('.ajax-load').show();
+		}
+	}).done(function(data) {
+		$('#m_brand_id').html(data);
 
 	}).fail(function(jqXHR, ajaxOptions, thrownError) {
 		alert('server not responding...');
@@ -312,4 +384,41 @@ function get_warehouse_unit(datas){
 		alert('server not responding...');
 	});
 }
+function get_modal_warehouse_unit(datas){
+	
+	var warehouse_id = 0;
+	var selected = $('#selected_unit').val();
+	
+	if (selected > 0){
 
+	}else{
+		selected = 0;
+	}
+	
+	if (datas > 0){
+		warehouse_id = datas;
+	}else{
+		warehouse_id = datas.value;
+	}
+	
+	
+	var base_url = $('#base_url').val();
+	$.ajax({
+		url: base_url+'units/get_unit_select_list',
+		type: "post",
+		data: {
+			//store_id: $("#store_id").val(),
+			warehouse_id : warehouse_id,
+			selected : selected,
+			
+		},
+		beforeSend: function() {
+			$('.ajax-load').show();
+		}
+	}).done(function(data) {
+		$('#m_unit_id').html(data);
+
+	}).fail(function(jqXHR, ajaxOptions, thrownError) {
+		alert('server not responding...');
+	});
+}

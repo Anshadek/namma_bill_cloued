@@ -704,7 +704,7 @@
 
 		<script src="<?php echo $theme_link; ?>js/modals.js"></script>
 		<script src="<?php echo $theme_link; ?>js/modals/modal_item.js"></script>
-		<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=2"></script>
+		<script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=6"></script>
 		<!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
 		<div class="control-sidebar-bg"></div>
@@ -764,6 +764,9 @@
 		function get_warehouse_details(res) {
 			warehouse_id = $('#warehouse_id').val(res.value);
 			get_warehouse_customers(res.value);
+			get_warehouse_modal_brand(res.value);
+			get_modal_warehouse_category(res.value);
+			 get_modal_warehouse_unit(res.value);
 			$("#sales_table > tbody").empty();
 			final_total();
 		}

@@ -173,6 +173,8 @@ class Items_model extends CI_Model {
 		
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET,$modal_post))));
+		$expire_date = system_fromatted_date($expiry_date);
+		
 		
 		//varify max sales usage of the package subscription
 		//validate_package_offers('max_items','db_items');
@@ -221,7 +223,7 @@ class Items_model extends CI_Model {
 
 		
 		//Validate This items already exist or not
-		$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();
+		$store_id = get_current_store_id();
 		/*$query=$this->db->query("select * from db_items where upper(item_name)=upper('$item_name') and store_id=$store_id");
 		if($query->num_rows()>0){
 			return "Sorry! This Items Name already Exist.";
@@ -258,7 +260,7 @@ class Items_model extends CI_Model {
 			    				'hsn' 						=> $hsn,
 			    				'unit_id' 					=> $unit_id,
 			    				'alert_qty' 				=> $alert_qty,
-								'expire_date'         		=>$expiry_date,
+								'expire_date'         		=>system_fromatted_date($expiry_date),
 			    				'price' 					=> $price,
 			    				'tax_id' 					=> $tax_id,
 			    				'purchase_price' 			=> $purchase_price,

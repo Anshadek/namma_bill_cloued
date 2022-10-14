@@ -22,6 +22,17 @@
                           <div class="col-md-4">
                             <div class="box-body">
                               <div class="form-group">
+                                <label for="m_warehouse_id"><?= $this->lang->line('warehouse'); ?></label>
+                                <span id="warehouse_id_msg" class="text-danger text-right pull-right"></span>
+                                <select class="form-control " onchange="get_warehouse_details(this)" id="m_warehouse_id" name="m_warehouse_id"  style="width: 100%;">
+                                   <?= get_warehouse_select_list();?>
+                                 </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="box-body">
+                              <div class="form-group">
                                 <label for="m_brand"><?= $this->lang->line('brand'); ?></label>
                                 <span id="m_brand_msg" class="text-danger text-right pull-right"></span>
                                 <select class="form-control " id="m_brand_id" name="m_brand_id"  style="width: 100%;"  >
@@ -148,6 +159,16 @@
                               </div>
                             </div>
                           </div>
+                          <div class="col-md-4">
+                            <div class="box-body">
+                              <div class="form-group">
+                                <label for="m_custom_barcode">Expiry Date</label>
+                                <span id="m_custom_barcode_msg" class="text-danger text-right pull-right"></span>
+                                <input type="text" class="form-control only_currency datepicker" id="m_expiry_date" name="m_expiry_date" value="">
+                              </div>
+                            </div>
+                          </div>
+                         
 
                           <div class="col-md-4 hide">
                             <div class="box-body">
@@ -192,7 +213,7 @@
                               <div class="form-group">
                                 <label for="m_discount"><?= $this->lang->line('discount'); ?></label>
                                 <span id="m_discount_msg" class="text-danger text-right pull-right"></span>
-                                <input type="text" class="form-control maxlength no_special_char_no_space " id="m_discount" name="m_discount" placeholder=""  >
+                                <input type="text" class="form-control only_currency" id="m_discount" name="m_discount" placeholder=""  >
                               </div>
                             </div>
                           </div>
@@ -281,7 +302,7 @@
                               <div class="form-group">
                                 <label for="m_sales_price"><?= $this->lang->line('sales_price'); ?><span class="text-danger">*</span></label>
                                 <span id="m_sales_price_msg" class="text-danger text-right pull-right"></span>
-                                <input type="text" maxlength="10" class="form-control maxlength no_special_char_no_space " id="m_sales_price" name="m_sales_price" placeholder=""  >
+                                <input type="text" maxlength="10" class="form-control only_currency" id="m_sales_price" name="m_sales_price" placeholder=""  >
                               </div>
                             </div>
                           </div>
@@ -292,7 +313,7 @@
                                   <i class="fa fa-info-circle text-maroon text-black hover-q"></i>
                                 </i></label>
                                 <span id="m_mrp_msg" class="text-danger text-right pull-right"></span>
-                                <input type="text" maxlength="10" class="form-control maxlength no_special_char_no_space " id="m_mrp" name="m_mrp" placeholder="Maximum Retail Price"  >
+                                <input type="text" maxlength="10" class="form-control only_currency" id="m_mrp" name="m_mrp" placeholder="Maximum Retail Price"  >
                               </div>
                             </div>
                           </div>
@@ -313,17 +334,7 @@
 
                         <hr>
                         <div class="row">                          
-                          <div class="col-md-4">
-                            <div class="box-body">
-                              <div class="form-group">
-                                <label for="m_warehouse_id"><?= $this->lang->line('warehouse'); ?></label>
-                                <span id="warehouse_id_msg" class="text-danger text-right pull-right"></span>
-                                <select class="form-control " id="m_warehouse_id" name="m_warehouse_id"  style="width: 100%;">
-                                   <?= get_warehouse_select_list();?>
-                                 </select>
-                              </div>
-                            </div>
-                          </div>
+                         
                           <div class="col-md-4">
                             <div class="box-body">
                               <div class="form-group">

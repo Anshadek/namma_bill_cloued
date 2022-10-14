@@ -97,6 +97,7 @@ class Items extends MY_Controller {
 								'sales_price' => $this->input->post('m_sales_price'),
 								'mrp' => $this->input->post('m_mrp'),
 								'warehouse_id' => $this->input->post('m_warehouse_id'),
+								'expiry_date' => $this->input->post('m_expiry_date'),
 								'command' => 'save',
 							);
 			$result=$this->items->save_record($modal_post);

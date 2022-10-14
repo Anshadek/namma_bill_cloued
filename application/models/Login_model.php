@@ -85,7 +85,7 @@ class Login_model extends CI_Model
 		$query_1 = $this->db->get();
 		if($query_1->num_rows()==1){
 			if($query_1->row()->status != 1 ){
-				$this->session->set_flashdata('failed', 'Your warehouse is inactive...');
+				$this->session->set_flashdata('failed', 'Your warehouse is inactive.contact customer support');
 				redirect('login');
 			}
 
