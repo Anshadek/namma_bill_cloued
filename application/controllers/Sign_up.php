@@ -112,6 +112,16 @@ class Sign_up extends MY_Controller {
 	}
 
  }
+ function check_mail_exists(){
+	$q1=$this->db->select("*")
+		->where('email',$_POST['email'])
+		->from("db_users")->get();
+		 if($q1->num_rows()>0){
+			echo true;
+		 }else{
+			echo false;
+		 }
+ }
 	
 
 }

@@ -313,12 +313,12 @@ class Store_profile_model extends CI_Model
 
 
 		$this->db->trans_begin();
-		if (!empty($mobile)) {
-			$query = $this->db->query("select * from db_users where mobile='$mobile'")->num_rows();
-			if ($query > 0) {
-				return "This Moble Number already exist.";
-			}
-		}
+		// if (!empty($mobile)) {
+		// 	$query = $this->db->query("select * from db_users where mobile='$mobile'")->num_rows();
+		// 	if ($query > 0) {
+		// 		return "This Moble Number already exist.";
+		// 	}
+		// }
 		if (!empty($email)) {
 			$query = $this->db->query("select * from db_users where email='$email'")->num_rows();
 			if ($query > 0) {

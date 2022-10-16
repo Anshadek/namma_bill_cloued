@@ -29,6 +29,7 @@ class Subscription extends MY_Controller {
 			'razorpay_payment_id'		=> $data_arr['razorpay_payment_id'],
 			'razorpay_signature'		=> $data_arr['razorpay_signature'],
 			'created_date'		=>  date("Y/m/d"),
+      'created_time' => date('H:i:s'),
 			'created_by'		=> 'store',
 			'status'			=> 'active',
 			'type'			=> 'subscription',

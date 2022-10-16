@@ -40,19 +40,19 @@ class Super_admin extends MY_Controller
 			$pay_status = $this->input->post('filter_pay_status');
 			$status = $this->input->post('filter_status');
 			$date = $this->input->post('filter_date');
-			
+
 			if ($pay_status == 0 || $pay_status == 1) {
 				$this->db->where('pay_status', $pay_status);
 			}
 			if ($status == 0 || $status == 1) {
-				
+
 				$this->db->where('status', $status);
 			}
 			if (!empty($date)) {
-				
+
 				$this->db->where('created_date', $date);
 			}
-			
+
 			$res = $this->db->get();
 			$data['warehouses'] = $res->result();
 		} else {
@@ -86,12 +86,82 @@ class Super_admin extends MY_Controller
 	}
 	public function view_store($id)
 	{
-		//print_r($id);
+		
+			//print_r($id);
 		//die();
 		//$this->belong_to('db_warehouse',$id);
-
+		$package = array();
 		$data = $this->warehouse->get_details($id);
+		$store  = $this->db->select('store_code')
+			->where('id', $data['store_id'])
+			->limit(1)
+			->get('db_store')
+			->row();
+
+		//currant pacakage
+		$q1 = $this->db->select("type")
+			->where('warehouse_id', $id)
+			->order_by("id", "desc")
+			->limit(1)
+			->get("db_store_purchased_packages")->row();
+
+		if (!empty($q1)) {
+
+			if ($q1->type == 'trial') {
+
+				$q2 = $this->db->select("db_trialpackage.name,
+										db_trialpackage.day_or_month,
+										db_store_purchased_packages.created_date,
+										db_store_purchased_packages.razorpay_payment_id,
+										db_store_purchased_packages.created_by,
+										db_store_purchased_packages.razorpay_signature,
+										db_store_purchased_packages.status,
+										db_trialpackage.days")
+					->where('warehouse_id', $id)
+					->join(
+						'db_trialpackage',
+						'db_trialpackage.id = db_store_purchased_packages.package_id',
+						'left'
+					)
+					->order_by("db_store_purchased_packages.id", "desc")
+					->limit(1)
+					->get("db_store_purchased_packages")->row();
+
+				$package  = $q2;
+				$package->type = 'trial';
+			} else {
+
+				$q2 = $this->db->select("db_package_subscription.name,
+										db_store_purchased_packages.created_date,
+										db_store_purchased_packages.razorpay_payment_id,
+										db_store_purchased_packages.razorpay_signature,
+										db_store_purchased_packages.created_by,
+										db_package_subscription.validity,
+										db_package_subscription.user_count,
+										db_package_subscription.warehouse_count,
+										db_package_subscription.is_unlimited,
+										db_store_purchased_packages.status,
+										db_package_subscription.amount")
+					->where('warehouse_id', $id)
+					->join(
+						'db_package_subscription',
+						'db_package_subscription.id = db_store_purchased_packages.package_id',
+						'left'
+					)
+					->order_by("db_store_purchased_packages.id", "desc")
+					->limit(1)
+					->get("db_store_purchased_packages")->row();
+				$package  = $q2;
+				$package->type = 'subscription';
+			}
+		}
+		//=====
+		$data['store_code'] = $store->store_code;
+		$data['package_type'] = $package->type;
+		$data['package'] = $package->name;
+		$data['active_package'] = $package;
 		$data['page_title'] = 'View Store';
+
 		$this->load->view('super_admin/view-store', $data);
 	}
 	public function create_store()
@@ -483,7 +553,7 @@ class Super_admin extends MY_Controller
 		$this->db->select();
 		$this->db->from('db_store_purchased_packages');
 		$this->db->where('package_id', $id);
-		$this->db->where('type','subscription');
+		$this->db->where('type', 'subscription');
 		$this->db->where('created_date >= date("' . $start_date . '")');
 		$this->db->where('created_date <= date("' . $end_date . '")');
 		if ($this->db->get()->num_rows() > 0) {
@@ -525,6 +595,7 @@ class Super_admin extends MY_Controller
 			'warehouse_id'	=> $warehouse_id,
 			'package_id'		=> $package_id,
 			'created_date'	=> $date,
+			'created_time' => date('H:i:s'),
 			'status'	=> $status,
 			'created_by'	=> 'super_admin',
 			'type'	=> 'subscription',

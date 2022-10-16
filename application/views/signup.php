@@ -9,6 +9,8 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <title><?php print $SITE_TITLE; ?> | Sign Up</title>
+    <!-- CSRF token (Here, name is 'csrf_hash_name' which is specified in $config['csrf_token_name'] in cofig.php file ) -->
+    <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>"><br>
     <?php
     $theme_link =  base_url() . 'theme/';
     ?>
@@ -48,15 +50,17 @@
 
 <!-- BEGIN: Body-->
 <style>
-     .error:not(input) {
-    color: #ea5455;
-    
-}
- span.error {
-    width: 100%;
-    font-size: 0.857rem;
-}
+    .error:not(input) {
+        color: #ea5455;
+
+    }
+
+    span.error {
+        width: 100%;
+        font-size: 0.857rem;
+    }
 </style>
+
 <body class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="blank-page">
     <!-- BEGIN: Content-->
     <div class="app-content content ">
@@ -119,22 +123,22 @@
                                     </div>
 
                                     <div class="bs-stepper-content px-0 mt-4">
-                                        <div id="account-details" class="content" role="tabpanel" aria-labelledby="account-details-trigger">
+                                        <div  id="account-details" class="content" role="tabpanel" aria-labelledby="account-details-trigger">
                                             <div class="content-header mb-2">
                                                 <h2 class="fw-bolder mb-75">Account Information</h2>
                                                 <span>Enter your username password details</span>
                                             </div>
                                             <input type="hidden" id="base_url" value="<?php echo base_url(); ?>">
                                             <form id="sign-up-form">
-                                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                                            <input type="hidden" name="mail_verified" value="0">
-                                            <input type="hidden" name="phone" value="">
-                                            <input type="hidden" name="bank_details" value="">
-                                            <input type="hidden" name="created_from" value="Web User">
+                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                                <input type="hidden" name="mail_verified" value="0">
+                                                <input type="hidden" name="phone" value="">
+                                                <input type="hidden" name="bank_details" value="">
+                                                <input type="hidden" name="created_from" value="Web User">
                                                 <div class="row">
                                                     <div class="col-md-6 mb-1">
                                                         <label class="form-label" for="email">Email<span class="req_star">*</span></label>
-                                                        <input type="email" name="email" id="email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+                                                        <input type="email" name="email" id="email" class="form-control" onkeyup="check_exists_or_not()" placeholder="john.doe@email.com" aria-label="john.doe" />
                                                         <span id="email_msg" class="error"></span>
                                                     </div>
 
@@ -170,126 +174,118 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            
-                                            
-                                            <div class="d-flex justify-content-between mt-2">
-                                                <button class="btn btn-outline-secondary btn-prev" disabled>
-                                                    <i data-feather="chevron-left" class="align-middle me-sm-25 me-0"></i>
-                                                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                                </button>
-                                                <label style="cursor: pointer;" id="next_btn" onclick="next_form('#account-details','#personal-info')" class="btn btn-primary">
-                                                    <span class="align-middle d-sm-inline-block d-none">Next</span>
-                                                    <i data-feather="chevron-right" class="align-middle ms-sm-25 ms-0"></i>
-                                                </label>
-                                            </div>
-                                            <p class="text-center mt-2"><span>Already have an account?</span><a href="<?= base_url() ?>"><span>&nbsp;Sign in instead</span></a></p>
+
+
+                                                <div class="d-flex justify-content-between mt-2">
+                                                    <button class="btn btn-outline-secondary btn-prev" disabled>
+                                                        <i data-feather="chevron-left" class="align-middle me-sm-25 me-0"></i>
+                                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                                    </button>
+                                                    <label style="cursor: pointer;" id="next_btn" onclick="next_form('#account-details','#personal-info')" class="btn btn-primary">
+                                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                                        <i data-feather="chevron-right" class="align-middle ms-sm-25 ms-0"></i>
+                                                    </label>
+                                                </div>
+                                                <p class="text-center mt-2"><span>Already have an account?</span><a href="<?= base_url() ?>"><span>&nbsp;Sign in instead</span></a></p>
                                         </div>
-                                        <div   id="personal-info" class="content" role="tabpanel" aria-labelledby="personal-info-trigger">
+                                        <div  id="personal-info" class="content" role="tabpanel" aria-labelledby="personal-info-trigger">
                                             <div class="content-header mb-2">
                                                 <h2 class="fw-bolder mb-75">Store Information</h2>
                                                 <span>Enter your Store Information</span>
                                             </div>
 
-                                                <div class="row">
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="store_name">Store Name<span class="req_star">*</span></label>
-                                                        <input type="text" name="store_name" id="store_name" class="form-control" placeholder="Store Name" />
-                                                        <span id="store_name_msg" class="error"></span>
-                                                    </div>
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="store_website">Store Website</label>
-                                                        <input type="text" name="store_website" id="store_website" class="form-control" placeholder="Website" />
-                                                        <span id="store_website_msg" class="error"></span>
-                                                    </div>
-                                                    <div class="col-12 mb-1">
-                                                        <label class="form-label" for="vat_no">VAT Number</label>
-                                                        <input type="text" name="vat_no" id="vat_no" class="form-control" placeholder="VAT Number" />
-                                                        <span id="vat_no_msg" class="error"></span>
-                                                    </div>
-                                                    <div class="col-12 mb-1">
-                                                        <label class="form-label" for="pan_no">PAN Number<span class="req_star">*</span></label>
-                                                        <input type="text" name="pan_no" id="pan_no" class="form-control" placeholder="PAN Number" />
-                                                        <span id="pan_no_msg" class="error"></span>
-                                                    </div>
-                                                    <div class="col-12 mb-1">
-                                                        <label class="form-label" for="address">Address <span class="req_star">*</span></label>
-                                                        <input type="text" name="address" id="address" class="form-control" placeholder="Area, Street, Sector, Village" />
-                                                        <span id="address_msg" class="error"></span>
-                                                    </div>
-                                                   
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="country">Country<span class="req_star">*</span></label>
-                                                        <select class="select2 w-100 form-control" name="country" id="country">
-                                                        <option class="hidden" selected=""  disabled="">Please select your Country</option>
-											<?php
-                                                            $query1="select * from db_country where status=1";
-                                                            $q1=$this->db->query($query1);
-                                                            if($q1->num_rows($q1)>0)
-                                                             {
-                                                              //echo '<option value="">-Select-</option>'; 
-                                                                 foreach($q1->result() as $res1)
-                                                               {
-                                                                 $selected = ($res1->country ==$country) ? 'selected' : '';
-                                                                 echo "<option $selected   value='".$res1->country."'>".$res1->country."</option>";
-                                                               }
-                                                             }
-                                                             else
-                                                             {
-                                                                ?>
-                                                         <option value="">No Records Found</option>
-                                                         <?php
-                                                            }
-                                                            ?>
-
-                                                        </select>
-                                                        <span id="country_msg" class="error"></span>
-                                                    </div>
-
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="state">State<span class="req_star">*</span></label>
-                                                        <select class="select2 w-100 form-control" name="state" id="state">
-                                                        <option class="hidden" selected="" disabled="">Please select your State</option>
-                                                <?php
-                                                            $query2="select * from db_states where status=1";
-                                                            $q2=$this->db->query($query2);
-                                                            if($q2->num_rows()>0)
-                                                             {
-                                                              echo '<option value="">-Select-</option>'; 
-                                                              foreach($q2->result() as $res1)
-                                                               {
-                                                                 $selected = ($res1->state ==$state) ? 'selected' : '';
-                                                                 echo "<option $selected value='".$res1->state."'>".$res1->state."</option>";
-                                                               }
-                                                             }
-                                                             else
-                                                             {
-                                                                ?>
-                                                         <option value="">No Records Found</option>
-                                                         <?php
-                                                            }
-                                                            ?>
-
-                                                        </select>
-                                                        <span id="state_msg" class="error"></span>
-                                                    </div>
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="city">Town/City<span class="req_star">*</span></label>
-                                                        <input type="text" name="city" id="city" class="form-control" placeholder="Town/City" />
-                                                        <span id="city_msg" class="error"></span>
-                                                    </div>
-                                                    <div class="col-md-6 mb-1">
-                                                        <label class="form-label" for="postcode">PIN code<span class="req_star">*</span></label>
-                                                        <input type="text" name="postcode" id="postcode" class="form-control postcode-mask" placeholder="Code" maxlength="6" />
-                                                        <span id="postcode_msg" class="error"></span>
-                                                    </div>
+                                            <div class="row">
+                                                <div class="mb-1 col-md-6">
+                                                    <label class="form-label" for="store_name">Store Name<span class="req_star">*</span></label>
+                                                    <input type="text" name="store_name" id="store_name" class="form-control" placeholder="Store Name" />
+                                                    <span id="store_name_msg" class="error"></span>
                                                 </div>
+                                                <div class="mb-1 col-md-6">
+                                                    <label class="form-label" for="store_website">Store Website</label>
+                                                    <input type="text" name="store_website" id="store_website" class="form-control" placeholder="Website" />
+                                                    <span id="store_website_msg" class="error"></span>
+                                                </div>
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="vat_no">VAT Number</label>
+                                                    <input type="text" name="vat_no" id="vat_no" class="form-control" placeholder="VAT Number" />
+                                                    <span id="vat_no_msg" class="error"></span>
+                                                </div>
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="pan_no">PAN Number<span class="req_star">*</span></label>
+                                                    <input type="text" name="pan_no" id="pan_no" class="form-control" placeholder="PAN Number" />
+                                                    <span id="pan_no_msg" class="error"></span>
+                                                </div>
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="address">Address <span class="req_star">*</span></label>
+                                                    <input type="text" name="address" id="address" class="form-control" placeholder="Area, Street, Sector, Village" />
+                                                    <span id="address_msg" class="error"></span>
+                                                </div>
+
+                                                <div class="mb-1 col-md-6">
+                                                    <label class="form-label" for="country">Country<span class="req_star">*</span></label>
+                                                    <select onchange="get_states(this.value)" class="select2 w-100 form-control" name="country" id="country">
+                                                        <option class="hidden" selected="" disabled="">Please select your Country</option>
+                                                        <?php
+                                                        $query1 = "select * from db_country where status=1";
+                                                        $q1 = $this->db->query($query1);
+                                                        if ($q1->num_rows($q1) > 0) {
+                                                            //echo '<option value="">-Select-</option>'; 
+                                                            foreach ($q1->result() as $res1) {
+                                                              
+                                                                echo "<option    value='" . $res1->country . "'>" . $res1->country . "</option>";
+                                                            }
+                                                        } else {
+                                                        ?>
+                                                            <option value="">No Records Found</option>
+                                                        <?php
+                                                        }
+                                                        ?>
+
+                                                    </select>
+                                                    <span id="country_msg" class="error"></span>
+                                                </div>
+
+                                                <div class="mb-1 col-md-6">
+                                                    <label class="form-label" for="state">State<span class="req_star">*</span></label>
+                                                    <select class="select2 w-100 form-control" name="state" id="state">
+                                                        <option class="hidden" selected="" disabled="">Please select your State</option>
+                                                        <?php
+                                                        $query2 = "select * from db_states where status=1";
+                                                        $q2 = $this->db->query($query2);
+                                                        if ($q2->num_rows() > 0) {
+                                                            echo '<option value="">-Select-</option>';
+                                                            foreach ($q2->result() as $res1) {
+                                                             
+                                                                echo "<option value='" . $res1->state . "'>" . $res1->state . "</option>";
+                                                            }
+                                                        } else {
+                                                        ?>
+                                                            <option value="">No Records Found</option>
+                                                        <?php
+                                                        }
+                                                        ?>
+
+                                                    </select>
+                                                    <span id="state_msg" class="error"></span>
+                                                </div>
+                                                <div class="mb-1 col-md-6">
+                                                    <label class="form-label" for="city">Town/City<span class="req_star">*</span></label>
+                                                    <input type="text" name="city" id="city" class="form-control" placeholder="Town/City" />
+                                                    <span id="city_msg" class="error"></span>
+                                                </div>
+                                                <div class="col-md-6 mb-1">
+                                                    <label class="form-label" for="postcode">PIN code<span class="req_star">*</span></label>
+                                                    <input type="number      " name="postcode" id="postcode" class="form-control postcode-mask" placeholder="Code" maxlength="6" />
+                                                    <span id="postcode_msg" class="error"></span>
+                                                </div>
+                                            </div>
                                             </form>
 
                                             <div class="d-flex justify-content-between mt-2">
                                                 <label style="cursor: pointer;" onclick="next_form('#personal-info','#account-details')" class="btn btn-primary btn-prev">
                                                     <i data-feather="chevron-left" class="align-middle me-sm-25 me-0"></i>
                                                     <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                                        </label>
+                                                </label>
                                                 <!-- <button class="btn btn-primary btn-next">
                                                     <span class="align-middle d-sm-inline-block d-none">Submit</span>
                                                     <i data-feather="chevron-right" class="align-middle ms-sm-25 ms-0"></i>
@@ -297,7 +293,7 @@
                                                 <label style="cursor: pointer;" onclick="register()" class="btn btn-success btn-submit">
                                                     <i data-feather="check" class="align-middle me-sm-25 me-0"></i>
                                                     <span class="align-middle d-sm-inline-block d-none">Register</span>
-                                                        </label>
+                                                </label>
                                             </div>
                                             <p class="text-center mt-2"><span>Already have an account?</span><a href="<?= base_url() ?>"><span>&nbsp;Sign in instead</span></a></p>
                                         </div>
@@ -353,7 +349,7 @@
         })
 
         function next_form(hide_form, show_form) {
-          
+
             flag = true;
             check_field("email");
             check_field("mobile");
@@ -362,14 +358,14 @@
 
             if (flag == false) {
                 toastr["warning"]("You have Missed Something to Fillup!")
-               return;
+                return;
             } else {
                 $(hide_form).hide();
                 $(show_form).show();
             }
         }
 
-        function register(){
+        function register() {
             flag = true;
             check_field("store_name");
             check_field("pan_no");
@@ -378,59 +374,57 @@
             check_field("city");
             check_field("postcode");
             check_field("address");
-            
+
             if (flag == false) {
                 toastr["warning"]("You have Missed Something to Fillup!")
-               return;
+                return;
             }
 
-    if (confirm("Do You Wants To Create New Store ?")) {
-   var base_url = $('#base_url').val();
-    data = new FormData($('#sign-up-form')[0]);//form name
-    /*Check XSS Code*/
-   
-
-    $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-   
-    $.ajax({
-      type: 'POST',
-      url: base_url + 'sign_up/add_customer',
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (result) {
-        //alert(result);return;
-        if (result == "success") {
-          toastr["success"]("Record Updated Successfully!");
-          window.location.replace(base_url+'login');
-        }
-        else if (result == "failed") {
-          toastr["error"]("Sorry! Failed to save Record.Try again!");
-          //	return;
-        }
-        else {
-
-          toastr["error"](result);
-         
-          $('#account-details').show();
-        $('#personal-info').hide();
-					
-        }
+            if (confirm("Do You Wants To Create New Store ?")) {
+                var base_url = $('#base_url').val();
+                data = new FormData($('#sign-up-form')[0]); //form name
+                /*Check XSS Code*/
 
 
-        $("#" + this_id).attr('disabled', false);  //Enable Save or Update button
-        $(".overlay").remove();
-      }
-    });
-  }
+                $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'sign_up/add_customer',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(result) {
+                        //alert(result);return;
+                        if (result == "success") {
+                            toastr["success"]("Record Updated Successfully!");
+                            window.location.replace(base_url + 'login');
+                        } else if (result == "failed") {
+                            toastr["error"]("Sorry! Failed to save Record.Try again!");
+                            //	return;
+                        } else {
+
+                            toastr["error"](result);
+
+                            $('#account-details').show();
+                            $('#personal-info').hide();
+
+                        }
+
+
+                        $("#" + this_id).attr('disabled', false); //Enable Save or Update button
+                        $(".overlay").remove();
+                    }
+                });
+            }
         }
 
         function check_field(id) {
 
             if (!$("#" + id).val()) //Also check Others????
             {
-               
+
                 $('#' + id + '_msg').fadeIn(200).show().html('Required Field').addClass('required');
                 // $('#'+id).css({'background-color' : '#E8E2E9'});
                 flag = false;
@@ -490,6 +484,67 @@
             return false;
         }
         $('#email').on('input', validate);
+
+        function check_exists_or_not() {
+            var base_url = $('#base_url').val();
+            var mail = $('#email').val();
+            var csrfName = $('.txt_csrfname').attr('name'); // Value specified in $config['csrf_token_name']
+            var csrfHash = $('.txt_csrfname').val(); // CSRF hash
+            $.ajax({
+                type: "post",
+                dataType: 'json',
+                url: base_url + 'sign_up/check_mail_exists',
+                data: {
+                    email: mail,
+                    [csrfName]: csrfHash
+                },
+                success: function(res) {
+                   if (res == true){
+                  
+                $('#email_msg').text(mail + ' is  already exists');
+                $('#email_msg').css('color', 'red');
+                $('#next_btn').hide();
+                   }else{
+                    $('#next_btn').show();
+                   }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function get_states(country){
+           // alert(country);
+    //var country = 0;
+    var selected_state = "";
+    var csrfName = $('.txt_csrfname').attr('name'); // Value specified in $config['csrf_token_name']
+    var csrfHash = $('.txt_csrfname').val(); // CSRF hash
+   
+    
+    
+    var base_url = $('#base_url').val();
+    $.ajax({
+        url: base_url+'state/get_state_select_list',
+        type: "post",
+        data: {
+            //store_id: $("#store_id").val(),
+            [csrfName]: csrfHash,
+            country : country,
+            selected : selected_state,
+            
+            
+        },
+        beforeSend: function() {
+            $('.ajax-load').show();
+        }
+    }).done(function(data) {
+        $('#state').html(data);
+
+    }).fail(function(jqXHR, ajaxOptions, thrownError) {
+        alert('server not responding...');
+    });
+}
     </script>
 </body>
 <!-- END: Body-->
