@@ -27,7 +27,7 @@
                <li class="active"><?= $page_title; ?></li>
             </ol>
          </section>
-
+  
          <!-- Main content -->
          <?= form_open('#', array('class' => 'form-horizontal', 'id' => 'store-form', 'enctype' => 'multipart/form-data', 'method' => 'POST')); ?>
          <!-- <form method="post" class = 'form-horizontal' action="<?= base_url() . 'super_admin/create_store' ?>" id="store-form" > -->
@@ -54,7 +54,7 @@
                                     <div class="row">
                                        <h3 class="text-center">Store Details</h3>
                                        <hr>
-                                       <div class="col-md-5">
+                                       <div class="col-md-6">
                                           <!-- <div class="form-group">
                                                    <label for="store_code" class="col-sm-4 control-label"><?= $this->lang->line('store_code'); ?> </label>
                                                    <div class="col-sm-8" style="
@@ -70,7 +70,7 @@
     margin-top: 8px;
 ">
                                                 <?= $warehouse_name  ?>
-
+                                              
                                              </div>
                                           </div>
                                           <div class="form-group">
@@ -166,7 +166,7 @@
                                           </div>
                                           <!-- ########### -->
                                        </div>
-                                       <div class="col-md-5">
+                                       <div class="col-md-6">
                                           <div class="form-group">
                                              <label for="bank_details" class="col-sm-4 control-label"><?= $this->lang->line('bank_details'); ?></label>
                                              <div class="col-sm-8" style="
@@ -319,8 +319,10 @@
                                           $user_count = 'Unlimited';
                                           $warehouse_count = 'Unlimited';
                                        }
+                                       $active_package_warehouse_count = $warehouse_count;
+                                       $active_package_user_count = $warehouse_count;
                                        ?>
-                                       <div class="col-md-5">
+                                       <div class="col-md-6">
                                           <!-- <div class="form-group">
                                                    <label for="store_code" class="col-sm-4 control-label"><?= $this->lang->line('store_code'); ?> </label>
                                                    <div class="col-sm-8" style="
@@ -397,6 +399,16 @@
                                                 ?>
                                              </div>
                                           </div>
+                                          <div class="form-group">
+                                             <label for="vat_no" class="col-sm-4 control-label">Created Time</label>
+                                             <div class="col-sm-8" style="
+    margin-top: 8px;
+">
+                                                <?= date('h:i A', strtotime($active_package->created_time)); ?>
+  
+
+                                             </div>
+                                          </div>
 
 
 
@@ -405,7 +417,7 @@
 
                                           <!-- ########### -->
                                        </div>
-                                       <div class="col-md-5">
+                                       <div class="col-md-6">
                                           <div class="form-group">
                                              <label for="mobile" class="col-sm-4 control-label">Validity
                                              </label>
@@ -512,18 +524,93 @@
                                  <th>Start Date</th>
                                  <th>End Date</th>
                                  <th>Razorpay Payment Id</th>
+                                 <th>Type</th>
+                                 <th>Validity</th>
+
                               </tr>
                            </thead>
                            <tbody>
-                              <tr>
-                                 <td>1 </td>
-                                 <td>tria cat 2 </td>
-                                 <td>TR0005 </td>
-                                 <td>22 </td>
-                                 <td>22 </td>
-                                 <td>22 </td>
-                                 <td>22 </td>
-                              </tr>
+                              <?php $q3 = $this->db->select("db_trialpackage.name,
+										db_trialpackage.day_or_month,
+										db_store_purchased_packages.created_date,
+										db_store_purchased_packages.razorpay_payment_id,
+										db_store_purchased_packages.created_by,
+										db_store_purchased_packages.razorpay_signature,
+										db_store_purchased_packages.status,
+                              db_store_purchased_packages.type,
+										db_trialpackage.days")
+                                 ->where('warehouse_id', $id)
+                                 ->join(
+                                    'db_trialpackage',
+                                    'db_trialpackage.id = db_store_purchased_packages.package_id',
+                                    'left'
+                                 )
+                                 ->order_by("db_store_purchased_packages.id", "desc")
+                                 ->get("db_store_purchased_packages");
+                              $trial_pack = $q3->result();
+                              $i = 1;
+                              foreach ($trial_pack as $res) {
+                                 if (isset($active_package->day_or_month) && $active_package->day_or_month == 'month') {
+                                    $validity_in_days =  $active_package->days * 30;
+                                 } else {
+                                    $validity_in_days = $active_package->days;
+                                 }
+                                 $validity = $active_package->days . ' ' . $active_package->day_or_month;
+                                 $user_count = 'Unlimited';
+                                 $warehouse_count = 'Unlimited';
+                              ?>
+                                 <tr>
+                                    <td> <?php echo $i++; ?> </td>
+                                    <td> <?= $res->name ?> </td>
+                                    <td><?= $user_count ?> </td>
+                                    <td><?= $warehouse_count ?></td>
+                                    <td> <?= $res->created_date ?> </td>
+                                    <td><?php echo  date('Y-m-d', strtotime($res->created_date . ' + ' . $validity_in_days . ' Days')); ?> </td>
+                                    <td> <?= $res->razorpay_signature ?> </td>
+                                    <td> <?= ucfirst($res->type) ?> </td>
+                                    <td> <?= $validity ?> </td>
+                                 </tr>
+                              <?php }
+                              $q4 = $this->db->select("db_package_subscription.name,
+                              db_store_purchased_packages.created_date,
+                              db_store_purchased_packages.razorpay_payment_id,
+                              db_store_purchased_packages.razorpay_signature,
+                              db_store_purchased_packages.created_by,
+                              db_store_purchased_packages.type,
+                              db_package_subscription.validity,
+                              db_package_subscription.user_count,
+                              db_package_subscription.warehouse_count,
+                              db_package_subscription.is_unlimited,
+                              db_store_purchased_packages.status,
+                              db_package_subscription.amount")
+                              ->where('warehouse_id', $id)
+                           ->where('type','subscription')
+                           ->join(
+                              'db_package_subscription',
+                              'db_package_subscription.id = db_store_purchased_packages.package_id',
+                              'left'
+                           )
+                           ->get("db_store_purchased_packages");
+                              $subscription_pack = $q4->result();
+                              foreach ($subscription_pack as $res) {
+                              $amount = $res->amount;
+                              $validity =  $res->validity . ' Days';
+                              $validity_in_days = $res->validity;
+                              $user_count = ($res->is_unlimited == 0) ?  $res->user_count :  'Unlimited';
+                              $warehouse_count = ($res->is_unlimited == 0) ?  $res->warehouse_count :  'Unlimited';
+                              ?>
+                               <tr>
+                                    <td> <?php echo $i++; ?> </td>
+                                    <td> <?= $res->name ?> </td>
+                                    <td><?= $user_count ?> </td>
+                                    <td><?= $warehouse_count ?></td>
+                                    <td> <?= $res->created_date ?> </td>
+                                    <td><?php echo  date('Y-m-d', strtotime($res->created_date . ' + ' . $validity_in_days . ' Days')); ?> </td>
+                                    <td> <?= $res->razorpay_signature ?> </td>
+                                    <td> <?= ucfirst($res->type) ?> </td>
+                                    <td> <?= $validity ?> </td>
+                                 </tr>
+                                 <?php } ?>
                               </ul>
                      </div>
 
@@ -537,6 +624,136 @@
                   <!-- /.box-body -->
                </div>
                <!-- /.box -->
+               <div class="col-md-12">
+                  <!-- Custom Tabs -->
+                  <div class="nav-tabs-custom">
+
+                     <div class="tab-content">
+                        <div class="tab-pane active" id="tab_4">
+                           <div class="row">
+                              <!-- right column -->
+                              <div class="col-md-12">
+                                 <!-- form start -->
+
+
+                                 <div class="box-body">
+                                    <div class="row">
+                                       <h3 class="text-center">More Details in Store</h3>
+                                       <hr>
+                                                                              <div class="col-md-6">
+                                          <!-- <div class="form-group">
+                                                   <label for="store_code" class="col-sm-4 control-label">Store Code </label>
+                                                   <div class="col-sm-8" style="
+    margin-top: 8px;
+">
+                                                      <input type="text" class="form-control" id="store_code" name="store_code" readonly=""  placeholder=""  value="ST0063" >
+                                                      <span id="store_code_msg" style="display:none" class="text-danger"></span>
+                                                   </div>
+                                                </div> -->
+                                          <div class="form-group">
+                                             <label for="store_name" class="col-sm-4 control-label">Store Created Date And  Time
+                                               
+                                             </label>
+                                             <div class="col-sm-8" style="
+    margin-top: 8px;
+">
+                                             <?php
+                                             $warehouse = $this->db->select('created_date,created_time')
+                                             ->where('id',$id)
+                                             ->order_by("id", "desc")
+															->limit(1)
+                                             ->get('db_warehouse')->row();
+                                             echo  $warehouse->created_date .' '.  $warehouse->created_time
+                                             ?>
+                                               
+                                             </div>
+                                          </div>
+
+
+
+                                          <div class="form-group">
+                                             <label for="phone" class="col-sm-4 control-label">Total POS Bill Count</label>
+                                             <div class="col-sm-8" style="
+    margin-top: 8px;
+">
+                                          <?php 
+                                           $query = $this->db->query('SELECT * FROM db_sales WHERE store_id ='.$store_id );
+                                           echo $query->num_rows();
+                                             ?>
+                                             </div>
+                                          </div>
+                                          <div class="form-group">
+                                             <label for="vat_no" class="col-sm-4 control-label">Total Warehouse Count</label>
+                                             <div class="col-sm-8" style="
+    margin-top: 8px;
+">
+                                       <?php 
+                                         
+                                         $query = $this->db->query('SELECT * FROM db_warehouse WHERE store_id ='.$store_id );
+                                         echo $query->num_rows().'/'.$active_package_warehouse_count;
+                                        ?>
+
+                                                
+                                             </div>
+                                          </div>
+
+                                          <!-- ########### -->
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="mobile" class="col-sm-4 control-label">Total Item Count
+                                             </label>
+                                             <div class="col-sm-8" style="
+    margin-top: 8px;
+">
+<?php 
+                                         
+                                         $query = $this->db->query('SELECT * FROM  db_items WHERE store_id ='.$store_id );
+                                         
+                                         echo $query->num_rows();
+
+                                       ?>
+                                             </div>
+                                          </div>
+                                          <div class="form-group">
+                                             <label for="email" class="col-sm-4 control-label">Total User Count</label>
+                                             <div class="col-sm-8" style="
+    margin-top: 8px;
+">
+<?php 
+                                         
+                                         $query = $this->db->query('SELECT * FROM  db_users WHERE store_id ='.$store_id );
+                                         
+                                         echo $query->num_rows().'/'.$active_package_user_count;
+
+                                       ?>
+                                             </div>
+                                          </div>
+                                       </div>
+
+                                       <!-- ########### -->
+                                    </div>
+                                 </div>
+                                 <!-- /.box-body -->
+                                 <!-- /.box-footer -->
+
+                              </div>
+                              <!--/.col (right) -->
+                           </div>
+                           <!-- /.row -->
+                        </div>
+
+                        <!-- /.tab-pane -->
+
+
+                        <!-- /.tab-pane -->
+
+                        <!-- /.tab-pane -->
+                     </div>
+                     <!-- /.tab-content -->
+                  </div>
+                  <!-- nav-tabs-custom -->
+               </div>
             </div>
       </div>
       <!-- /.row -->

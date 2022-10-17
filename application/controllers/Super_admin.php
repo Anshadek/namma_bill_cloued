@@ -134,6 +134,7 @@ class Super_admin extends MY_Controller
 				$q2 = $this->db->select("db_package_subscription.name,
 										db_store_purchased_packages.created_date,
 										db_store_purchased_packages.razorpay_payment_id,
+										db_store_purchased_packages.created_time,
 										db_store_purchased_packages.razorpay_signature,
 										db_store_purchased_packages.created_by,
 										db_package_subscription.validity,
