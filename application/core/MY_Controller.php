@@ -43,7 +43,7 @@ class MY_Controller extends CI_Controller{
 					->where('store_id ',$this->session->userdata('store_id'))	
 					->get('db_warehouse');
 					
-					$app_name = $warehouse_query->row()->warehouse_name;
+					$app_name = isset($warehouse_query->row()->warehouse_name)?$warehouse_query->row()->warehouse_name : "";
 				}
 			}
 			
@@ -70,17 +70,19 @@ class MY_Controller extends CI_Controller{
             
 
             $query =$this->db->select('site_name,version')->where('id',1)->get('db_sitesettings');
-
+           
             $this->db->select('store_name,timezone,time_format,date_format,decimals');
             if($this->session->userdata('logged_in')){
+            
               $this->db->where('id',get_current_store_id());
             }
             else{
               $this->db->where('id',1);
             }
+              
             $this->db->from('db_store');
             $query1 = $this->db->get();
-
+          
             date_default_timezone_set(trim($query1->row()->timezone));
 
             $time_format = ($query1->row()->time_format=='24') ? date("h:i:s") : date("h:i:s a");
@@ -111,10 +113,10 @@ class MY_Controller extends CI_Controller{
       public function load_currency_data(){
         if($this->session->userdata('logged_in')){
           $q1=$this->db->query("SELECT a.currency_name,a.currency,a.currency_code,a.symbol,b.currency_placement FROM db_currency a,db_store b WHERE a.id=b.currency_id AND b.id=".get_current_store_id());
-              $currency = $q1->row()->currency;
+              $currency = isset($q1->row()->currency)?$q1->row()->currency :"";
 
-              $currency_placement = $q1->row()->currency_placement;
-              $currency_code = $q1->row()->currency_code;
+              $currency_placement = isset($q1->row()->currency_placement) ?$q1->row()->currency_placement :"";
+              $currency_code = isset($q1->row()->currency_code) ?$q1->row()->currency_code :""; 
               $this->session->set_userdata(array('currency'  => $currency,'currency_placement'  => $currency_placement,'currency_code'  => $currency_code));
         }
         else{

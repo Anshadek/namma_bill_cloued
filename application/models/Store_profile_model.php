@@ -571,7 +571,7 @@ class Store_profile_model extends CI_Model
 
 		$query = $this->db->query("SELECT account_code FROM ac_accounts ORDER BY id DESC LIMIT 1");
 		$result = $query->result_array();
-		$newstring = substr($result[0]['account_code'], -4);
+		$newstring = isset($result[0]['account_code'])?substr($result[0]['account_code'], -4):'0000';
 		$next_int = $newstring + 1;
 		$account_code = $accounts_init[0]['accounts_init'] . '000' . $next_int;
 		//Filtering XSS and html escape from user inputs 
