@@ -98,6 +98,7 @@
 										<tr>
 											<th>#</th>
 											<th><?= $CI->lang->line('store_name'); ?></th>
+											<th><?= $CI->lang->line('store_name'); ?></th>
 											<th><?= $CI->lang->line('mobile'); ?></th>
 											<th><?= $CI->lang->line('email'); ?></th>
 											<th><?= $CI->lang->line('address'); ?></th>
@@ -105,6 +106,7 @@
 											<th><?= $CI->lang->line('status'); ?></th>
 											<th>Package</th>
 											<th>Created From</th>
+											<th>Created Date</th>
 											<th><?= $CI->lang->line('action'); ?></th>
 										</tr>
 									</thead>
@@ -153,6 +155,7 @@
 														$package  = $q2;
 														$package->type = 'subscription';
 													}
+													
 												}
 												//==================
 										?>
@@ -161,6 +164,7 @@
 													<?php if (is_admin() && warehouse_module()) { ?>
 														<td><?= get_store_name($res1->store_id); ?> </td>
 													<?php } ?>
+													<td><?= $res1->store_code ?></td>
 													<td><?php echo $res1->warehouse_name; ?> </td>
 													<td><?php echo $res1->mobile; ?> </td>
 													<td><?php echo $res1->email; ?> </td>
@@ -208,6 +212,10 @@
 																<?=  $res1->created_from  ?>
 																
 
+													</td>
+													<td>
+													<?= date("d/m/Y", strtotime($res1->created_date)) ?>
+													
 													</td>
 													<td>
 
