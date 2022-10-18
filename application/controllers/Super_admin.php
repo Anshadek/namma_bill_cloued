@@ -40,6 +40,7 @@ class Super_admin extends MY_Controller
 			$pay_status = $this->input->post('filter_pay_status');
 			$status = $this->input->post('filter_status');
 			$date = $this->input->post('filter_date');
+			
 
 			if ($pay_status == 0 || $pay_status == 1) {
 				$this->db->where('pay_status', $pay_status);
@@ -49,7 +50,7 @@ class Super_admin extends MY_Controller
 				$this->db->where('status', $status);
 			}
 			if (!empty($date)) {
-
+				
 				$this->db->where('created_date', $date);
 			}
 
@@ -57,7 +58,10 @@ class Super_admin extends MY_Controller
 			$data['warehouses'] = $res->result();
 		} else {
 
-			$q1 = $this->db->select("*")->where('warehouse_type', 'System')->get("db_warehouse");
+			$q1 = $this->db->select("db_warehouse.*,db_store.store_code")
+			->join('db_store','db_store.id = db_warehouse.store_id','left')
+			->where('warehouse_type', 'System')
+			->get("db_warehouse");
 			$data['warehouses'] = $q1->result();
 		}
 		$data['page_title'] = 'Warehouse List';
@@ -76,12 +80,11 @@ class Super_admin extends MY_Controller
 	}
 	public function edit_store($id)
 	{
-		//print_r($id);
-		//die();
-		//$this->belong_to('db_warehouse',$id);
+		
 
 		$data = $this->warehouse->get_details($id);
-		$data['page_title'] = 'Add/  Store';
+		
+		$data['page_title'] = 'Add/ Store';
 		$this->load->view('super_admin/add-store', $data);
 	}
 	public function view_store($id)

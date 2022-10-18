@@ -5,7 +5,7 @@ function get_states(datas){
 	
 			var country = 0;
 			var selected_state = $('#selected_state').val();
-		
+			
 			if (datas != ""){
 				country = datas;
 			}else{

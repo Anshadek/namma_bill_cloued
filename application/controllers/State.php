@@ -151,7 +151,7 @@ class State extends MY_Controller {
 			  foreach($q1->result() as $res1)
 			{ 
 				
-			  $selected = ($select_id==$res1->id)? 'selected' : '';
+			  $selected = ($select_id==$res1->state)? 'selected' : '';
 			
 			  $str.="<option $selected value='".$res1->state."'. $selected.>".$res1->state."</option>";
 			}

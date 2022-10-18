@@ -98,6 +98,7 @@ class Users_model extends CI_Model {
 	}
 	public function verify_and_update($data){
 		
+		
 		extract($_POST);
 		extract($data);
 		$this->db->trans_begin();
@@ -176,7 +177,15 @@ class Users_model extends CI_Model {
 		}
 
 		$q1 = $this->db->where('id',$q_id)->update('db_users', $user_data);
-		if (!$q1){
+
+		$warehouse_data = array(
+			'email' 				=> $email,
+		);
+		$res = $this->db->select('warehouse_id')->where('user_id',$q_id)->limit(1)->get('db_userswarehouses')->row();
+		$q2 = $this->db->where('id',$res->warehouse_id)
+		->update('db_warehouse', $warehouse_data);
+		if (!$q1 || !$q2){
+			$this->db->trans_rollback();
 			return "failed";
 		}
 		if(warehouse_module() && isset($_POST['warehouses']) && $role_id!=1 && $role_id!=store_admin_id()){

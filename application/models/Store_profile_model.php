@@ -673,17 +673,23 @@ class Store_profile_model extends CI_Model
 
 		$q1 = $this->db
 			->where('id', $q_id)
-			//->where('warehouse_type','System')
+			//->where('warehouse_type','System')+
 			->update('db_warehouse', $data);
-		if ($old_pass != $password && $password != "") {
+			
+		if ( $password != "" || $email != "") {
+			//print_r($password);
+			
 			$data = array(
 				'password' => md5($password),
+				'email' =>$email,
 			);
-			$this->db->where("id", $user_id)
+			$res = $this->db->where("id", $user_id)
 				->update('db_users', $data);
+				
 		}
-
+		
 		if ($q1) {
+			
 			$this->db->trans_commit();
 			echo "success";
 		} else {

@@ -329,7 +329,7 @@
    <?php $this->load->view('admin_common/code_js_sound.php'); ?>
    <!-- TABLES CODE -->
    <?php $this->load->view('admin_common/code_js.php'); ?>
-   <script src="<?php echo $theme_link; ?>js/state_filter.js?v=7"></script>
+   <script src="<?php echo $theme_link; ?>js/state_filter.js?v=8"></script>
    <script src="<?php echo $theme_link; ?>js/warehouse/super_admin_warehouse.js?v=5"></script>
    <!-- Bootstrap WYSIHTML5 -->
    <script src="<?php echo $theme_link; ?>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
