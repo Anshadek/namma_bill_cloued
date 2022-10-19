@@ -653,6 +653,23 @@ class Store_profile_model extends CI_Model
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
 		$this->db->trans_begin();
+		$document_file = "";
+		
+		if (!empty($_FILES['document']['name'])) {
+			$config['upload_path']          = './uploads/store/';
+			$config['allowed_types']        = 'gif|jpg|jpeg|png|pdf|csv';
+			
+
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload('document')) {
+				$error = array('error' => $this->upload->display_errors());
+				return $error['error'];
+				exit();
+			} else {
+				$document_file = 'uploads/store/' . $this->upload->data('file_name');
+			}
+		}
 		$data = array(
 			'warehouse_name'			=> $store_name,
 			'warehouse_website'			=> $store_website,
@@ -665,10 +682,16 @@ class Store_profile_model extends CI_Model
 			'country'					=> $country,
 			'state'						=> $state,
 			'city'						=> $city,
+			'note'						=> $note,
 			'address'					=> $address,
 			'postcode'					=> $postcode,
 			'bank_details'				=> $bank_details,
+			
+			
 		);
+		if ($document_file != ""){
+			$data['document'] = $document_file;
+		}
 		/*end*/
 
 		$q1 = $this->db

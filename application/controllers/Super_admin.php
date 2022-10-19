@@ -35,25 +35,27 @@ class Super_admin extends MY_Controller
 		$data = $this->data; //My_Controller constructor data accessed here
 
 		if ($this->input->post()) {
-			$this->db->select('db_warehouse.*', 'profile_picture as prof');
+			$this->db->select('db_warehouse.*,db_store.store_code');
 			$this->db->from('db_warehouse');
+			$this->db->where('warehouse_type', 'System');
+			$this->db->join('db_store','db_store.id = db_warehouse.store_id','left');
 			$pay_status = $this->input->post('filter_pay_status');
 			$status = $this->input->post('filter_status');
 			$date = $this->input->post('filter_date');
 			
 
 			if ($pay_status == 0 || $pay_status == 1) {
-				$this->db->where('pay_status', $pay_status);
+				$this->db->where('db_warehouse.pay_status', $pay_status);
 			}
 			if ($status == 0 || $status == 1) {
 
-				$this->db->where('status', $status);
+				$this->db->where('db_warehouse.status', $status);
 			}
 			if (!empty($date)) {
 				
-				$this->db->where('created_date', $date);
+				$this->db->where('db_warehouse.created_date', $date);
 			}
-
+			
 			$res = $this->db->get();
 			$data['warehouses'] = $res->result();
 		} else {
@@ -175,8 +177,11 @@ class Super_admin extends MY_Controller
 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
 		//=======================================update section ===============================================
+		
 		if ($q_id > 0) {
 			$result = $this->store->superadmin_update_store();
+			echo $result;
+			return 0;
 		}
 		//=======================================================================================
 		if (!empty($mobile)) {

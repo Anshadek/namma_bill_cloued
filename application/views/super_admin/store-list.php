@@ -114,7 +114,7 @@
 										<?php
 
 										$i = 1;
-
+										$package_days =  "";
 										if (count($warehouses) > 0) {
 											foreach ($warehouses as $res1) {
 												//================get package name============================
@@ -125,7 +125,8 @@
 												if (!empty($q1)) {
 													if ($q1->type == 'trial') {
 														$q2 = $this->db->select("db_trialpackage.name,
-																	db_trialpackage.day_or_month
+																	db_trialpackage.day_or_month,
+																	db_store_purchased_packages.created_date,
 																	,db_trialpackage.days")
 															->where('warehouse_id', $res1->id)
 															->join(
@@ -138,11 +139,17 @@
 
 														$package  = $q2;
 														$package->type = 'trial';
+																if ($package->day_or_month == "months"){
+																	$package_days = $package->days * 30;
+																}else{
+																	$package_days = $package->days;
+																}
 													} else {
 														$q2 = $this->db->select("db_package_subscription.name,
 																	db_package_subscription.validity,
 																	db_package_subscription.user_count,
 																	db_package_subscription.warehouse_count,
+																	db_store_purchased_packages.created_date,
 																	db_package_subscription.amount")
 															->where('warehouse_id', $res1->id)
 															->join(
@@ -154,7 +161,17 @@
 															->get("db_store_purchased_packages")->row();
 														$package  = $q2;
 														$package->type = 'subscription';
+														$package_days = $package->validity;
 													}
+													
+													$days_str = '+ '.$package_days.'days';
+													
+													$expire_date = date('Y-m-d', strtotime($package->created_date.$days_str));
+													$expired = false;
+													if ($expire_date < date("Y-m-d")){
+														$expired = true;
+													} 
+
 													
 												}
 												//==================
@@ -188,10 +205,13 @@
 													</td>
 													<td>
 														<?php
-														if ($res1->status == 1)                   //1=Active, 0=Inactive
+														if ($res1->status == 1 && $expired == false)                   //1=Active, 0=Inactive
 														{
 															echo "  <span onclick='update_status(" . $res1->id . ",0)' id='span_" . $res1->id . "'  class='label label-success' style='cursor:pointer'>Active </span>";
-														} else {
+														}elseif($expired == true){
+															echo "<span onclick='update_status(" . $res1->id . ",1)' id='span_" . $res1->id . "'  class='label label-danger' style='cursor:pointer'> Expired </span>";
+														}
+														 else {
 															echo "<span onclick='update_status(" . $res1->id . ",1)' id='span_" . $res1->id . "'  class='label label-danger' style='cursor:pointer'> Inactive </span>";
 														}
 														?>
@@ -244,11 +264,13 @@
 																		Delete
 																	</a>
 																</li>
+																<?php if ($res1->document != "") { ?>
 																<li>
-																	<a title="Update Record ?" href="<?= base_url() ?><?= $res1->document; ?>">
+																	<a title="Download Document ?" href="<?= base_url() ?><?= $res1->document; ?>">
 																		Download
 																	</a>
 																</li>
+																<?php } ?>
 
 															</ul>
 														</div>
