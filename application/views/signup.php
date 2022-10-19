@@ -525,7 +525,7 @@
     
     var base_url = $('#base_url').val();
     $.ajax({
-        url: base_url+'state/get_state_select_list',
+        url: base_url+'sign_up/get_state_select_list',
         type: "post",
         data: {
             //store_id: $("#store_id").val(),
