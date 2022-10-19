@@ -509,7 +509,7 @@
                <div class="col-xs-12">
                   <div class="box box-primary">
                      <div class="box-header with-border">
-                        <h3 class="box-title">Trial Pack List</h3>
+                        <h3 class="box-title">Used Package List</h3>
                      </div>
                      <!-- /.box-header -->
                      <div class="box-body">
@@ -540,6 +540,7 @@
                               db_store_purchased_packages.type,
 										db_trialpackage.days")
                                  ->where('warehouse_id', $id)
+                                 ->where('db_store_purchased_packages.type', 'trial')
                                  ->join(
                                     'db_trialpackage',
                                     'db_trialpackage.id = db_store_purchased_packages.package_id',
@@ -548,14 +549,15 @@
                                  ->order_by("db_store_purchased_packages.id", "desc")
                                  ->get("db_store_purchased_packages");
                               $trial_pack = $q3->result();
+                              
                               $i = 1;
                               foreach ($trial_pack as $res) {
-                                 if (isset($active_package->day_or_month) && $active_package->day_or_month == 'month') {
-                                    $validity_in_days =  $active_package->days * 30;
+                                 if (isset($res->day_or_month) && $res->day_or_month == 'month') {
+                                    $validity_in_days =  $res->days * 30;
                                  } else {
-                                    $validity_in_days = $active_package->days;
+                                    $validity_in_days = $res->days;
                                  }
-                                 $validity = $active_package->days . ' ' . $active_package->day_or_month;
+                                 $validity = $res->days . ' ' . $res->day_or_month;
                                  $user_count = 'Unlimited';
                                  $warehouse_count = 'Unlimited';
                               ?>
@@ -624,7 +626,7 @@
                   <!-- /.box-body -->
                </div>
                <!-- /.box -->
-               <div class="col-md-12">
+               
                   <!-- Custom Tabs -->
                   <div class="nav-tabs-custom">
 
@@ -753,7 +755,7 @@
                      <!-- /.tab-content -->
                   </div>
                   <!-- nav-tabs-custom -->
-               </div>
+               
             </div>
       </div>
       <!-- /.row -->

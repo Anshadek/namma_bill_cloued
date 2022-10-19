@@ -153,7 +153,7 @@
                                                     <div class="col-md-6 mb-1">
                                                         <label class="form-label" for="pass">Password<span class="req_star">*</span></label>
                                                         <div class="input-group input-group-merge form-password-toggle">
-                                                            <input type="password" name="pass" id="pass" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                                            <input type="password" name="password" id="pass" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
                                                             <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                                                             <span id="pass_msg" class="error"></span>
                                                         </div>

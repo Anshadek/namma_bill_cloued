@@ -456,11 +456,11 @@ class Store_profile_model extends CI_Model
 
 		/*$query=$this->db->query("select * from db_users where username='$new_user'")->num_rows();
 				if($query>0){ return "This username already exist.";}*/
-
+			
 		$info = array(
 			'username' 				=> $store_name,
 			'last_name' 			=> '',
-			'password' 				=> (isset($pass)) ? md5($pass) : md5('1234'),
+			'password' 				=> (isset($password)) ? md5($password) : md5('1234'),
 			'mobile' 				=> $mobile,
 			'email' 				=> $email,
 			/*System Info*/
@@ -626,7 +626,9 @@ class Store_profile_model extends CI_Model
 			'warehouse_id'		=> $warehouse_id,
 			'package_id'		=> $trialpackage,
 			'type'				=> "trial",
+			'status'			=> 'active',
 			'created_date'		=> $CUR_DATE,
+			'created_time' => date('H:i:s'),
 		);
 		
 		$q1 = $this->db->insert('db_store_purchased_packages', $data);

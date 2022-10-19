@@ -77,8 +77,14 @@
 											<td><?php echo $res1->name;?> </td>
 											<td><?php echo $res1->amount;?> </td>
 											<td><?php echo $res1->validity;?> </td>
-											<td><?php echo $res1->user_count;?> </td>
-											<td><?php echo $res1->warehouse_count;?> </td>
+											<td><?php
+											$user_count  = ($res1->is_unlimited == 1)? 'Unlimited': $res1->user_count;
+											 echo $user_count;
+											 ?> </td>
+											<td><?php
+											$warehouse_count  = ($res1->is_unlimited == 1)? 'Unlimited': $res1->warehouse_count;
+											 echo $warehouse_count;
+											 ?> </td>
 											<td>
 											<?php 
 											$validity = $this->input->post('validity');

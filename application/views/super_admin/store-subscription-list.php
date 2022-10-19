@@ -77,6 +77,7 @@
 										 db_package_subscription.name as package_name,
 										 db_package_subscription.validity,
 										 ")
+										 ->where('db_warehouse.warehouse_type','System')
 										 ->join('db_package_subscription','db_package_subscription.id=db_store_purchased_packages.package_id','left')
 										 ->join('db_warehouse','db_warehouse.id=db_store_purchased_packages.warehouse_id','left')
 										 ->get("db_store_purchased_packages");
@@ -95,7 +96,8 @@
 											<td>
 												<?php
                                         if($res1->status=='active')                   //1=Active, 0=Inactive
-                                          { echo "  <span   class='label label-success' style='cursor:pointer'>".$res1->status." </span>"; }
+                                          { 
+											echo "  <span   class='label label-success' style='cursor:pointer'>".$res1->status." </span>"; }
                                           else
                                           {
                                           echo "<span class='label label-danger' style='cursor:pointer'> ".$res1->status." </span>";

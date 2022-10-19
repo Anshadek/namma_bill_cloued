@@ -92,9 +92,7 @@ class Super_admin extends MY_Controller
 	public function view_store($id)
 	{
 		
-			//print_r($id);
-		//die();
-		//$this->belong_to('db_warehouse',$id);
+			
 		$package = array();
 		$data = $this->warehouse->get_details($id);
 		$store  = $this->db->select('store_code')
