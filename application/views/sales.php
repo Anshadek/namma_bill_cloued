@@ -186,6 +186,7 @@
 									<label for="customer_id" class="col-sm-2 control-label"><?= $this->lang->line('customer_name'); ?><label class="text-danger">*</label></label>
 									<div class="col-sm-3">
 										<div class="input-group">
+											<input type="hidden" id="selected_customer" value="<?= $customer_id ?>">
 											<select class="form-control select2" id="customer_id" name="customer_id" style="width: 100%;">
 												<?= get_customers_select_list_pos($customer_id, get_current_store_id()); ?>
 											</select>
