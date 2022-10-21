@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <title><?php print $SITE_TITLE; ?> | Sign Up</title>
+    <title>Namma Billing | Sign Up</title>
     <!-- CSRF token (Here, name is 'csrf_hash_name' which is specified in $config['csrf_token_name'] in cofig.php file ) -->
     <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>"><br>
     <?php
@@ -144,7 +144,7 @@
 
                                                     <div class="col-md-6 mb-1">
                                                         <label class="form-label" for="mobile">Mobile number<span class="req_star">*</span></label>
-                                                        <input onkeyup="mobno_length()" type="text" name="mobile" id="mobile" class="form-control mobile-mask" placeholder="(987) 654-3210" />
+                                                        <input onkeyup="mobno_length()" type="number" name="mobile" id="mobile" class="form-control mobile-mask" placeholder="(987) 654-3210" />
                                                         <span id="mobile_msg" class="error"></span>
                                                     </div>
                                                 </div>
@@ -339,6 +339,9 @@
 
     <script>
         var flag = true;
+        var email_exists_flag = false;
+        var email_format_flag = false;
+        var mob_no_flag = false;
         $(window).on('load', function() {
             if (feather) {
                 feather.replace({
@@ -349,7 +352,10 @@
         })
 
         function next_form(hide_form, show_form) {
-
+            
+                if ( email_exists_flag == false &&
+         email_format_flag == false &&
+        mob_no_flag ==  false){
             flag = true;
             check_field("email");
             check_field("mobile");
@@ -363,6 +369,10 @@
                 $(hide_form).hide();
                 $(show_form).show();
             }
+        }else{
+            toastr["warning"]("You have Missed Something to Fillup!")
+                return;
+        }
         }
 
         function register() {
@@ -437,12 +447,13 @@
         function mobno_length() {
             number = $('#mobile').val();
             if (number.length != 10) {
+                mob_no_flag = true;
                 $('#mobile_msg').text('mobile number should  10 dgits');
-                $('#next_btn').hide();
+               
             } else {
-
+                mob_no_flag = false;
                 $('#mobile_msg').text('');
-                $('#next_btn').show();
+               
             }
         }
         //check pass and confir is match or not
@@ -452,10 +463,10 @@
             var pass = $('#pass').val();
 
             if (conf_pass == pass) {
-                $('#next_btn').show();
+               
                 $('#conf_pass_msg').text("")
             } else {
-                $('#next_btn').hide();
+               
                 $('#conf_pass_msg').text("New password and confirm password doesn't match..");
             }
 
@@ -473,13 +484,15 @@
             $result.text('');
 
             if (validateEmail(email)) {
+                email_format_flag = false;
                 $result.text(email + ' is valid');
                 $result.css('color', 'green');
-                $('#next_btn').show();
+             
             } else {
+                email_format_flag = true;
                 $result.text(email + ' is not valid');
                 $result.css('color', 'red');
-                $('#next_btn').hide();
+              
             }
             return false;
         }
@@ -500,12 +513,13 @@
                 },
                 success: function(res) {
                    if (res == true){
-                  
+                    email_exists_flag = true;
                 $('#email_msg').text(mail + ' is  already exists');
                 $('#email_msg').css('color', 'red');
-                $('#next_btn').hide();
+                
                    }else{
-                    $('#next_btn').show();
+                    email_exists_flag = false;
+                   
                    }
                 },
                 error: function(error) {

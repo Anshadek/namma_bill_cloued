@@ -48,6 +48,7 @@
 										<thead class="bg-gray ">
 											<tr>
 												<th>#</th>
+												th><?= $CI->lang->line('store_code'); ?></th>
 												<th><?= $CI->lang->line('store_name'); ?></th>
 												<th><?= $CI->lang->line('mobile'); ?></th>
 												<th><?= $CI->lang->line('email'); ?></th>
@@ -63,8 +64,9 @@
 											 $from_date = date('Y-m-d', strtotime("-30 days"));
 											$q1 = $this->db->select("*")
 											->where('warehouse_type', 'System')
-											->where('created_date >=',$from_date)
-											->where('created_date <=',$to_date)
+											->where('db_warehouse.created_date >=',$from_date)
+											->where('db_warehouse.created_date <=',$to_date)
+											->join('db_store','db_store.id = db_warehouse.store_id','left')
 											->get("db_warehouse");
 											if ($q1->num_rows() > 0) {
 												foreach ($q1->result() as $res1) {
@@ -74,6 +76,7 @@
 														<?php if (is_admin() && warehouse_module()) { ?>
 															<td><?= get_store_name($res1->store_id); ?> </td>
 														<?php } ?>
+														<td><?php echo $res1->store_code; ?> </td>
 														<td><?php echo $res1->warehouse_name; ?> </td>
 														<td><?php echo $res1->mobile; ?> </td>
 														<td><?php echo $res1->email; ?> </td>

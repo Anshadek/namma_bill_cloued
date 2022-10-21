@@ -46,6 +46,7 @@
 			$store_id 	= get_current_store_id();
 			$q1 = $this->db->select("*")
 			->where('warehouse_id',$warehouse_id )->limit(1)
+			->order_by("id", "desc")
 			->get("db_store_purchased_packages")->row();
 			
 			if (!empty($q1)) {
@@ -61,7 +62,7 @@
 			->get("db_package_subscription")
 			->row();
 			if($q2->num_rows() >= $q3->warehouse_count ){
-				echo "Your package limit is expired";
+				echo "Your warehouse limit is exceeded.please upgrade your package";
 				return 0;
 			}
 

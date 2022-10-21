@@ -59,7 +59,7 @@
 											<?php
 											$CI = &get_instance();
 											$i = 1;
-											$q1 = $this->db->select("*")->where('warehouse_type', 'System')->get("db_warehouse");
+											$q1 = $this->db->select("*")->where('warehouse_type', 'System')->join('db_store','db_store.id = db_warehouse.store_id','left')->get("db_warehouse");
 											if ($q1->num_rows() > 0) {
 												foreach ($q1->result() as $res1) {
 											?>
@@ -68,6 +68,7 @@
 														<?php if (is_admin() && warehouse_module()) { ?>
 															<td><?= get_store_name($res1->store_id); ?> </td>
 														<?php } ?>
+														<td><?php echo $res1->store_code; ?> </td>
 														<td><?php echo $res1->warehouse_name; ?> </td>
 														<td><?php echo $res1->mobile; ?> </td>
 														<td><?php echo $res1->email; ?> </td>

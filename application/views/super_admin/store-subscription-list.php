@@ -53,6 +53,7 @@
 									<thead class="bg-gray ">
 										<tr>
 											<th>#</th>
+											<th>Store Code</th>
 											<th>Store</th>
 											<th>Package</th>
 											<th>Start date</th>
@@ -68,6 +69,8 @@
                                     $i=1;
                                          $q1= $this->db->select("db_store_purchased_packages.id,
 										 db_warehouse.warehouse_name as store_name,
+										 db_warehouse.store_id,
+										 db_store.store_code,
 										 db_store_purchased_packages.created_date,
 										 db_store_purchased_packages.status,
 										 db_store_purchased_packages.created_by,
@@ -78,14 +81,17 @@
 										 db_package_subscription.validity,
 										 ")
 										 ->where('db_warehouse.warehouse_type','System')
+										 ->where('db_store_purchased_packages.type','subscription')
 										 ->join('db_package_subscription','db_package_subscription.id=db_store_purchased_packages.package_id','left')
 										 ->join('db_warehouse','db_warehouse.id=db_store_purchased_packages.warehouse_id','left')
+										 ->join('db_store','db_store.id = db_warehouse.store_id','left')
 										 ->get("db_store_purchased_packages");
                                     if($q1->num_rows()>0){
                                            foreach ($q1->result() as $res1){
                                         ?>
 										<tr>
 											<td><?php echo $i++;?> </td>
+											<td><?php echo $res1->store_code;?> </td>
 											<td><?php echo $res1->store_name;?> </td>
 											<td><?php echo $res1->package_name;?> </td>
 											<td><?php echo $res1->created_date;?> </td>

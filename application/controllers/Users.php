@@ -29,6 +29,7 @@
 			$warehouse_id = get_store_warehouse_id();
 			$store_id 	= get_current_store_id();
 			$q1 = $this->db->select("*")
+			->order_by("id", "desc")
 			->where('warehouse_id',$warehouse_id )->limit(1)
 			->get("db_store_purchased_packages")->row();
 			
@@ -41,11 +42,13 @@
 
 			$q3 = $this->db->select("*")
 			->where('id',$q1->package_id)
+			->order_by("id", "desc")
 			->limit(1)
 			->get("db_package_subscription")
 			->row();
+			
 			if($q2->num_rows() >= $q3->user_count ){
-				echo "Your package limit is expired";
+				echo "Your user limit is exceeded.please upgrade your package";
 				return 0;
 			}
 

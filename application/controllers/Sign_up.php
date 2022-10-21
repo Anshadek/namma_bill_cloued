@@ -33,7 +33,7 @@ class Sign_up extends MY_Controller {
 		}else{
 		$result=$this->store->create_store();
 		
-		//$this->sendmail($_POST['email']);
+		$this->sendmail($_POST['email']);
 		$this->session->set_flashdata('success', 'Please Login Here!');
 		echo "success";
 		//redirect('login');
@@ -78,7 +78,7 @@ class Sign_up extends MY_Controller {
         $config['protocol'] = 'smtp';
         $config['smtp_host'] = 'ssl://smtp.gmail.com'; //smtp host name
         $config['smtp_port'] = '465'; //smtp port number
-        $config['smtp_user'] = 'nammabillings@gmail.com';
+        $config['smtp_user'] = 'no_reply@nammabilling.com';
         $config['smtp_pass'] = 'tkjgjzdevrovqrsa'; //$from_email password
         $config['mailtype'] = 'html';
         $config['charset'] = 'iso-8859-1';
@@ -113,6 +113,7 @@ class Sign_up extends MY_Controller {
 
  }
  function check_mail_exists(){
+	
 	$q1=$this->db->select("*")
 		->where('email',$_POST['email'])
 		->from("db_users")->get();
