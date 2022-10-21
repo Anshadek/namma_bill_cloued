@@ -498,6 +498,7 @@
 
  <script src="<?php echo $theme_link; ?>js/modals.js"></script>
  <script src="<?php echo $theme_link; ?>js/modals/modal_item.js"></script>
+ <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=12"></script>
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
@@ -507,7 +508,7 @@
 <script src="<?php echo $theme_link; ?>js/purchase.js?v=1"></script>  
 
 <script>
-
+   
         var base_url=$("#base_url").val();
         $("#store_id").on("change",function(){
           var store_id=$(this).val();
@@ -525,9 +526,9 @@
 
         /*Warehouse*/
         $("#warehouse_id").on("change",function(){
+        
           var warehouse_id=$(this).val();
-          $("#purchase_table > tbody").empty();
-          final_total();
+          get_warehouse_supplier(warehouse_id);
         });
         /*Warehouse end*/
 

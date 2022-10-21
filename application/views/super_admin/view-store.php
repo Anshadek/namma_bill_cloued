@@ -23,14 +23,14 @@
                <?= $page_title; ?>
             </h1>
             <ol class="breadcrumb">
-               <li><a href="<?php echo $base_url; ?>dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+               <li><a href="<?php echo $base_url; ?>dashboard"><i class="fa fa-dashboard"></i> </a></li>
                <li class="active"><?= $page_title; ?></li>
             </ol>
          </section>
   
          <!-- Main content -->
-         <?= form_open('#', array('class' => 'form-horizontal', 'id' => 'store-form', 'enctype' => 'multipart/form-data', 'method' => 'POST')); ?>
-         <!-- <form method="post" class = 'form-horizontal' action="<?= base_url() . 'super_admin/create_store' ?>" id="store-form" > -->
+         
+        
 
          <section class="content">
             <div class="row">
@@ -296,13 +296,7 @@
                               <!-- right column -->
                               <div class="col-md-12">
                                  <!-- form start -->
-
-
-                                 <div class="box-body">
-                                    <div class="row">
-                                       <h3 class="text-center">Active Packages</h3>
-                                       <hr>
-                                       <?php if ($active_package->type == "subscription") {
+                                 <?php if ($active_package->type == "subscription") {
                                           $amount = $active_package->amount;
                                           $validity =  $active_package->validity . ' Days';
                                           $validity_in_days = $active_package->validity;
@@ -321,7 +315,24 @@
                                        }
                                        $active_package_warehouse_count = $warehouse_count;
                                        $active_package_user_count = $warehouse_count;
+                                       $expired_date = date('Y-m-d', strtotime($active_package->created_date . ' + ' . $validity_in_days . ' days'));
                                        ?>
+
+                                 <div class="box-body">
+                                 <div class="row">
+                     <?php if ($expired_date <= date('Y-m-d')){ ?>
+                                    <div class="alert alert-danger  text-center">
+                 <a href="javascript:void()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>
+                There is no current active package
+                  
+                </strong>
+              </div>
+              <?php } ?>
+                                       <h3 class="text-center">Active Packages</h3>
+                                      
+                                       <hr>
+                                       
                                        <div class="col-md-6">
                                           <!-- <div class="form-group">
                                                    <label for="store_code" class="col-sm-4 control-label"><?= $this->lang->line('store_code'); ?> </label>
@@ -384,7 +395,7 @@
 
                                              </div>
                                           </div>
-                                          <div class="form-group">
+                                          <!-- <div class="form-group">
                                              <label for="gst_no" class="col-sm-4 control-label">Status</label>
                                              <div class="col-sm-8" style="
     margin-top: 8px;
@@ -398,7 +409,7 @@
                                                 }
                                                 ?>
                                              </div>
-                                          </div>
+                                          </div> -->
                                           <div class="form-group">
                                              <label for="vat_no" class="col-sm-4 control-label">Created Time</label>
                                              <div class="col-sm-8" style="
@@ -451,18 +462,36 @@
                                              <div class="col-sm-8" style="
     margin-top: 8px;
 ">
-                                                <span style="color:red;"><?php echo  date('Y-m-d', strtotime($active_package->created_date . ' + ' . $validity_in_days . ' days')); ?></span>
+                                                <span style="color:red;"><?php echo   $expired_date; ?></span>
 
 
                                              </div>
                                           </div>
-                                          <div class="form-group">
+                                          <!-- <div class="form-group">
                                              <label for="gst_no" class="col-sm-4 control-label">Razorpay Signature</label>
                                              <div class="col-sm-8" style="
     margin-top: 8px;
 ">
                                                 <?= $active_package->razorpay_signature ?>
 
+                                             </div>
+                                          </div> -->
+                                          <div class="form-group">
+                                             <label for="gst_no" class="col-sm-4 control-label">Status</label>
+                                             <div class="col-sm-8" style="
+    margin-top: 8px;
+">
+                                                <?php
+                                                
+                                                if ($active_package->status == 'active' &&  $expired_date >= date('Y-m-d') )                   //1=Active, 0=Inactive
+                                                {
+                                                   echo "  <span   class='label label-success' style='cursor:pointer'>" . ucfirst($active_package->status) . " </span>";
+                                                } elseif($expired_date <= date('Y-m-d')) {
+                                                   echo "<span class='label label-danger' style='cursor:pointer'> Expired </span>";
+                                                }else{
+                                                   echo "<span class='label label-danger' style='cursor:pointer'> " . ucfirst($active_package->status) . " </span>";
+                                                }
+                                                ?>
                                              </div>
                                           </div>
                                           <div class="form-group">
@@ -513,7 +542,8 @@
                      </div>
                      <!-- /.box-header -->
                      <div class="box-body">
-                        <input type="hidden" id="base_url" value="http://localhost/project/namma_bill_cloued/">
+                     <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
+                      
                         <table id="example2" class="table table-bordered custom_hover dataTable no-footer" width="100%">
                            <thead class="bg-gray ">
                               <tr>
@@ -526,6 +556,7 @@
                                  <th>Razorpay Payment Id</th>
                                  <th>Type</th>
                                  <th>Validity</th>
+                                 <th>View</th>
 
                               </tr>
                            </thead>
@@ -535,6 +566,7 @@
 										db_store_purchased_packages.created_date,
 										db_store_purchased_packages.razorpay_payment_id,
 										db_store_purchased_packages.created_by,
+                              db_store_purchased_packages.id,
 										db_store_purchased_packages.razorpay_signature,
 										db_store_purchased_packages.status,
                               db_store_purchased_packages.type,
@@ -571,6 +603,9 @@
                                     <td> <?= $res->razorpay_signature ?> </td>
                                     <td> <?= ucfirst($res->type) ?> </td>
                                     <td> <?= $validity ?> </td>
+                                    <td><a class="btn btn-success" title="Update Record ?" href="<?= base_url() ?>super_admin/view_more_used_pack_details/<?= $res->id; ?>">
+																		View
+																	</a></td>
                                  </tr>
                               <?php }
                               $q4 = $this->db->select("db_package_subscription.name,
@@ -579,6 +614,7 @@
                               db_store_purchased_packages.razorpay_signature,
                               db_store_purchased_packages.created_by,
                               db_store_purchased_packages.type,
+                              db_store_purchased_packages.id,
                               db_package_subscription.validity,
                               db_package_subscription.user_count,
                               db_package_subscription.warehouse_count,
@@ -611,9 +647,65 @@
                                     <td> <?= $res->razorpay_signature ?> </td>
                                     <td> <?= ucfirst($res->type) ?> </td>
                                     <td> <?= $validity ?> </td>
+                                    <td><a class="btn btn-success" title="Update Record ?" href="<?= base_url() ?>super_admin/view_more_used_pack_details/<?= $res->id; ?>">
+																		View
+																	</a></td>
                                  </tr>
                                  <?php } ?>
                               </ul>
+                     </div>
+
+
+
+                     </td>
+                     </tr>
+                     </tbody>
+                     </table>
+                  </div>
+                  <!-- /.box-body -->
+               </div>
+               <!-- /.box -->
+               <div class="col-xs-12">
+                  <div class="box box-primary">
+                     <div class="box-header with-border">
+                        <h3 class="box-title">Note</h3>
+                        <label onclick="addRow()" title="New Trial Pack Category?" class="btn btn-primary pull-right"> Add Note </label>     
+                     </div>
+                     <!-- /.box-header -->
+                     <div class="box-body">
+                      
+                        <table id="example2" class="table table-bordered custom_hover dataTable no-footer" width="100%">
+                           <thead class="bg-gray ">
+                              <tr>
+                                 <th>#</th>
+                                 <th>Note</th>
+                                 <th>Date</th>
+                                 <th>Time</th>
+                                 <th>Delete</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <?php 
+                           $q3 = $this->db->select("*")
+                                 ->where('warehouse_id', $q_id)
+                                 ->order_by("id", "desc")
+                                 ->get("db_store_notes");
+                              $notes = $q3->result();
+                              $i = 1;
+                              foreach( $notes as $note){
+                              ?>
+                                 <tr>
+                                    <td> <?=  $i++ ?> </td>
+                                    <td> <?= $note->note ?> </td>
+                                    <td> <?= $note->created_date ?> </td>
+                                    <td> <?= date('h:i A', strtotime($note->created_time)); ?> </td>
+                                    <td><label class="btn btn-danger" style="cursor:pointer" title="Delete Record ?" onclick="deleteStoreNote('<?=$note->id;?>')">
+                                                Delete
+                              </label></td>
+                                 </tr>
+                                 <?php } ?>
+                             
+                            
                      </div>
 
 
@@ -761,8 +853,45 @@
       <!-- /.row -->
 
       </section>
+      <div class="modal fade  in" id="store-note-modal" style="padding-left: 5px;">
+			<?= form_open('#', array('class' => 'form-horizontal', 'id' => 'store-note-form', 'enctype'=>'multipart/form-data', 'method'=>'POST'));?>
+                
+					 
+                <div class="modal-dialog modal-md">
+                  <div class="modal-content">
+                    <div class="modal-header header-custom">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <label aria-hidden="true">×</label></button>
+                      <h4 class="modal-title text-center">Add Note</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                         
+								  <div class="col-md-12">
+                            <div class="box-body">
+                              <div class="form-group">
+                                <label for="note">Note</label>
+                                <label id="note_msg" class="text-danger text-right pull-right"></label>
+                                <textarea type="text" class="form-control" id="note" name="note" placeholder=""></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          <input type="hidden" name="id" value="0">
+                          <input type="hidden" name="warehouse_id" value="<?= $q_id ?>">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                      <button type="button" id="save" class="btn btn-primary add_customer">Save</button>
+                    </div>
+                  </div>
+                  <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+					 <?php echo form_close();?>            
+               </div>
+      </div>
       <!-- /.content -->
-      <?php echo form_close(); ?>
+      
    </div>
    <!-- /.content-wrapper -->
    <?php $this->load->view('footer.php'); ?>
@@ -778,6 +907,8 @@
    <?php $this->load->view('admin_common/code_js.php'); ?>
    <!-- Bootstrap WYSIHTML5 -->
    <script src="<?php echo $theme_link; ?>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+   <script src="<?php echo $theme_link; ?>js/super_admin_store_note.js?v=4"></script>
+   
    <!-- Make sidebar menu hughlighter/selector -->
    <?php if (isset($q_id) && !empty($q_id) && get_current_store_id() == $q_id) { ?>
       <script>
@@ -794,6 +925,16 @@
          //bootstrap WYSIHTML5 - text editor
          get_states($('#country').val());
       })
+      function editRow(id,name,note){
+				$('#store-note-modal').modal('show'); 
+				$('#id').val(id);
+				$('#name').val(name);
+				$('#note').val(note);
+			}
+			function addRow(params) {
+				
+				$('#store-note-modal').modal('show'); 
+			}
    </script>
    <script type="text/javascript">
 

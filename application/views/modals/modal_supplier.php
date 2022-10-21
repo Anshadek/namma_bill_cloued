@@ -25,7 +25,7 @@
 							<div class="form-group">
 								<label for="mobile"><?= $this->lang->line('warehouse_name'); ?>*</label>
 								<stax_number id="warehouse_id_msg" class="text-danger text-right pull-right"></stax_number>
-								<select class="form-control" id="warehouse_id" name="warehouse_id" style="width: 100%;">
+								<select class="form-control" id="warehouse_id_1" name="warehouse_id" style="width: 100%;">
 									<?= get_warehouse_select_list($warehouse_id); ?>
 								</select>
 							</div>

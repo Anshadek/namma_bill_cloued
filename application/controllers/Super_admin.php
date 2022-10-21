@@ -170,6 +170,79 @@ class Super_admin extends MY_Controller
 
 		$this->load->view('super_admin/view-store', $data);
 	}
+
+	public function view_more_used_pack_details($id)
+	{
+		
+		$data = $this->data; //My_Controller constructor data accessed here
+		$package = array();
+		$q1 = $this->db->select("type,warehouse_id")
+			->where('id', $id)
+			->order_by("id", "desc")
+			->limit(1)
+			->get("db_store_purchased_packages")->row();
+			
+		if (!empty($q1)) {
+
+			if ($q1->type == 'trial') {
+
+				$q2 = $this->db->select("db_trialpackage.name,
+										db_trialpackage.day_or_month,
+										db_store_purchased_packages.created_date,
+										db_store_purchased_packages.created_time,
+										db_store_purchased_packages.type,
+										db_store_purchased_packages.razorpay_payment_id,
+										db_store_purchased_packages.created_by,
+										db_store_purchased_packages.razorpay_signature,
+										db_store_purchased_packages.status,
+										db_trialpackage.days")
+					->where('warehouse_id', $q1->warehouse_id)
+					->join(
+						'db_trialpackage',
+						'db_trialpackage.id = db_store_purchased_packages.package_id',
+						'left'
+					)
+					->order_by("db_store_purchased_packages.id", "desc")
+					->limit(1)
+					->get("db_store_purchased_packages")->row();
+
+				$package  = $q2;
+				$package->type = 'trial';
+			} else {
+
+				$q2 = $this->db->select("db_package_subscription.name,
+										db_store_purchased_packages.created_date,
+										db_store_purchased_packages.razorpay_payment_id,
+										db_store_purchased_packages.created_time,
+										db_store_purchased_packages.razorpay_signature,
+										db_store_purchased_packages.razorpay_signature,
+										db_store_purchased_packages.created_by,
+										db_store_purchased_packages.type,
+										db_package_subscription.validity,
+										db_package_subscription.user_count,
+										db_package_subscription.warehouse_count,
+										db_package_subscription.is_unlimited,
+										db_store_purchased_packages.status,
+										db_package_subscription.amount")
+					->where('warehouse_id',  $q1->warehouse_id)
+					->join(
+						'db_package_subscription',
+						'db_package_subscription.id = db_store_purchased_packages.package_id',
+						'left'
+					)
+					->order_by("db_store_purchased_packages.id", "desc")
+					->limit(1)
+					->get("db_store_purchased_packages")->row();
+				$package  = $q2;
+				
+			}
+		}
+		//=====
+		$data['package'] = $package;
+		$data['page_title'] = 'View Package';
+
+		$this->load->view('super_admin/view-more-used-pack', $data);
+	}
 	public function create_store()
 	{
 
@@ -673,5 +746,62 @@ class Super_admin extends MY_Controller
 		$data = $this->data; //My_Controller constructor data accessed here
 		$data['page_title'] = 'Warehouse List';
 		$this->load->view('super_admin/expired-pos-list', $data);
+	}
+	public function create_store_note()
+	{
+		
+		//============update section =================
+		if ($_POST['id'] > 0) {
+
+			$res = $this->update_store_note($_POST);
+			echo $res;
+			return 0;
+		}
+		//=========================================
+		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
+
+		$data = array(
+			'warehouse_id'				=> $warehouse_id,
+			'note'				=> $note,
+			'created_date'			=>  date('Y-m-d'),
+			'created_time' => date('H:i:s'),
+		);
+		$q1 = $this->db->insert('db_store_notes', $data);
+		if (!$q1) {
+			echo "failed";
+			return 0;
+		} else {
+			echo "success";
+			return 1;
+		}
+	}
+	public function update_store_note()
+	{
+
+		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
+		$data = array(
+			'note'				=> $note,
+		);
+		$q1 = $this->db
+			->where('id', $id)
+			->update('db_store_notes', $data);
+		if (!$q1) {
+			return "failed";
+		} else {
+			return "success";
+		}
+	}
+	public function delete_store_note()
+	{
+		$id = $this->input->post('id');
+		$q1 = $this->db->query("delete from db_store_notes where id=" . $id);
+		if ($q1 != 1) {
+			echo "failed";
+			return 0;
+		} else {
+			//$this->db->trans_commit();
+			echo "success";
+			return 1;
+		}
 	}
 }

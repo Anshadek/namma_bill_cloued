@@ -38,6 +38,44 @@ function get_warehouse_customers(datas){
 			});
 }
 
+function get_warehouse_supplier(datas){
+	var warehouse_id = 0;
+	var selected = $('#selected_supplier').val();
+	if (selected > 0){
+
+	}else{
+		selected = 0;
+	}
+	
+	if (datas > 0){
+		warehouse_id = datas;
+	}else{
+		warehouse_id = datas.value;
+	}
+	
+	
+	var base_url = $('#base_url').val();
+	$.ajax({
+		url: base_url+'suppliers/get_warehouse_supplier_select_list',
+		type: "post",
+		data: {
+			//store_id: $("#store_id").val(),
+			warehouse_id : warehouse_id,
+			 
+			selected : selected,
+			
+		},
+		beforeSend: function() {
+			$('.ajax-load').show();
+		}
+	}).done(function(data) {
+		$('#supplier_id').html(data);
+
+	}).fail(function(jqXHR, ajaxOptions, thrownError) {
+		alert('server not responding...');
+	});
+}
+
 function get_warehouse_customers_pos(selected,warehouse_id){
 	
 	// var warehouse_id = 0;

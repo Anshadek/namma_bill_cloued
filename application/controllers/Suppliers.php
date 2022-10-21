@@ -175,4 +175,44 @@ class Suppliers extends MY_Controller {
 		$entry_id = $this->input->post('entry_id');
 		echo $this->suppliers->delete_opening_balance_entry($entry_id);
 	}
+	function get_warehouse_supplier_select_list(){
+		
+		$str='';
+	   $select_id = isset($_POST['selected']) ? $_POST['selected'] : 0;
+	   $q1=$this->db->select("*")
+	   ->where("status=1");
+	   if (isset($_POST['warehouse_id'])){
+		$q1 = $this->db->where('warehouse_id',$_POST['warehouse_id'])
+		->from("db_suppliers")->get();
+	   }else{
+		echo $str.='<option value="">No Records Found</option>'; 
+		return;
+	   }
+	   
+
+	 
+		if($q1->num_rows($q1)>0)
+		 {  
+			 $str='';
+			 if (!isset($_POST['is_pos'])){
+				$str.='<option value="">-- All --</option>'; 
+			 }
+		
+			 foreach($q1->result() as $res1)
+		   { 
+			
+			  
+			  
+			 $selected = ($select_id==$res1->id)? 'selected' : '';
+			 $str.="<option $selected  value='".$res1->id."'>".$res1->supplier_code."-".$res1->supplier_name."</option>";
+		   }
+		 }
+		 else
+		 {
+			 $str.='<option value="">No Records Found</option>'; 
+		 }
+		
+		
+		 echo $str;
+  }
 }
