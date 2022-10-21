@@ -127,6 +127,8 @@
                                     <?php if(store_module() && is_admin()){ ?>
                                     <th style=""><?= $this->lang->line('store_name'); ?></th>
                                     <?php } ?>
+                                    <th style=""><?= $this->lang->line('warehouse_name'); ?></th>
+                                    
                                     <th style=""><?= $this->lang->line('customer_name'); ?></th>
                                     <th style=""><?= $this->lang->line('last_order_date'); ?></th>
                                     <th style=""><?= $this->lang->line('order_id'); ?></th>

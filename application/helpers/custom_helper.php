@@ -927,7 +927,7 @@
   }
   function get_tax_details($tax_id){
     $CI =& get_instance();
-    return $CI->db->select('*')->from('db_tax')->where('id',$tax_id)->get()->row();
+    return $CI->db->select('*')->from('db_tax')->where('db_tax.id',$tax_id)->get()->row();
   }
   function is_it_belong_to_store($table,$rec_id){
     $CI =& get_instance();
