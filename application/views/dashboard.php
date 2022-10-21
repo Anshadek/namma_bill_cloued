@@ -374,7 +374,7 @@
                     $i=1;
 										$from_date = date('Y-m-d');
 										$to_date = date('Y-m-d', strtotime("+30 days"));
-										$qs5="SELECT id,item_name,sales_price ,expire_date FROM db_items where status=1  and expire_date >='$from_date' and expire_date <='$to_date'"." ORDER BY id desc limit 10";
+										$qs5="SELECT id,item_name,sales_price ,expire_date FROM db_items where status=1  and warehouse_id = $warehouse_id and expire_date >='$from_date' and expire_date <='$to_date'"." ORDER BY id desc limit 10";
 									
                    // $qs5="SELECT id,item_name,sales_price ,expire_date FROM db_items where status=1  and expire_date=".date('Y-m-d')."<=".date('Y-m-d',strtotime('+30 day'))." ORDER BY id desc limit 10";
                     $q5=$this->db->query($qs5);
@@ -430,7 +430,7 @@
                     $i=1;
 										$to_date = date('Y-m-d');
 										$from_date = date('Y-m-d', strtotime("-30 days"));
-										$qs5="SELECT id,item_name,sales_price ,expire_date FROM db_items where status=1  and expire_date >='$from_date' and expire_date <='$to_date'"." ORDER BY id desc limit 10";
+										$qs5="SELECT id,item_name,sales_price ,expire_date FROM db_items where status=1 and warehouse_id = $warehouse_id  and expire_date >='$from_date' and expire_date <='$to_date'"." ORDER BY id desc limit 10";
 									
                    // $qs5="SELECT id,item_name,sales_price ,expire_date FROM db_items where status=1  and expire_date=".date('Y-m-d')."<=".date('Y-m-d',strtotime('+30 day'))." ORDER BY id desc limit 10";
                     $q5=$this->db->query($qs5);

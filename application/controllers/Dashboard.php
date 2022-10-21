@@ -33,6 +33,11 @@ class Dashboard extends MY_Controller {
 		}
 		else{
 			
+			$q1 = $this->db->select("warehouse_id")
+						->from("db_userswarehouses")
+						->where("user_id=",$data['CUR_USERID'])->get()->row();
+			$warehouse_id = $q1->warehouse_id;
+			$data['warehouse_id'] = $warehouse_id;
 			$this->load->view('dashboard',$data);
 		}
 		
