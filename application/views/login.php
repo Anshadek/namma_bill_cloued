@@ -1,135 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title><?php print $SITE_TITLE; ?> | Log in</title>
-  <link rel='shortcut icon' href='<?php echo $theme_link; ?>images/favicon.ico' />
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="<?php echo $theme_link; ?>bootstrap/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo $theme_link; ?>dist/css/AdminLTE.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="<?php echo $theme_link; ?>plugins/iCheck/square/blue.css">
-  <?php 
-      $lang = trim(strtoupper($this->session->userdata('language')));
-      if($lang==strtoupper('arabic') || $lang==strtoupper('urdu')) {?>
-  <!-- RTL For arabic styles -->
-  <link rel="stylesheet" href="<?php echo $theme_link; ?>bootstrap/css/bootstrap.rtl.min.css">
-  <link rel="stylesheet" href="<?php echo $theme_link; ?>dist/css/AdminLTE.rtl.min.css">
-  <?php } ?>
-  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>Namma Billing | Log in</title>
+    <link rel="apple-touch-icon" href="<?php echo $theme_link; ?>sign_up/app-assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo $theme_link; ?>sign_up/app-assets/images/ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/vendors/css/vendors.min.css">
+    <!-- END: Vendor CSS-->
+
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/css/components.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/css/themes/dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/css/themes/bordered-layout.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/css/themes/semi-dark-layout.css">
+
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/css/core/menu/menu-types/horizontal-menu.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/css/plugins/forms/form-validation.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/app-assets/css/pages/authentication.css">
+    <!-- END: Page CSS-->
+
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="<?php echo $theme_link; ?>sign_up/assets/css/style.css">
+    <!-- END: Custom CSS-->
+
 </head>
-<body class="hold-transition login-page">
+<!-- END: Head-->
 
-  <!-- language -->
-  <input type="hidden" id="base_url" value="<?=base_url()?>">
-  <?php $this->load->view('comman/language.php');?>
-  <!-- language end -->
+<!-- BEGIN: Body-->
 
-<div class="login-box">
+<body class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="blank-page">
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <div class="auth-wrapper auth-cover">
+                    <div class="auth-inner row m-0">
+                        <!-- Brand logo-->
+                        <a class="brand-logo" href="https://nammabilling.com/" target="_blank">                           
+                            <img src="https://nammabilling.com/anshad/uploads/site/download.png">
+                            <!-- <h2 class="brand-text text-primary ms-1">Namma Billing</h2> -->
+                        </a>
+                        <!-- /Brand logo-->
+                        <!-- Left Text-->
+                        <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
+                            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5"><img class="img-fluid" src="<?php echo $theme_link; ?>sign_up/app-assets/images/pages/login-v2.svg" alt="Login V2" /></div>
+                        </div>
+                        <!-- /Left Text-->
+                        <!-- Login-->
+                        <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+                            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+                                <h2 class="card-title fw-bold mb-1">Welcome to NammaBilling! 👋</h2>
+                                <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
+                                <p class="login-box-msg"><?= $this->lang->line('sign_in_message'); ?></p>
 
-  <div class="login-logo">
-    <a href="#"><b>
-      <img src="<?php echo base_url(get_site_logo());?>" >
-    </b></a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-    
-    <p class="login-box-msg"><?= $this->lang->line('sign_in_message'); ?></p>
-
-     <div class="text-danger tex-center"><?php echo $this->session->flashdata('failed'); ?></div>
-       <div class="text-success tex-center"><?php echo $this->session->flashdata('success'); ?></div>
-         
-    
-    <form action="<?php echo $base_url; ?>login/verify" method="post">
-      <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-      <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Email" id="email" name="email" autofocus><span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password" id="pass" name="pass">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <button type="submit" class="btn btn-primary btn-block btn-flat"><?= $this->lang->line('sign_in'); ?></button>
+                            <div class="text-danger tex-center"><?php echo $this->session->flashdata('failed'); ?></div>
+                            <div class="text-success tex-center"><?php echo $this->session->flashdata('success'); ?></div>
+                                <form class="auth-login-form mt-2" action="<?php echo $base_url; ?>login/verify" method="post">
+                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="login-email">Email</label>
+                                        <input class="form-control"  type="email"  placeholder="Email" id="email" name="email" aria-describedby="login-email" autofocus="" tabindex="1" />
+                                    </div>
+                                    <div class="mb-1">
+                                        <div class="d-flex justify-content-between">
+                                            <label class="form-label" for="login-password">Password</label><a href="<?=base_url('login/forgot_password')?>"><small><?= $this->lang->line('forgot_password'); ?></small></a>
+                                        </div>
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input class="form-control form-control-merge"  type="password" placeholder="Password" id="pass" name="pass" aria-describedby="login-password" tabindex="2" /><span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-1">
+                                        <div class="form-check">
+                                            <input class="form-check-input" id="remember-me" type="checkbox" tabindex="3" />
+                                            <label class="form-check-label" for="remember-me"> Remember Me</label>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary w-100" tabindex="4"><?= $this->lang->line('sign_in'); ?></button>
+                                </form>
+                                <p class="text-center mt-2">
+                                  <span>New on our platform?</span><a href="#"><span>&nbsp;Create an account</span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- /Login-->
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <?php if(store_module()){?>
-        <div class="col-xs-6 "><br>
-          <a href="<?=base_url('register')?>"><?= $this->lang->line('register'); ?></a>
-        </div>
-        <?php } ?>
-        <div class="col-xs-6 text-right pull-right"><br>
-          <a href="<?=base_url('login/forgot_password')?>"><?= $this->lang->line('forgot_password'); ?></a>
-        </div>
-      </div>
-    </form>
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <p style='font-style: italic;'>Version <?=app_version();?></p>   
-      </div>
     </div>
-  </div>
-  <!-- /.login-box-body -->
- <?php if(demo_app()){ ?>
-  <div class="box-body">
-    <label>Click to Start Session!</label>
-    <div class="row">
-     <div class="col-md-12">
-       <table class="table table-bordered table-condensed text-center">         
-            <tr>
-              <td>admin@example.com</td>
-              <td>123456</td>
-              <td><button type="button" class="btn btn-info btn-block btn-flat admin">Apply</button></td>
-            </tr>
-            </tbody>
-          </table>
-     </div>
-    </div>
-    <i><i class="fa fa-fw fa-info-circle text-warning"></i>Some of the features are disabled in demo and it will be reset after each hour.</i>
-  </div>
-<?php } ?>
-         
-  
-</div>
+    <!-- END: Content-->
 
-<!-- /.login-box -->
 
-<!-- jQuery 2.2.3 -->
-<script src="<?php echo $theme_link; ?>plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="<?php echo $theme_link; ?>bootstrap/js/bootstrap.min.js"></script>
-<!-- iCheck -->
-<script src="<?php echo $theme_link; ?>plugins/iCheck/icheck.min.js"></script>
-<script src="<?php echo $theme_link; ?>js/language.js"></script>
-<script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-  });
-</script>
-<script type="text/javascript" >
-$(function($) { // this script needs to be loaded on every page where an ajax POST may happen
-    $.ajaxSetup({ data: {'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>' }  }); });
-</script>
-<script type="text/javascript">
-  $(".admin").on("click",function(event) {
-    $("input[name='email']").val("admin@example.com")
-    $("input[name='pass']").val("123456")
-  });
-</script>
+    <!-- BEGIN: Vendor JS-->
+    <script src="<?php echo $theme_link; ?>sign_up/app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="<?php echo $theme_link; ?>sign_up/app-assets/vendors/js/ui/jquery.sticky.js"></script>
+    <script src="<?php echo $theme_link; ?>sign_up/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="<?php echo $theme_link; ?>sign_up/app-assets/js/core/app-menu.js"></script>
+    <script src="<?php echo $theme_link; ?>sign_up/app-assets/js/core/app.js"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="<?php echo $theme_link; ?>sign_up/app-assets/js/scripts/pages/auth-login.js"></script>
+    <!-- END: Page JS-->
+
+    <script>
+        $(window).on('load', function() {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        })
+    </script>
 </body>
+<!-- END: Body-->
+
 </html>
