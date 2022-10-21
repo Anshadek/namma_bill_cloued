@@ -352,7 +352,10 @@
         })
 
         function next_form(hide_form, show_form) {
-            
+            console.log('email_exists_flag'+email_exists_flag);
+            console.log('email_format_flag'+email_format_flag);
+            console.log('mob_no_flag'+mob_no_flag);
+
                 if ( email_exists_flag == false &&
          email_format_flag == false &&
         mob_no_flag ==  false){
@@ -518,6 +521,7 @@
                 $('#email_msg').css('color', 'red');
                 
                    }else{
+                   
                     email_exists_flag = false;
                    
                    }

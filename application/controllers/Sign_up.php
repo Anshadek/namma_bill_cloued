@@ -68,18 +68,19 @@ class Sign_up extends MY_Controller {
 
 
  public function sendmail($to_email){
+
 	$this->load->library('email');
-		//$to_email = 'josephlukose3@gmail.com';
-        $from_email = 'anshadaliek@gmail.com'; //change this to yours
+		//$to_email = 'anshadali.ek@gmail.com';
+        $from_email = 'no_reply@nammabilling.com'; //change this to yours
         $subject = 'Verify Your Email Address';
         $message = 'Dear User,<br /><br />Please click on the below activation link to verify your email address.<br /><br /> '.base_url().'sign_up/verify_emailid/'. md5($to_email) . '<br /><br /><br />Thanks<br />Namma bill Team';
         
         //configure email settings
         $config['protocol'] = 'smtp';
-        $config['smtp_host'] = 'ssl://smtp.gmail.com'; //smtp host name
-        $config['smtp_port'] = '465'; //smtp port number
+        $config['smtp_host'] = 'mail.nammabilling.com'; //smtp host name
+        $config['smtp_port'] = '587'; //smtp port number
         $config['smtp_user'] = 'no_reply@nammabilling.com';
-        $config['smtp_pass'] = 'tkjgjzdevrovqrsa'; //$from_email password
+        $config['smtp_pass'] = 'brD88#qig'; //$from_email password
         $config['mailtype'] = 'html';
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = TRUE;
@@ -120,7 +121,7 @@ class Sign_up extends MY_Controller {
 		 if($q1->num_rows()>0){
 			echo true;
 		 }else{
-			echo false;
+			echo 2;
 		 }
  }
 	
