@@ -78,15 +78,7 @@
                                        $expiry_date = date('Y-m-d', strtotime($package->created_date . ' + ' . $validity_in_days . ' days'));
                                        ?>
                                        <div class="col-md-6">
-                                          <!-- <div class="form-group">
-                                                   <label for="store_code" class="col-sm-4 control-label"><?= $this->lang->line('store_code'); ?> </label>
-                                                   <div class="col-sm-8" style="
-    margin-top: 8px;
-">
-                                                      <input type="text" class="form-control" id="store_code" name="store_code" readonly=""  placeholder=""  value="<?php print $store_code; ?>" >
-                                                      <span id="store_code_msg" style="display:none" class="text-danger"></span>
-                                                   </div>
-                                                </div> -->
+                                          
                                           <div class="form-group">
                                              <label for="store_name" class="col-sm-4 control-label">Name</label>
                                              <div class="col-sm-8" style="
@@ -118,8 +110,16 @@
 
                                              </div>
                                           </div>
+                                          <div class="form-group">
+                                             <label for="vat_no" class="col-sm-4 control-label">Created Time</label>
+                                             <div class="col-sm-8" style="
+    margin-top: 8px;
+">
+<?= date('h:i A', strtotime($package->created_time)); ?>
 
-
+                                             </div>
+                                          </div>
+                                          
                                           <div class="form-group">
                                              <label for="vat_no" class="col-sm-4 control-label">Start Date</label>
                                              <div class="col-sm-8" style="
@@ -139,39 +139,6 @@
 
                                              </div>
                                           </div>
-                                          <div class="form-group">
-                                             <label for="gst_no" class="col-sm-4 control-label">Status</label>
-                                             <div class="col-sm-8" style="
-    margin-top: 8px;
-">
-                                                <?php
-                                                if ($package->status == 'active' && date('Y-m-d') <= $expiry_date)                   //1=Active, 0=Inactive
-                                                {
-                                                   echo "  <span   class='label label-success' style='cursor:pointer'>" . ucfirst($package->status) . " </span>";
-                                                } elseif( date('Y-m-d') <= $expiry_date){
-                                                   echo "  <span   class='label label-success' style='cursor:pointer'> Expired</span>";
-                                                }else{
-                                                   echo "<span class='label label-danger' style='cursor:pointer'> " . ucfirst($package->status) . " </span>";
-                                                }
-                                                ?>
-                                             </div>
-                                          </div>
-                                          <div class="form-group">
-                                             <label for="vat_no" class="col-sm-4 control-label">Created Time</label>
-                                             <div class="col-sm-8" style="
-    margin-top: 8px;
-">
-                                                <?= date('h:i A', strtotime($package->created_time)); ?>
-  
-
-                                             </div>
-                                          </div>
-
-
-
-
-
-
                                           <!-- ########### -->
                                        </div>
                                        <div class="col-md-6">
@@ -213,15 +180,25 @@
 
                                              </div>
                                           </div>
-                                          <!-- <div class="form-group">
-                                             <label for="gst_no" class="col-sm-4 control-label">Razorpay Signature</label>
+                                          <div class="form-group">
+                                             <label for="gst_no" class="col-sm-4 control-label">Status</label>
                                              <div class="col-sm-8" style="
     margin-top: 8px;
 ">
-                                                <?= $package->razorpay_signature ?>
+<?php
+                                                if ($package->status == 'active' && date('Y-m-d') <= $expiry_date)                   //1=Active, 0=Inactive
+                                                {
+                                                   echo "  <span   class='label label-success' style='cursor:pointer'>" . ucfirst($package->status) . " </span>";
+                                                } elseif( date('Y-m-d') <= $expiry_date){
+                                                   echo "  <span   class='label label-success' style='cursor:pointer'> Expired</span>";
+                                                }else{
+                                                   echo "<span class='label label-danger' style='cursor:pointer'> " . ucfirst($package->status) . " </span>";
+                                                }
+                                                ?>
 
                                              </div>
-                                          </div> -->
+                                          </div>
+                                          
                                           <div class="form-group">
                                              <label for="gst_no" class="col-sm-4 control-label">Created By</label>
                                              <div class="col-sm-8" style="

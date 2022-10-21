@@ -374,8 +374,16 @@
 
                                              </div>
                                           </div>
+                                          <div class="form-group">
+                                             <label for="vat_no" class="col-sm-4 control-label">Created Time</label>
+                                             <div class="col-sm-8" style="
+    margin-top: 8px;
+">
+<?= date('h:i A', strtotime($active_package->created_time)); ?>
 
-
+                                             </div>
+                                          </div>
+                        
                                           <div class="form-group">
                                              <label for="vat_no" class="col-sm-4 control-label">Start Date</label>
                                              <div class="col-sm-8" style="
@@ -395,32 +403,8 @@
 
                                              </div>
                                           </div>
-                                          <!-- <div class="form-group">
-                                             <label for="gst_no" class="col-sm-4 control-label">Status</label>
-                                             <div class="col-sm-8" style="
-    margin-top: 8px;
-">
-                                                <?php
-                                                if ($active_package->status == 'active')                   //1=Active, 0=Inactive
-                                                {
-                                                   echo "  <span   class='label label-success' style='cursor:pointer'>" . ucfirst($active_package->status) . " </span>";
-                                                } else {
-                                                   echo "<span class='label label-danger' style='cursor:pointer'> " . ucfirst($active_package->status) . " </span>";
-                                                }
-                                                ?>
-                                             </div>
-                                          </div> -->
-                                          <div class="form-group">
-                                             <label for="vat_no" class="col-sm-4 control-label">Created Time</label>
-                                             <div class="col-sm-8" style="
-    margin-top: 8px;
-">
-                                                <?= date('h:i A', strtotime($active_package->created_time)); ?>
-  
-
-                                             </div>
-                                          </div>
-
+                                          
+                                        
 
 
 
