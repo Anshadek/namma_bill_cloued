@@ -45,7 +45,7 @@
 									<form action="<?= base_url('super_admin/stores') ?>" method="post">
 										<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 										<div class="col-md-12">
-											<div class="col-md-4">
+											<div class="col-md-3">
 												<div class="box-body">
 													<div class="form-group">
 
@@ -59,7 +59,7 @@
 												</div>
 											</div>
 
-											<div class="col-md-4">
+											<div class="col-md-3">
 												<div class="box-body">
 													<div class="form-group">
 
@@ -72,12 +72,21 @@
 													</div>
 												</div>
 											</div>
-											<div class="col-md-4">
+											<div class="col-md-3">
 												<div class="box-body">
 													<div class="form-group">
 														<label id="filter_date" class="text-danger text-right pull-right"></label>
-														<label for="day_or_month">Date</label>
-														<input class="form-control" name="filter_date" type="date" value="<?= $filter_date ?>">
+														<label for="day_or_month">Start Date</label>
+														<input class="form-control" name="filter_start_date" type="date" value="<?= $filter_start_date ?>">
+													</div>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="box-body">
+													<div class="form-group">
+														<label id="filter_date" class="text-danger text-right pull-right"></label>
+														<label for="day_or_month">End Date</label>
+														<input class="form-control" name="filter_end_date" type="date" value="<?= $filter_end_date ?>">
 													</div>
 												</div>
 											</div>

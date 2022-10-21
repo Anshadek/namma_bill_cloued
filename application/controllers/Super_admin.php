@@ -31,7 +31,8 @@ class Super_admin extends MY_Controller
 	{
 		$pay_status = "";
 		$status = "";
-		$date = "";
+		$start_date = "";
+		$end_date = "";
 		$data = $this->data; //My_Controller constructor data accessed here
 
 		if ($this->input->post()) {
@@ -41,7 +42,8 @@ class Super_admin extends MY_Controller
 			$this->db->join('db_store','db_store.id = db_warehouse.store_id','left');
 			$pay_status = $this->input->post('filter_pay_status');
 			$status = $this->input->post('filter_status');
-			$date = $this->input->post('filter_date');
+			$start_date = $this->input->post('filter_start_date');
+			$end_date = $this->input->post('filter_end_date');
 			
 
 			if ($pay_status == 0 || $pay_status == 1) {
@@ -51,9 +53,13 @@ class Super_admin extends MY_Controller
 
 				$this->db->where('db_warehouse.status', $status);
 			}
-			if (!empty($date)) {
+			if (!empty($start_date)) {
 				
-				$this->db->where('db_warehouse.created_date', $date);
+				$this->db->where('db_warehouse.created_date >=', $start_date);
+			}
+			if (!empty($end_date)) {
+				
+				$this->db->where('db_warehouse.created_date <=', $end_date);
 			}
 			
 			$res = $this->db->get();
@@ -69,7 +75,8 @@ class Super_admin extends MY_Controller
 		$data['page_title'] = 'Warehouse List';
 		$data['filter_pay_status'] = $pay_status;
 		$data['filter_status'] = $status;
-		$data['filter_date'] = $date;
+		$data['filter_start_date'] = $start_date;
+		$data['filter_end_date'] = $end_date;
 		$this->load->view('super_admin/store-list', $data);
 	}
 
