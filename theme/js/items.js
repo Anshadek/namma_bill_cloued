@@ -667,3 +667,34 @@ function validate_variants_records(this_id){
     }
   });
 });
+function round(num, decimalPlaces = 0) {
+    var p = Math.pow(10, decimalPlaces);
+    var n = (num * p) * (1 + Number.EPSILON);
+    return Math.round(n) / p;
+}
+function calculate_inclusive(amount,tax){
+	var tot = (amount/((tax/100)+1)/10);
+	  return round(tot,2);
+	}
+	function calculate_exclusive(amount,tax){
+	  var tot = ((amount*tax)/(100));
+	  return round(tot,2);
+	}
+function getPosAmount(){
+	var purchase_price = $('#purchase_price').val();
+	var tax = (isNaN(parseFloat($('option:selected', "#tax_id").attr('data-tax')))) ? 0 :parseFloat($('option:selected', "#tax_id").attr('data-tax')); 
+	var amount = (purchase_price/100)*tax;
+	var tax_type = $('#tax_type').val();
+	var res = 0;
+	if(tax_type == 'Inclusive'){
+		 res = calculate_inclusive(amount + tax,tax);
+	}
+	if(tax_type == 'Exclusive'){
+		 res = calculate_exclusive(amount + tax,tax);
+	}
+	//var posAMt = amt + purchase_price;
+	alert(res);
+	
+	//alert(amt +purchase_price );
+
+}

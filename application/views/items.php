@@ -246,7 +246,7 @@
                               <label for="mrp"><?= $this->lang->line('mrp'); ?><i class="hover-q " data-container="body" data-toggle="popover" data-placement="top" data-content="<?= $this->lang->line('mrp_definition'); ?>" data-html="true" data-trigger="hover" data-original-title="">
                                     <i class="fa fa-info-circle text-maroon text-black hover-q"></i>
                                  </i></label>
-                              <input type="text" class="form-control only_currency" id="mrp" name="mrp" placeholder="Maximum Retail Price" value="<?php print $mrp; ?>">
+                              <input type="text" onclick="getPosAmount()" class="form-control only_currency" id="mrp" name="mrp" placeholder="Maximum Retail Price" value="<?php print $mrp; ?>">
                               <span id="mrp_msg" style="display:none" class="text-danger"></span>
                            </div>
                         </div>
@@ -425,7 +425,7 @@
    <?php include "comman/code_js.php"; ?>
 
 
-   <script src="<?php echo $theme_link; ?>js/items.js?ver=12"></script>
+   <script src="<?php echo $theme_link; ?>js/items.js?ver=13"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
    <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=11"></script>
    <script type="text/javascript">
