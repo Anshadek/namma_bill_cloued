@@ -206,7 +206,7 @@ class Roles_model extends CI_Model {
 	        exit();
 	}
 
-	function get_selected($role_id= 0,$store_id,$permissions_array){
+	function get_selected($role_id= 0,$store_id=0,$permissions_array=array()){
 		$info=array();
 		foreach ($permissions_array as $key => $value) {
 			if(isset($_POST['permission'][$value])) {
@@ -216,7 +216,7 @@ class Roles_model extends CI_Model {
 		return $info;
 	}
 
-	public function set_persmissions($role_id= 0,$store_id){
+	public function set_persmissions($role_id= 0,$store_id=0){
 		//echo "<pre>"; print_r($this->security->xss_clean(html_escape(array_merge($_POST))));exit;
 		$result =array();
 		//PERMISSIONS KEY FROM FRONT END

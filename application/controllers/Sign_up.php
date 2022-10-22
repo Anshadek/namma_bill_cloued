@@ -96,7 +96,7 @@ class Sign_up extends MY_Controller {
     if (!$this->email->send()) {
     show_error($this->email->print_debugger()); }
   else {
-    echo 'Your e-mail has been sent!';
+    echo 'Your verification email has been sent successfully. Please verify your email to log in!';
   }
  }
 

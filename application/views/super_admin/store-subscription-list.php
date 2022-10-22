@@ -185,16 +185,20 @@
 									<div class="form-group">
 										<label for="warehouse_id">Store *</label>
 										<label id="warehouse_id_msg" class="text-danger text-right pull-right"></label>
-										<select class="form-control" id="warehouse_id" name="warehouse_id"
+										<select class="form-control select2" id="warehouse_id" name="warehouse_id"
 											 style="width: 100%;">
 											<option value="">-Select-</option>
 											<?php 
-											$q1= $this->db->select("warehouse_name,id")->where('status',1)->where('warehouse_type','System')->get("db_warehouse");
+											$q1= $this->db->select("warehouse_name,db_warehouse.id,db_store.store_code")
+											->join('db_store','db_store.id=db_warehouse.store_id','left')
+											->where('db_warehouse.status',1)
+											->where('db_warehouse.warehouse_type','System')
+											->get("db_warehouse");
 											if($q1->num_rows()>0){
 												foreach ($q1->result() as $res1){
 											?>
 											
-											<option value="<?= $res1->id ?>"><?= $res1->warehouse_name ?></option>
+											<option value="<?= $res1->id ?>"><?= $res1->store_code.'--'.$res1->warehouse_name ?></option>
 										<?php } 
 										}?>
 										</select>

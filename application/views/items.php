@@ -87,7 +87,7 @@
                            </div>
                            <div class="form-group col-md-4">
                               <label for="warehouse_id"><?= $this->lang->line('warehouse'); ?><span class="text-danger">*</span></label>
-                              <select class="form-control" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_data(this)" style="width: 100%;">
+                              <select class="form-control select2" id="warehouse_id" name="warehouse_id" onchange="get_warehouse_data(this)" style="width: 100%;">
                                  <?= get_warehouse_select_list($warehouse_id); ?>
                               </select>
                               <span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
