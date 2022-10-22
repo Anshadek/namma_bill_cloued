@@ -95,7 +95,7 @@
                                     <button class="btn btn-primary w-100" tabindex="4"><?= $this->lang->line('sign_in'); ?></button>
                                 </form>
                                 <p class="text-center mt-2">
-                                  <span>New on our platform?</span><a href="#"><span>&nbsp;Create an account</span></a>
+                                  <span>New on our platform?</span><a href="<?= base_url('/sign_up') ?>"><span>&nbsp;Create an account</span></a>
                                 </p>
                             </div>
                         </div>
