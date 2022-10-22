@@ -1421,6 +1421,7 @@ class Reports_model extends CI_Model
 
 
 		//total sales amt
+		
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
 				$this->db->where("b.store_id", $store_id);
@@ -1552,6 +1553,7 @@ class Reports_model extends CI_Model
 
 
 		//Total SAles amount
+		
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
 				$this->db->where("store_id", $store_id);
@@ -1776,6 +1778,7 @@ class Reports_model extends CI_Model
 
 
 		//sales Return Paid Amount
+		
 		if (store_module() && is_admin()) {
 			if (!empty($store_id)) {
 				$this->db->where("store_id", $store_id);
@@ -1972,15 +1975,17 @@ class Reports_model extends CI_Model
 
 
 
-		//GROSS PROFIT & NET PROFIT
-		$sales_details = $this->get_sales_item_sum();
+		//GROSS PROFIT & NET 
+		
+		
+		$sales_details = $this->get_sales_item_sum($warehouse_id,$start_date,$end_date);
 		$sal_item_pur_price = $sales_details['purchase_price'];
 		$sal_cost = $sales_details['sales_price'];
 		$sal_tax_amt = $sales_details['tax_amt'];
 		$net_sales = $sal_cost - $sal_item_pur_price; //ACTUAL SALES VALUE
 
 
-		$return_details = $this->get_sales_return_item_sum();
+		$return_details = $this->get_sales_return_item_sum($warehouse_id,$start_date,$end_date);
 		$ret_item_pur_price = $return_details['purchase_price'];
 		$ret_cost = $return_details['return_price'];
 		$ret_tax_amt = $return_details['tax_amt'];
@@ -2016,8 +2021,9 @@ class Reports_model extends CI_Model
 	}
 
 
-	public function get_sales_item_sum()
+	public function get_sales_item_sum($warehouse_id,$start_date,$end_date)
 	{
+		
 		$this->db->select("db_salesitems.sales_qty,db_salesitems.purchase_price,db_salesitems.total_cost,db_salesitems.tax_amt");
 		$this->db->join('db_sales as b', 'b.id =db_salesitems.sales_id', 'left');
 		$this->db->from('db_salesitems');
@@ -2070,7 +2076,7 @@ class Reports_model extends CI_Model
 	}
 
 
-	public function get_sales_return_item_sum()
+	public function get_sales_return_item_sum($warehouse_id,$start_date,$end_date)
 	{
 		$this->db->select("return_qty,purchase_price,total_cost,tax_amt");
 		$this->db->join('db_salesreturn as b', 'b.id = db_salesitemsreturn.return_id', 'left');
@@ -2085,6 +2091,15 @@ class Reports_model extends CI_Model
 		}
 		if (!empty($warehouse_id)) {
 			$this->db->where("b.warehouse_id", $warehouse_id);
+		}
+		if (!empty($start_date)) {
+			$start_date = system_fromatted_date($start_date);
+			$this->db->where("b.created_date >=", $start_date);
+		}
+
+		if (!empty($end_date)) {
+			$end_date = system_fromatted_date($end_date);
+			$this->db->where("b.created_date <=", $end_date);
 		}
 		$Q1 = $this->db->get();
 		$sum_pur_price = 0;
