@@ -45,9 +45,33 @@ class Subscription extends MY_Controller {
 
 	public function pay()
   {
+    
 		$amount = $this->input->post('amount');
 		$pacakage_id = $this->input->post('id');
 		$warehouse_id = $this->input->post('warehouse_id');
+
+    //==================check downgrade or not ======================
+    $q1 = $this->db->select("warehouse_count,user_count")
+    ->where('id',$pacakage_id)
+		->get("db_package_subscription")->row();
+
+    $q2 = $this->db->select("*")
+    ->where('store_id',get_current_store_id())
+    ->where('status',1)
+		->get("db_users");
+
+    $q3 = $this->db->select("*")
+    ->where('store_id',get_current_store_id())
+    ->where('status',1)
+		->get("db_warehouse");
+    if (!empty($q1) > 0 ){
+      if ($q1->warehouse_count <= $q2->num_rows() || $q1->user_count <= $q3->num_rows() ){
+        $this->session->set_flashdata('failed', "can't downgrade your package");
+			  redirect(base_url().'subscription');
+        return 0;
+      }
+    }
+    //=====================================
     $api = new Api(RAZOR_KEY_ID, RAZOR_KEY_SECRET);
     /**
      * You can calculate payment amount as per your logic

@@ -351,9 +351,7 @@
    
 			<section class="content">
 				<div class="row">
-					<!-- ********** ALERT MESSAGE START******* -->
-					<?php include "comman/code_flashdata.php"; ?>
-					<!-- ********** ALERT MESSAGE END******* -->
+					
 
 					<div class="col-md-12">
 						<!-- Custom Tabs -->
@@ -369,6 +367,15 @@
 											<div class="box-body">
 												<div class="row">
 													<h1 style="text-align:center;">Package Lists</h1>
+										<?php if($this->session->flashdata('failed') != "") { ?>			
+                <div class="alert alert-danger alert-dismissable text-center">
+                 <a href="javascript:void()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><?php echo $this->session->flashdata('failed'); ?></strong>
+              </div> 
+			  <?php } ?>
+              
+													
+													
 													<?php
 													$warehouse_id = get_store_warehouse_id();
 													$q1 = $this->db->select("*")

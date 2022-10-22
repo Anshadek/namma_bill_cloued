@@ -755,7 +755,7 @@ class Sales_return_model extends CI_Model {
 
 	
 	/*v1.1*/
-	public function inclusive($price='',$tax_per){
+	public function inclusive($price='',$tax_per=''){
 		return ($tax_per!=0) ? $price/(($tax_per/100)+1)/10 : $tax_per;
 	}
 	public function get_items_info($rowcount,$item_id){

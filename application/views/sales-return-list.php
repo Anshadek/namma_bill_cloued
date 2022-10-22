@@ -296,6 +296,7 @@
     });
 </script>
 <script type="text/javascript">
+  
       function load_datatable(){
         //datatables
          var table = $('#example2').DataTable({ 
@@ -335,7 +336,7 @@
                   "url": "<?php echo site_url('sales_return/ajax_list')?>",
                   "type": "POST",
                   "data": {
-                      warehouse_id: $("#warehouse_id").val()
+                      warehouse_id: $("#warehouse_id_1").val()
                     },
                   complete: function (data) {
                    $('.column_checkbox').iCheck({
@@ -405,7 +406,7 @@
           //datatables
          load_datatable();
       });
-      $("#warehouse_id").on("change",function(){
+      $("#warehouse_id_1").on("change",function(){
           $('#example2').DataTable().destroy();
           load_datatable();
       });
