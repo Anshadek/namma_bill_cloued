@@ -124,7 +124,7 @@ function get_warehouse_accounts(datas){
 	}else{
 		warehouse_id = datas.value;
 	}
-	
+	alert
 	var base_url = $('#base_url').val();
 	$.ajax({
 		url: base_url+'Money_transfer/get_warehouse_accounts_select_list',
@@ -140,6 +140,8 @@ function get_warehouse_accounts(datas){
 	}).done(function(data) {
 		$('#debit_account_id').html(data);
 		$('#credit_account_id').html(data);
+		$('#account_id').html(data);
+		
 		
 
 	}).fail(function(jqXHR, ajaxOptions, thrownError) {

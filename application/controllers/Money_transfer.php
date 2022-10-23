@@ -133,17 +133,20 @@ class Money_transfer extends MY_Controller {
 
 	function get_warehouse_accounts_select_list(){
 		$this->db->where("store_id",get_current_store_id());
-		if ($_POST['warehouse_id'] > 0){
+		if (isset($_POST['warehouse_id']) && $_POST['warehouse_id'] > 0){
 			$this->db->where("warehouse_id",$_POST['warehouse_id']);
+			$this->db->select("*")->where("status=1")->from("ac_accounts");
+			$this->db->order_by("sort_code");
+			$q1=$this->db->get();
+		}else{
+			$q1 = array();
 		}
 		
-	   $this->db->select("*")->where("status=1")->from("ac_accounts");
-	   $this->db->order_by("sort_code");
-	   $q1=$this->db->get();
+	  
  
 	   $str='';
 	   $select_id = ( isset($_POST['selected']) ? $_POST['selected'] : "");
-		if($q1->num_rows($q1)>0)
+		if(!empty($q1) && $q1->num_rows($q1)>0)
 		 {  
 			//$str.='<option value="">-CREATE ACCOUNT HEAD-</option>'; 
 			 foreach($q1->result() as $res1)
@@ -162,7 +165,7 @@ class Money_transfer extends MY_Controller {
 		 }
 		 else
 		 {
-			 //$str.='<option value="">No Records Found</option>'; 
+			 $str.='<option value="">No Records Found</option>'; 
 		 }
 		 echo $str;
   }
@@ -199,7 +202,7 @@ class Money_transfer extends MY_Controller {
 	 }
 	 else
 	 {
-		 //$str.='<option value="">No Records Found</option>'; 
+		 $str.='<option value="">No Records Found</option>'; 
 	 }
 	 echo $str;
 }

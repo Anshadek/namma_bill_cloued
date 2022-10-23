@@ -121,7 +121,9 @@
             </ul>
           </li>
           
-          <?php if(!is_user() && $CI->permissions('sales_add')) { ?>
+          <?php 
+				
+					if( $CI->permissions('sales_add')) { ?>
           <li class="text-center" id="">
             <a title="POS [Shift+P]" href="<?php echo $base_url; ?>pos"><i class="fa fa-plus-square " ></i> POS </a>   
           </li>
