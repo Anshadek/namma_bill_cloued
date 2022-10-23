@@ -342,6 +342,7 @@ function calculate_purchase_price(){
 
 	//$("#purchase_price").val( (price + (price*tax)/parseFloat(100)).toFixed(2));
 	//calculate_sales_price();
+	
 }
 $("#price").keyup(function(event) {
 	calculate_purchase_price();
@@ -365,6 +366,7 @@ function calculate_sales_price(){
 	}
 	$("#sales_price").val(to_Fixed(sales_price));
 	//calculate_profit_margin();
+	getPosAmount();
 }
 $("#tax_type").on("change",function(event) {
 	calculate_purchase_price();
@@ -380,6 +382,7 @@ function calculate_profit_margin(){
 	var profit_margin = (sales_price-purchase_price);
 	var profit_margin = (profit_margin/purchase_price)*parseFloat(100);
 	$("#profit_margin").val(to_Fixed(profit_margin));
+	getPosAmount();
 }
 $("#sales_price").on("change",function(event) {
 	calculate_profit_margin();
@@ -659,6 +662,7 @@ function validate_variants_records(this_id){
 		$('#expiry_date_div').removeClass('hide');
 		$("#adjustment_qt,#price,#purchase_price,#sales_price,#mrp,#hsn,#sku,#custom_barcode,#adjustment_qty,#alert_qty").parent().removeClass('hide');
 		$(".variant_div").hide();
+		getPosAmount();
 	}
   $(window).keydown(function(event){
     if(event.keyCode == 13) {
@@ -672,28 +676,21 @@ function round(num, decimalPlaces = 0) {
     var n = (num * p) * (1 + Number.EPSILON);
     return Math.round(n) / p;
 }
-function calculate_inclusive(amount,tax){
-	var tot = (amount/((tax/100)+1)/10);
-	  return round(tot,2);
-	}
-	function calculate_exclusive(amount,tax){
-	  var tot = ((amount*tax)/(100));
-	  return round(tot,2);
-	}
+
 function getPosAmount(){
-	var purchase_price = $('#purchase_price').val();
-	var tax = (isNaN(parseFloat($('option:selected', "#tax_id").attr('data-tax')))) ? 0 :parseFloat($('option:selected', "#tax_id").attr('data-tax')); 
-	var amount = (purchase_price/100)*tax;
+	var sales_price = $('#sales_price').val();
 	var tax_type = $('#tax_type').val();
-	var res = 0;
-	if(tax_type == 'Inclusive'){
-		 res = calculate_inclusive(amount + tax,tax);
+	if (tax_type == 'Exclusive'){
+		var tax = (isNaN(parseFloat($('option:selected', "#tax_id").attr('data-tax')))) ? 0 :parseFloat($('option:selected', "#tax_id").attr('data-tax')); 
+	var tax_amount = (sales_price/100)*tax;
+	
+	var pos_amt = tax_amount+parseFloat(sales_price);
+	pos_amt = round(pos_amt,2)
+	$('#pos_amount').val(pos_amt);
+		
+	}else{
+		$('#pos_amount').val(sales_price);
 	}
-	if(tax_type == 'Exclusive'){
-		 res = calculate_exclusive(amount + tax,tax);
-	}
-	//var posAMt = amt + purchase_price;
-	alert(res);
 	
 	//alert(amt +purchase_price );
 

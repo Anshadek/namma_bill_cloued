@@ -210,10 +210,11 @@
                               <input type="text" class="form-control only_currency" id="purchase_price" name="purchase_price" placeholder="Total Price with Tax Amount" value="<?php print $purchase_price; ?>" readonly=''>
                               <span id="purchase_price_msg" style="display:none" class="text-danger"></span>
                            </div>
+                          
 
                            <div class="form-group col-md-4">
                               <label for="tax_type"><?= $this->lang->line('tax_type'); ?><span class="text-danger">*</span></label>
-                              <select class="form-control select2" id="tax_type" name="tax_type" style="width: 100%;">
+                              <select onchange="getPosAmount()" class="form-control select2" id="tax_type" name="tax_type" style="width: 100%;">
                                  <?php
                                  $inclusive_selected = $exclusive_selected = '';
                                  if ($tax_type == 'Inclusive') {
@@ -241,6 +242,11 @@
                               <label for="sales_price" class="control-label"><?= $this->lang->line('sales_price'); ?><span class="text-danger">*</span></label>
                               <input type="text" class="form-control only_currency " id="sales_price" name="sales_price" placeholder="Sales Price" value="<?php print $sales_price; ?>">
                               <span id="sales_price_msg" style="display:none" class="text-danger"></span>
+                           </div>
+                           <div class="form-group col-md-4">
+                              <label for="pos_amount">Pos Amount<span class="text-danger">*</span></label>
+                              <input type="text" class="form-control only_currency" id="pos_amount"  readonly=''>
+                              <span id="pos_amount_msg" style="display:none" class="text-danger"></span>
                            </div>
                            <div class="form-group col-md-4">
                               <label for="mrp"><?= $this->lang->line('mrp'); ?><i class="hover-q " data-container="body" data-toggle="popover" data-placement="top" data-content="<?= $this->lang->line('mrp_definition'); ?>" data-html="true" data-trigger="hover" data-original-title="">
@@ -425,7 +431,7 @@
    <?php include "comman/code_js.php"; ?>
 
 
-   <script src="<?php echo $theme_link; ?>js/items.js?ver=13"></script>
+   <script src="<?php echo $theme_link; ?>js/items.js?ver=14"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
    <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=11"></script>
    <script type="text/javascript">
