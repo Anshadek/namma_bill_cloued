@@ -639,7 +639,7 @@ class Reports_model extends CI_Model
 
 				/*}*/
 			}
-			$total_columns_count = 8;
+			$total_columns_count = 9;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -816,7 +816,7 @@ class Reports_model extends CI_Model
 				$tot_due_amount += ($res1->grand_total - $res1->paid_amount);
 			}
 
-			$total_columns_count = 5;
+			$total_columns_count = 6;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -997,7 +997,7 @@ class Reports_model extends CI_Model
 				echo "</tr>";
 				$tot_payment += $res1->payment;
 			}
-			$total_columns_count = 7;
+			$total_columns_count = 8;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -2477,7 +2477,7 @@ class Reports_model extends CI_Model
 				$tot_seller_points += $res1->seller_points;
 			}
 
-			$total_columns_count = 6;
+			$total_columns_count = 7;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -2586,7 +2586,7 @@ class Reports_model extends CI_Model
 				$tot_grand_total += $res1->grand_total;
 			}
 
-			$total_columns_count = 5;
+			$total_columns_count = 6;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -2694,7 +2694,7 @@ class Reports_model extends CI_Model
 				$tot_grand_total += $res1->grand_total;
 			}
 
-			$total_columns_count = 5;
+			$total_columns_count = 6;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -2732,7 +2732,7 @@ class Reports_model extends CI_Model
 			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
 
-		$this->db->select("a.warehouse_id,a.store_id,db_warehouse.warehouse_name");
+		$this->db->select("a.warehouse_id,a.store_id,w.warehouse_name");
 		$this->db->select("a.id,a.sales_code,a.sales_date,b.customer_name,a.grand_total,b.gstin,a.customer_id,b.state_id,a.coupon_amt");
 		$this->db->select("a.tot_discount_to_all_amt");
 		$this->db->select("a.round_off");
@@ -2741,14 +2741,14 @@ class Reports_model extends CI_Model
 		$this->db->where("(a.sales_date>='$from_date' and a.sales_date<='$to_date')");
 
 		$this->db->from("db_sales as a");
-		$this->db->join("db_warehouse",'db_warehouse.id = a.warehouse_id','left');
+		
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
 		if (!empty($warehouse_id)) {
 			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
-
+		$this->db->join("db_warehouse as w",'w.id = a.warehouse_id','left');
 		$this->db->join("db_customers as b", "b.`id`= a.`customer_id`", "left");
 
 
@@ -2809,7 +2809,8 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
-				$this->db->join("db_warehouse",'db_warehouse.id = a.warehouse_id','left');
+				echo "<td>" . $res1->warehouse_name . "</td>";
+				
 				
 				if ($res1->store_id == get_current_store_id()) {
 					echo "<td><a data-toggle='tooltip' target='_blank' title='View Invoice' href='" . base_url("sales/invoice/$res1->id") . "'>" . $res1->sales_code . "</a></td>";
@@ -2993,7 +2994,7 @@ class Reports_model extends CI_Model
 				$tot_igst_amt += $igst_amt;
 			}
 
-			$total_columns_count = 5;
+			$total_columns_count = 6;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -3315,7 +3316,7 @@ class Reports_model extends CI_Model
 				$tot_sales_qty += $sales_qty;
 			}
 
-			$total_columns_count = 5;
+			$total_columns_count = 6;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -3406,7 +3407,7 @@ class Reports_model extends CI_Model
 				$tot_qty += $res1->sales_qty;
 			}
 
-			$total_columns_count = 4;
+			$total_columns_count = 5;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -3587,7 +3588,7 @@ class Reports_model extends CI_Model
 				$tot_igst_amt += $igst_amt;
 			}
 
-			$total_columns_count = 6;
+			$total_columns_count = 7;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -3782,7 +3783,7 @@ class Reports_model extends CI_Model
 				$tot_igst_amt += $igst_amt;
 			}
 
-			$total_columns_count = 6;
+			$total_columns_count = 7;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
