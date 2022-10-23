@@ -59,7 +59,58 @@ class Login_model extends CI_Model
 		$query = $this->db->get();
 		
 		if($query->num_rows()==1){
-			
+			$this->db->select("package_id,type,created_date");
+		$this->db->from("db_store_purchased_packages");
+		$this->db->where("warehouse_id",$query->row()->warehouse_id);
+		$this->db->order_by("id", "desc");
+		$this->db->limit("1");
+		$res = $this->db->get();
+		if ($res->num_rows() == 1){
+			$flag = false;
+			$res = $res->result();
+			if ($res[0]->type == 'subscription'){
+
+				$this->db->select("validity");
+				$this->db->from("db_package_subscription");
+				$this->db->where("id",$res[0]->package_id);
+				$this->db->order_by("id", "desc");
+				$this->db->limit("1");
+				$res1 = $this->db->get()->row();
+				$expired_date = date('Y-m-d', strtotime($res[0]->created_date . ' + ' . $res1->validity . ' days'));
+				if ($expired_date <= date('Y-m-d')){
+
+					$this->session->set_flashdata('failed', 'Your Package is Expired..!! Contact NammaBill Team');
+					redirect('login');
+				}
+
+			}else{
+				$this->db->select("day_or_month,days");
+				$this->db->from("db_trialpackage");
+				$this->db->where("id",$res[0]->package_id);
+				$this->db->order_by("id", "desc");
+				$this->db->limit("1");
+				$res1 = $this->db->get()->row();
+
+				if ($res1->day_or_month == 'month') {
+					$validity_in_days =  $res1->days * 30;
+				 } else {
+					$validity_in_days = $res1->days;
+				 }
+				 $expired_date = date('Y-m-d', strtotime($res[0]->created_date . ' + ' . $validity_in_days . ' days'));
+
+				 if ($expired_date <= date('Y-m-d')){
+
+					$this->session->set_flashdata('failed', 'Your Package is Expired..!! Contact NammaBill Team');
+					redirect('login');
+				}
+
+				
+
+			}
+
+
+		}
+	
 
 			//Verify is SaaS module Active ?
 			// if($query->row()->id==1){
