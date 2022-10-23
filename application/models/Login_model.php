@@ -158,7 +158,31 @@ Thank you
 			$this->email->message($ready_message);*/
 			
 			//if($this->email->send()){
-			if(mail($email_id, $server_subject, $ready_message)){
+				$this->load->library('email');
+		//$to_email = 'anshadali.ek@gmail.com';
+        $from_email = 'no_reply@nammabilling.com'; //change this to yours
+        $subject = 'OTP';
+        $message = $ready_message;
+        
+        //configure email settings
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'mail.nammabilling.com'; //smtp host name
+        $config['smtp_port'] = '587'; //smtp port number
+        $config['smtp_user'] = 'no_reply@nammabilling.com';
+        $config['smtp_pass'] = 'brD88#qig'; //$from_email password
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = TRUE;
+        $config['newline'] = "\r\n"; //use double quotes
+        $this->email->initialize($config);
+        
+        //send mail
+        $this->email->from($from_email, 'Nammabill');
+        $this->email->to($email_id);
+        $this->email->subject($subject);
+        $this->email->message($message);
+
+			if($this->email->send()){
 				//redirect('contact/success');
 				$this->session->set_flashdata('success', 'OTP has been sent to your email ID! (Check Inbox/Spam Box)');
 				$otpdata = array('email'  => $email_id,'otp'  => $otp );
@@ -167,6 +191,7 @@ Thank you
 				return true;
 			}
 			else{
+				
 				//echo "Failed to Send Message.Try again!";
 				$this->session->set_flashdata('failed', 'Failed to Send Message.Try again!');
 				return false;
