@@ -136,7 +136,7 @@
                                     <?php if(store_module() && is_admin()){ ?>
                                     <th style=""><?= $this->lang->line('store_name'); ?></th>
                                     <?php } ?>
-                                    
+                                    <th style=""><?= $this->lang->line('warehouse_name'); ?></th>
                                     <th style=""><?= $this->lang->line('sales_date'); ?></th>
                                     <th style=""><?= $this->lang->line('time'); ?></th>
                                     <th style=""><?= $this->lang->line('invoice_no'); ?></th>

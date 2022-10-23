@@ -338,9 +338,10 @@ class Reports extends MY_Controller {
             if(!is_admin() && !is_store_admin()){
               $this->db->where("c.created_by",$this->session->userdata('inv_username'));  
             }
-            $this->db->select("COALESCE(SUM(b.sales_qty),0) AS sales_qty, a.item_name");
+            $this->db->select("COALESCE(SUM(b.sales_qty),0) AS sales_qty, a.item_name,w.warehouse_name");
             $this->db->from("db_items AS a, db_salesitems AS b ,db_sales AS c");
             $this->db->where("a.id=b.`item_id` AND b.sales_id=c.`id` AND c.`sales_status`='Final'");
+			$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
             $this->db->group_by("a.id");
             $this->db->limit("10");
             $this->db->order_by("sales_qty","asc");
