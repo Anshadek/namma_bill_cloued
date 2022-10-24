@@ -25,6 +25,7 @@ class Subscription extends MY_Controller {
 	public function purchase_package($data_arr){
 		$data = array(
 			'package_id'		=> $data_arr['package_id'],
+			'coupon_id'		=> $data_arr['coupon_id'],
 			'warehouse_id'		=> $data_arr['warehouse_id'],
 			'razorpay_payment_id'		=> $data_arr['razorpay_payment_id'],
 			'razorpay_signature'		=> $data_arr['razorpay_signature'],
@@ -49,6 +50,7 @@ class Subscription extends MY_Controller {
 		$amount = $this->input->post('amount');
 		$pacakage_id = $this->input->post('id');
 		$warehouse_id = $this->input->post('warehouse_id');
+		$coupon_id = $this->input->post('coupon_id');
 
     //==================check downgrade or not ======================
     $q1 = $this->db->select("warehouse_count,user_count")
@@ -80,6 +82,7 @@ class Subscription extends MY_Controller {
 		$_SESSION['package_id'] = $pacakage_id;
 		$_SESSION['warehouse_id'] = $warehouse_id;
     $_SESSION['payable_amount'] = $amount;
+	$_SESSION['coupon_id'] = $coupon_id;
     $razorpayOrder = $api->order->create(array(
       'receipt'         => rand(),
       'amount'          =>$amount * 100, // 2000 rupees in paise
@@ -89,7 +92,7 @@ class Subscription extends MY_Controller {
     $amount = $razorpayOrder['amount'];
     $razorpayOrderId = $razorpayOrder['id'];
     $_SESSION['razorpay_order_id'] = $razorpayOrderId;
-    $data = $this->prepareData($amount,$razorpayOrderId,$warehouse_id,$pacakage_id);
+    $data = $this->prepareData($amount,$razorpayOrderId,$warehouse_id,$pacakage_id,$coupon_id);
 
     return $this->load->view('rezorpay',array('data' => $data));
 	//die();
@@ -122,6 +125,8 @@ class Subscription extends MY_Controller {
 		 $data['razorpay_signature'] = $_POST['razorpay_signature'];
 		 $data['warehouse_id'] = $_SESSION['warehouse_id'];
 		 $data['package_id'] = $_SESSION['package_id'];
+		 $data['coupon_id'] = $_SESSION['coupon_id'];
+		 
 		 $res = $this->purchase_package($data);
 		 if($res == 'success'){
 			$this->session->set_flashdata('success', 'your subscription has been successfully completed');
@@ -163,6 +168,93 @@ class Subscription extends MY_Controller {
     return $data;
   }
 
+	function get_coupon_details(){
+		
+		$coupon_code = $this->input->post('coupon_code');
+		$package_amount = $this->input->post('package_amount');
+		
+		$coupon_code = strtoupper($coupon_code);
+		
+		$customer_id = $this->input->post('customer_id');
+		//Get coupon data
+		$this->db->select("a.expire_date,a.value,a.type,a.id");
+		$this->db->where("upper(a.code) like '$coupon_code'");
+		$this->db->where('b.is_admin',1);
+		//$this->db->where("a.customer_id",$customer_id);
+		$this->db->from("db_store_coupons a");
+		$this->db->join("db_coupons b","b.id=a.coupon_id");
+		$q1 = $this->db->get();
+		
+		$data =array();
+		if($q1->num_rows()>0){
+			$row = $q1->row();
+
+			
+			//Verify Customer
+			// if($row->customer_id!=$customer_id){
+			// 	$expire_status = "Invalid";
+			// 	$message = "This coupon not belongs to this Customer!!";
+			// 	$coupon_value =$row->value; 
+			// 	$coupon_type =$row->type; 
+			// 	$occasion_name =$row->name; 
+			// 	$expire_date =$row->expire_date;
+			// }
+			if($row->expire_date>=date('Y-m-d')){
+				if($row->type == 'Fixed'){
+					$new_package_amount = $package_amount - $row->value;
+				}else{
+					$percentage = $row->value;
+					$total = $package_amount;
+					$percentage_amount = ($percentage / 100) * $total;
+					$new_package_amount = $package_amount - $percentage_amount;
+					
+
+				}
+				
+				$expire_status = "Valid";
+				$message = "Valid Coupon,Expired on ".show_date($row->expire_date)."";
+				$coupon_value =$row->value; 
+				$coupon_id =$row->id; 
+				$coupon_type =$row->type; 
+				$new_package_amount = $new_package_amount;
+				$expire_date =$row->expire_date; 
+			}else{   
+				$expire_status= "Expired";
+				$message = "Coupon Expired on ".show_date($row->expire_date)."!";
+				$coupon_value =0;
+				$coupon_id =0; 
+				$new_package_amount = 0;
+				$coupon_type =$row->type."(".$row->value.")"; 
+				$expire_date =$row->expire_date; 
+			}
+
+
+			$data = array(
+							'expire_date' =>$expire_date,
+							'coupon_value' =>$coupon_value,
+							'coupon_type' =>$coupon_type,
+							'coupon_id'=>$coupon_id,
+							'new_package_amount' => $new_package_amount,
+							'expire_status' => $expire_status,
+							'message' => $message,
+							);
+		}
+		else{
+			$expire_status= "Invalid";
+			$message = "Invalid Coupon Code!!";
+			$data = array(
+							'expire_date' =>'',
+							'coupon_value' =>0,
+							'coupon_id' =>"",
+							'coupon_type' =>'',
+							'occasion_name' =>'',
+							'new_package_amount' => '',
+							'expire_status' => $expire_status,
+							'message' => $message,
+							);
+		}
+		echo json_encode($data);
+	}
 
 
 

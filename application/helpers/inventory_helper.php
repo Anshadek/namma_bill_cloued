@@ -546,6 +546,7 @@ function get_packages_select_list($select_id=''){
 
    $q1=$CI->db->select("*")
 												   ->where("status=1")
+												   ->where("is_admin=1")
 												   /*->where("expire_date>='".date("Y-m-d")."'")*/
 												   ->from("db_coupons")->get();
    $str='';

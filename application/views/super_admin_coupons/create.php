@@ -56,6 +56,7 @@
                                     <span id="coupon_name_msg" style="display:none" class="text-danger"></span>
                                  </div>
                               </div>
+										<input type="hidden" value="1" name="is_admin" id="is_admin">
                               
                               <div class="form-group">
                                  <label for="expire_date" class="col-sm-2 control-label"><?= $this->lang->line('expire_date'); ?><label class="text-danger">*</label></label>

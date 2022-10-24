@@ -15,8 +15,9 @@ class Superadmin_coupon_model extends CI_Model {
 		$this->db->select($this->column_order);
 		//if not admin
 		//if(!is_admin()){
-			$this->db->where("a.store_id",get_current_store_id());
+			//$this->db->where("a.store_id",get_current_store_id());
 		//}
+			$this->db->where("is_admin",1);
 			$this->db->join("db_coupons b","b.id=a.coupon_id","left");
 			$this->db->join("db_warehouse c","c.id=a.store_id","left");
 
@@ -82,6 +83,7 @@ class Superadmin_coupon_model extends CI_Model {
 
 
 	public function save_record(){   
+		
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET))));
 
@@ -90,6 +92,7 @@ class Superadmin_coupon_model extends CI_Model {
 		$store_id=(store_module() && is_admin()) ? $store_id : get_current_store_id();  	
 		
 		$coupon_details = get_coupon_master_details($coupon_id);
+
 
 		$info = array(
 	                'store_id'         	=> $store_id,
