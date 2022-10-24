@@ -2044,11 +2044,12 @@ class Reports_model extends CI_Model
 		$this->db->join('db_sales as b', 'b.id =db_salesitems.sales_id', 'left');
 		$this->db->from('db_salesitems');
 		if (store_module() && is_admin()) {
-			$store_id = $this->input->post('db_salesitems.store_id');
+			
 			if (!empty($store_id)) {
 				$this->db->where("db_salesitems.store_id", $store_id);
 			}
 		} else {
+			
 			$this->db->where("db_salesitems.store_id", get_current_store_id());
 		}
 
@@ -2083,7 +2084,7 @@ class Reports_model extends CI_Model
 				$sum_tax_amt += $tax_amt;
 			}
 		}
-
+		
 		return array(
 			'purchase_price' => $sum_pur_price,
 			'sales_price' => $sum_sal_price,
@@ -2098,7 +2099,7 @@ class Reports_model extends CI_Model
 		$this->db->join('db_salesreturn as b', 'b.id = db_salesitemsreturn.return_id', 'left');
 		$this->db->from('db_salesitemsreturn');
 		if (store_module() && is_admin()) {
-			$store_id = $this->input->post('db_salesitemsreturn.store_id');
+			
 			if (!empty($store_id)) {
 				$this->db->where("db_salesitemsreturn.store_id", $store_id);
 			}
