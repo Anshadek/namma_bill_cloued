@@ -68,7 +68,7 @@
 										<label for="coupon_id" class="col-sm-2 control-label"><?= $this->lang->line('couponName'); ?><label class="text-danger">*</label></label>
 										<div class="col-sm-4">
 											<select class="form-control select2" id="coupon_id" name="coupon_id" style="width: 100%;">
-												<?= get_discount_coupon_select_list($coupon_id);  ?>
+												<?= get_discount_coupon_superadmin_select_list($coupon_id);  ?>
 											</select>
 											<span id="coupon_id_msg" style="display:none" class="text-danger"></span>
 										</div>

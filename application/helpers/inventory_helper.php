@@ -541,6 +541,29 @@ function get_packages_select_list($select_id=''){
 	    }
 	    return $str;
  }
+ function get_discount_coupon_superadmin_select_list($select_id=''){
+	$CI =& get_instance();
+
+   $q1=$CI->db->select("*")
+												   ->where("status=1")
+												   /*->where("expire_date>='".date("Y-m-d")."'")*/
+												   ->from("db_coupons")->get();
+   $str='';
+	if($q1->num_rows($q1)>0)
+	 {  
+		 $str.='<option value="">-Select-</option>'; 
+		 foreach($q1->result() as $res1)
+	   { 
+		 $selected = ($select_id==$res1->id)? 'selected' : '';
+		 $str.="<option $selected data-type='".$res1->type."' data-value='".$res1->value."' data-expire_date='".show_date($res1->expire_date)."' value='".$res1->id."'>".$res1->name."</option>";
+	   }
+	 }
+	 else
+	 {
+		 $str.='<option value="">No Records Found</option>'; 
+	 }
+	 return $str;
+}
 
  function get_super_admin_bank_account_type_select_list($selection=''){
  	  $records = array(

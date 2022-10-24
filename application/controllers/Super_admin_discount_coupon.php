@@ -16,6 +16,7 @@ class Super_admin_discount_coupon extends MY_Controller {
 	}
 	
 	public function save() {
+		
 		$this->form_validation->set_rules('coupon_name', 'Coupon Name', 'trim|required');
 		//$this->form_validation->set_rules('code', 'Coupon Code', 'trim|required');
 		$this->form_validation->set_rules('expire_date', 'Expire Date', 'trim|required');
