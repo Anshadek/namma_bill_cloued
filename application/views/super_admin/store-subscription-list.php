@@ -85,6 +85,7 @@
 										 ->join('db_package_subscription','db_package_subscription.id=db_store_purchased_packages.package_id','left')
 										 ->join('db_warehouse','db_warehouse.id=db_store_purchased_packages.warehouse_id','left')
 										 ->join('db_store','db_store.id = db_warehouse.store_id','left')
+										 ->order_by("db_store_purchased_packages.id", "desc")
 										 ->get("db_store_purchased_packages");
                                     if($q1->num_rows()>0){
                                            foreach ($q1->result() as $res1){
@@ -193,6 +194,7 @@
 											->join('db_store','db_store.id=db_warehouse.store_id','left')
 											->where('db_warehouse.status',1)
 											->where('db_warehouse.warehouse_type','System')
+											
 											->get("db_warehouse");
 											if($q1->num_rows()>0){
 												foreach ($q1->result() as $res1){

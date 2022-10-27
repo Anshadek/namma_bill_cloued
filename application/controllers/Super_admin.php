@@ -69,6 +69,7 @@ class Super_admin extends MY_Controller
 			$q1 = $this->db->select("db_warehouse.*,db_store.store_code")
 			->join('db_store','db_store.id = db_warehouse.store_id','left')
 			->where('warehouse_type', 'System')
+			->order_by("db_store.id", "desc")
 			->get("db_warehouse");
 			$data['warehouses'] = $q1->result();
 		}

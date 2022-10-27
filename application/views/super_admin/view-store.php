@@ -320,7 +320,7 @@
 
                                  <div class="box-body">
                                  <div class="row">
-                     <?php if ($expired_date <= date('Y-m-d')){ ?>
+                     <?php if ($expired_date < date('Y-m-d')){ ?>
                                     <div class="alert alert-danger  text-center">
                  <a href="javascript:void()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>

@@ -515,6 +515,11 @@ function return_variant_data_in_row(variant_id){
         //enable_or_disable_item_discount();
         $("#variant_search").removeClass('ui-autocomplete-loader-center');
         $("#variant_search").removeClass('ui-autocomplete-loading');
+		$('.datepicker').datepicker({
+			autoclose: true,
+			format: 'dd-mm-yyyy',
+			todayHighlight: true
+		});
     }); 
 }
 

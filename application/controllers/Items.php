@@ -182,7 +182,7 @@ class Items extends MY_Controller {
 			
 			$row[] = $items->item_code;
 			$row[] = $items->warehouse_name;
-			$row[] = "<label class='text-blue'>".$items->item_name."</label><br><b>HSN</b>:".$items->hsn."<br><b>SKU</b>:".$items->sku."<br><b>Expiry Date</b>:".$items->expire_date;
+			$row[] = "<label class='text-blue'>".$items->item_name."</label><br><b>HSN</b>:".$items->hsn."<br><b>SKU</b>:".$items->sku."<br><b>Expiry Date</b>:".($items->expire_date == '0000-00-00' ? "" : $items->expire_date );
 			$row[] = $items->brand_name;
 			$service_or_item_name = ($items->service_bit) ? 'SERVICE' : "ITEM";
 

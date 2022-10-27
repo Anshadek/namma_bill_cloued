@@ -185,7 +185,7 @@
                            <div class="form-group col-md-4">
                               <div id="expiry_date_div">
                                  <label for="expiry_date"> Expiry Date </label>
-                                 <input type="text" class="form-control only_currency datepicker" id="expiry_date" name="expiry_date" value="<?php print isset($expire_date) ? $expire_date : '' ?>">
+                                 <input type="text" class="form-control only_currency datepicker" id="expiry_date" name="expiry_date" value="<?php print isset($expire_date) && $expire_date != '0000-00-00' ? $expire_date : '' ?>">
                                  <span style="display:none" class="text-danger"></span>
                               </div>
                            </div>
@@ -431,7 +431,7 @@
    <?php include "comman/code_js.php"; ?>
 
 
-   <script src="<?php echo $theme_link; ?>js/items.js?ver=14"></script>
+   <script src="<?php echo $theme_link; ?>js/items.js?ver=17"></script>
    <script src="<?php echo $theme_link; ?>js/modals.js?v=1"></script>
    <script src="<?php echo $theme_link; ?>js/warehouse_filter.js?v=11"></script>
    <script type="text/javascript">

@@ -2804,8 +2804,7 @@ class Reports_model extends CI_Model
 				echo "<td>" . $res1->gstin . "</td>";
 				echo "<td class='text-right'>" . store_number_format($price_per_unit) . "</td>";
 				echo "<td class='text-right'>" . store_number_format($discount_amt) . "</td>";
-				print_r('sss');
-				die();
+				
 				echo "<td class='text-right'>" . get_tax_details($q2->tax_id)->tax_name . "</td>";
 				
 				echo "<td class='text-right'>" . store_number_format($cgst_amt) . "</td>";

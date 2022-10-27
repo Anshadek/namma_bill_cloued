@@ -331,6 +331,7 @@ class Items_model extends CI_Model {
 						$item_mrp	 		=$this->xss_html_filter(trim($_REQUEST['td_data_'.$i.'_10']));
 						$opening_stock	 	=$this->xss_html_filter(trim($_REQUEST['td_data_'.$i.'_11']));
 						$alert_qty	 		=$this->xss_html_filter(trim($_REQUEST['td_data_'.$i.'_12']));
+						$expire_date = (isset($expire_date)) ? $expire_date : null;
 						
 						$variant_details = $this->db->select("*")->where("id",$variant_id)->get("db_variants")->row();
 						$variant_name = $variant_details->variant_name;
@@ -844,7 +845,7 @@ class Items_model extends CI_Model {
 				<!-- Alert Qty -->
 				<td id="td_<?=$rowcount;?>_12"><input type="text" name="td_data_<?=$rowcount;?>_12" id="td_data_<?=$rowcount;?>_12" class="form-control text-right no-padding only_currency text-center" placeholder='Optional' value="<?=$alert_qty;?>"></td>
                 <!--Expiry Date-->
-				<td id="td_<?=$rowcount;?>_7"><input type="date" name="td_data_<?=$rowcount;?>_7" id="td_data_<?=$rowcount;?>_7" class="form-control text-right no-padding only_currency text-center" placeholder='Required' value="<?= isset($expire_date)?$expire_date:'' ?>"></td>
+				<td id="td_<?=$rowcount;?>_7"><input type="text" name="td_data_<?=$rowcount;?>_7" id="td_data_<?=$rowcount;?>_7" class="form-control datepicker text-right no-padding only_currency text-center" placeholder='Required' value="<?= isset($expire_date)?$expire_date:'' ?>"></td>
                <!-- Delete button -->
                <td id="td_<?=$rowcount;?>_8" style="text-align: center;">
                   <a class=" fa fa-fw fa-minus-square text-red" style="cursor: pointer;font-size: 34px;" onclick="removerow_also_delete_from_database('<?=$item_id;?>',<?=$rowcount;?>)" title="Delete ?" name="td_data_<?=$rowcount;?>_8" id="td_data_<?=$rowcount;?>_8"></a>

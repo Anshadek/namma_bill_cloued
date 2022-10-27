@@ -129,7 +129,9 @@
 												//================get package name============================
 												$package = array();
 												$q1 = $this->db->select("type")
-													->where('warehouse_id', $res1->id)->limit(1)
+													->where('warehouse_id', $res1->id)
+													->order_by("id", "desc")
+													->limit(1)
 													->get("db_store_purchased_packages")->row();
 												if (!empty($q1)) {
 													if ($q1->type == 'trial') {
@@ -143,6 +145,7 @@
 																'db_trialpackage.id = db_store_purchased_packages.package_id',
 																'left'
 															)
+															->order_by("db_store_purchased_packages.id", "desc")
 															->limit(1)
 															->get("db_store_purchased_packages")->row();
 
@@ -166,6 +169,7 @@
 																'db_package_subscription.id = db_store_purchased_packages.package_id',
 																'left'
 															)
+															->order_by("db_store_purchased_packages.id", "desc")
 															->limit(1)
 															->get("db_store_purchased_packages")->row();
 														$package  = $q2;
