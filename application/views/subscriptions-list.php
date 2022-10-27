@@ -377,6 +377,7 @@
 													
 													
 													<?php
+													$i = 0;
 													$warehouse_id = get_store_warehouse_id();
 													$q1 = $this->db->select("*")
 														->get("db_package_subscription");
@@ -390,7 +391,7 @@
 																	</div>
 																	<div class="price-box">
 																		<div class="title"><?= $res1->name ?></div>
-																		<h4 class="price">₹ <?= $res1->amount ?></h4>
+																		<h4 class="price">₹ <span id="pack_amount_<?= $i ?>"><?= $res1->amount ?></span></h4>
 																	</div>
 																	<ul class="features">
 																		<li class="true">Validity : <b><?= $res1->validity ?></b></li>
@@ -401,17 +402,21 @@
 																	<form id="" method="post" action='<?=base_url('subscription/pay')?>'>
     																	<input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
 																		<input type="hidden" name="id" value="<?= $res1->id ?>">
-																		<input type="hidden" name="amount" value="<?= $res1->amount ?>">
+																		<input type="hidden" id="amount_<?= $i ?>" name="amount" value="<?= $res1->amount ?>">
 																		<input type="hidden" name="warehouse_id" value="<?= $warehouse_id?>">
-																		<button class="btn btn-success" type="submit">Buy Now</button>
+																		<input type="hidden" id="coupon_id_<?= $i ?>" name="coupon_id" value="0">
+																		 
+																		<button class="btn btn-success mb-5" type="submit">Buy Now</button><br><br>
+																		<button onclick="addRow(<?= $res1->amount ?>,<?= $i ?>)" class="btn btn-primary" type="button">Apply Coupon Code</button><br>
+																		
 																		<!-- <a onclick="purchasePacakage('<?= $res1->id ?>','<?= $res1->amount ?>','<?= $warehouse_id ?>')" class="theme-btn">BUY plan</a> -->
 																	</form>
 																	</div>
 																</div>
 															</div>
-													<?php }
+													<?php $i++; }
 													} ?>
-
+													<input id="i_val" type="hidden" value="0">
 												</div>
 											</div>
 											<!-- /.box-body -->
@@ -439,7 +444,42 @@
 			<!-- /.content -->
 			
 		</div>
-		
+		<div class="modal fade  in" id="coupen-modal" style="padding-left: 5px;">
+			
+					 
+                <div class="modal-dialog modal-md">
+                  <div class="modal-content">
+                    <div class="modal-header header-custom">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <label aria-hidden="true">×</label></button>
+                      <h4 class="modal-title text-center">Enter Your Coupon Code</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                         
+								  <div class="col-md-12">
+                            <div class="box-body">
+                              <div class="form-group">
+                                <label for="coupon_code">Coupon Code</label>
+                                <label id="coupon_code_msg" class="text-danger text-right pull-right"></label>
+                                <input type="text" class="form-control" id="coupon_code" name="coupon_code" placeholder="Coupon Code">
+								<input type="hidden" id="package_amount">
+                              </div>
+                            </div>
+                          </div>
+                          <input type="hidden" name="id" value="0">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                      <button onclick="applyCoupon()" type="button" id="save" class="btn btn-primary add_customer">Save</button>
+                    </div>
+                  </div>
+                  <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+					           
+               </div>
+      </div>
 		<!-- /.content-wrapper -->
 		<?php include "footer.php"; ?>
 		<!-- Add the sidebar's background. This div must be placed
@@ -488,6 +528,11 @@
 			}
 
 		}
+		function addRow(amt,i_val) {
+				$('#i_val').val(i_val);
+				$('#package_amount').val(amt);
+				$('#coupen-modal').modal('show'); 
+			}
 	</script>
 	
 
@@ -495,6 +540,32 @@
 	<!-- Make sidebar menu hughlighter/selector -->
 	<script>
 		$(".<?php echo basename(__FILE__, '.php'); ?>-active-li").addClass("active");
+function applyCoupon()
+{
+	var base_url=$("#base_url").val();
+	var coupon_code = $('#coupon_code').val(); 
+	var package_amount = $('#package_amount').val(); 
+	$.post(base_url+"subscription/get_coupon_details",{coupon_code:coupon_code,package_amount:package_amount},function(data){
+		var result = $.parseJSON(data);
+		if(result.expire_status=="Valid")
+				{
+					toastr["success"](result.message);
+				  success.currentTime = 0; 
+				  success.play();
+				  var i_val = $('#i_val').val();
+				  $('#pack_amount_'+i_val).text(result.new_package_amount);
+				  $('#amount_'+i_val).val(result.new_package_amount);
+				  $('#coupon_id_'+i_val).val(result.coupon_id);
+				  $('#coupen-modal').modal('hide'); 
+				  return false;
+				}else{
+					toastr["error"](result.message);
+				  failed.currentTime = 0; 
+				  failed.play();
+				  return false;
+				}
+	});
+}
 	</script>
 </body>
 

@@ -489,7 +489,8 @@ class Reports_model extends CI_Model
 
 		/*$q1=$this->db->query("SELECT a.*,b.category_name from db_expense as a,db_expense_category as b where b.id=a.category_id and a.expense_date>='$from_date' and expense_date<='$to_date'");*/
 
-		$this->db->select("a.*,b.category_name");
+		$this->db->select("a.*,b.category_name,w.warehouse_name");
+		
 
 		if ($category_id != '') {
 			$this->db->where("a.category_id=$category_id");
@@ -500,6 +501,7 @@ class Reports_model extends CI_Model
 		$this->db->where("b.`id`= a.`category_id`");
 		$this->db->from("db_expense as a");
 		$this->db->from("db_expense_category as b");
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
@@ -520,6 +522,7 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
+				echo "<td>" . $res1->warehouse_name . "</td>";
 				echo "<td>" . $res1->expense_code . "</td>";
 				echo "<td>" . show_date($res1->expense_date) . "</td>";
 				echo "<td>" . $res1->category_name . "</td>";
@@ -572,6 +575,7 @@ class Reports_model extends CI_Model
 		$this->db->select("a.sales_price,a.item_code,a.purchase_price,a.item_name,a.tax_type,a.store_id,a.id as item_id,a.item_group,
 			d.category_name,
 			c.brand_name,
+			w.warehouse_name
 			");
 		$this->db->select("b.tax_name");
 		$this->db->from("db_items as a");
@@ -582,7 +586,7 @@ class Reports_model extends CI_Model
 		$this->db->where("a.service_bit=0");
 		$this->db->join("db_brands as c", "c.id=a.brand_id", "left");
 		$this->db->join("db_category as d", "d.id=a.category_id", "left");
-
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 		if (!empty($brand_id)) {
 			$this->db->where("a.brand_id", $brand_id);
 		}
@@ -619,6 +623,7 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					$str .= "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
+				$str .= "<td>" . $res1->warehouse_name . "</td>";
 				$str .= "<td>" . $res1->item_code . "</td>";
 				$str .= "<td>" . $res1->item_name . "</td>";
 				$str .= "<td>" . $res1->brand_name . "</td>";
@@ -634,7 +639,7 @@ class Reports_model extends CI_Model
 
 				/*}*/
 			}
-			$total_columns_count = 8;
+			$total_columns_count = 9;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -749,7 +754,8 @@ class Reports_model extends CI_Model
 			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
 
-		$this->db->select("a.id,a.sales_code,a.sales_date,b.customer_name,b.customer_code,a.grand_total,a.paid_amount,a.store_id");
+		$this->db->select("a.id,a.sales_code,a.sales_date,b.customer_name,b.customer_code,a.grand_total,a.paid_amount,a.store_id,w.warehouse_name");
+		
 		$this->db->select("c.sales_qty,d.item_name");
 
 
@@ -766,6 +772,7 @@ class Reports_model extends CI_Model
 		$this->db->from("db_customers as b");
 		$this->db->where("b.`id`= a.`customer_id`");
 		$this->db->from("db_salesitems as c");
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 		if ($item_id != '') {
 			$this->db->where("c.item_id=$item_id");
 		}
@@ -788,13 +795,14 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
+				echo "<td>" . $res1->warehouse_name . "</td>";
+
 				if ($store_id == get_current_store_id()) {
 					echo "<td><a title='View Invoice' href='" . base_url("sales/invoice/$res1->id") . "'>" . $res1->sales_code . "</a></td>";
 				} else {
 					echo "<td>" . $res1->sales_code . "</td>";
 				}
-
-
+			
 				echo "<td>" . show_date($res1->sales_date) . "</td>";
 				echo "<td>" . $res1->customer_name . "</td>";
 				echo "<td>" . $res1->item_name . "</td>";
@@ -808,7 +816,7 @@ class Reports_model extends CI_Model
 				$tot_due_amount += ($res1->grand_total - $res1->paid_amount);
 			}
 
-			$total_columns_count = 5;
+			$total_columns_count = 6;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -847,7 +855,7 @@ class Reports_model extends CI_Model
 		$from_date = system_fromatted_date($from_date);
 		$to_date = system_fromatted_date($to_date);
 
-		$this->db->select("c.id,c.purchase_code,a.payment_date,b.supplier_name,b.supplier_code,a.payment_type,a.payment_note,a.payment,a.store_id");
+		$this->db->select("c.id,c.purchase_code,a.payment_date,b.supplier_name,b.supplier_code,a.payment_type,a.payment_note,a.payment,a.store_id,w.warehouse_name");
 
 		if ($supplier_id != '') {
 			$this->db->where("c.supplier_id=$supplier_id");
@@ -860,6 +868,7 @@ class Reports_model extends CI_Model
 		$this->db->from("db_purchasepayments as a");
 		$this->db->from("db_suppliers as b");
 		$this->db->from("db_purchase as c");
+		$this->db->join("db_warehouse as w", "w.`id`= c.warehouse_id", "left");
 		$this->db->where("c.`purchase_status`= 'Received'");
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
@@ -883,6 +892,8 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
+				echo "<td>" . $res1->warehouse_name . "</td>";
+
 				if ($res1->store_id == get_current_store_id()) {
 					echo "<td><a title='View Invoice' href='" . base_url("purchase/invoice/$res1->id") . "'>" . $res1->purchase_code . "</a></td>";
 				} else {
@@ -899,7 +910,7 @@ class Reports_model extends CI_Model
 				echo "</tr>";
 				$tot_payment += $res1->payment;
 			}
-			$total_columns_count = 7;
+			$total_columns_count = 8;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -929,7 +940,8 @@ class Reports_model extends CI_Model
 		$from_date = system_fromatted_date($from_date);
 		$to_date = system_fromatted_date($to_date);
 
-		$this->db->select("c.id,c.sales_code,a.payment_date,b.customer_name,b.customer_code,a.payment_type,a.payment_note,a.payment,c.store_id");
+		$this->db->select("c.id,c.sales_code,a.payment_date,b.customer_name,b.customer_code,a.payment_type,a.payment_note,a.payment,c.store_id,w.warehouse_name");
+		
 
 		if ($customer_id != '') {
 			$this->db->where("c.customer_id=$customer_id");
@@ -937,6 +949,7 @@ class Reports_model extends CI_Model
 		if (isset($warehouse_id) && $warehouse_id != "") {
 			$this->db->where('c.warehouse_id', $warehouse_id);
 		}
+
 		$this->db->where("b.id=c.`customer_id`");
 		$this->db->where("(a.payment_date>='$from_date' and a.payment_date<='$to_date')");
 
@@ -946,6 +959,8 @@ class Reports_model extends CI_Model
 		$this->db->from("db_customers as b");
 		$this->db->from("db_sales as c");
 		$this->db->where("c.`sales_status`= 'Final'");
+		$this->db->join("db_warehouse as w", "w.`id`= c.warehouse_id", "left");
+
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
@@ -966,6 +981,7 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
+				echo "<td>" . $res1->warehouse_name . "</td>";
 				if ($res1->store_id == get_current_store_id()) {
 					echo "<td><a title='View Invoice' href='" . base_url("sales/invoice/$res1->id") . "'>" . $res1->sales_code . "</a></td>";
 				} else {
@@ -981,7 +997,7 @@ class Reports_model extends CI_Model
 				echo "</tr>";
 				$tot_payment += $res1->payment;
 			}
-			$total_columns_count = 7;
+			$total_columns_count = 8;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -1978,14 +1994,14 @@ class Reports_model extends CI_Model
 		//GROSS PROFIT & NET 
 		
 		
-		$sales_details = $this->get_sales_item_sum($warehouse_id,$start_date,$end_date);
+		$sales_details = $this->get_sales_item_sum($warehouse_id,$start_date,$end_date,$store_id);
 		$sal_item_pur_price = $sales_details['purchase_price'];
 		$sal_cost = $sales_details['sales_price'];
 		$sal_tax_amt = $sales_details['tax_amt'];
 		$net_sales = $sal_cost - $sal_item_pur_price; //ACTUAL SALES VALUE
 
 
-		$return_details = $this->get_sales_return_item_sum($warehouse_id,$start_date,$end_date);
+		$return_details = $this->get_sales_return_item_sum($warehouse_id,$start_date,$end_date,$store_id);
 		$ret_item_pur_price = $return_details['purchase_price'];
 		$ret_cost = $return_details['return_price'];
 		$ret_tax_amt = $return_details['tax_amt'];
@@ -2021,23 +2037,24 @@ class Reports_model extends CI_Model
 	}
 
 
-	public function get_sales_item_sum($warehouse_id,$start_date,$end_date)
+	public function get_sales_item_sum($warehouse_id,$start_date,$end_date,$store_id)
 	{
 		
 		$this->db->select("db_salesitems.sales_qty,db_salesitems.purchase_price,db_salesitems.total_cost,db_salesitems.tax_amt");
 		$this->db->join('db_sales as b', 'b.id =db_salesitems.sales_id', 'left');
 		$this->db->from('db_salesitems');
 		if (store_module() && is_admin()) {
-			$store_id = $this->input->post('db_salesitems.store_id');
+			
 			if (!empty($store_id)) {
 				$this->db->where("db_salesitems.store_id", $store_id);
 			}
 		} else {
+			
 			$this->db->where("db_salesitems.store_id", get_current_store_id());
 		}
 
 		if (!empty($warehouse_id)) {
-
+			
 			$this->db->where("warehouse_id", $warehouse_id);
 		}
 		if (!empty($start_date)) {
@@ -2067,7 +2084,7 @@ class Reports_model extends CI_Model
 				$sum_tax_amt += $tax_amt;
 			}
 		}
-
+		
 		return array(
 			'purchase_price' => $sum_pur_price,
 			'sales_price' => $sum_sal_price,
@@ -2076,13 +2093,13 @@ class Reports_model extends CI_Model
 	}
 
 
-	public function get_sales_return_item_sum($warehouse_id,$start_date,$end_date)
+	public function get_sales_return_item_sum($warehouse_id,$start_date,$end_date,$store_id)
 	{
 		$this->db->select("return_qty,purchase_price,total_cost,tax_amt");
 		$this->db->join('db_salesreturn as b', 'b.id = db_salesitemsreturn.return_id', 'left');
 		$this->db->from('db_salesitemsreturn');
 		if (store_module() && is_admin()) {
-			$store_id = $this->input->post('db_salesitemsreturn.store_id');
+			
 			if (!empty($store_id)) {
 				$this->db->where("db_salesitemsreturn.store_id", $store_id);
 			}
@@ -2403,9 +2420,9 @@ class Reports_model extends CI_Model
 			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
 
-		$this->db->select("a.created_by,c.seller_points, a.id,a.sales_code,a.sales_date,b.customer_name,b.customer_code,a.grand_total,a.paid_amount,a.store_id");
+		$this->db->select("a.created_by,c.seller_points, a.id,a.sales_code,a.sales_date,b.customer_name,b.customer_code,a.grand_total,a.paid_amount,a.store_id,w.warehouse_name");
 		$this->db->select("c.sales_qty,d.item_name");
-
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 
 		if ($view_all == "no") {
 			$this->db->where("(a.sales_date>='$from_date' and a.sales_date<='$to_date')");
@@ -2443,6 +2460,7 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
+				echo "<td>" . $res1->warehouse_name . "</td>";
 				if ($store_id == get_current_store_id()) {
 					echo "<td><a title='View Invoice' href='" . base_url("sales/invoice/$res1->id") . "'>" . $res1->sales_code . "</a></td>";
 				} else {
@@ -2460,7 +2478,7 @@ class Reports_model extends CI_Model
 				$tot_seller_points += $res1->seller_points;
 			}
 
-			$total_columns_count = 6;
+			$total_columns_count = 7;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -2500,7 +2518,7 @@ class Reports_model extends CI_Model
 			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
 
-		$this->db->select("a.warehouse_id,a.store_id,");
+		$this->db->select("a.warehouse_id,a.store_id,w.warehouse_name");
 		$this->db->select("a.id,a.sales_code,a.sales_date,b.customer_name,a.grand_total,b.tax_number");
 		$this->db->select("a.tot_discount_to_all_amt");
 		$this->db->select("a.round_off");
@@ -2508,7 +2526,7 @@ class Reports_model extends CI_Model
 		/*if($customer_id!=''){	
 			$this->db->where("a.customer_id=$customer_id");
 		}*/
-
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 		$this->db->where("(a.sales_date>='$from_date' and a.sales_date<='$to_date')");
 
 		$this->db->from("db_sales as a");
@@ -2546,7 +2564,7 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
-
+				echo "<td>" . $res1->warehouse_name . "</td>";
 				if ($res1->store_id == get_current_store_id()) {
 					echo "<td><a data-toggle='tooltip' target='_blank' title='View Invoice' href='" . base_url("sales/invoice/$res1->id") . "'>" . $res1->sales_code . "</a></td>";
 				} else {
@@ -2569,7 +2587,7 @@ class Reports_model extends CI_Model
 				$tot_grand_total += $res1->grand_total;
 			}
 
-			$total_columns_count = 5;
+			$total_columns_count = 6;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -2607,7 +2625,7 @@ class Reports_model extends CI_Model
 			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
 
-		$this->db->select("a.warehouse_id,a.store_id,");
+		$this->db->select("a.warehouse_id,a.store_id,w.warehouse_name,");
 		$this->db->select("a.id,a.purchase_code,a.purchase_date,b.supplier_name,a.grand_total,b.tax_number");
 		$this->db->select("a.tot_discount_to_all_amt");
 		$this->db->select("a.round_off");
@@ -2626,7 +2644,7 @@ class Reports_model extends CI_Model
 
 		$this->db->from("db_suppliers as b");
 		$this->db->where("b.`id`= a.`supplier_id`");
-
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 		//echo $this->db->get_compiled_select();exit();
 
 		$q1 = $this->db->get();
@@ -2653,6 +2671,7 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
+				echo "<td>" . $res1->warehouse_name . "</td>";
 
 				if ($res1->store_id == get_current_store_id()) {
 					echo "<td><a data-toggle='tooltip' target='_blank' title='View Invoice' href='" . base_url("purchase/invoice/$res1->id") . "'>" . $res1->purchase_code . "</a></td>";
@@ -2676,7 +2695,7 @@ class Reports_model extends CI_Model
 				$tot_grand_total += $res1->grand_total;
 			}
 
-			$total_columns_count = 5;
+			$total_columns_count = 6;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -2714,7 +2733,7 @@ class Reports_model extends CI_Model
 			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
 
-		$this->db->select("a.warehouse_id,a.store_id,db_warehouse.warehouse_name");
+		$this->db->select("a.warehouse_id,a.store_id,w.warehouse_name");
 		$this->db->select("a.id,a.sales_code,a.sales_date,b.customer_name,a.grand_total,b.gstin,a.customer_id,b.state_id,a.coupon_amt");
 		$this->db->select("a.tot_discount_to_all_amt");
 		$this->db->select("a.round_off");
@@ -2723,14 +2742,14 @@ class Reports_model extends CI_Model
 		$this->db->where("(a.sales_date>='$from_date' and a.sales_date<='$to_date')");
 
 		$this->db->from("db_sales as a");
-		$this->db->join("db_warehouse",'db_warehouse.id = a.warehouse_id','left');
+		
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
 		if (!empty($warehouse_id)) {
 			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
-
+		$this->db->join("db_warehouse as w",'w.id = a.warehouse_id','left');
 		$this->db->join("db_customers as b", "b.`id`= a.`customer_id`", "left");
 
 
@@ -2791,7 +2810,8 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
-				$this->db->join("db_warehouse",'db_warehouse.id = a.warehouse_id','left');
+				echo "<td>" . $res1->warehouse_name . "</td>";
+				
 				
 				if ($res1->store_id == get_current_store_id()) {
 					echo "<td><a data-toggle='tooltip' target='_blank' title='View Invoice' href='" . base_url("sales/invoice/$res1->id") . "'>" . $res1->sales_code . "</a></td>";
@@ -2974,7 +2994,7 @@ class Reports_model extends CI_Model
 				$tot_igst_amt += $igst_amt;
 			}
 
-			$total_columns_count = 5;
+			$total_columns_count = 6;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -3098,10 +3118,10 @@ class Reports_model extends CI_Model
 	{
 
 		extract($_POST);
-
+		
 		$within_date = (!empty($within_date)) ? system_fromatted_date($within_date) : '';
 
-		$this->db->select("a.id,a.customer_name,b.created_date");
+		$this->db->select("a.tot_advance,a.id,a.customer_name,b.created_date");
 		$this->db->from("db_customers as a");
 		$this->db->join('db_custadvance as b', 'a.id = b.customer_id', 'left');
 		$this->db->where("a.tot_advance !=", 0.0000);
@@ -3114,14 +3134,13 @@ class Reports_model extends CI_Model
 		if ($warehouse_id != '') {
 			$this->db->where("a.warehouse_id=$warehouse_id");
 		}
-
-		if ($within_date != '') {
-			$this->db->where("DATE(b.created_date)=", $within_date);
+		if ($within_date != ''){
+			$this->db->where("b.created_date=$within_date");
 		}
-
-
+		if (!empty($within_date)) {
+			$this->db->where("b.created_date='$within_date'");
+		}
 		$q1 = $this->db->get();
-
 		$total_columns_count = 5;
 		if ($q1->num_rows() > 0) {
 
@@ -3161,6 +3180,7 @@ class Reports_model extends CI_Model
 
 		exit;
 	}
+	
 
 	public function get_advance_amount_details($id)
 	{
@@ -3200,7 +3220,7 @@ class Reports_model extends CI_Model
 		$from_date = system_fromatted_date($from_date);
 		$to_date = system_fromatted_date($to_date);
 
-		$this->db->select("a.id,a.sales_code,a.sales_date,b.customer_name,a.grand_total,a.paid_amount,a.store_id,a.created_time");
+		$this->db->select("a.id,a.sales_code,a.sales_date,b.customer_name,a.grand_total,a.paid_amount,a.store_id,a.created_time,w.warehouse_name,");
 
 		if ($customer_id != '') {
 
@@ -3212,6 +3232,7 @@ class Reports_model extends CI_Model
 		$this->db->where("b.`id`= a.`customer_id`");
 		$this->db->from("db_sales as a");
 		$this->db->where("a.`sales_status`= 'Final'");
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
@@ -3273,7 +3294,7 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
-
+				echo "<td>" . $res1->warehouse_name . "</td>";
 				echo "<td>" . show_date($res1->sales_date) . "</td>";
 				echo "<td>" . $res1->created_time . "</td>";
 
@@ -3295,7 +3316,7 @@ class Reports_model extends CI_Model
 				$tot_sales_qty += $sales_qty;
 			}
 
-			$total_columns_count = 5;
+			$total_columns_count = 6;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -3332,10 +3353,11 @@ class Reports_model extends CI_Model
 		$to_date = system_fromatted_date($to_date);
 
 
-		$this->db->select("a.id,a.sales_code,a.sales_date,b.customer_name,b.customer_code,a.grand_total,a.paid_amount,a.store_id");
+		$this->db->select("a.id,a.sales_code,a.sales_date,b.customer_name,b.customer_code,a.grand_total,a.paid_amount,a.store_id,w.warehouse_name");
+		
 		$this->db->select("sum(c.sales_qty) as sales_qty");
 		$this->db->select("d.item_name,d.brand_id");
-
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 
 		$this->db->where("(a.sales_date>='$from_date' and a.sales_date<='$to_date')");
 		$this->db->order_by("a.`sales_date`,a.sales_code", 'desc');
@@ -3374,6 +3396,7 @@ class Reports_model extends CI_Model
 				if (store_module() && is_admin()) {
 					echo "<td>" . get_store_name($res1->store_id) . "</td>";
 				}
+				echo "<td>" . $res1->warehouse_name . "</td>";
 
 				echo "<td>" . show_date($res1->sales_date) . "</td>";
 				echo "<td>" . $brand_name . "</td>";
@@ -3384,7 +3407,7 @@ class Reports_model extends CI_Model
 				$tot_qty += $res1->sales_qty;
 			}
 
-			$total_columns_count = 4;
+			$total_columns_count = 5;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -3459,7 +3482,7 @@ class Reports_model extends CI_Model
 
 							t.tax_name,
 							t.tax,
-
+							w.warehouse_name,
 							s.state,
 						");
 
@@ -3476,6 +3499,7 @@ class Reports_model extends CI_Model
 		$this->db->join("db_tax as t", "t.`id`= c.tax_id", "left");
 		//Store - Join
 		$this->db->join("db_store as s", "s.`id`= a.store_id", "left");
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 
 		//echo $this->db->get_compiled_select();exit();
 
@@ -3529,7 +3553,8 @@ class Reports_model extends CI_Model
 				} else {
 					echo "<td>" . $res1->sales_code . "</td>";
 				}
-
+				
+				echo "<td>" . $res1->warehouse_name . "</td>";
 				echo "<td>" . $res1->customer_name . "</td>";
 				echo "<td>" . $res1->gstin . "</td>";
 				echo "<td>" . show_date($res1->sales_date) . "</td>";
@@ -3563,7 +3588,7 @@ class Reports_model extends CI_Model
 				$tot_igst_amt += $igst_amt;
 			}
 
-			$total_columns_count = 6;
+			$total_columns_count = 7;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -3650,6 +3675,8 @@ class Reports_model extends CI_Model
 
 							t.tax_name,
 							t.tax,
+							w.warehouse_name,
+
 
 							s.state,
 						");
@@ -3667,6 +3694,8 @@ class Reports_model extends CI_Model
 		$this->db->join("db_tax as t", "t.`id`= c.tax_id", "left");
 		//Store - Join
 		$this->db->join("db_store as s", "s.`id`= a.store_id", "left");
+		
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 
 		//echo $this->db->get_compiled_select();exit();
 
@@ -3719,6 +3748,7 @@ class Reports_model extends CI_Model
 				} else {
 					echo "<td>" . $res1->purchase_code . "</td>";
 				}
+				echo "<td>" . $res1->warehouse_name . "</td>";
 
 				echo "<td>" . $res1->supplier_name . "</td>";
 				echo "<td>" . $res1->gstin . "</td>";
@@ -3753,7 +3783,7 @@ class Reports_model extends CI_Model
 				$tot_igst_amt += $igst_amt;
 			}
 
-			$total_columns_count = 6;
+			$total_columns_count = 7;
 			if (store_module() && is_admin()) {
 				$total_columns_count++;
 			}
@@ -3800,7 +3830,7 @@ class Reports_model extends CI_Model
 		$to_date = system_fromatted_date($to_date);
 
 
-		$this->db->select("a.id,a.return_date,a.return_code,b.customer_name,a.store_id,a.return_status");
+		$this->db->select("a.id,a.return_date,a.return_code,b.customer_name,a.store_id,a.return_status,w.warehouse_name");
 		$this->db->from("db_salesreturn a");
 		$this->db->where("(a.return_date>='$from_date' and a.return_date<='$to_date')");
 		if (!empty($warehouse_id)) {
@@ -3809,6 +3839,7 @@ class Reports_model extends CI_Model
 		if (!empty($store_id)) {
 			$this->db->where("a.store_id", $store_id);
 		}
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
 		$this->db->join("db_customers b", "b.`id`= a.`customer_id`", 'left');
 		$this->db->order_by("a.`return_date`,a.return_code", 'desc');
 		//echo $this->db->get_compiled_select();exit();
@@ -3843,6 +3874,8 @@ class Reports_model extends CI_Model
 						if (store_module() && is_admin()) {
 							echo "<td>" . get_store_name($res1->store_id) . "</td>";
 						}
+						
+						echo "<td>" . $res1->warehouse_name . "</td>";
 						if ($store_id == get_current_store_id()) {
 							echo "<td><a title='View Invoice' href='" . base_url("sales_return/invoice/$res1->id") . "'>" . $res1->return_code . "</a></td>";
 						} else {
@@ -3861,7 +3894,7 @@ class Reports_model extends CI_Model
 						$tot_total_cost += $res2->total_cost;
 					} // foreach $res2
 					//Print Total
-					$total_columns_count = 6;
+					$total_columns_count = 7;
 					if (store_module() && is_admin()) {
 						$total_columns_count++;
 					}
@@ -4109,18 +4142,25 @@ class Reports_model extends CI_Model
 		//echo $this->db->get_compiled_select();exit();
 		//$q1=$this->db->get();
 		$i = 1;
-		$str = "SELECT id,item_code,item_name,sales_price ,expire_date FROM db_items where status=1  and expire_date >='$from_date' and expire_date <='$to_date'";
-		if (!empty($warehouse_id)) {
-			$str .= "and warehouse_id=" . $warehouse_id . " ORDER BY id desc limit 10";
-			//$q5->db->where("warehouse_id", $warehouse_id);
-		}
-		$q5 = $this->db->query($str);
 
+		$this->db->select("db_items.id,item_code,item_name,sales_price ,expire_date,w.warehouse_name,");
+		$this->db->from("db_items");
+		if(!empty($store_id)){
+			$this->db->where("db_items.store_id",$store_id);
+		}
+		$this->db->where("db_items.status",1);
+		$this->db->where("(expire_date >='$from_date' and expire_date<='$to_date')");
+		$this->db->join("db_warehouse as w", "w.`id`= db_items.warehouse_id", "left");
+		if (!empty($warehouse_id)) {
+			$this->db->where("warehouse_id", $warehouse_id);
+		}
+		$q5= $this->db->get();
 		if ($q5->num_rows() > 0) {
 
 			foreach ($q5->result() as $res1) {
 				echo "<tr>";
 				echo "<td>" . ++$i . "</td>";
+				echo "<td>" . $res1->warehouse_name . "</td>";
 				echo "<td>" . $res1->item_code . "</td>";
 				echo "<td>" . $res1->item_name . "</td>";
 				echo "<td>" . show_date($res1->expire_date) . "</td>";
@@ -4160,9 +4200,11 @@ class Reports_model extends CI_Model
 		if ($warehouse_id != "") {
 			$this->db->where("a.warehouse_id", $warehouse_id);
 		}
-		$this->db->select("COALESCE(SUM(b.sales_qty),0) AS sales_qty, a.item_name");
+		$this->db->select("COALESCE(SUM(b.sales_qty),0) AS sales_qty, a.item_name,w.warehouse_name");
 		$this->db->from("db_items AS a, db_salesitems AS b ,db_sales AS c");
 		$this->db->where("a.id=b.`item_id` AND b.sales_id=c.`id` AND c.`sales_status`='Final'");
+		$this->db->join("db_warehouse as w", "w.`id`= a.warehouse_id", "left");
+
 		$this->db->group_by("a.id");
 		$this->db->limit("10");
 		$this->db->order_by("sales_qty", "asc");
@@ -4177,6 +4219,7 @@ class Reports_model extends CI_Model
 				if ($res3->sales_qty > 0) {
 					++$i;
 					$pie_chart['tranding_item'][$i]['name'] = $res3->item_name;
+					$pie_chart['tranding_item'][$i]['warehouse_name'] = $res3->warehouse_name;
 					$pie_chart['tranding_item'][$i]['sales_qty'] = $res3->sales_qty;
 				}
 			}
@@ -4191,6 +4234,7 @@ class Reports_model extends CI_Model
 				echo "<tr>";
 				echo "<td>" . $i++ . "</td>";
 				echo "<td>" . $res1['name'] . "</td>";
+				echo "<td>" . $res1['warehouse_name'] . "</td>";
 				echo "<td>" . $res1['sales_qty'] . "</td>";
 				echo "</tr>";
 			}

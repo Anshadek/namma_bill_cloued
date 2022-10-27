@@ -1143,6 +1143,11 @@
 		}
 
 		$(document).ready(function() {
+			var warehouse_id = $('#warehouse_id').val();
+			if (warehouse_id > 0){
+				get_warehouse_customers_pos("",warehouse_id);
+			}
+			
 			get_coupon_details();
 			//this moda function included that html
 			get_account();

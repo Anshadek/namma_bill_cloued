@@ -59,7 +59,58 @@ class Login_model extends CI_Model
 		$query = $this->db->get();
 		
 		if($query->num_rows()==1){
-			
+			$this->db->select("package_id,type,created_date");
+		$this->db->from("db_store_purchased_packages");
+		$this->db->where("warehouse_id",$query->row()->warehouse_id);
+		$this->db->order_by("id", "desc");
+		$this->db->limit("1");
+		$res = $this->db->get();
+		if ($res->num_rows() == 1){
+			$flag = false;
+			$res = $res->result();
+			if ($res[0]->type == 'subscription'){
+
+				$this->db->select("validity");
+				$this->db->from("db_package_subscription");
+				$this->db->where("id",$res[0]->package_id);
+				$this->db->order_by("id", "desc");
+				$this->db->limit("1");
+				$res1 = $this->db->get()->row();
+				$expired_date = date('Y-m-d', strtotime($res[0]->created_date . ' + ' . $res1->validity . ' days'));
+				if ($expired_date <= date('Y-m-d')){
+
+					$this->session->set_flashdata('failed', 'Your Package is Expired..!! Contact NammaBill Team');
+					redirect('login');
+				}
+
+			}else{
+				$this->db->select("day_or_month,days");
+				$this->db->from("db_trialpackage");
+				$this->db->where("id",$res[0]->package_id);
+				$this->db->order_by("id", "desc");
+				$this->db->limit("1");
+				$res1 = $this->db->get()->row();
+
+				if ($res1->day_or_month == 'month') {
+					$validity_in_days =  $res1->days * 30;
+				 } else {
+					$validity_in_days = $res1->days;
+				 }
+				 $expired_date = date('Y-m-d', strtotime($res[0]->created_date . ' + ' . $validity_in_days . ' days'));
+
+				 if ($expired_date <= date('Y-m-d')){
+
+					$this->session->set_flashdata('failed', 'Your Package is Expired..!! Contact NammaBill Team');
+					redirect('login');
+				}
+
+				
+
+			}
+
+
+		}
+	
 
 			//Verify is SaaS module Active ?
 			// if($query->row()->id==1){
@@ -158,7 +209,31 @@ Thank you
 			$this->email->message($ready_message);*/
 			
 			//if($this->email->send()){
-			if(mail($email_id, $server_subject, $ready_message)){
+				$this->load->library('email');
+		//$to_email = 'anshadali.ek@gmail.com';
+        $from_email = 'no_reply@nammabilling.com'; //change this to yours
+        $subject = 'OTP';
+        $message = $ready_message;
+        
+        //configure email settings
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'mail.nammabilling.com'; //smtp host name
+        $config['smtp_port'] = '587'; //smtp port number
+        $config['smtp_user'] = 'no_reply@nammabilling.com';
+        $config['smtp_pass'] = 'brD88#qig'; //$from_email password
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = TRUE;
+        $config['newline'] = "\r\n"; //use double quotes
+        $this->email->initialize($config);
+        
+        //send mail
+        $this->email->from($from_email, 'Nammabill');
+        $this->email->to($email_id);
+        $this->email->subject($subject);
+        $this->email->message($message);
+
+			if($this->email->send()){
 				//redirect('contact/success');
 				$this->session->set_flashdata('success', 'OTP has been sent to your email ID! (Check Inbox/Spam Box)');
 				$otpdata = array('email'  => $email_id,'otp'  => $otp );
@@ -167,6 +242,7 @@ Thank you
 				return true;
 			}
 			else{
+				
 				//echo "Failed to Send Message.Try again!";
 				$this->session->set_flashdata('failed', 'Failed to Send Message.Try again!');
 				return false;

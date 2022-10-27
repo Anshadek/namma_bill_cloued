@@ -76,6 +76,7 @@ class Discount_coupon_model extends CI_Model {
 
 
 	public function save_record(){
+		
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET))));
 
@@ -89,9 +90,10 @@ class Discount_coupon_model extends CI_Model {
 	                'name'         		=> $coupon_name,
 	                'expire_date'       => $expire_date,
 	                'value'         	=> $coupon_value,
-					
 	                'type'		        => $coupon_type,
+					
 	                'description'		=> $description,
+					'is_admin'         => $is_admin
 	              );
 		if($command=='save'){
 			

@@ -173,7 +173,12 @@ class Items_model extends CI_Model {
 		
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST,$_GET,$modal_post))));
-		$expire_date = system_fromatted_date($expiry_date);
+		if ($expiry_date != ""){
+			$expire_date = system_fromatted_date($expiry_date);
+		}else{
+			$expire_date = null;
+		}
+		
 		
 		
 		//varify max sales usage of the package subscription
@@ -260,7 +265,7 @@ class Items_model extends CI_Model {
 			    				'hsn' 						=> $hsn,
 			    				'unit_id' 					=> $unit_id,
 			    				'alert_qty' 				=> $alert_qty,
-								'expire_date'         		=>system_fromatted_date($expiry_date),
+								'expire_date'         		=>$expire_date,
 			    				'price' 					=> $price,
 			    				'tax_id' 					=> $tax_id,
 			    				'purchase_price' 			=> $purchase_price,

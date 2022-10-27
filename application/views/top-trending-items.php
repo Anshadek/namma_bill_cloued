@@ -112,6 +112,7 @@
                               <tr class="bg-blue">
                                  <th style="">#</th>
                                  <th style=""><?= $this->lang->line('name'); ?></th>
+											<th style=""><?= $this->lang->line('warehouse_name'); ?></th>
                                  <th style=""><?= $this->lang->line('sales_qty'); ?></th>
                               </tr>
                            </thead>

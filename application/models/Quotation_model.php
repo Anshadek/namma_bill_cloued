@@ -52,7 +52,7 @@ class Quotation_model extends CI_Model {
 			
 			$this->db->where('a.warehouse_id',$warehouse_id);
 		}
-		$this->db->join('db_warehouse as w','w.id = b.id','left');
+		$this->db->join('db_warehouse as w','w.id = a.warehouse_id','left');
 		
 		//if(!is_admin()){
 	      $this->db->where("a.store_id",get_current_store_id());

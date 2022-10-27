@@ -768,6 +768,7 @@
 			get_warehouse_modal_brand(res.value);
 			get_modal_warehouse_category(res.value);
 			 get_modal_warehouse_unit(res.value);
+			 get_warehouse_accounts(res.value);
 			$("#sales_table > tbody").empty();
 			final_total();
 		}
@@ -1015,7 +1016,8 @@
 		$(document).ready(function() {
 			var warehouse_id = $("#warehouse_id").val();
 			$('#old_warehouse_selected_id').val(warehouse_id);
-			get_warehouse_customers(warehouse_id)
+			get_warehouse_customers(warehouse_id);
+			get_warehouse_accounts(warehouse_id);
 			set_previous_due();
 		});
 

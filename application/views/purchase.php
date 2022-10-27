@@ -115,11 +115,15 @@
                               ?>
                               <!-- Store Code end -->
                               <!-- Warehouse Code -->
-                              <?php 
-                               if(warehouse_module() && warehouse_count()>1) {$this->load->view('warehouse/warehouse_code',array('show_warehouse_select_box'=>true,'warehouse_id'=>$warehouse_id,'div_length'=>'col-sm-3','show_select_option'=>false)); }else{
-                                echo "<input type='hidden' class='warehouse_id' name='warehouse_id' id='warehouse_id' value='".get_store_warehouse_id()."'>";
-                               }
-                              ?>
+										<div class="form-group">
+									<label for="warehouse_id" class="col-sm-2 control-label"><?= $this->lang->line('warehouse'); ?><label class="text-danger">*</label></label>
+									<div class="col-sm-3">
+										<select class="form-control select2 " id="warehouse_id" name="warehouse_id"  onchange="get_warehouse_details(this)">
+											<?= get_warehouse_select_list($warehouse_id, get_current_store_id()); ?>
+										</select>
+										<span id="warehouse_id_msg" style="display:none" class="text-danger"></span>
+									</div>
+								</div>
                               <!-- Warehouse Code end -->
 
                               <div class="form-group">
@@ -420,7 +424,7 @@
                                                     <select class="form-control select2" id='account_id' name="account_id">
                                                       <?php
                                                         echo '<option value="">-None-</option>'; 
-                                                        echo get_accounts_select_list();
+                                                      //   echo get_accounts_select_list();
                                                         ?>
                                                     </select>
                                                     <span id="account_id_msg" style="display:none" class="text-danger"></span>
@@ -821,6 +825,7 @@
          <?php if(isset($purchase_id)){ ?> 
              $(document).ready(function(){
                 /*$("#warehouse_id").attr('readonly',true);*/
+					 
                 $("#store_id").attr('readonly',true);
                 var base_url='<?= base_url();?>';
                 var purchase_id='<?= $purchase_id;?>';
@@ -834,8 +839,15 @@
                   enable_or_disable_item_discount();
                   $(".overlay").remove();
               }); 
+				  var warehouse_id = $("#warehouse_id").val();
+				  get_warehouse_accounts(warehouse_id);
              });
          <?php }?>
+			function get_warehouse_details(res) {
+			warehouse_id = $('#warehouse_id').val(res.value);
+			 get_warehouse_accounts(res.value);
+			
+		}
       </script>
       <!-- UPDATE OPERATIONS end-->
 

@@ -126,6 +126,7 @@
                               <thead>
                                  <tr class="bg-blue">
                                     <th style="">#</th>
+												<th style=""><?= $this->lang->line('warehouse_name'); ?></th>
                                     <th style="">Item Code</th>
                                     <th style="">Item Name</th>
                                     <th style="">Expiry Date</th>
