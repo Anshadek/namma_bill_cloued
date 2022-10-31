@@ -509,7 +509,7 @@
 </div>
 <!-- ./wrapper -->
 
-<script src="<?php echo $theme_link; ?>js/purchase.js?v=1"></script>  
+<script src="<?php echo $theme_link; ?>js/purchase.js?v=3"></script>  
 
 <script>
    

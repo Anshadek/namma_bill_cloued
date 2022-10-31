@@ -61,7 +61,7 @@
 			->limit(1)
 			->get("db_package_subscription")
 			->row();
-			if($q2->num_rows() >= $q3->warehouse_count ){
+			if($q3->is_unlimited != 1 && $q2->num_rows() >= $q3->warehouse_count ){
 				echo "Your warehouse limit is exceeded.please upgrade your package";
 				return 0;
 			}

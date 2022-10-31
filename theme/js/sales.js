@@ -39,6 +39,7 @@ $('#save,#update').on("click",function (e) {
     check_field("sales_date");
     check_field("sales_status");
     check_field("count_id");
+    check_field("payment_type");
     //check_field("warehouse_id");
 	/*if(!isNaN($("#amount").val()) && parseInt($("#amount").val())==0){
         toastr["error"]("You have entered Payment Amount! <br>Please Select Payment Type!");

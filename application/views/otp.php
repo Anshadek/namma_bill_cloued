@@ -78,7 +78,7 @@
       												<input type="hidden" name="email" id="email" value="<?= $this->session->userdata('email')?>">
                                     <div class="mb-1">
                                         <label class="form-label" for="login-email">OTP</label>
-                                        <input class="form-control"  type="number"   placeholder="OTP" id="otp" name="otp" aria-describedby="otp" autofocus="" tabindex="1" />
+                                        <input class="form-control"  type="text"   placeholder="OTP" id="otp" name="otp" aria-describedby="otp" autofocus="" tabindex="1" />
                                     </div>
                                     
                                     <button class="btn btn-primary w-100" tabindex="4"><?= $this->lang->line('submit'); ?></button>

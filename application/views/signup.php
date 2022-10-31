@@ -223,7 +223,7 @@
 
                                                 <div class="mb-1 col-md-6">
                                                     <label class="form-label" for="country">Country<span class="req_star">*</span></label>
-                                                    <select onchange="get_states(this.value)" class="select2 w-100 form-control" name="country" id="country">
+                                                    <select onchange="get_states(this.value)" class="select2  w-100 form-control" name="country" id="country">
                                                         <option class="hidden" selected="" disabled="">Please select your Country</option>
                                                         <?php
                                                         $query1 = "select * from db_country where status=1";

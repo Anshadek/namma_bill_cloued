@@ -37,6 +37,7 @@ $('#save,#update').on("click",function (e) {
 	  check_field("supplier_id");
     check_field("pur_date");
     check_field("purchase_status");
+    check_field("payment_type")
     //check_field("warehouse_id");
 	/*if(!isNaN($("#amount").val()) && parseInt($("#amount").val())==0){
         toastr["error"]("You have entered Payment Amount! <br>Please Select Payment Type!");
@@ -132,7 +133,7 @@ $("#item_search").autocomplete({
             data: {
                 name: data.term,
                 store_id:$("#store_id").val(),
-                warehouse_id:$(".warehouse_id").val(),
+                warehouse_id:$("#warehouse_id").val(),
                 search_for:"purchase",
             },
             beforeSend: function() {

@@ -282,7 +282,7 @@ class Items extends MY_Controller {
 		$store_id=$this->input->get('store_id');
 		$warehouse_id=$this->input->get('warehouse_id');
 		$search_for=$this->input->get('search_for');
-
+		
 		$show_purchase_price = $this->permissions('show_purchase_price');
 		$data = array();
 		$display_json = array();

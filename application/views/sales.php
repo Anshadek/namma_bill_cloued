@@ -717,7 +717,7 @@
 	<!-- Bootstrap WYSIHTML5 -->
 	<script src="<?php echo $theme_link; ?>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 
-	<script src="<?php echo $theme_link; ?>js/sales.js"></script>
+	<script src="<?php echo $theme_link; ?>js/sales.js?v=2"></script>
 	<script>
 		$("#payment_type").on("change", function() {
 			show_cheque_details();

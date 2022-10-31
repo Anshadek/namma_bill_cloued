@@ -47,7 +47,7 @@
 			->get("db_package_subscription")
 			->row();
 			
-			if($q2->num_rows() >= $q3->user_count ){
+			if($q3->is_unlimited != 1 && $q2->num_rows() >= $q3->user_count){
 				echo "Your user limit is exceeded.please upgrade your package";
 				return 0;
 			}
