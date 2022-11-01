@@ -229,14 +229,20 @@ $(".add_variant").on("click",function(e){
 	}
     //Validate Input box or selection box should not be blank or empty
 	check_field("variant");
-	//check_field("state");
-	
-	
-    if(flag==false)
+	if(flag==false)
     {
 		toastr["warning"]("You have Missed Something to Fillup!");
 		return;
     }
+	check_field("warehouse_id");
+	if(flag==false)
+    {
+		toastr["warning"]("Please Select Your warehouse!");
+		return;
+    }
+	
+	
+   
    
     var this_id=this.id;
 					//if(confirm("Do You Wants to Save Record ?")){

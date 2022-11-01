@@ -414,7 +414,7 @@
           load_datatable();
       });
 </script>
-<script src="<?php echo $theme_link; ?>js/purchase_return.js"></script>
+<script src="<?php echo $theme_link; ?>js/purchase_return.js?v=1"></script>
 <!-- Make sidebar menu hughlighter/selector -->
 <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>
 		

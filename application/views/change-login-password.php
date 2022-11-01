@@ -78,11 +78,11 @@
 															<input type="hidden" name="otp" id="otp" value="<?= $otp;?>">
                                     <div class="mb-1">
                                         <label class="form-label" for="login-email">Password</label>
-                                        <input class="form-control"  type="number"   placeholder="password" id="password" name="password" aria-describedby="otp" autofocus="" tabindex="1" />
+                                        <input class="form-control"  type="text"   placeholder="password" id="password" name="password" aria-describedby="otp" autofocus="" tabindex="1" />
                                     </div>
 																		<div class="mb-1">
                                         <label class="form-label" for="login-email">Confirm Password</label>
-                                        <input class="form-control"  type="number"  placeholder="Confirm Password" id="cpassword" name="cpassword" aria-describedby="otp" autofocus="" tabindex="1" />
+                                        <input class="form-control"  type="text"  placeholder="Confirm Password" id="cpassword" name="cpassword" aria-describedby="otp" autofocus="" tabindex="1" />
                                     </div>
                                     
                                     <button class="btn btn-primary w-100" tabindex="4"><?= $this->lang->line('submit'); ?></button>

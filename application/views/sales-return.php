@@ -639,7 +639,7 @@
 </div>
 <!-- ./wrapper -->
 
-      <script src="<?php echo $theme_link; ?>js/sales-return.js"></script>  
+      <script src="<?php echo $theme_link; ?>js/sales-return.js?v=1"></script>  
       <script>
         var base_url=$("#base_url").val();
         $("#store_id").on("change",function(){

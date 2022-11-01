@@ -138,7 +138,8 @@ class Store_profile_model extends CI_Model
 
 	public function update_store()
 	{
-
+		$user_id = ($this->session->userdata('inv_userid'));
+		
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
 		//echo "<pre>";print_r($this->security->xss_clean(html_escape(array_merge($this->data,$_POST))));exit();
@@ -150,7 +151,15 @@ class Store_profile_model extends CI_Model
 		// 	}
 		// }
 
-
+			if(!empty($mobile)){
+			$query=$this->db->query("select * from db_users where mobile='$mobile' and id <>$user_id")->num_rows();
+			if($query>0){ return "This Moble Number already exist.";}
+		}
+		if(!empty($email)){
+			$query=$this->db->query("select * from db_users where email='$email' and id !=$user_id")->num_rows();
+			
+			if($query>0){ return "This Email ID already exist.";}
+		}
 		$this->db->trans_begin();
 
 

@@ -213,7 +213,7 @@
 		color: #848484;
 		font-weight: 500;
 		padding: 5px 0;
-		padding-left: 30px;
+		padding-left: 24px;
 		border-bottom: 1px dashed #dddddd;
 	}
 
@@ -395,8 +395,8 @@
 																	</div>
 																	<ul class="features">
 																		<li class="true">Validity : <b><?= $res1->validity ?></b></li>
-																		<li class="true">User Count : <b><?= $res1->user_count ?></b></li>
-																		<li class="true">Warehouse Count : <b><?= $res1->warehouse_count ?></b></li>
+																		<li class="true">User Count : <b><?= ($res1->is_unlimited == 0) ?  $res1->user_count :  'Unlimited' ?></b></li>
+																<li class="true">Warehouse Count : <b><?= ($res1->is_unlimited == 0) ?  $res1->warehouse_count :  'Unlimited' ?></b></li>
 																	</ul>
 																	<div class="btn-box">
 																	<form id="" method="post" action='<?=base_url('subscription/pay')?>'>
