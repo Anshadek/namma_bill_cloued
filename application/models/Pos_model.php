@@ -347,10 +347,20 @@ class Pos_model extends CI_Model {
 				/* ******************************** */
 				//Find the qty available or not
 				$item_details = get_item_details($item_id);
+				
 				$item_name = $item_details->item_name;
 				$service_bit = $item_details->service_bit;
 
-				
+				if ($service_bit == 1) {
+					$service_status_entry = array(
+						'sales_id' 			=> $sales_id, 
+						'item_id' 			=> $item_id, 
+						'status' 			=> 'inspecting', 
+						'created_date' 		=> date('Y/m/d H:i:s'),
+						'created_by' 		=> $CUR_USERNAME,
+					);
+					$q10 = $this->db->insert('service_working_status', $service_status_entry);
+				}
 				/*$current_stock_of_item = total_available_qty_items_of_warehouse($warehouse_id,null,$item_id);
 				if($current_stock_of_item<$sales_qty && $service_bit==0){
 					return $item_name." has only ".$current_stock_of_item." in Stock!!";exit;
@@ -376,6 +386,7 @@ class Pos_model extends CI_Model {
 		    				'seller_points'		=> get_seller_points($item_id) * $sales_qty,
 		    			);
 				$q4 = $this->db->insert('db_salesitems', $salesitems_entry);
+
 
 				$q11=$this->update_items_quantity($item_id);
 				if(!$q11){

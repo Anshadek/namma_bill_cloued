@@ -655,6 +655,15 @@ class Store_profile_model extends CI_Model
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data, $_POST, $_GET))));
 		$this->db->trans_begin();
+		if(!empty($mobile)){
+			$query=$this->db->query("select * from db_users where mobile='$mobile' and id<>$user_id")->num_rows();
+			if($query>0){ return "This Moble Number already exist.";}
+		}
+		if(!empty($email)){
+			$query=$this->db->query("select * from db_users where email='$email' and id !=$user_id")->num_rows();
+			
+			if($query>0){ return "This Email ID already exist.";}
+		}
 		$document_file = "";
 		
 		if (!empty($_FILES['document']['name'])) {

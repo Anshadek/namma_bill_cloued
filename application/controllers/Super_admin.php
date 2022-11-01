@@ -666,6 +666,12 @@ class Super_admin extends MY_Controller
 		$data = $this->data; //My_Controller constructor data accessed here
 		$data['page_title'] = 'Create Subscription List';
 		$this->load->view('super_admin/store-subscription-list', $data);
+	}public function trial_store_subscription()
+	{
+
+		$data = $this->data; //My_Controller constructor data accessed here
+		$data['page_title'] = 'Create Subscription List';
+		$this->load->view('super_admin/trial-subscription-list', $data);
 	}
 	public function assing_store_subscription()
 	{

@@ -18,12 +18,13 @@
 			$this->load->view('users',$data);
 		}
 		public function save_or_update(){
+			
 			$data=$this->data;//My_Controller constructor data accessed here
 			$this->form_validation->set_rules('new_user', 'Usenname', 'required|trim|min_length[2]|max_length[50]');
 			
 			if($_GET['command']!='update'){
 				$this->form_validation->set_rules('pass', 'Password', 'required|trim|min_length[2]|max_length[50]');
-			}
+			
 
 			//check package limit
 			$warehouse_id = get_store_warehouse_id();
@@ -54,11 +55,13 @@
 
 				}
 			}
+		}
 			//==================================
 			if ($this->form_validation->run() == TRUE) {
 				$this->load->model('users_model');
 				
 				if($_GET['command']!='update'){
+					
 					$result=$this->users_model->verify_and_save($data);
 				}
 				else{

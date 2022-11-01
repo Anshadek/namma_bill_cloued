@@ -144,7 +144,8 @@ class Users_model extends CI_Model {
 			if($query>0){ return "This Moble Number already exist.";}
 		}
 		if(!empty($email)){
-			$query=$this->db->query("select * from db_users where email='$email' and id<>$q_id")->num_rows();
+			$query=$this->db->query("select * from db_users where email='$email' and id !=$q_id")->num_rows();
+			
 			if($query>0){ return "This Email ID already exist.";}
 		}
 		

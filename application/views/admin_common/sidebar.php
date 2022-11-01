@@ -215,7 +215,7 @@ $CI = &get_instance();
 				</ul>
 			</li>
 
-			<li class="subscription-list-active-li store-subscription-list-active-li  treeview ">
+			<li class="subscription-list-active-li trial-subscription-list-active-li  store-subscription-list-active-li  treeview ">
 				<a href="#">
 					<i class="fa fa-bookmark text-aqua"></i> <span><?= $this->lang->line('subscription'); ?></span>
 					<span class="pull-right-container">
@@ -225,6 +225,7 @@ $CI = &get_instance();
 				<ul class="treeview-menu">
 					<li class="subscription-list-active-li"><a href="<?php echo $base_url; ?>super_admin/subscription"><i class="fa fa-list "></i> <span>Subscription</span></a></li>
 					<li class="store-subscription-list-active-li"><a href="<?php echo $base_url; ?>super_admin/store_subscription"><i class="fa fa-list "></i> <span>Store Subscription</span></a></li>
+					<li class="trial-subscription-list-active-li"><a href="<?php echo $base_url; ?>super_admin/trial_store_subscription"><i class="fa fa-list "></i> <span>Trial Store Subscription</span></a></li>
 				</ul>
 			</li>
 
