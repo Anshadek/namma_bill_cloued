@@ -402,18 +402,21 @@
 											<div class="input-group" data-toggle="tooltip" title="Customer">
 												<span class="input-group-addon"><i class="fa fa-user"></i></span>
 												<select class="form-control select2" id="customer_id" name="customer_id" style="width: 100%;">
-													 <!-- $customer_id = (isset($customer_id)) ? $customer_id : '';
+													<!-- $customer_id = (isset($customer_id)) ? $customer_id : '';
 												 get_customers_select_list_pos($customer_id, get_current_store_id()); -->
 												</select>
-												<input type="hidden" id="selected_cust" value="<?=(isset($customer_id)) ? $customer_id : '0' ?>">
+												<input type="hidden" id="selected_cust" value="<?= (isset($customer_id)) ? $customer_id : '0' ?>">
 												<span class="input-group-addon pointer" data-toggle="modal" data-target="#customer-modal" title="New Customer?"><i class="fa fa-user-plus text-primary fa-lg"></i></span>
 											</div>
 											<input id="old_warehouse_selected_id" type="hidden">
 											<span class="customer_points text-success" style="display: none;"></span>
-											<input type="checkbox" id="check_bx_previous_due">
-											
+											<input style="
+            width: 30px;
+            height: 20px;
+            " type="checkbox" id="check_bx_previous_due">
+
 											<lable><?= $this->lang->line('purchase_due'); ?> :<label class="customer_purchase_due text-red" style="font-size: 18px;">0.00</label></lable>
-											
+
 										</div>
 										<div class="col-md-6">
 											<div class="input-group" data-toggle="tooltip" title="Select Items">
@@ -424,15 +427,15 @@
 										</div>
 									</div><!-- row end -->
 									<div class="row">
-									
-									<div class="col-md-6">
-									<lable style=""><?= $this->lang->line('advance'); ?> :<label class="text-red customer_tot_advance_label" style="font-size: 18px;">0.00</label></lable>
-									</div>
-									<div class="col-md-6">
-									<lable  style=""><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable><label style="margin-left:10px;" class="btn-sm btn-success" onclick="pay_previews_due_amount()">Pay Now</label><br>
-											
-									</div>
-									<input type="hidden" id="sales_id" value="<?= (isset($sales_id)) ?  $sales_id  : 0 ?>" >
+
+										<div class="col-md-6">
+											<lable style=""><?= $this->lang->line('advance'); ?> :<label class="text-red customer_tot_advance_label" style="font-size: 18px;">0.00</label></lable>
+										</div>
+										<div class="col-md-6">
+											<lable style=""><?= $this->lang->line('previous_due'); ?> :<label class="customer_previous_due text-red" style="font-size: 18px;">0.00</label></lable><label style="margin-left:10px;" class="btn-sm btn-success" onclick="pay_previews_due_amount()">Pay Now</label><br>
+
+										</div>
+										<input type="hidden" id="sales_id" value="<?= (isset($sales_id)) ?  $sales_id  : 0 ?>">
 									</div>
 
 									<div class="row">
@@ -660,7 +663,7 @@
 		</div>
 		<!-- /.row -->
 		<div class="pay_now_modal">
-			</div>
+		</div>
 		</section>
 		<!-- /.content -->
 	</div>
@@ -698,7 +701,7 @@
 			store_module = true;
 		<?php } ?>
 	</script>
-	<script src="<?php echo $theme_link; ?>js/pos.js?v=2.0"></script>
+	<script src="<?php echo $theme_link; ?>js/pos.js?v=3.0"></script>
 	<script>
 		var base_url = $("#base_url").val();
 		/*$("#store_id").on("change",function(){
@@ -725,15 +728,15 @@
 			var warehouse_id = $('#warehouse_id').val(res.value);
 			//alert(warehouse_id.value);
 			$(".items_table > tbody").empty();
-			
-				get_warehouse_customers_pos("",res.value);
-			
+
+			get_warehouse_customers_pos("", res.value);
+
 			get_categories_select_list();
 			get_brand_select_list();
 			get_account();
 			get_details(null, true);
 			final_total();
-			
+
 		}
 
 		// });
@@ -1144,10 +1147,10 @@
 
 		$(document).ready(function() {
 			var warehouse_id = $('#warehouse_id').val();
-			if (warehouse_id > 0){
-				get_warehouse_customers_pos("",warehouse_id);
+			if (warehouse_id > 0) {
+				get_warehouse_customers_pos("", warehouse_id);
 			}
-			
+
 			get_coupon_details();
 			//this moda function included that html
 			get_account();
@@ -1178,10 +1181,10 @@
 			$("#store_id").trigger('change');
 			//FIRST TIME: LOAD
 			get_details();
-			if ($('#sales_id').val() > 0){
-				get_warehouse_customers_pos($('#selected_cust').val(),$('#selected_warehouse_id').val());
+			if ($('#sales_id').val() > 0) {
+				get_warehouse_customers_pos($('#selected_cust').val(), $('#selected_warehouse_id').val());
 			}
-			
+
 
 			var first_div = parseFloat($(".content-wrapper").height());
 			var second_div = parseFloat($("section").height());
@@ -1382,15 +1385,7 @@
 		}
 		//Sale Items Modal Operations End
 	</script>
-	<script>
-		$(function() {
-			$('input').iCheck({
-				checkboxClass: 'icheckbox_square-blue',
-				radioClass: 'iradio_square-blue',
-				increaseArea: '20%' // optional
-			});
-		});
-	</script>
+
 	<script type="text/javascript">
 		shortcut.add("Alt+m", function(e) {
 			e.preventDefault();
@@ -1558,7 +1553,7 @@
 			}
 			var tot_grand = $(".tot_grand ").text();
 			tot_grand = parseFloat(tot_grand) + parseFloat(due_amt);
-			
+
 			$(".tot_grand ").html(to_Fixed(round_off(tot_grand)));
 		}
 

@@ -253,7 +253,7 @@ class Customers extends MY_Controller {
 			 if (!isset($_POST['is_pos'])){
 				$str.='<option value="">-- All --</option>'; 
 			 }
-		
+			 $str.='<option value="">-- Select --</option>'; 
 			 foreach($q1->result() as $res1)
 		   { 
 			
@@ -269,6 +269,7 @@ class Customers extends MY_Controller {
 			   $tot_advance = store_number_format($res1->tot_advance,0);
 			   $customer_mobile = $res1->mobile;
 			 $selected = ($select_id==$res1->id)? 'selected' : '';
+			
 			 $str.="<option $selected data-delete_bit='".$res1->delete_bit."' data-tot_advance='".$tot_advance."' data-customer-purchase-due='".$customer_purchase_due."' data-mobile='".$customer_mobile."' data-previous_due='".store_number_format($customer_previous_due,false)."' value='".$res1->id."'>".$res1->customer_code."-".$res1->customer_name."-".$res1->mobile."</option>";
 		   }
 		 }

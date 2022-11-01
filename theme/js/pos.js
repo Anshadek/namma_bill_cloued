@@ -1,5 +1,11 @@
 
-//On Enter Move the cursor to desigtation Id
+
+$(document).ready(function() {
+  $('#check_bx_previous_due').click(function () {
+    final_total();
+  });
+});
+
 function shift_cursor(kevent,target){
 
     if(kevent.keyCode==13){

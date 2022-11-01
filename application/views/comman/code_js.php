@@ -70,14 +70,14 @@ $(document).ajaxStart(function() { Pace.restart(); });
 <!-- iCheck -->
 <script src="<?php echo $theme_link; ?>plugins/iCheck/icheck.min.js"></script>
 <script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-orange',
-      /*uncheckedClass: 'bg-white',*/
-      radioClass: 'iradio_square-orange',
-      increaseArea: '10%' // optional
-    });
-  });
+  // $(function () {
+  //   $('input').iCheck({
+  //     checkboxClass: 'icheckbox_square-orange',
+  //     /*uncheckedClass: 'bg-white',*/
+  //     radioClass: 'iradio_square-orange',
+  //     increaseArea: '10%' // optional
+  //   });
+  // });
 </script>
 <!-- Initialize Select2 Elements -->
 <script type="text/javascript"> $(".select2").select2(); </script>
