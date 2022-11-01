@@ -188,7 +188,7 @@
                                                 </div>
                                                 <p class="text-center mt-2"><span>Already have an account?</span><a href="<?= base_url() ?>"><span>&nbsp;Sign in instead</span></a></p>
                                         </div>
-                                        <div  id="personal-info" class="content" role="tabpanel" aria-labelledby="personal-info-trigger">
+                                        <div   id="personal-info" class="content" role="tabpanel" aria-labelledby="personal-info-trigger">
                                             <div class="content-header mb-2">
                                                 <h2 class="fw-bolder mb-75">Store Information</h2>
                                                 <span>Enter your Store Information</span>
@@ -338,6 +338,9 @@
     <!-- END: Page JS-->
 
     <script>
+        $('.select2').select2({
+    placeholder: 'Select a month'
+});
         var flag = true;
         var email_exists_flag = false;
         var email_format_flag = false;

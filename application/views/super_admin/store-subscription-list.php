@@ -35,15 +35,56 @@
 						<div class="box box-primary">
 							<div class="box-header with-border">
 								<h3 class="box-title">Store Subscription List</h3>
-
-
 								<button onclick="addRow()" title="New Store Subscription?" class="btn btn-primary pull-right"> Add
-									Store Subscription </button> <?php if($CI->permissions('warehouse_add')) { ?>
-								<div class="box-tools">
-									<a class="btn btn-block btn-info" href="<?php echo $base_url; ?>warehouse/add">
-										<i class="fa fa-plus"></i> <?= $this->lang->line('add_store'); ?></a>
+									Store Subscription </button>
+								<div class="row">
+									<form action="<?= base_url('super_admin/store_subscription') ?>" method="post">
+										<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+										<div class="col-md-12">
+											<div class="col-md-4">
+												<div class="box-body">
+													<div class="form-group">
+
+														<label for="filter_package">Packages</label>
+														<select class="form-control" id="filter_package" name="filter_package" style="width: 100%;">
+															<option value="">-Select-</option>
+															<?php 
+															 if($subscriptions->num_rows()>0){
+																foreach ($subscriptions->result() as $res1){
+															?>
+															<option <?= (($filter_package == $res1->id) ? 'selected' : "") ?> value="<?= $res1->id ?>"><?= $res1->name ?></option>
+															<?php } }?>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="box-body">
+													<div class="form-group">
+														<label id="filter_date" class="text-danger text-right pull-right"></label>
+														<label for="day_or_month">Start Date</label>
+														<input class="form-control" name="filter_start_date" type="date" value="<?= $filter_start_date ?>">
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="box-body">
+													<div class="form-group">
+														<label id="filter_date" class="text-danger text-right pull-right"></label>
+														<label for="day_or_month">End Date</label>
+														<input class="form-control" name="filter_end_date" type="date" value="<?= $filter_end_date ?>">
+													</div>
+												</div>
+											</div>
+											<button type="submit" style="margin-left: 5px;" class="btn btn-primary pull-right"> Search</button>
+											<a class="btn btn-danger pull-right" href="<?= base_url('super_admin/store_subscription') ?>">
+												Close
+											</a>
+										</div>
+									</form>
 								</div>
-								<?php } ?>
+
+								
 							</div>
 
 							<!-- /.box-header -->
@@ -65,30 +106,9 @@
 									</thead>
 									<tbody>
 										<?php
-                                 $CI =& get_instance();
-                                    $i=1;
-                                         $q1= $this->db->select("db_store_purchased_packages.id,
-										 db_warehouse.warehouse_name as store_name,
-										 db_warehouse.store_id,
-										 db_store.store_code,
-										 db_store_purchased_packages.created_date,
-										 db_store_purchased_packages.status,
-										 db_store_purchased_packages.created_by,
-										 db_store_purchased_packages.warehouse_id,
-										 db_store_purchased_packages.package_id,
-										 db_store_purchased_packages.type,
-										 db_package_subscription.name as package_name,
-										 db_package_subscription.validity,
-										 ")
-										 ->where('db_warehouse.warehouse_type','System')
-										 ->where('db_store_purchased_packages.type','subscription')
-										 ->join('db_package_subscription','db_package_subscription.id=db_store_purchased_packages.package_id','left')
-										 ->join('db_warehouse','db_warehouse.id=db_store_purchased_packages.warehouse_id','left')
-										 ->join('db_store','db_store.id = db_warehouse.store_id','left')
-										 ->order_by("db_store_purchased_packages.id", "desc")
-										 ->get("db_store_purchased_packages");
-                                    if($q1->num_rows()>0){
-                                           foreach ($q1->result() as $res1){
+										$i=0;
+                                    if($subscription->num_rows()>0){
+                                           foreach ($subscription->result() as $res1){
                                         ?>
 										<tr>
 											<td><?php echo $i++;?> </td>

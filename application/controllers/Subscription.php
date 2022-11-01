@@ -53,7 +53,7 @@ class Subscription extends MY_Controller {
 		$coupon_id = $this->input->post('coupon_id');
 
     //==================check downgrade or not ======================
-    $q1 = $this->db->select("warehouse_count,user_count")
+    $q1 = $this->db->select("warehouse_count,user_count,is_unlimited")
     ->where('id',$pacakage_id)
 		->get("db_package_subscription")->row();
 
@@ -66,8 +66,8 @@ class Subscription extends MY_Controller {
     ->where('store_id',get_current_store_id())
     ->where('status',1)
 		->get("db_warehouse");
-    if (!empty($q1) > 0 ){
-      if ($q1->warehouse_count <= $q2->num_rows() || $q1->user_count <= $q3->num_rows() ){
+    if (!empty($q1) > 0 && $q1->is_unlimited == 0 ){
+      if ( $q1->warehouse_count <= $q2->num_rows() || $q1->user_count <= $q3->num_rows() ){
         $this->session->set_flashdata('failed', "can't downgrade your package");
 			  redirect(base_url().'subscription');
         return 0;
