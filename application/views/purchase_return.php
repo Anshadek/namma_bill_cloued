@@ -36,6 +36,7 @@
  <?php
 
     $purchase_code=$supplier_name='';
+   
     if($oper=='return_against_purchase'){
           $return_id='';
           $q2 = $this->db->query("select * from db_purchase where id=$purchase_id");
@@ -56,9 +57,10 @@
     }
     if($oper=='edit_existing_return'){
           $q2 = $this->db->query("select * from db_purchasereturn where id=$return_id");
+        
           $purchase_id=$q2->row()->purchase_id;
           $supplier_id=$q2->row()->supplier_id;
-          $return_date=show_date(date("d-m-Y"));
+           $return_date=isset($q2->row()->return_date)?show_date($q2->row()->return_date) :show_date(date("d-m-Y"));
           $return_status=$q2->row()->return_status;
           $return_code=$q2->row()->return_code;
           $warehouse_id=$q2->row()->warehouse_id;

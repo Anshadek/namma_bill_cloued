@@ -33,10 +33,12 @@
  
  <?php
     $sales_code=$customer_name='';
+    
     if($oper=='return_against_sales'){
 
           $return_id='';
           $q2 = $this->db->query("select * from db_sales where id=$sales_id");
+         
           $customer_id=$q2->row()->customer_id;
           $return_date=show_date(date("d-m-Y"));
           $sales_code=$q2->row()->sales_code;
@@ -57,9 +59,10 @@
     }
     if($oper=='edit_existing_return'){
           $q2 = $this->db->query("select * from db_salesreturn where id=$return_id");
+          
           $sales_id=$q2->row()->sales_id;
           $customer_id=$q2->row()->customer_id;
-          $return_date=show_date(date("d-m-Y"));
+          $return_date=isset($q2->row()->return_date)?show_date($q2->row()->return_date) :show_date(date("d-m-Y"));
           $return_status=$q2->row()->return_status;
           $return_code=$q2->row()->return_code;
           $warehouse_id=$q2->row()->warehouse_id;

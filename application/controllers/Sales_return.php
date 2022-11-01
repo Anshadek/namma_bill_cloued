@@ -80,6 +80,7 @@ class Sales_return extends MY_Controller {
 		$data['oper']='edit_existing_return';
 		$data['subtitle']=$this->lang->line('edit_return_sales_entry');;
 		$data['page_title']=$this->lang->line('sales_return');
+		
 		$this->load->view('sales-return', $data);
 	}
 	

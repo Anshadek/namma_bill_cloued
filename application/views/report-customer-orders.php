@@ -68,15 +68,27 @@
                               </div>
                               
                               <div class="form-group">
-                                 <label for="within_date" class="col-sm-2 control-label"><?= $this->lang->line('order_within_from_the_date'); ?></label>
+                                 <label for="start_date" class="col-sm-2 control-label">Start Date</label>
                                  <div class="col-sm-3">
                                     <div class="input-group date">
                                        <div class="input-group-addon">
                                           <i class="fa fa-calendar"></i>
                                        </div>
-                                       <input type="text" class="form-control pull-right datepicker" id="within_date" name="within_date">
+                                       <input type="text" class="form-control pull-right datepicker" id="start_date" name="start_date">
                                     </div>
-                                    <span id="within_date_msg" style="display:none" class="text-danger"></span>
+                                    <span id="start_date_msg" style="display:none" class="text-danger"></span>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label for="end_date" class="col-sm-2 control-label">End Date</label>
+                                 <div class="col-sm-3">
+                                    <div class="input-group date">
+                                       <div class="input-group-addon">
+                                          <i class="fa fa-calendar"></i>
+                                       </div>
+                                       <input type="text" class="form-control pull-right datepicker" id="end_date" name="end_date">
+                                    </div>
+                                    <span id="end_date_msg" style="display:none" class="text-danger"></span>
                                  </div>
                               </div>
 
@@ -184,7 +196,8 @@
       <script type="text/javascript">
          
          $("#view,#view_all").on("click",function(){
-         var within_date=document.getElementById("within_date").value;
+         var start_date=document.getElementById("start_date").value;
+         var end_date=document.getElementById("end_date").value;
          var customer_id=document.getElementById("customer_id").value;
 			var warehouse_id = document.getElementById("warehouse_id").value;
    
@@ -196,7 +209,7 @@
         }
       
         $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-        $.post($("#base_url").val()+"reports/show_customer_orders",{warehouse_id:warehouse_id,customer_id:customer_id,view_all:view_all,within_date:within_date,store_id:$("#store_id").val()},function(result){
+        $.post($("#base_url").val()+"reports/show_customer_orders",{warehouse_id:warehouse_id,customer_id:customer_id,view_all:view_all,start_date:start_date,end_date:end_date,store_id:$("#store_id").val()},function(result){
           //alert(result);
             setTimeout(function() {
              $("#tbodyid").empty().append(result);     

@@ -316,9 +316,9 @@ class Customers_model extends CI_Model {
 		//Filtering XSS and html escape from user inputs 
 		extract($this->security->xss_clean(html_escape(array_merge($this->data,$_POST))));
 
-		if($q_id==1){
-			echo "Sorry! This Record Restricted! Can't Update";exit();
-		}
+		// if($q_id==1){
+		// 	echo "Sorry! This Record Restricted! Can't Update";exit();
+		// }
 
 		$state = (!empty($state)) ? $state : NULL;
 

@@ -3029,7 +3029,8 @@ class Reports_model extends CI_Model
 		extract($_POST);
 
 
-		$within_date = (!empty($within_date)) ? system_fromatted_date($within_date) : '';
+		$start_date = (!empty($start_date)) ? system_fromatted_date($start_date) : '';
+		$end_date = (!empty($end_date)) ? system_fromatted_date($end_date) : '';
 
 		$this->db->select("*");
 		$this->db->from("db_customers");
@@ -3057,9 +3058,13 @@ class Reports_model extends CI_Model
 					->where("customer_id", $res1->id)
 					->join("db_customers",'db_customers.id = db_sales.customer_id','left')
 					->join("db_warehouse",'db_warehouse.id = db_sales.warehouse_id','left');
-				if (!empty($within_date)) {
-					$this->db->where("sales_date<='$within_date'");
+				if (!empty($start_date)) {
+					$this->db->where("sales_date>='$start_date'");
 				}
+				if (!empty($end_date)) {
+					$this->db->where("sales_date<='$end_date'");
+				}
+				
 				$this->db->order_by("sales_date", 'asc');
 				/*echo "<br> ".$this->db->get_compiled_select();
 						continue;*/
