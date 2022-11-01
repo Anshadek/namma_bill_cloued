@@ -325,7 +325,7 @@
   
     <?php if($CI->permissions('cust_adv_payments_add')  || $CI->permissions('cust_adv_payments_view')) { ?>
     <!-- <li class="header">QUOTATION</li> -->
-    <li class="list-active-li create-active-li treeview">
+    <li class="list-active-li create-active-li report-customer-advance-active-li treeview">
           <a href="#">
             <i class=" fa fa-dollar  text-aqua"></i> <span><?= $this->lang->line('advance'); ?></span>
             <span class="pull-right-container">
@@ -340,7 +340,7 @@
         <?php if($CI->permissions('cust_adv_payments_view')) { ?>
         <li class="list-active-li"><a href="<?php echo $base_url; ?>customers_advance"><i class="fa fa-list "></i> <span><?= $this->lang->line('advance_list'); ?></span></a></li>
         <?php } ?>
-				<li class="list-active-li"><a href="<?php echo $base_url; ?>reports/customer_advance_report"><i class="fa fa-list "></i> <span>Advance Report </span></a></li>
+				<li class="report-customer-advance-active-li"><a href="<?php echo $base_url; ?>reports/customer_advance_report"><i class="fa fa-list "></i> <span>Advance Report </span></a></li>
 
           </ul>
         </li>

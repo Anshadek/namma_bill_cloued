@@ -264,6 +264,34 @@ class Reports extends MY_Controller {
 		$data['page_title']='Customer Advance Report';
 		$this->load->view('report-customer-advance', $data);
 	}
+
+	public function view_customer_advance_report(){
+		
+		//$this->permission_check('customer_orders_report');
+		$id =  $this->input->get('id');
+		$q2 = $this->db->select("db_custadvance.amount,
+		db_custadvance.payment_type,
+		db_custadvance.note,
+		db_custadvance.payment_code,
+		db_custadvance.created_by,
+		db_custadvance.payment_date,
+		db_customers.customer_code,
+		db_customers.customer_name,
+		")
+			->where('customer_id',$id)
+			->join(
+			'db_customers',
+			'db_customers.id = db_custadvance.customer_id',
+			'left'
+			)
+			->order_by("db_custadvance.id", "desc")
+			->get("db_custadvance");
+		
+		$data=$this->data;
+		$data['advances'] = $q2;
+		$data['page_title']='Customer Advance Report';
+		$this->load->view('view-customer-advance', $data);
+	}
 	
 	//Sales Report 
 	public function customer_orders(){

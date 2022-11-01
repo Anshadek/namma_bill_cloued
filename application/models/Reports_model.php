@@ -3121,7 +3121,7 @@ class Reports_model extends CI_Model
 		
 		$within_date = (!empty($within_date)) ? system_fromatted_date($within_date) : '';
 
-		$this->db->select("a.tot_advance,a.id,a.customer_name,b.created_date");
+		$this->db->select("a.tot_advance,a.id,a.customer_name,b.created_date,b.customer_id");
 		$this->db->from("db_customers as a");
 		$this->db->join('db_custadvance as b', 'a.id = b.customer_id', 'left');
 		$this->db->where("a.tot_advance !=", 0.0000);
@@ -3152,7 +3152,7 @@ class Reports_model extends CI_Model
 				echo "<td>" . $res1->customer_name . "</td>";
 				echo "<td>" . $res1->tot_advance . "</td>";
 				echo "<td>" . show_date($res1->created_date) . "</td>";
-				echo "<td> <a href=" . base_url('sales/invoice/' . $res1->sales_id) . "><button class='btn success'> View More</button></a></td>";
+				echo "<td> <a  target='_blank' href=" . base_url('reports/view_customer_advance_report/?id=' . $res1->customer_id) . "><button class='btn success'> View More</button></a></td>";
 				echo "</tr>";
 			}
 			//if ($customer_id != '') {

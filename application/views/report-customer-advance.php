@@ -215,6 +215,9 @@
 </script>
       
       <!-- Make sidebar menu hughlighter/selector -->
-      <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li , .reports-menu").addClass("active");</script>
+      
+      <script>
+      
+      $(".<?php echo basename(__FILE__,'.php');?>-active-li , .reports-menu").addClass("active");</script>
    </body>
 </html>
