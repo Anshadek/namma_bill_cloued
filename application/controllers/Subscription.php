@@ -68,7 +68,7 @@ class Subscription extends MY_Controller {
 		->get("db_warehouse");
     if (!empty($q1) > 0 && $q1->is_unlimited == 0 ){
       if ( $q1->warehouse_count <= $q2->num_rows() || $q1->user_count <= $q3->num_rows() ){
-        $this->session->set_flashdata('failed', "can't downgrade your package");
+        $this->session->set_flashdata('failed', "Your active warehouse is ".$q3->num_rows()." Please deactivate first then downgrade");
 			  redirect(base_url().'subscription');
         return 0;
       }

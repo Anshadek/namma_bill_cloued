@@ -244,7 +244,7 @@
                               <span id="sales_price_msg" style="display:none" class="text-danger"></span>
                            </div>
                            <div class="form-group col-md-4">
-                              <label for="pos_amount">Pos Amount<span class="text-danger">*</span></label>
+                              <label for="pos_amount">Sales Price With Tax<span class="text-danger">*</span></label>
                               <input type="text" class="form-control only_currency" id="pos_amount"  readonly=''>
                               <span id="pos_amount_msg" style="display:none" class="text-danger"></span>
                            </div>

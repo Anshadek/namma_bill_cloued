@@ -36,10 +36,11 @@ class Super_admin extends MY_Controller
 		$data = $this->data; //My_Controller constructor data accessed here
 
 		if ($this->input->post()) {
-			$this->db->select('db_warehouse.*,db_store.store_code');
+			$this->db->select('db_warehouse.*,db_store.store_code,db_userswarehouses.user_id');
 			$this->db->from('db_warehouse');
 			$this->db->where('warehouse_type', 'System');
 			$this->db->join('db_store','db_store.id = db_warehouse.store_id','left');
+			$this->db->join("db_userswarehouses","db_warehouse.id = db_userswarehouses.warehouse_id");
 			$pay_status = $this->input->post('filter_pay_status');
 			$status = $this->input->post('filter_status');
 			$start_date = $this->input->post('filter_start_date');
@@ -320,15 +321,17 @@ class Super_admin extends MY_Controller
 	public function delete_store()
 	{
 		$id = $this->input->post('id');
-		$store_id  = $this->db->select('store_id')
+		$mail_verified = $this->input->post('mail_verified');
+		$store_data  = $this->db->select('store_id')
 			->where('id', $id)
 			->limit(1)
 			->get('db_warehouse')
 			->row();
 
-		$result = $this->warehouse->delete_warehouse($id);
+		$result = $this->warehouse->delete_warehouse($id,$mail_verified);
+	
 		if ($result == 'success') {
-			$q2 = $this->db->query("delete from db_store where id=" . $store_id);
+			$q2 = $this->db->query("delete from db_store where id=" . $store_data->store_id);
 			if ($q2 != 1) {
 				echo "failed";
 				return 0;

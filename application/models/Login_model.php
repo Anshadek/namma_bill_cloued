@@ -125,7 +125,7 @@ class Login_model extends CI_Model
 			
 			if($query->row()->mail_verified == 0 ){
 
-				$this->session->set_flashdata('failed', 'Your mail not verified!');
+				$this->session->set_flashdata('failed', 'Your account is not verified. Please verify through your mail id.');
 				redirect('login');
 
 			}

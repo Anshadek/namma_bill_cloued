@@ -116,6 +116,7 @@
 											<th>Package</th>
 											<th>Created From</th>
 											<th>Created Date</th>
+											<th>Verify Status</th>
 											<th><?= $CI->lang->line('action'); ?></th>
 										</tr>
 									</thead>
@@ -185,9 +186,29 @@
 														$expired = true;
 													} 
 
-													
+														$q2 = $this->db->select("db_package_subscription.name,
+																	db_package_subscription.validity,
+																	db_package_subscription.user_count,
+																	db_package_subscription.warehouse_count,
+																	db_store_purchased_packages.created_date,
+																	db_package_subscription.amount")
+															->where('warehouse_id', $res1->id)
+															->join(
+																'db_package_subscription',
+																'db_package_subscription.id = db_store_purchased_packages.package_id',
+																'left'
+															)
+															->order_by("db_store_purchased_packages.id", "desc")
+															->limit(1)
+															->get("db_store_purchased_packages")->row();
 												}
 												//==================
+											$q3 = $this->db->select("mail_verified")
+										->where('id', $res1->user_id)
+										->limit(1)
+										->get("db_users")->row();
+
+												
 										?>
 												<tr>
 													<td><?php echo $i++; ?> </td>
@@ -246,9 +267,20 @@
 																
 
 													</td>
+													
 													<td>
 													<?= date("d/m/Y", strtotime($res1->created_date)) ?>
 													
+													</td>
+													<td>
+														<?php if ($q3->mail_verified == 1)                   //1=Active, 0=Inactive
+														{
+															echo '<span data-company_id="66" data-pay_status="1" class="label label-success change_pay_status" style="cursor:pointer"> Verified</span>';
+														} else {
+															echo '<span data-company_id="66" data-pay_status="0" class="label label-danger change_pay_status" style="cursor:pointer"> Not Verified </span>';
+														}
+														?>
+
 													</td>
 													<td>
 
@@ -273,7 +305,7 @@
 
 
 																<li>
-																	<a style="cursor:pointer" title="Delete Record ?" onclick="delete_warehouse('<?= $res1->id; ?>')">
+																	<a style="cursor:pointer" title="Delete Record ?" onclick="delete_warehouse('<?= $res1->id; ?>','<?= $q3->mail_verified ?>')">
 																		Delete
 																	</a>
 																</li>
@@ -322,12 +354,13 @@
 	<?php $this->load->view('admin_common/code_js.php'); ?>
 	<script src="<?php echo $theme_link; ?>js/warehouse/super_admin_warehouse.js"></script>
 	<script type="text/javascript">
-		function delete_warehouse(id) {
+		function delete_warehouse(id,mail_verified) {
 			var base_url = $("#base_url").val();
 			if (confirm("Do You Wants to Delete Record ?")) {
 				$(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
 				$.post(base_url + "super_admin/delete_store", {
-					id: id
+					id: id,
+					mail_verified : mail_verified,
 				}, function(result) {
 					//alert(result);return;
 					if (result == "success") {

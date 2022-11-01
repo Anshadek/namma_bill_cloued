@@ -305,10 +305,13 @@ class Warehouse_model extends CI_Model {
 		}
 	}
 
-	public function delete_warehouse($id){
+	public function delete_warehouse($id,$mail_verified = 1){
+		
       	$this->db->trans_begin();
 		//=============================checking warehouse effecting tables===================================================
       	// check items 
+		if ($mail_verified != 0){
+			
 		$this->db->select("*");
 		  $this->db->where("warehouse_id",$id);
 		  $query = $this->db->get('db_items');
@@ -327,6 +330,7 @@ class Warehouse_model extends CI_Model {
 			return "Can't Delete! These warehouse List Have the category Records!";
 		}
 		// check varient 
+		
 		$this->db->select("*");
 		  $this->db->where("warehouse_id",$id);
 		  $query = $this->db->get('db_variants');
@@ -363,7 +367,7 @@ class Warehouse_model extends CI_Model {
 			$this->db->trans_rollback();
 			return "Can't Delete! These warehouse List Have the purchase return Records!";
 		}
-
+	
 		// check  users 
 		$this->db->select("*");
 		  $this->db->where("b.warehouse_id",$id);
@@ -443,7 +447,7 @@ class Warehouse_model extends CI_Model {
 
 		//==========================================================================================
 
-
+	
 
         $q2=$this->db->query("delete from db_warehouse where id='$id' and warehouse_type='Custom' and store_id=".get_current_store_id());
       
@@ -456,6 +460,19 @@ class Warehouse_model extends CI_Model {
 			$this->db->trans_commit();
 		        return "success";
 		}
+	}else{
+		$q2=$this->db->query("delete from db_warehouse where id='$id'  and store_id=".get_current_store_id());
+     
+		if($q2!=1)
+		{
+			$this->db->trans_rollback();
+		    return "failed";
+		}
+		else{
+			$this->db->trans_commit();
+		        return "success";
+		}
+	}
 	}
 
 	public function view_warehouse_wise_stock_item($item_id){
