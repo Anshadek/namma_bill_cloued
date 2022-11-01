@@ -744,8 +744,79 @@ class Super_admin extends MY_Controller
 	}
 	public function trial_store_subscription()
 	{
-
 		$data = $this->data; //My_Controller constructor data accessed here
+		$package = "";
+		$start_date = "";
+		$end_date = "";
+		$trial_packages= $this->db->select("name,id")
+				->where('status',1)
+				->get("db_trialpackage");
+		if ($this->input->post()) {
+			$start_date = $this->input->post('filter_start_date');
+			$end_date = $this->input->post('filter_end_date');
+			$package = $this->input->post('filter_package');
+			 $this->db->select("db_store_purchased_packages.id,
+										 db_warehouse.warehouse_name as store_name,
+										 db_warehouse.store_id,
+										 db_store.store_code,
+										 db_store_purchased_packages.created_date,
+										 db_store_purchased_packages.status,
+										 db_store_purchased_packages.created_by,
+										 db_store_purchased_packages.warehouse_id,
+										 db_store_purchased_packages.package_id,
+										 db_store_purchased_packages.type,
+										 db_trialpackage.name as package_name,
+										 db_trialpackage.days,
+										 db_trialpackage.day_or_month,
+										 ")
+										 ->where('db_warehouse.warehouse_type','System')
+										 ->where('db_store_purchased_packages.type','trial')
+										 ->join('db_trialpackage','db_trialpackage.id=db_store_purchased_packages.package_id','left')
+										 ->join('db_warehouse','db_warehouse.id=db_store_purchased_packages.warehouse_id','left')
+										 ->join('db_store','db_store.id = db_warehouse.store_id','left')
+										 ->order_by("db_store_purchased_packages.id", "desc");
+										 if (!empty($package)) {
+				
+											$this->db->where('db_store_purchased_packages.package_id', $package);
+										}
+										if (!empty($start_date)) {
+											
+											$this->db->where('db_store_purchased_packages.created_date >=', $start_date);
+										}
+										
+										if (!empty($end_date)) {
+											
+											$this->db->where('db_store_purchased_packages.created_date <=', $end_date);
+										}
+										$q1= $this->db->get("db_store_purchased_packages");
+		}else{
+			$q1= $this->db->select("db_store_purchased_packages.id,
+			db_warehouse.warehouse_name as store_name,
+			db_warehouse.store_id,
+			db_store.store_code,
+			db_store_purchased_packages.created_date,
+			db_store_purchased_packages.status,
+			db_store_purchased_packages.created_by,
+			db_store_purchased_packages.warehouse_id,
+			db_store_purchased_packages.package_id,
+			db_store_purchased_packages.type,
+			db_trialpackage.name as package_name,
+			db_trialpackage.days,
+			db_trialpackage.day_or_month,
+			")
+			->where('db_warehouse.warehouse_type','System')
+			->where('db_store_purchased_packages.type','trial')
+			->join('db_trialpackage','db_trialpackage.id=db_store_purchased_packages.package_id','left')
+			->join('db_warehouse','db_warehouse.id=db_store_purchased_packages.warehouse_id','left')
+			->join('db_store','db_store.id = db_warehouse.store_id','left')
+			->order_by("db_store_purchased_packages.id", "desc")
+			->get("db_store_purchased_packages");
+		}
+		$data['trial_packages'] = $trial_packages;
+		$data['trial_subscription'] = $q1;
+		$data['filter_package'] = $package;
+		$data['filter_start_date'] = $start_date;
+		$data['filter_end_date'] = $end_date;
 		$data['page_title'] = 'Create Subscription List';
 		$this->load->view('super_admin/trial-subscription-list', $data);
 	}
