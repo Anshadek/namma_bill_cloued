@@ -3,7 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Services_model extends CI_Model {
 
-
+	var $table = 'db_service_working_status as a';
+	var $column_order = array(
+								'a.id',
+								'a.status',
+								'a.note',
+								'a.created_date',
+								'a.updated_date',
+								'a.created_by',
+								'b.item_name',
+								'b.item_code',
+								'c.sales_code',
+								); //set column field database for datatable orderable
+	var $column_search = array(
+								'a.id',
+								'a.status',
+								'a.note',
+								'a.created_date',
+								'a.updated_date',
+								'a.created_by',
+								'b.item_name',
+								'b.item_code',
+								'c.sales_code',
+								); //set column field database for datatable searchable 
+	var $order = array('a.id' => 'desc'); // default order 
 	
 	//Save Cutomers
 	public function verify_and_save(){
@@ -229,5 +252,77 @@ class Services_model extends CI_Model {
 		/*}*/
 	}
 
+	function get_service_status_datatables()
+	{
+		
+		$this->_get_datatables_query();
+		if($_POST['length'] != -1)
+		$this->db->limit($_POST['length'], $_POST['start']);
+		$query = $this->db->get();
+		
+		return $query->result();
+	}
+	private function _get_datatables_query()
+	{
+		
+		$this->db->select($this->column_order);
+		$this->db->from($this->table);
+		$this->db->join('db_items as b','b.id=a.item_id','left');
+		$this->db->join('db_sales as c','c.id=a.sales_id','left');
+		//if(!is_admin()){
+	      $this->db->where("a.store_id",get_current_store_id());
+		  if ($_POST['warehouse_id'] != ""){
+			
+			$this->db->where("a.warehouse_id",$_POST['warehouse_id']);
+		  }
+		  
+	    //}
+	    //echo $this->db->get_compiled_select();exit();
+
+		$i = 0;
+	
+		foreach ($this->column_search as $item) // loop column 
+		{
+			if($_POST['search']['value']) // if datatable send POST for search
+			{
+				
+				if($i===0) // first loop
+				{
+					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+					$this->db->like($item, $_POST['search']['value']);
+				}
+				else
+				{
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+
+				if(count($this->column_search) - 1 == $i) //last loop
+					$this->db->group_end(); //close bracket
+			}
+			$i++;
+		}
+		
+		if(isset($_POST['order'])) // here order processing
+		{
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} 
+		else if(isset($this->order))
+		{
+			$order = $this->order;
+			$this->db->order_by(key($order), $order[key($order)]);
+		}
+	}
+	public function count_all()
+	{
+		//$this->db->where("store_id",get_current_store_id());
+		$this->db->from($this->table);
+		return $this->db->count_all_results();
+	}
+	function count_filtered()
+	{
+		$this->_get_datatables_query();
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
 
 }

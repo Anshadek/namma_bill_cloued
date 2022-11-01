@@ -244,7 +244,7 @@
     
     <?php if($CI->permissions('sales_add')  || $CI->permissions('sales_view') || $CI->permissions('sales_return_view') || $CI->permissions('sales_return_add')) { ?>
     <!-- <li class="header">SALES</li> -->
-    <li class="pos-active-li sales-list-active-li sales-active-li sales-return-active-li sales-return-list-active-li sales-payments-list-active-li treeview">
+    <li class="pos-active-li sales-list-active-li sales-active-li sales-return-active-li sales-return-list-active-li sales-payments-list-active-li list-active-li treeview">
           <a href="#">
             <i class=" fa fa-shopping-cart text-aqua"></i> <span><?= $this->lang->line('sales'); ?></span>
             <span class="pull-right-container">
@@ -266,7 +266,7 @@
         <?php if($CI->permissions('sales_payment_view')) { ?>
         <li class="sales-payments-list-active-li"><a href="<?php echo $base_url; ?>sales_payments/"><i class="fa fa-list "></i> <span><?= $this->lang->line('sales_payments'); ?></span></a></li>
         <?php } ?>
-
+        <li class="list-active-li"><a href="<?php echo $base_url; ?>service_status/"><i class="fa fa-list "></i> <span>Service Status</span></a></li>
         <?php if($CI->permissions('sales_return_view')) { ?>
         <li class="sales-return-list-active-li "><a href="<?php echo $base_url; ?>sales_return"><i class="fa fa-list "></i> <span><?= $this->lang->line('sales_returns_list'); ?></span>
               </a></li>

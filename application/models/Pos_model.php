@@ -353,13 +353,15 @@ class Pos_model extends CI_Model {
 
 				if ($service_bit == 1) {
 					$service_status_entry = array(
+						'store_id' 			=> $store_id,
 						'sales_id' 			=> $sales_id, 
 						'item_id' 			=> $item_id, 
 						'status' 			=> 'inspecting', 
 						'created_date' 		=> date('Y/m/d H:i:s'),
 						'created_by' 		=> $CUR_USERNAME,
 					);
-					$q10 = $this->db->insert('service_working_status', $service_status_entry);
+					$service_status_entry['warehouse_id'] = (isset($warehouse_id)) ? $warehouse_id : get_store_warehouse_id();
+					$q10 = $this->db->insert('db_service_working_status', $service_status_entry);
 				}
 				/*$current_stock_of_item = total_available_qty_items_of_warehouse($warehouse_id,null,$item_id);
 				if($current_stock_of_item<$sales_qty && $service_bit==0){
