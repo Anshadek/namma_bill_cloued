@@ -339,7 +339,7 @@
 
     <script>
         $('.select2').select2({
-    placeholder: 'Select a month'
+    placeholder: '-- Select --'
 });
         var flag = true;
         var email_exists_flag = false;
